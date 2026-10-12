@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
   <title>Créer ma boutique — Finest Global</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -64,6 +64,7 @@
     .benefits ul {
       display: grid;
       gap: 10px;
+      list-style: none;
     }
     
     .benefits li {
@@ -115,9 +116,116 @@
       margin: 0 auto;
     }
     
-    @media (max-width: 500px) {
+    /* ============================================================
+       RESPONSIVE — TÉLÉPHONE ANDROID
+       ============================================================ */
+    @media (max-width: 640px) {
+      .create-shop-page {
+        padding: 24px 14px 40px;
+        min-height: calc(100vh - 60px);
+      }
+      
       .create-shop-card {
-        padding: 32px 24px;
+        padding: 28px 20px;
+        border-radius: var(--radius);
+      }
+      
+      .create-shop-header {
+        margin-bottom: 26px;
+      }
+      
+      .create-shop-icon {
+        font-size: 2.75rem;
+        margin-bottom: 12px;
+      }
+      
+      .create-shop-header h1 {
+        font-size: 1.35rem;
+        margin-bottom: 10px;
+      }
+      
+      .create-shop-header p {
+        font-size: 0.88rem;
+        line-height: 1.5;
+      }
+      
+      .benefits {
+        padding: 18px;
+        margin-bottom: 24px;
+      }
+      
+      .benefits h3 {
+        font-size: 0.92rem;
+        margin-bottom: 12px;
+      }
+      
+      .benefits ul {
+        gap: 8px;
+      }
+      
+      .benefits li {
+        font-size: 0.82rem;
+        gap: 8px;
+      }
+      
+      .benefits li::before {
+        width: 20px;
+        height: 20px;
+        font-size: 0.65rem;
+      }
+      
+      .form-label {
+        font-size: 0.85rem;
+      }
+      
+      .form-input,
+      .form-textarea {
+        padding: 11px 14px;
+        font-size: 0.92rem;
+      }
+      
+      .form-hint {
+        font-size: 0.78rem;
+      }
+      
+      .image-upload {
+        padding: 22px 16px;
+      }
+      
+      .image-preview {
+        max-width: 150px;
+        max-height: 150px;
+      }
+      
+      .btn-lg {
+        padding: 13px 20px;
+        font-size: 0.92rem;
+      }
+    }
+    
+    /* ============================================================
+       RESPONSIVE — TRÈS PETIT TÉLÉPHONE
+       ============================================================ */
+    @media (max-width: 380px) {
+      .create-shop-card {
+        padding: 22px 16px;
+      }
+      
+      .create-shop-header h1 {
+        font-size: 1.2rem;
+      }
+      
+      .create-shop-icon {
+        font-size: 2.35rem;
+      }
+      
+      .image-upload {
+        padding: 18px 12px;
+      }
+      
+      .image-preview {
+        max-width: 120px;
+        max-height: 120px;
       }
     }
   </style>
@@ -208,20 +316,16 @@
     document.addEventListener('DOMContentLoaded', async () => {
       renderNavbar();
       
-      // Vérifier qu'on est vendeur
       if (!Auth.requireSeller()) return;
       
-      // Si le vendeur a déjà une boutique, rediriger vers le dashboard
       try {
         await ShopsAPI.getMine();
         window.location.href = '/dashboard-seller.html';
         return;
       } catch (error) {
         if (error.status !== 404) {
-          // Une autre erreur que 404
           console.error(error);
         }
-        // 404 = pas de boutique → on reste sur cette page
       }
     });
     
@@ -265,17 +369,14 @@
       btn.innerHTML = '<span class="spinner"></span> Création...';
       
       try {
-        // 1. Créer la boutique
         const shop = await ShopsAPI.create({ name, description });
         
-        // 2. Uploader la photo si présente
         if (imageFile) {
           await ShopsAPI.uploadPhoto(imageFile);
         }
         
         showToast('✅ Boutique créée avec succès !', 'success');
         
-        // 3. Rediriger vers le dashboard
         setTimeout(() => {
           window.location.href = '/dashboard-seller.html';
         }, 800);

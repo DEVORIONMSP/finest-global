@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
   <title>Mes commandes — Finest Global</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -41,6 +41,13 @@
       width: fit-content;
       max-width: 100%;
       overflow-x: auto;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      -webkit-overflow-scrolling: touch;
+    }
+    
+    .orders-tabs::-webkit-scrollbar {
+      display: none;
     }
     
     .orders-tab {
@@ -232,7 +239,7 @@
     }
     
     /* ============================================================
-       RESPONSIVE
+       RESPONSIVE — TABLETTE
        ============================================================ */
     @media (max-width: 700px) {
       .order-item-body {
@@ -248,6 +255,126 @@
       }
       .order-actions {
         justify-content: flex-start;
+      }
+    }
+    
+    /* ============================================================
+       RESPONSIVE — TÉLÉPHONE ANDROID
+       ============================================================ */
+    @media (max-width: 640px) {
+      .orders-page {
+        padding: 20px 0 40px;
+      }
+      
+      .orders-header {
+        margin-bottom: 20px;
+      }
+      
+      .orders-header h1 {
+        font-size: 1.35rem;
+      }
+      
+      .orders-header p {
+        font-size: 0.88rem;
+      }
+      
+      .orders-tabs {
+        width: 100%;
+        padding: 5px;
+        gap: 4px;
+        margin-bottom: 16px;
+      }
+      
+      .orders-tab {
+        padding: 8px 14px;
+        font-size: 0.82rem;
+      }
+      
+      .orders-tab-count {
+        font-size: 0.68rem;
+        padding: 1px 6px;
+        margin-left: 4px;
+      }
+      
+      .orders-list {
+        gap: 12px;
+      }
+      
+      .order-item-body {
+        padding: 14px;
+        gap: 12px;
+      }
+      
+      .order-thumb {
+        height: 100px;
+        font-size: 2.5rem;
+        border-radius: var(--radius-sm);
+      }
+      
+      .order-product-name {
+        font-size: 0.95rem;
+        margin-bottom: 4px;
+        white-space: normal;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        display: -webkit-box;
+        overflow: hidden;
+      }
+      
+      .order-meta {
+        font-size: 0.78rem;
+        gap: 8px;
+        margin-bottom: 6px;
+      }
+      
+      .order-note {
+        font-size: 0.78rem;
+        padding: 6px 10px;
+      }
+      
+      .order-status {
+        padding: 4px 10px;
+        font-size: 0.72rem;
+        margin-bottom: 8px;
+      }
+      
+      .order-price {
+        font-size: 1.1rem;
+      }
+      
+      .order-date {
+        font-size: 0.72rem;
+      }
+      
+      .order-actions {
+        margin-top: 10px;
+      }
+      
+      .order-actions .btn {
+        padding: 6px 12px;
+        font-size: 0.78rem;
+      }
+    }
+    
+    /* ============================================================
+       RESPONSIVE — TRÈS PETIT TÉLÉPHONE
+       ============================================================ */
+    @media (max-width: 380px) {
+      .orders-header h1 {
+        font-size: 1.2rem;
+      }
+      
+      .orders-tab {
+        padding: 7px 11px;
+        font-size: 0.75rem;
+      }
+      
+      .order-product-name {
+        font-size: 0.88rem;
+      }
+      
+      .order-price {
+        font-size: 1rem;
       }
     }
   </style>
@@ -277,10 +404,6 @@
   <script src="/js/auth.js"></script>
   <script src="/js/navbar.js"></script>
   <script>
-    // ============================================================
-    // ÉTAT GLOBAL
-    // ============================================================
-    
     let allOrders = [];
     let currentFilter = 'all';
     let ws = null;
@@ -292,27 +415,17 @@
       cancelled: { text: 'Annulée', emoji: '❌', class: 'status-cancelled' },
     };
     
-    // ============================================================
-    // INITIALISATION
-    // ============================================================
-    
     document.addEventListener('DOMContentLoaded', async () => {
       renderNavbar();
       
-      // Vérifier qu'on est connecté
       if (!Auth.requireAuth()) return;
       
       await loadOrders();
       showContent();
       render();
       
-      // Démarrer le WebSocket pour les mises à jour en direct
       startWebSocket();
     });
-    
-    // ============================================================
-    // CHARGEMENT
-    // ============================================================
     
     async function loadOrders() {
       try {
@@ -327,10 +440,6 @@
       document.getElementById('loading').classList.add('hidden');
       document.getElementById('content').classList.remove('hidden');
     }
-    
-    // ============================================================
-    // RENDU
-    // ============================================================
     
     function render() {
       const counts = {
@@ -401,8 +510,6 @@
     
     function renderOrderItem(order) {
       const status = STATUS_LABELS[order.status] || STATUS_LABELS.pending;
-      
-      // On ne peut pas annuler une commande déjà livrée ou annulée
       const canCancel = order.status === 'pending';
       
       return `
@@ -450,18 +557,10 @@
       `;
     }
     
-    // ============================================================
-    // FILTRES
-    // ============================================================
-    
     function setFilter(filter) {
       currentFilter = filter;
       render();
     }
-    
-    // ============================================================
-    // ACTIONS
-    // ============================================================
     
     async function cancelOrder(orderId) {
       if (!confirm('Voulez-vous vraiment annuler cette commande ?')) return;
@@ -476,15 +575,12 @@
       }
     }
     
-    // ============================================================
-    // WEBSOCKET TEMPS RÉEL
-    // ============================================================
-    
     function startWebSocket() {
       const token = Auth.getToken();
       if (!token) return;
       
-      const wsUrl = `ws://127.0.0.1:8000/ws/notifications?token=${token}`;
+      const API_HOST = 'finest-global-api.onrender.com';
+      const wsUrl = `wss://${API_HOST}/ws/notifications?token=${token}`;
       ws = new WebSocket(wsUrl);
       
       ws.onopen = () => {
@@ -502,7 +598,6 @@
               6000
             );
             
-            // Recharger les commandes
             await loadOrders();
             render();
           }

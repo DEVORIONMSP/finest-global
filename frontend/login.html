@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
   <title>Connexion — Finest Global</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -58,6 +58,10 @@
       font-size: 0.9rem;
       color: var(--gray-500);
       transition: all var(--transition);
+      border: none;
+      background: none;
+      cursor: pointer;
+      font-family: inherit;
     }
     
     .auth-tab.active {
@@ -103,6 +107,92 @@
       outline: none;
       border-color: var(--blue-500);
       box-shadow: 0 0 0 4px rgba(30, 136, 229, 0.1);
+    }
+    
+    /* ============================================================
+       RESPONSIVE — TÉLÉPHONE ANDROID
+       ============================================================ */
+    @media (max-width: 640px) {
+      .auth-page {
+        padding: 24px 14px;
+        min-height: calc(100vh - 60px);
+      }
+      
+      .auth-card {
+        padding: 28px 22px;
+        border-radius: var(--radius);
+      }
+      
+      .auth-header {
+        margin-bottom: 24px;
+      }
+      
+      .auth-header h1 {
+        font-size: 1.4rem;
+      }
+      
+      .auth-header p {
+        font-size: 0.88rem;
+      }
+      
+      .auth-tabs {
+        margin-bottom: 20px;
+      }
+      
+      .auth-tab {
+        padding: 9px 8px;
+        font-size: 0.85rem;
+      }
+      
+      .form-label {
+        font-size: 0.85rem;
+      }
+      
+      .form-input {
+        padding: 11px 14px;
+        font-size: 0.92rem;
+      }
+      
+      .btn-lg {
+        padding: 13px 20px;
+        font-size: 0.92rem;
+      }
+      
+      .otp-inputs {
+        gap: 6px;
+        margin: 20px 0;
+      }
+      
+      .otp-inputs input {
+        width: 42px;
+        height: 50px;
+        font-size: 1.3rem;
+        padding: 0;
+      }
+      
+      .auth-footer {
+        margin-top: 20px;
+        font-size: 0.85rem;
+      }
+    }
+    
+    /* ============================================================
+       RESPONSIVE — TRÈS PETIT TÉLÉPHONE
+       ============================================================ */
+    @media (max-width: 380px) {
+      .auth-card {
+        padding: 24px 18px;
+      }
+      
+      .auth-header h1 {
+        font-size: 1.25rem;
+      }
+      
+      .otp-inputs input {
+        width: 38px;
+        height: 46px;
+        font-size: 1.15rem;
+      }
     }
   </style>
 </head>
@@ -189,7 +279,7 @@
         <div id="client-step-2" class="hidden">
           <div id="client-error-2" class="alert alert-error hidden"></div>
           
-          <p style="text-align: center; color: var(--gray-500); margin-bottom: 8px;">
+          <p style="text-align: center; color: var(--gray-500); margin-bottom: 8px; font-size: 0.9rem;">
             Un code à 6 chiffres a été envoyé au
           </p>
           <p style="text-align: center; font-weight: 700; margin-bottom: 8px;" id="otp-phone-display">
@@ -231,19 +321,13 @@
   <script src="/js/auth.js"></script>
   <script src="/js/navbar.js"></script>
   <script>
-    // ============================================================
-    // INITIALISATION
-    // ============================================================
-    
     document.addEventListener('DOMContentLoaded', () => {
       renderNavbar();
       
-      // Si déjà connecté, rediriger
       if (Auth.isAuthenticated()) {
         redirectAfterLogin();
       }
       
-      // Auto-remplir le téléphone
       const urlParams = new URLSearchParams(window.location.search);
       const phone = urlParams.get('phone');
       if (phone) {
@@ -254,10 +338,6 @@
       initOtpInputs();
     });
     
-    // ============================================================
-    // ONGLETS
-    // ============================================================
-    
     function switchTab(tab) {
       document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
       document.querySelectorAll('.auth-form').forEach(f => f.classList.remove('active'));
@@ -265,10 +345,6 @@
       document.getElementById(`tab-${tab}`).classList.add('active');
       document.getElementById(`form-${tab}`).classList.add('active');
     }
-    
-    // ============================================================
-    // CONNEXION VENDEUR
-    // ============================================================
     
     async function loginSeller(event) {
       event.preventDefault();
@@ -280,7 +356,6 @@
       
       errorDiv.classList.add('hidden');
       
-      // Validation
       if (phone.length !== 10 || !phone.startsWith('01')) {
         errorDiv.textContent = 'Le numéro doit être à 10 chiffres et commencer par 01.';
         errorDiv.classList.remove('hidden');
@@ -303,10 +378,6 @@
       }
     }
     
-    // ============================================================
-    // CONNEXION CLIENT (OTP)
-    // ============================================================
-    
     async function requestOtp() {
       const phone = document.getElementById('client-phone').value.trim();
       const errorDiv = document.getElementById('client-error-1');
@@ -314,7 +385,6 @@
       
       errorDiv.classList.add('hidden');
       
-      // Validation
       if (phone.length !== 10 || !phone.startsWith('01')) {
         errorDiv.textContent = 'Le numéro doit être à 10 chiffres et commencer par 01.';
         errorDiv.classList.remove('hidden');
@@ -331,7 +401,6 @@
         document.getElementById('client-step-1').classList.add('hidden');
         document.getElementById('client-step-2').classList.remove('hidden');
         
-        // Focus sur le premier champ OTP
         document.querySelector('[data-otp-index="0"]').focus();
         
         showToast('Code envoyé ! Vérifiez votre téléphone.', 'success');
@@ -408,10 +477,6 @@
         btn.textContent = 'Vérifier et me connecter';
       }
     }
-    
-    // ============================================================
-    // REDIRECTION APRÈS CONNEXION
-    // ============================================================
     
     function redirectAfterLogin() {
       const urlParams = new URLSearchParams(window.location.search);

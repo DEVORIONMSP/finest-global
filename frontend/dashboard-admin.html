@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
   <title>Dashboard admin — Finest Global</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -206,6 +206,7 @@
       transition: all var(--transition);
       border: none;
       background: none;
+      font-family: inherit;
     }
     
     .chart-tab.active {
@@ -222,6 +223,7 @@
       padding: 12px 0;
       border-bottom: 1px solid var(--gray-200);
       overflow-x: auto;
+      scrollbar-width: thin;
     }
     
     .bar-wrapper {
@@ -266,9 +268,7 @@
       margin-bottom: 4px;
     }
     
-    .bar:hover .bar-tooltip {
-      opacity: 1;
-    }
+    .bar:hover .bar-tooltip { opacity: 1; }
     
     .bar-label {
       font-size: 0.65rem;
@@ -313,9 +313,16 @@
       cursor: pointer;
     }
     
+    /* Tableau scrollable horizontalement sur mobile */
+    .table-scroll {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+    
     table {
       width: 100%;
       border-collapse: collapse;
+      min-width: 600px;
     }
     
     table th {
@@ -328,6 +335,7 @@
       letter-spacing: 0.5px;
       background: var(--gray-50);
       border-bottom: 1px solid var(--gray-200);
+      white-space: nowrap;
     }
     
     table td {
@@ -337,13 +345,8 @@
       color: var(--gray-700);
     }
     
-    table tr:last-child td {
-      border-bottom: none;
-    }
-    
-    table tr:hover td {
-      background: var(--gray-50);
-    }
+    table tr:last-child td { border-bottom: none; }
+    table tr:hover td { background: var(--gray-50); }
     
     .table-empty {
       padding: 60px 20px;
@@ -381,9 +384,7 @@
       border-bottom: 1px solid var(--gray-100);
     }
     
-    .ranking-item:last-child {
-      border-bottom: none;
-    }
+    .ranking-item:last-child { border-bottom: none; }
     
     .ranking-position {
       width: 32px;
@@ -414,10 +415,7 @@
       color: var(--white);
     }
     
-    .ranking-info {
-      flex: 1;
-      min-width: 0;
-    }
+    .ranking-info { flex: 1; min-width: 0; }
     
     .ranking-name {
       font-weight: 700;
@@ -442,12 +440,10 @@
     }
     
     /* ============================================================
-       RESPONSIVE
+       RESPONSIVE — TABLETTE
        ============================================================ */
     @media (max-width: 900px) {
-      .dashboard {
-        grid-template-columns: 1fr;
-      }
+      .dashboard { grid-template-columns: 1fr; }
       .sidebar {
         position: relative;
         height: auto;
@@ -457,19 +453,266 @@
         flex-direction: row;
         overflow-x: auto;
         padding: 0 16px;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+        -webkit-overflow-scrolling: touch;
       }
+      .sidebar-nav::-webkit-scrollbar { display: none; }
       .sidebar-link {
         white-space: nowrap;
         padding: 10px 14px;
       }
-      .dashboard-main {
-        padding: 20px 16px;
+      .dashboard-main { padding: 20px 16px; }
+      .rankings-grid { grid-template-columns: 1fr; }
+      .chart-bars { height: 150px; }
+    }
+    
+    /* ============================================================
+       RESPONSIVE — TÉLÉPHONE ANDROID
+       ============================================================ */
+    @media (max-width: 640px) {
+      .dashboard {
+        min-height: calc(100vh - 60px);
       }
+      
+      /* Sidebar */
+      .sidebar {
+        padding: 12px 0;
+        position: sticky;
+        top: 0;
+        z-index: 50;
+        height: auto;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+      }
+      
+      .sidebar-header {
+        padding: 0 14px 10px;
+        margin-bottom: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+      }
+      
+      .sidebar-title {
+        font-size: 0.95rem;
+        margin-bottom: 0;
+      }
+      
+      .sidebar-subtitle {
+        font-size: 0.7rem;
+      }
+      
+      .sidebar-nav {
+        padding: 0 10px;
+        gap: 6px;
+      }
+      
+      .sidebar-link {
+        padding: 8px 12px;
+        font-size: 0.8rem;
+        gap: 8px;
+        border-radius: 8px;
+      }
+      
+      .sidebar-link-icon { font-size: 0.95rem; }
+      
+      /* Main */
+      .dashboard-main {
+        padding: 16px 12px 32px;
+      }
+      
+      .dashboard-header {
+        margin-bottom: 18px;
+      }
+      
+      .dashboard-header h1 {
+        font-size: 1.3rem;
+        margin-bottom: 4px;
+      }
+      
+      .dashboard-header p {
+        font-size: 0.82rem;
+        line-height: 1.5;
+      }
+      
+      /* Stats */
+      .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+        margin-bottom: 18px;
+      }
+      
+      .stats-grid[style*="grid-template-columns: repeat(2, 1fr)"] {
+        grid-template-columns: repeat(2, 1fr) !important;
+      }
+      
+      .stat-card {
+        padding: 14px;
+      }
+      
+      .stat-card-icon {
+        font-size: 1.25rem;
+        margin-bottom: 6px;
+      }
+      
+      .stat-card-value {
+        font-size: 1.25rem;
+      }
+      
+      .stat-card-label {
+        font-size: 0.68rem;
+      }
+      
+      /* Graphique */
+      .chart-card {
+        padding: 16px;
+        margin-bottom: 16px;
+      }
+      
+      .chart-header {
+        margin-bottom: 16px;
+        gap: 8px;
+      }
+      
+      .chart-header h3 {
+        font-size: 0.95rem;
+      }
+      
+      .chart-tabs {
+        padding: 3px;
+      }
+      
+      .chart-tab {
+        padding: 5px 10px;
+        font-size: 0.75rem;
+      }
+      
+      .chart-bars {
+        height: 130px;
+        gap: 4px;
+        padding: 8px 0;
+      }
+      
+      .bar-wrapper {
+        min-width: 24px;
+      }
+      
+      .bar-label {
+        font-size: 0.55rem;
+      }
+      
+      /* Tableau */
+      .table-header {
+        padding: 14px 16px;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 8px;
+      }
+      
+      .table-header h3 {
+        font-size: 0.95rem;
+      }
+      
+      .table-filter {
+        width: 100%;
+        padding: 8px 12px;
+        font-size: 0.82rem;
+      }
+      
+      table {
+        min-width: 520px;
+      }
+      
+      table th {
+        padding: 10px 12px;
+        font-size: 0.7rem;
+      }
+      
+      table td {
+        padding: 10px 12px;
+        font-size: 0.8rem;
+      }
+      
+      .table-empty {
+        padding: 40px 16px;
+        font-size: 0.85rem;
+      }
+      
+      /* Classements */
       .rankings-grid {
+        gap: 14px;
+      }
+      
+      .ranking-card {
+        padding: 16px;
+      }
+      
+      .ranking-card h3 {
+        font-size: 0.95rem;
+        margin-bottom: 14px;
+      }
+      
+      .ranking-item {
+        gap: 10px;
+        padding: 10px 0;
+      }
+      
+      .ranking-position {
+        width: 26px;
+        height: 26px;
+        font-size: 0.72rem;
+      }
+      
+      .ranking-name {
+        font-size: 0.85rem;
+      }
+      
+      .ranking-sub {
+        font-size: 0.7rem;
+      }
+      
+      .ranking-value {
+        font-size: 0.82rem;
+      }
+      
+      /* Modal catégorie */
+      .modal {
+        max-width: 100% !important;
+      }
+    }
+    
+    /* ============================================================
+       RESPONSIVE — TRÈS PETIT TÉLÉPHONE
+       ============================================================ */
+    @media (max-width: 380px) {
+      .dashboard-header h1 {
+        font-size: 1.15rem;
+      }
+      
+      .stats-grid {
         grid-template-columns: 1fr;
       }
+      
+      .sidebar-link {
+        padding: 7px 10px;
+        font-size: 0.75rem;
+      }
+      
+      .sidebar-link-icon {
+        font-size: 0.9rem;
+      }
+      
       .chart-bars {
-        height: 150px;
+        height: 110px;
+      }
+      
+      .bar-wrapper {
+        min-width: 20px;
+      }
+      
+      .ranking-name {
+        font-size: 0.8rem;
       }
     }
   </style>
@@ -480,9 +723,7 @@
 
   <div class="dashboard">
     
-    <!-- ============================================================
-         SIDEBAR
-         ============================================================ -->
+    <!-- SIDEBAR -->
     <aside class="sidebar">
       <div class="sidebar-header">
         <div class="sidebar-title">👑 Admin</div>
@@ -517,9 +758,7 @@
       </nav>
     </aside>
     
-    <!-- ============================================================
-         MAIN
-         ============================================================ -->
+    <!-- MAIN -->
     <main class="dashboard-main" id="dashboard-main">
       <div class="loading-container">
         <span class="spinner spinner-blue" style="width: 40px; height: 40px;"></span>
@@ -532,10 +771,6 @@
   <script src="/js/auth.js"></script>
   <script src="/js/navbar.js"></script>
   <script>
-    // ============================================================
-    // ÉTAT GLOBAL
-    // ============================================================
-    
     let overview = null;
     let users = [];
     let shops = [];
@@ -545,10 +780,6 @@
     let visitorsData = null;
     let visitorsPeriod = 'week';
     let allCategories = [];
-    
-    // ============================================================
-    // INITIALISATION
-    // ============================================================
     
     document.addEventListener('DOMContentLoaded', async () => {
       renderNavbar();
@@ -568,10 +799,6 @@
       switchTab('overview');
     });
     
-    // ============================================================
-    // NAVIGATION
-    // ============================================================
-    
     function switchTab(tabName) {
       document.querySelectorAll('.sidebar-link').forEach(link => {
         link.classList.toggle('active', link.dataset.tab === tabName);
@@ -584,10 +811,6 @@
       else if (tabName === 'categories') renderCategories();
       else if (tabName === 'rankings') renderRankings();
     }
-    
-    // ============================================================
-    // CHARGEMENTS
-    // ============================================================
     
     async function loadOverview() {
       try { overview = await AdminAPI.overview(); }
@@ -633,10 +856,6 @@
         allCategories = [];
       }
     }
-    
-    // ============================================================
-    // ONGLET OVERVIEW
-    // ============================================================
     
     function renderOverview() {
       if (!overview) return;
@@ -705,9 +924,9 @@
             </div>
           </div>
           
-          <div style="display:flex;gap:24px;margin-bottom:16px;font-size:0.9rem;">
-            <span><strong style="font-size:1.3rem;color:var(--blue-700);">${visitorsData?.total_visits || 0}</strong> <span style="color:var(--gray-500);">visites</span></span>
-            <span><strong style="font-size:1.3rem;color:var(--blue-700);">${visitorsData?.unique_visitors || 0}</strong> <span style="color:var(--gray-500);">visiteurs uniques</span></span>
+          <div style="display:flex;gap:20px;margin-bottom:16px;font-size:0.85rem;flex-wrap:wrap;">
+            <span><strong style="font-size:1.2rem;color:var(--blue-700);">${visitorsData?.total_visits || 0}</strong> <span style="color:var(--gray-500);">visites</span></span>
+            <span><strong style="font-size:1.2rem;color:var(--blue-700);">${visitorsData?.unique_visitors || 0}</strong> <span style="color:var(--gray-500);">visiteurs uniques</span></span>
           </div>
           
           ${renderVisitorChart()}
@@ -745,10 +964,6 @@
       renderOverview();
     }
     
-    // ============================================================
-    // ONGLET UTILISATEURS
-    // ============================================================
-    
     function renderUsers() {
       const main = document.getElementById('dashboard-main');
       
@@ -772,21 +987,23 @@
           ${users.length === 0 
             ? '<div class="table-empty">Aucun utilisateur.</div>'
             : `
-              <table>
-                <thead>
-                  <tr>
-                    <th>ID</th>
-                    <th>Nom</th>
-                    <th>Téléphone</th>
-                    <th>Email</th>
-                    <th>Rôle</th>
-                    <th>Inscription</th>
-                  </tr>
-                </thead>
-                <tbody id="users-tbody">
-                  ${users.map(u => renderUserRow(u)).join('')}
-                </tbody>
-              </table>
+              <div class="table-scroll">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>ID</th>
+                      <th>Nom</th>
+                      <th>Téléphone</th>
+                      <th>Email</th>
+                      <th>Rôle</th>
+                      <th>Inscription</th>
+                    </tr>
+                  </thead>
+                  <tbody id="users-tbody">
+                    ${users.map(u => renderUserRow(u)).join('')}
+                  </tbody>
+                </table>
+              </div>
             `
           }
         </div>
@@ -818,10 +1035,6 @@
       });
     }
     
-    // ============================================================
-    // ONGLET BOUTIQUES
-    // ============================================================
-    
     function renderShops() {
       const main = document.getElementById('dashboard-main');
       
@@ -839,39 +1052,37 @@
           ${shops.length === 0 
             ? '<div class="table-empty">Aucune boutique.</div>'
             : `
-              <table>
-                <thead>
-                  <tr>
-                    <th>ID</th>
-                    <th>Nom</th>
-                    <th>Description</th>
-                    <th>Vues</th>
-                    <th>Créée le</th>
-                    <th></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  ${shops.map(s => `
+              <div class="table-scroll">
+                <table>
+                  <thead>
                     <tr>
-                      <td><strong>#${s.id}</strong></td>
-                      <td><strong>${escapeHtml(s.name)}</strong></td>
-                      <td style="max-width:300px;"><em style="color:var(--gray-500);">${escapeHtml((s.description || '—').substring(0, 60))}${s.description && s.description.length > 60 ? '...' : ''}</em></td>
-                      <td>👁️ ${s.views_count}</td>
-                      <td>${formatDate(s.created_at)}</td>
-                      <td><a href="/shop.html?id=${s.id}" target="_blank" class="btn btn-ghost btn-sm">Voir →</a></td>
+                      <th>ID</th>
+                      <th>Nom</th>
+                      <th>Description</th>
+                      <th>Vues</th>
+                      <th>Créée le</th>
+                      <th></th>
                     </tr>
-                  `).join('')}
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody>
+                    ${shops.map(s => `
+                      <tr>
+                        <td><strong>#${s.id}</strong></td>
+                        <td><strong>${escapeHtml(s.name)}</strong></td>
+                        <td style="max-width:300px;"><em style="color:var(--gray-500);">${escapeHtml((s.description || '—').substring(0, 60))}${s.description && s.description.length > 60 ? '...' : ''}</em></td>
+                        <td>👁️ ${s.views_count}</td>
+                        <td>${formatDate(s.created_at)}</td>
+                        <td><a href="/shop.html?id=${s.id}" target="_blank" class="btn btn-ghost btn-sm">Voir →</a></td>
+                      </tr>
+                    `).join('')}
+                  </tbody>
+                </table>
+              </div>
             `
           }
         </div>
       `;
     }
-    
-    // ============================================================
-    // ONGLET COMMANDES
-    // ============================================================
     
     function renderOrders() {
       const main = document.getElementById('dashboard-main');
@@ -897,21 +1108,23 @@
           ${orders.length === 0 
             ? '<div class="table-empty">Aucune commande.</div>'
             : `
-              <table>
-                <thead>
-                  <tr>
-                    <th>ID</th>
-                    <th>Produit</th>
-                    <th>Quantité</th>
-                    <th>Total</th>
-                    <th>Statut</th>
-                    <th>Date</th>
-                  </tr>
-                </thead>
-                <tbody id="orders-tbody">
-                  ${orders.map(o => renderOrderRow(o)).join('')}
-                </tbody>
-              </table>
+              <div class="table-scroll">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>ID</th>
+                      <th>Produit</th>
+                      <th>Quantité</th>
+                      <th>Total</th>
+                      <th>Statut</th>
+                      <th>Date</th>
+                    </tr>
+                  </thead>
+                  <tbody id="orders-tbody">
+                    ${orders.map(o => renderOrderRow(o)).join('')}
+                  </tbody>
+                </table>
+              </div>
             `
           }
         </div>
@@ -944,10 +1157,6 @@
       });
     }
     
-    // ============================================================
-    // ONGLET CATÉGORIES
-    // ============================================================
-    
     function renderCategories() {
       const main = document.getElementById('dashboard-main');
       
@@ -977,37 +1186,39 @@
               <button class="btn btn-primary mt-16" onclick="seedCategories()">⚡ Créer les catégories de base</button>
             </div>`
           : `<div class="table-card">
-              <table>
-                <thead>
-                  <tr>
-                    <th>Emoji</th>
-                    <th>Nom</th>
-                    <th>Description</th>
-                    <th>Produits</th>
-                    <th>Ordre</th>
-                    <th>Statut</th>
-                    <th>Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  ${allCategories.map(c => `
+              <div class="table-scroll">
+                <table>
+                  <thead>
                     <tr>
-                      <td style="font-size:1.5rem;">${c.emoji || '🏷️'}</td>
-                      <td><strong style="text-transform:capitalize;">${escapeHtml(c.name)}</strong></td>
-                      <td><em style="color:var(--gray-500);">${escapeHtml(c.description || '—')}</em></td>
-                      <td>${c.product_count}</td>
-                      <td>${c.display_order}</td>
-                      <td>${c.is_active 
-                        ? '<span class="badge badge-success">Active</span>' 
-                        : '<span class="badge badge-danger">Inactive</span>'}</td>
-                      <td>
-                        <button class="btn btn-ghost btn-sm" onclick="openCategoryModal(${c.id})" title="Modifier">✏️</button>
-                        <button class="btn btn-ghost btn-sm" onclick="deleteCategory(${c.id}, '${escapeHtml(c.name)}')" style="color:var(--danger);" title="Supprimer">🗑️</button>
-                      </td>
+                      <th>Emoji</th>
+                      <th>Nom</th>
+                      <th>Description</th>
+                      <th>Produits</th>
+                      <th>Ordre</th>
+                      <th>Statut</th>
+                      <th>Actions</th>
                     </tr>
-                  `).join('')}
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody>
+                    ${allCategories.map(c => `
+                      <tr>
+                        <td style="font-size:1.5rem;">${c.emoji || '🏷️'}</td>
+                        <td><strong style="text-transform:capitalize;">${escapeHtml(c.name)}</strong></td>
+                        <td><em style="color:var(--gray-500);">${escapeHtml(c.description || '—')}</em></td>
+                        <td>${c.product_count}</td>
+                        <td>${c.display_order}</td>
+                        <td>${c.is_active 
+                          ? '<span class="badge badge-success">Active</span>' 
+                          : '<span class="badge badge-danger">Inactive</span>'}</td>
+                        <td>
+                          <button class="btn btn-ghost btn-sm" onclick="openCategoryModal(${c.id})" title="Modifier">✏️</button>
+                          <button class="btn btn-ghost btn-sm" onclick="deleteCategory(${c.id}, '${escapeHtml(c.name)}')" style="color:var(--danger);" title="Supprimer">🗑️</button>
+                        </td>
+                      </tr>
+                    `).join('')}
+                  </tbody>
+                </table>
+              </div>
             </div>`
         }
         
@@ -1151,10 +1362,6 @@
         showToast(error.message, 'error');
       }
     }
-    
-    // ============================================================
-    // ONGLET CLASSEMENTS
-    // ============================================================
     
     function renderRankings() {
       const main = document.getElementById('dashboard-main');

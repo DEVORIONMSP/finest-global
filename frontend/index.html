@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
   <title>Finest Global — Be Findable</title>
   <meta name="description" content="Trouvez les commerçants du marché et commandez directement.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -134,7 +134,6 @@
       overflow: hidden;
     }
     
-    /* Motif décoratif en arrière-plan */
     .section-carousel::before {
       content: "";
       position: absolute;
@@ -163,7 +162,6 @@
       background: linear-gradient(180deg, var(--gray-50) 0%, var(--white) 100%);
     }
     
-    /* Bande décorative en haut */
     .section-carousel:nth-child(even)::before {
       content: "";
       position: absolute;
@@ -216,7 +214,7 @@
     }
     
     /* ============================================================
-       CARROUSEL — TOUS À LA MÊME TAILLE
+       CARROUSEL
        ============================================================ */
     .carousel {
       position: relative;
@@ -234,6 +232,7 @@
       -ms-overflow-style: none;
       padding: 16px 4px;
       margin: -16px -4px;
+      -webkit-overflow-scrolling: touch;
     }
     
     .carousel-track-wrapper::-webkit-scrollbar {
@@ -245,7 +244,6 @@
       gap: 28px;
     }
     
-    /* Navigation */
     .carousel-nav {
       position: absolute;
       top: 50%;
@@ -283,19 +281,18 @@
     .carousel-nav.next { right: 0; }
     
     /* ============================================================
-       TAILLE UNIFORME POUR TOUTES LES CARTES
+       TAILLE UNIFORME
        ============================================================ */
     .category-card,
     .product-slide,
     .shop-slide {
       flex: 0 0 auto;
-      /* 4 cartes visibles max — même largeur partout */
       width: calc((100% - 84px) / 4);
       min-width: 280px;
     }
     
     /* ============================================================
-       CARTE CATÉGORIE — BLEU
+       CARTE CATÉGORIE
        ============================================================ */
     .category-card {
       background: linear-gradient(135deg, var(--blue-800), var(--blue-700));
@@ -366,7 +363,7 @@
     }
     
     /* ============================================================
-       CARTE PRODUIT — BLEU
+       CARTE PRODUIT
        ============================================================ */
     .product-card {
       background: linear-gradient(135deg, var(--blue-800), var(--blue-700));
@@ -475,7 +472,7 @@
     }
     
     /* ============================================================
-       CARTE BOUTIQUE — BLEU
+       CARTE BOUTIQUE
        ============================================================ */
     .shop-card {
       background: linear-gradient(135deg, var(--blue-800), var(--blue-700));
@@ -763,7 +760,6 @@
     
     .footer-brand span { color: var(--orange-500); }
     
-    /* Liste de contact poussée à droite */
     .footer-contact {
       justify-self: end;
       text-align: right;
@@ -778,7 +774,7 @@
     }
     
     /* ============================================================
-       RESPONSIVE
+       RESPONSIVE — TABLETTE
        ============================================================ */
     @media (max-width: 1024px) {
       .category-card,
@@ -800,47 +796,276 @@
       }
     }
     
-    @media (max-width: 768px) {
-      .hero { padding: 70px 0 90px; }
-      .hero h1 { font-size: 3rem; letter-spacing: -1.5px; }
-      .hero p { font-size: 1.05rem; }
-      .cta-seller-inner { grid-template-columns: 1fr; gap: 40px; }
-      .cta-seller h2 { font-size: 1.75rem; }
-      .section-carousel { padding: 64px 0; }
-      .section-header-centered h2 { font-size: 1.75rem; }
+    /* ============================================================
+       RESPONSIVE — TABLETTE PORTRAIT
+       ============================================================ */
+    @media (max-width: 900px) {
+      .hero {
+        padding: 60px 0 80px;
+      }
+      .hero h1 {
+        font-size: 2.5rem;
+        letter-spacing: -1.5px;
+        line-height: 1.1;
+        min-height: 2.5em;
+      }
+      .hero p {
+        font-size: 1rem;
+      }
+      
+      .section-carousel {
+        padding: 56px 0;
+      }
+      .section-header-centered {
+        margin-bottom: 32px;
+      }
+      .section-header-centered h2 {
+        font-size: 1.6rem;
+      }
+      .section-header-centered p {
+        font-size: 0.95rem;
+      }
+      
       .carousel { padding: 0 50px; }
-      .carousel-nav { width: 46px; height: 46px; font-size: 1.3rem; }
+      .carousel-track { gap: 18px; }
+      .carousel-nav {
+        width: 42px;
+        height: 42px;
+        font-size: 1.2rem;
+      }
       
       .category-card,
       .product-slide,
       .shop-slide {
-        width: calc((100% - 28px) / 2);
+        width: calc((100% - 36px) / 2);
+        min-width: unset;
       }
       .skeleton-category {
-        width: calc((100% - 28px) / 2);
+        width: calc((100% - 36px) / 2);
       }
       
-      .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
+      .cta-seller {
+        padding: 60px 0;
+      }
+      .cta-seller-inner {
+        grid-template-columns: 1fr;
+        gap: 32px;
+      }
+      .cta-seller h2 {
+        font-size: 1.75rem;
+      }
+      
+      .footer-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 32px;
+      }
     }
     
-    @media (max-width: 500px) {
-      .hero { padding: 60px 0 80px; }
-      .hero h1 { font-size: 2rem; letter-spacing: -1px; }
-      .section-carousel { padding: 48px 0; }
-      .carousel { padding: 0 44px; }
+    /* ============================================================
+       RESPONSIVE — TÉLÉPHONE ANDROID
+       ============================================================ */
+    @media (max-width: 640px) {
+      /* Hero */
+      .hero {
+        padding: 40px 0 56px;
+      }
+      .hero-inner {
+        padding: 0 18px;
+      }
+      .hero h1 {
+        font-size: 1.75rem;
+        letter-spacing: -0.6px;
+        line-height: 1.15;
+        min-height: 2.9em;
+        margin-bottom: 18px;
+      }
+      .hero p {
+        font-size: 0.92rem;
+        line-height: 1.55;
+        margin-bottom: 28px;
+        padding: 0 4px;
+      }
+      .hero-buttons {
+        flex-direction: column;
+        gap: 10px;
+        width: 100%;
+      }
+      .hero-buttons .btn {
+        width: 100%;
+        justify-content: center;
+        padding: 13px 20px;
+        font-size: 0.92rem;
+      }
+      .btn-lg {
+        padding: 13px 20px;
+        font-size: 0.92rem;
+      }
+      
+      /* Sections */
+      .section-carousel {
+        padding: 40px 0;
+      }
+      .section-header-centered {
+        margin-bottom: 22px;
+        padding: 0 16px;
+      }
+      .section-header-centered h2 {
+        font-size: 1.3rem;
+        gap: 9px;
+        letter-spacing: -0.3px;
+      }
+      .section-header-centered h2 .accent-bar {
+        width: 4px;
+        height: 24px;
+      }
+      .section-header-centered p {
+        font-size: 0.83rem;
+        line-height: 1.5;
+      }
+      
+      /* Carrousels */
+      .carousel {
+        padding: 0 44px;
+      }
+      .carousel-track {
+        gap: 14px;
+      }
+      .carousel-track-wrapper {
+        padding: 12px 4px;
+      }
+      .carousel-nav {
+        width: 34px;
+        height: 34px;
+        font-size: 1rem;
+      }
+      .carousel-nav.prev { left: 2px; }
+      .carousel-nav.next { right: 2px; }
       
       .category-card,
       .product-slide,
       .shop-slide {
-        width: 85%;
+        width: calc(100% - 16px);
         min-width: unset;
       }
       .skeleton-category {
-        width: 85%;
-        min-width: unset;
+        width: calc(100% - 16px);
       }
       
-      .footer-grid { grid-template-columns: 1fr; }
+      /* Catégories */
+      .category-card {
+        min-height: 190px;
+        padding: 26px 18px;
+        gap: 12px;
+      }
+      .category-emoji { font-size: 2.4rem; }
+      .category-name { font-size: 0.98rem; }
+      .category-count { font-size: 0.78rem; }
+      
+      /* Produits */
+      .product-card { min-height: 340px; }
+      .product-image { aspect-ratio: 1; }
+      .product-info { padding: 16px; }
+      .product-name { font-size: 0.98rem; }
+      .product-price { font-size: 1.05rem; }
+      .product-stats { font-size: 0.72rem; }
+      .product-badge-sales {
+        padding: 5px 10px;
+        font-size: 0.7rem;
+        top: 10px;
+        left: 10px;
+      }
+      
+      /* Boutiques */
+      .shop-card { min-height: 340px; }
+      .shop-banner { height: 105px; }
+      .shop-avatar {
+        width: 54px;
+        height: 54px;
+        font-size: 1.1rem;
+        bottom: -22px;
+        left: 20px;
+      }
+      .shop-body { padding: 34px 20px 18px; }
+      .shop-name { font-size: 1rem; }
+      .shop-desc { font-size: 0.83rem; }
+      .shop-stats { font-size: 0.78rem; }
+      
+      /* CTA vendeur */
+      .cta-seller {
+        padding: 48px 0;
+      }
+      .cta-seller h2 {
+        font-size: 1.45rem;
+        letter-spacing: -0.3px;
+      }
+      .cta-seller p {
+        font-size: 0.92rem;
+        margin-bottom: 22px;
+      }
+      .cta-list li {
+        font-size: 0.88rem;
+        padding: 8px 0;
+      }
+      .cta-list li::before {
+        width: 22px;
+        height: 22px;
+        font-size: 0.7rem;
+      }
+      
+      /* Footer */
+      .footer {
+        padding: 48px 0 24px;
+      }
+      .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 26px;
+        margin-bottom: 32px;
+      }
+      .footer-contact {
+        text-align: left;
+        justify-self: start;
+      }
+      .footer-brand {
+        font-size: 1.2rem;
+      }
+      .footer h4 {
+        margin-bottom: 14px;
+      }
+      .footer p, .footer a {
+        font-size: 0.9rem;
+        line-height: 1.9;
+      }
+    }
+    
+    /* ============================================================
+       RESPONSIVE — TRÈS PETIT TÉLÉPHONE
+       ============================================================ */
+    @media (max-width: 380px) {
+      .hero h1 {
+        font-size: 1.55rem;
+        min-height: 3.1em;
+      }
+      .hero p {
+        font-size: 0.87rem;
+      }
+      .section-header-centered h2 {
+        font-size: 1.15rem;
+      }
+      .section-header-centered p {
+        font-size: 0.78rem;
+      }
+      .carousel {
+        padding: 0 40px;
+      }
+      .carousel-nav {
+        width: 30px;
+        height: 30px;
+        font-size: 0.9rem;
+      }
+      .btn-lg {
+        font-size: 0.85rem;
+        padding: 12px 18px;
+      }
     }
   </style>
 </head>
@@ -848,9 +1073,7 @@
 
   <div id="navbar"></div>
 
-  <!-- ============================================================
-       HERO
-       ============================================================ -->
+  <!-- HERO -->
   <section class="hero">
     <div class="hero-inner">
       <h1>
@@ -869,9 +1092,7 @@
     </div>
   </section>
 
-  <!-- ============================================================
-       CATÉGORIES POPULAIRES
-       ============================================================ -->
+  <!-- CATÉGORIES POPULAIRES -->
   <section class="section-carousel">
     <div class="section-header-centered">
       <h2><span class="accent-bar"></span> Catégories populaires</h2>
@@ -892,9 +1113,7 @@
     </div>
   </section>
 
-  <!-- ============================================================
-       LES PLUS VENDUS
-       ============================================================ -->
+  <!-- LES PLUS VENDUS -->
   <section class="section-carousel">
     <div class="section-header-centered">
       <h2><span class="accent-bar"></span> Les plus vendus</h2>
@@ -915,9 +1134,7 @@
     </div>
   </section>
 
-  <!-- ============================================================
-       BOUTIQUES EN VEDETTE
-       ============================================================ -->
+  <!-- BOUTIQUES EN VEDETTE -->
   <section class="section-carousel">
     <div class="section-header-centered">
       <h2><span class="accent-bar"></span> Boutiques en vedette</h2>
@@ -938,9 +1155,7 @@
     </div>
   </section>
 
-  <!-- ============================================================
-       CTA VENDEUR
-       ============================================================ -->
+  <!-- CTA VENDEUR -->
   <section class="cta-seller">
     <div class="container">
       <div class="cta-seller-inner">
@@ -964,9 +1179,7 @@
     </div>
   </section>
 
-  <!-- ============================================================
-       FOOTER
-       ============================================================ -->
+  <!-- FOOTER -->
   <footer class="footer">
     <div class="container">
       <div class="footer-grid">

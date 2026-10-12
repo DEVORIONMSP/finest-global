@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
   <title>Dashboard vendeur — Finest Global</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -391,9 +391,7 @@
     /* ============================================================
        CATÉGORIE AUTOCOMPLETE
        ============================================================ */
-    .category-input-wrapper {
-      position: relative;
-    }
+    .category-input-wrapper { position: relative; }
     
     .category-suggestions {
       position: absolute;
@@ -411,9 +409,7 @@
       display: none;
     }
     
-    .category-suggestions.open {
-      display: block;
-    }
+    .category-suggestions.open { display: block; }
     
     .category-suggestion-item {
       padding: 10px 16px;
@@ -429,14 +425,9 @@
       background: var(--blue-50);
     }
     
-    .category-suggestion-emoji {
-      font-size: 1.2rem;
-    }
+    .category-suggestion-emoji { font-size: 1.2rem; }
     
-    .category-suggestion-info {
-      flex: 1;
-      min-width: 0;
-    }
+    .category-suggestion-info { flex: 1; min-width: 0; }
     
     .category-suggestion-name {
       font-weight: 600;
@@ -471,18 +462,11 @@
       text-transform: uppercase;
     }
     
-    .badge-stock-yes {
-      background: #D1FAE5;
-      color: #065F46;
-    }
-    
-    .badge-stock-no {
-      background: #FEE2E2;
-      color: #991B1B;
-    }
+    .badge-stock-yes { background: #D1FAE5; color: #065F46; }
+    .badge-stock-no { background: #FEE2E2; color: #991B1B; }
     
     /* ============================================================
-       RESPONSIVE
+       RESPONSIVE — TABLETTE
        ============================================================ */
     @media (max-width: 900px) {
       .dashboard { grid-template-columns: 1fr; }
@@ -495,7 +479,11 @@
         flex-direction: row;
         overflow-x: auto;
         padding: 0 16px;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+        -webkit-overflow-scrolling: touch;
       }
+      .sidebar-nav::-webkit-scrollbar { display: none; }
       .sidebar-link {
         white-space: nowrap;
         padding: 10px 14px;
@@ -503,6 +491,247 @@
       .dashboard-main { padding: 20px 16px; }
       .order-card { grid-template-columns: 1fr; }
       .form-row { grid-template-columns: 1fr; }
+    }
+    
+    /* ============================================================
+       RESPONSIVE — TÉLÉPHONE ANDROID
+       ============================================================ */
+    @media (max-width: 640px) {
+      .dashboard {
+        min-height: calc(100vh - 60px);
+      }
+      
+      /* Sidebar */
+      .sidebar {
+        padding: 12px 0;
+        position: sticky;
+        top: 0;
+        z-index: 50;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        height: auto;
+      }
+      
+      .sidebar-header {
+        padding: 0 14px 12px;
+        margin-bottom: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+      }
+      
+      .sidebar-shop-name {
+        font-size: 0.95rem;
+        margin-bottom: 2px;
+      }
+      
+      .sidebar-shop-status {
+        font-size: 0.7rem;
+      }
+      
+      .status-dot {
+        width: 6px;
+        height: 6px;
+      }
+      
+      .sidebar-nav {
+        padding: 0 10px;
+        gap: 6px;
+      }
+      
+      .sidebar-link {
+        padding: 8px 12px;
+        font-size: 0.82rem;
+        gap: 8px;
+        border-radius: 8px;
+      }
+      
+      .sidebar-link-icon { font-size: 1rem; }
+      
+      .sidebar-badge {
+        font-size: 0.65rem;
+        padding: 1px 6px;
+      }
+      
+      /* Main */
+      .dashboard-main {
+        padding: 16px 12px 32px;
+      }
+      
+      .dashboard-header {
+        margin-bottom: 20px;
+      }
+      
+      .dashboard-header h1 {
+        font-size: 1.35rem;
+        margin-bottom: 4px;
+      }
+      
+      .dashboard-header p {
+        font-size: 0.85rem;
+      }
+      
+      /* Stats */
+      .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+        margin-bottom: 20px;
+      }
+      
+      .stats-grid[style*="grid-template-columns: 1fr 1fr"] {
+        grid-template-columns: 1fr !important;
+      }
+      
+      .stat-card {
+        padding: 14px;
+      }
+      
+      .stat-card-icon {
+        font-size: 1.25rem;
+        margin-bottom: 6px;
+      }
+      
+      .stat-card-value {
+        font-size: 1.3rem;
+      }
+      
+      .stat-card-label {
+        font-size: 0.7rem;
+      }
+      
+      .stat-card h3 {
+        font-size: 0.95rem !important;
+        margin-bottom: 8px !important;
+      }
+      
+      /* Commandes */
+      .order-card {
+        padding: 14px;
+        gap: 12px;
+      }
+      
+      .order-info {
+        gap: 10px;
+      }
+      
+      .order-icon {
+        width: 38px;
+        height: 38px;
+        font-size: 1.15rem;
+      }
+      
+      .order-title {
+        font-size: 0.88rem;
+        white-space: normal;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        display: -webkit-box;
+        overflow: hidden;
+      }
+      
+      .order-meta {
+        font-size: 0.72rem;
+        gap: 8px;
+      }
+      
+      .order-meta .badge {
+        font-size: 0.65rem;
+        padding: 3px 8px;
+      }
+      
+      .order-price {
+        font-size: 1rem;
+      }
+      
+      .order-actions .btn {
+        padding: 7px 12px;
+        font-size: 0.78rem;
+      }
+      
+      /* Produits */
+      .products-grid-admin {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+      }
+      
+      .admin-product-body {
+        padding: 10px;
+      }
+      
+      .admin-product-name {
+        font-size: 0.85rem;
+        margin-bottom: 4px;
+      }
+      
+      .admin-product-category {
+        font-size: 0.68rem;
+        padding: 2px 6px;
+      }
+      
+      .admin-product-price {
+        font-size: 0.9rem;
+        margin-bottom: 6px;
+      }
+      
+      .admin-product-stats {
+        font-size: 0.7rem;
+        gap: 8px;
+        margin-bottom: 8px;
+      }
+      
+      .admin-product-actions {
+        gap: 4px;
+      }
+      
+      .admin-product-actions .btn {
+        padding: 6px 8px;
+        font-size: 0.72rem;
+      }
+      
+      /* Modal produit */
+      .modal {
+        max-width: 100% !important;
+      }
+      
+      .form-row {
+        gap: 0;
+      }
+      
+      /* Image upload */
+      .image-upload {
+        padding: 16px;
+      }
+      
+      .image-preview {
+        max-width: 140px;
+        max-height: 140px;
+      }
+    }
+    
+    /* ============================================================
+       RESPONSIVE — TRÈS PETIT TÉLÉPHONE
+       ============================================================ */
+    @media (max-width: 380px) {
+      .dashboard-header h1 {
+        font-size: 1.15rem;
+      }
+      
+      .stats-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .sidebar-link {
+        padding: 7px 10px;
+        font-size: 0.78rem;
+      }
+      
+      .order-meta {
+        font-size: 0.68rem;
+      }
+      
+      .admin-product-name {
+        font-size: 0.78rem;
+      }
     }
   </style>
 </head>
@@ -554,10 +783,6 @@
   <script src="/js/auth.js"></script>
   <script src="/js/navbar.js"></script>
   <script>
-    // ============================================================
-    // ÉTAT GLOBAL
-    // ============================================================
-    
     let currentShop = null;
     let currentProducts = [];
     let currentOrders = [];
@@ -566,13 +791,7 @@
     let shopImageFile = null;
     let ws = null;
     let newOrdersCount = 0;
-    
-    // Cache des catégories (chargé une fois)
     let allCategories = null;
-    
-    // ============================================================
-    // INITIALISATION
-    // ============================================================
     
     document.addEventListener('DOMContentLoaded', async () => {
       renderNavbar();
@@ -584,7 +803,6 @@
         document.getElementById('sidebar-shop-name').textContent = currentShop.name;
       } catch (error) {
         if (error.status === 404) {
-            // Pas de boutique → rediriger vers la page de création
             showToast('Créez votre boutique pour commencer.', 'info');
             setTimeout(() => window.location.href = '/create-shop.html', 800);
             return;
@@ -593,18 +811,11 @@
         return;
       }
       
-      // Charger les catégories en parallèle
       loadCategoriesCache();
-      
       await Promise.all([loadProducts(), loadOrders()]);
-      
       switchTab('overview');
       startWebSocket();
     });
-    
-    // ============================================================
-    // CHARGEMENT DES CATÉGORIES
-    // ============================================================
     
     async function loadCategoriesCache() {
       try {
@@ -614,10 +825,6 @@
         allCategories = [];
       }
     }
-    
-    // ============================================================
-    // NAVIGATION ONGLETS
-    // ============================================================
     
     function switchTab(tabName) {
       document.querySelectorAll('.sidebar-link').forEach(link => {
@@ -632,10 +839,6 @@
       } else if (tabName === 'products') renderProducts();
       else if (tabName === 'shop') renderShopSettings();
     }
-    
-    // ============================================================
-    // ONGLET OVERVIEW
-    // ============================================================
     
     function renderOverview() {
       const totalSales = currentProducts.reduce((sum, p) => sum + p.sales_count, 0);
@@ -718,10 +921,6 @@
         </div>
       `;
     }
-    
-    // ============================================================
-    // COMMANDES
-    // ============================================================
     
     async function loadOrders() {
       try {
@@ -817,10 +1016,6 @@
       }
     }
     
-    // ============================================================
-    // PRODUITS
-    // ============================================================
-    
     async function loadProducts() {
       try {
         currentProducts = await ProductsAPI.getMine();
@@ -886,10 +1081,6 @@
         </div>
       `;
     }
-    
-    // ============================================================
-    // MODAL PRODUIT (avec autocomplete catégorie)
-    // ============================================================
     
     function openProductModal(productId = null) {
       editingProductId = productId;
@@ -991,14 +1182,8 @@
       `;
       
       modal.classList.remove('hidden');
-      
-      // Initialiser l'autocomplétion catégorie
       initCategoryAutocomplete();
     }
-    
-    // ============================================================
-    // AUTOCOMPLÉTION CATÉGORIE
-    // ============================================================
     
     function initCategoryAutocomplete() {
       const input = document.getElementById('p-category');
@@ -1036,7 +1221,6 @@
         
         suggestions.classList.add('open');
         
-        // Click handlers
         suggestions.querySelectorAll('.category-suggestion-item').forEach(item => {
           item.addEventListener('click', () => {
             input.value = item.dataset.name;
@@ -1045,20 +1229,15 @@
         });
       }
       
-      // Focus → afficher toutes les catégories
       input.addEventListener('focus', () => renderSuggestions(input.value));
-      
-      // Frappe → filtrer
       input.addEventListener('input', () => renderSuggestions(input.value));
       
-      // Clic ailleurs → fermer
       document.addEventListener('click', (e) => {
         if (!input.contains(e.target) && !suggestions.contains(e.target)) {
           suggestions.classList.remove('open');
         }
       });
       
-      // Entrée → sélectionner la 1ère suggestion
       input.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') {
           suggestions.classList.remove('open');
@@ -1073,10 +1252,6 @@
         }
       });
     }
-    
-    // ============================================================
-    // FERMETURE DU MODAL
-    // ============================================================
     
     function closeProductModal(event) {
       if (event && event.target !== event.currentTarget) return;
@@ -1103,10 +1278,6 @@
       };
       reader.readAsDataURL(file);
     }
-    
-    // ============================================================
-    // SAUVEGARDE PRODUIT
-    // ============================================================
     
     async function saveProduct() {
       const btn = document.getElementById('save-product-btn');
@@ -1187,10 +1358,6 @@
         showToast(error.message, 'error');
       }
     }
-    
-    // ============================================================
-    // ONGLET BOUTIQUE
-    // ============================================================
     
     function renderShopSettings() {
       const main = document.getElementById('dashboard-main');
@@ -1300,14 +1467,26 @@
     }
     
     // ============================================================
-    // WEBSOCKET TEMPS RÉEL
+    // WEBSOCKET TEMPS RÉEL (PRODUCTION)
     // ============================================================
     
     function startWebSocket() {
       const token = Auth.getToken();
       if (!token) return;
       
-      const wsUrl = `ws://127.0.0.1:8000/ws/notifications?token=${token}`;
+      // ✅ Détection automatique : localhost vs production
+      const isLocal = window.location.hostname === 'localhost' || 
+                      window.location.hostname === '127.0.0.1';
+      
+      const API_HOST = isLocal 
+        ? '127.0.0.1:8000' 
+        : 'finest-global-api.onrender.com';
+      
+      const WS_PROTOCOL = isLocal ? 'ws' : 'wss';
+      
+      const wsUrl = `${WS_PROTOCOL}://${API_HOST}/ws/notifications?token=${token}`;
+      
+      console.log('🔌 WebSocket URL:', wsUrl);
       ws = new WebSocket(wsUrl);
       
       ws.onopen = () => {

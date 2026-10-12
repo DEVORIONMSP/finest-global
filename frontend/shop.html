@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
   <title>Boutique — Finest Global</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -123,7 +123,7 @@
     }
     
     /* ============================================================
-       GRILLE PRODUITS (mode boutique)
+       GRILLE PRODUITS
        ============================================================ */
     .products-section {
       padding: 40px 0 60px;
@@ -424,7 +424,7 @@
     }
     
     /* ============================================================
-       RESPONSIVE
+       RESPONSIVE — TABLETTE
        ============================================================ */
     @media (max-width: 900px) {
       .product-detail-grid {
@@ -440,10 +440,260 @@
       .shop-hero-info h1 { font-size: 1.5rem; }
     }
     
-    @media (max-width: 600px) {
-      .products-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
-      .product-detail-info h1 { font-size: 1.3rem; }
-      .product-detail-price { font-size: 1.5rem; }
+    /* ============================================================
+       RESPONSIVE — TÉLÉPHONE ANDROID
+       ============================================================ */
+    @media (max-width: 640px) {
+      .shop-hero {
+        padding: 36px 0;
+      }
+      
+      .shop-hero-inner {
+        flex-direction: column;
+        text-align: center;
+        gap: 16px;
+        padding: 0 16px;
+      }
+      
+      .shop-hero-avatar {
+        width: 72px;
+        height: 72px;
+        font-size: 1.6rem;
+        border-width: 3px;
+      }
+      
+      .shop-hero-info h1 {
+        font-size: 1.35rem;
+        margin-bottom: 6px;
+      }
+      
+      .shop-hero-info p {
+        font-size: 0.88rem;
+        line-height: 1.5;
+        margin-bottom: 10px;
+      }
+      
+      .shop-hero-stats {
+        justify-content: center;
+        gap: 14px;
+        font-size: 0.8rem;
+        flex-wrap: wrap;
+      }
+      
+      .shop-toolbar {
+        top: 60px;
+        padding: 12px 0;
+      }
+      
+      .shop-toolbar-inner {
+        flex-direction: column;
+        gap: 10px;
+        align-items: stretch;
+      }
+      
+      .shop-toolbar h2 {
+        font-size: 0.95rem;
+        text-align: center;
+      }
+      
+      .sort-select {
+        width: 100%;
+        padding: 9px 12px;
+        font-size: 0.85rem;
+      }
+      
+      .products-section {
+        padding: 20px 0 40px;
+      }
+      
+      .products-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+      }
+      
+      .product-info {
+        padding: 10px;
+      }
+      
+      .product-name {
+        font-size: 0.85rem;
+        min-height: 2.6em;
+        margin-bottom: 6px;
+      }
+      
+      .product-price {
+        font-size: 0.9rem;
+      }
+      
+      .product-badge-sales {
+        padding: 3px 8px;
+        font-size: 0.65rem;
+        top: 8px;
+        left: 8px;
+      }
+      
+      /* Détail produit */
+      .product-detail {
+        padding: 20px 0 40px;
+      }
+      
+      .product-detail-grid {
+        padding: 16px;
+        gap: 18px;
+        border-radius: var(--radius);
+      }
+      
+      .product-detail-image {
+        font-size: 4rem;
+      }
+      
+      .product-detail-info h1 {
+        font-size: 1.25rem;
+        margin-bottom: 10px;
+      }
+      
+      .product-detail-meta {
+        gap: 8px;
+        margin-bottom: 14px;
+      }
+      
+      .product-detail-meta .badge {
+        font-size: 0.7rem;
+        padding: 4px 10px;
+      }
+      
+      .product-detail-price {
+        font-size: 1.6rem;
+        margin-bottom: 18px;
+      }
+      
+      .product-detail-desc {
+        font-size: 0.9rem;
+        line-height: 1.6;
+        margin-bottom: 18px;
+        padding-bottom: 18px;
+      }
+      
+      .product-detail-stats {
+        gap: 10px;
+        margin-bottom: 18px;
+      }
+      
+      .stat-box {
+        padding: 10px 8px;
+      }
+      
+      .stat-value {
+        font-size: 1.05rem;
+      }
+      
+      .stat-label {
+        font-size: 0.65rem;
+      }
+      
+      .product-seller {
+        padding: 12px;
+        margin-bottom: 18px;
+        gap: 10px;
+      }
+      
+      .product-seller-avatar {
+        width: 40px;
+        height: 40px;
+        font-size: 0.9rem;
+      }
+      
+      .product-seller-name {
+        font-size: 0.9rem;
+      }
+      
+      .product-seller-label {
+        font-size: 0.72rem;
+      }
+      
+      .qty-selector {
+        gap: 10px;
+        margin-bottom: 14px;
+      }
+      
+      .qty-selector label {
+        font-size: 0.88rem;
+      }
+      
+      .qty-btn {
+        padding: 8px 14px;
+        font-size: 0.95rem;
+      }
+      
+      .qty-value {
+        padding: 8px 16px;
+        min-width: 44px;
+        font-size: 0.95rem;
+      }
+      
+      .btn-orange.btn-lg {
+        padding: 14px 20px;
+        font-size: 0.95rem;
+      }
+      
+      /* Produits similaires */
+      .similar-section {
+        margin-top: 40px;
+      }
+      
+      .similar-section h2 {
+        font-size: 1.2rem;
+        margin-bottom: 16px;
+      }
+      
+      /* Modal de commande */
+      .order-summary {
+        padding: 12px;
+        margin-bottom: 16px;
+      }
+      
+      .order-summary-row {
+        font-size: 0.85rem;
+        padding: 5px 0;
+      }
+      
+      .order-summary-row.total {
+        font-size: 1rem;
+        padding-top: 10px;
+      }
+    }
+    
+    /* ============================================================
+       RESPONSIVE — TRÈS PETIT TÉLÉPHONE
+       ============================================================ */
+    @media (max-width: 380px) {
+      .shop-hero-info h1 {
+        font-size: 1.15rem;
+      }
+      
+      .product-detail-info h1 {
+        font-size: 1.1rem;
+      }
+      
+      .product-detail-price {
+        font-size: 1.35rem;
+      }
+      
+      .products-grid {
+        gap: 8px;
+      }
+      
+      .product-info {
+        padding: 8px;
+      }
+      
+      .product-name {
+        font-size: 0.78rem;
+      }
+      
+      .product-price {
+        font-size: 0.82rem;
+      }
     }
   </style>
 </head>
@@ -453,16 +703,12 @@
 
   <div class="shop-page" id="shop-page">
     
-    <!-- ============================================================
-         CHARGEMENT
-         ============================================================ -->
+    <!-- CHARGEMENT -->
     <div id="loading" class="loading-container">
       <span class="spinner spinner-blue" style="width: 40px; height: 40px;"></span>
     </div>
     
-    <!-- ============================================================
-         CONTENU DYNAMIQUE
-         ============================================================ -->
+    <!-- CONTENU DYNAMIQUE -->
     <div id="content" class="hidden"></div>
     
   </div>
@@ -471,10 +717,6 @@
   <script src="/js/auth.js"></script>
   <script src="/js/navbar.js"></script>
   <script>
-    // ============================================================
-    // ÉTAT
-    // ============================================================
-    
     let currentProduct = null;
     let currentShop = null;
     let quantity = 1;
@@ -486,10 +728,6 @@
       'violet': '#8B5CF6', 'gris': '#9CA3AF', 'orange': '#FF8A3D',
       'doré': '#D4AF37', 'argent': '#C0C0C0',
     };
-    
-    // ============================================================
-    // INITIALISATION
-    // ============================================================
     
     document.addEventListener('DOMContentLoaded', () => {
       renderNavbar();
@@ -621,13 +859,11 @@
         const product = await ProductsAPI.getById(productId);
         currentProduct = product;
         
-        // Charger la boutique
         const shop = await ShopsAPI.getById(product.shop_id);
         currentShop = shop;
         
         document.title = `${product.name} — Finest Global`;
         
-        // Charger produits similaires (même catégorie, même boutique)
         let similar = [];
         if (product.category) {
           similar = await ProductsAPI.getByShop(product.shop_id, {
@@ -750,7 +986,6 @@
           </div>
         </div>
         
-        <!-- Modal de commande -->
         <div id="order-modal" class="hidden"></div>
       `;
     }
@@ -779,7 +1014,6 @@
       
       const user = Auth.getUser();
       
-      // Empêcher le vendeur de commander chez lui-même
       if (user.id === currentShop.owner_id) {
         showToast('Vous ne pouvez pas commander votre propre produit.', 'error');
         return;
@@ -866,7 +1100,7 @@
       btn.innerHTML = '<span class="spinner"></span> Envoi...';
       
       try {
-        const order = await OrdersAPI.create({
+        await OrdersAPI.create({
           product_id: currentProduct.id,
           quantity: quantity,
           note: note || null,
@@ -875,7 +1109,6 @@
         showToast('✅ Commande envoyée ! Le vendeur a été notifié.', 'success', 5000);
         closeOrderModal();
         
-        // Rediriger après 2s
         setTimeout(() => {
           window.location.href = '/index.html';
         }, 2000);

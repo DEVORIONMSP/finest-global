@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
   <title>À propos — Finest Global</title>
   <meta name="description" content="Finest Global rend le marché physique visible, trouvable et connecté. Sans le remplacer.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -97,7 +97,7 @@
     }
     
     /* ============================================================
-       PROBLÈME (cartes bleu foncé)
+       PROBLÈME
        ============================================================ */
     .section-problem {
       background: var(--blue-800);
@@ -165,7 +165,7 @@
     }
     
     /* ============================================================
-       SOLUTION (cartes blanches sur fond clair)
+       SOLUTION
        ============================================================ */
     .section-solution {
       background: var(--blue-50);
@@ -242,9 +242,7 @@
       line-height: 2;
     }
     
-    .vision-text p {
-      margin-bottom: 28px;
-    }
+    .vision-text p { margin-bottom: 28px; }
     
     .vision-text strong {
       color: var(--white);
@@ -379,7 +377,7 @@
     }
     
     /* ============================================================
-       RESPONSIVE
+       RESPONSIVE — TABLETTE
        ============================================================ */
     @media (max-width: 900px) {
       .about-hero h1 { font-size: 2.25rem; letter-spacing: -1px; }
@@ -393,15 +391,212 @@
       .cta-final { padding: 60px 0; }
       .cta-final h2 { font-size: 1.6rem; }
     }
+    
+    /* ============================================================
+       RESPONSIVE — TÉLÉPHONE ANDROID
+       ============================================================ */
+    @media (max-width: 640px) {
+      /* Hero */
+      .about-hero {
+        padding: 56px 0 64px;
+      }
+      
+      .about-hero-inner {
+        padding: 0 18px;
+      }
+      
+      .about-hero h1 {
+        font-size: 1.85rem;
+        letter-spacing: -0.8px;
+        margin-bottom: 14px;
+      }
+      
+      .about-hero p {
+        font-size: 0.95rem;
+        line-height: 1.55;
+      }
+      
+      /* Stats band */
+      .stats-band {
+        padding: 36px 0;
+      }
+      
+      .stats-band-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px 16px;
+      }
+      
+      .stat-band-item .stat-value {
+        font-size: 1.75rem;
+      }
+      
+      .stat-band-item .stat-label {
+        font-size: 0.72rem;
+        letter-spacing: 0.5px;
+      }
+      
+      /* Sections */
+      .section {
+        padding: 44px 0;
+      }
+      
+      .section-problem,
+      .section-solution {
+        padding: 44px 0;
+      }
+      
+      .section-vision {
+        padding: 52px 0;
+      }
+      
+      .section-title {
+        margin-bottom: 32px;
+        padding: 0 16px;
+      }
+      
+      .section-title h2 {
+        font-size: 1.35rem;
+        letter-spacing: -0.3px;
+      }
+      
+      .section-title p {
+        font-size: 0.88rem;
+        line-height: 1.55;
+      }
+      
+      /* Cartes */
+      .cards-grid {
+        gap: 14px;
+      }
+      
+      .card-glass,
+      .card-white {
+        padding: 22px 20px;
+        border-radius: var(--radius);
+      }
+      
+      .card-glass-emoji,
+      .card-white-emoji {
+        font-size: 1.65rem;
+        margin-bottom: 12px;
+      }
+      
+      .card-glass h3,
+      .card-white h3 {
+        font-size: 1rem;
+        margin-bottom: 8px;
+      }
+      
+      .card-glass p,
+      .card-white p {
+        font-size: 0.85rem;
+        line-height: 1.6;
+      }
+      
+      /* Vision */
+      .vision-text {
+        font-size: 0.95rem;
+        line-height: 1.75;
+        padding: 0 18px;
+      }
+      
+      .vision-text p {
+        margin-bottom: 20px;
+      }
+      
+      /* CTA final */
+      .cta-final {
+        padding: 48px 0;
+      }
+      
+      .cta-final h2 {
+        font-size: 1.4rem;
+        margin-bottom: 12px;
+      }
+      
+      .cta-final p {
+        font-size: 0.9rem;
+        margin-bottom: 24px;
+        padding: 0 18px;
+      }
+      
+      .cta-final-buttons {
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+        padding: 0 18px;
+      }
+      
+      .cta-final-buttons .btn {
+        width: 100%;
+        justify-content: center;
+        padding: 13px 20px;
+        font-size: 0.92rem;
+      }
+      
+      /* Footer */
+      .footer {
+        padding: 24px 0;
+      }
+      
+      .footer p {
+        font-size: 0.82rem;
+      }
+    }
+    
+    /* ============================================================
+       RESPONSIVE — TRÈS PETIT TÉLÉPHONE
+       ============================================================ */
+    @media (max-width: 380px) {
+      .about-hero h1 {
+        font-size: 1.6rem;
+      }
+      
+      .about-hero p {
+        font-size: 0.88rem;
+      }
+      
+      .stat-band-item .stat-value {
+        font-size: 1.5rem;
+      }
+      
+      .stat-band-item .stat-label {
+        font-size: 0.65rem;
+      }
+      
+      .section-title h2 {
+        font-size: 1.2rem;
+      }
+      
+      .section-title p {
+        font-size: 0.82rem;
+      }
+      
+      .card-glass h3,
+      .card-white h3 {
+        font-size: 0.92rem;
+      }
+      
+      .card-glass p,
+      .card-white p {
+        font-size: 0.8rem;
+      }
+      
+      .vision-text {
+        font-size: 0.88rem;
+      }
+      
+      .cta-final h2 {
+        font-size: 1.25rem;
+      }
+    }
   </style>
 </head>
 <body>
 
   <div id="navbar"></div>
 
-  <!-- ============================================================
-       HERO
-       ============================================================ -->
+  <!-- HERO -->
   <section class="about-hero">
     <div class="about-hero-inner">
       <h1>Rendre le commerce <span>visible.</span></h1>
@@ -409,9 +604,7 @@
     </div>
   </section>
 
-  <!-- ============================================================
-       CHIFFRES CLÉS
-       ============================================================ -->
+  <!-- CHIFFRES CLÉS -->
   <section class="stats-band">
     <div class="container">
       <div class="stats-band-grid">
@@ -435,9 +628,7 @@
     </div>
   </section>
 
-  <!-- ============================================================
-       LE PROBLÈME
-       ============================================================ -->
+  <!-- LE PROBLÈME -->
   <section class="section-problem">
     <div class="container">
       <div class="section-title">
@@ -465,9 +656,7 @@
     </div>
   </section>
 
-  <!-- ============================================================
-       NOTRE SOLUTION
-       ============================================================ -->
+  <!-- NOTRE SOLUTION -->
   <section class="section-solution">
     <div class="container">
       <div class="section-title">
@@ -495,9 +684,7 @@
     </div>
   </section>
 
-  <!-- ============================================================
-       VISION
-       ============================================================ -->
+  <!-- VISION -->
   <section class="section-vision">
     <div class="container">
       <div class="section-title">
@@ -518,9 +705,7 @@
     </div>
   </section>
 
-  <!-- ============================================================
-       CTA FINAL
-       ============================================================ -->
+  <!-- CTA FINAL -->
   <section class="cta-final">
     <div class="container">
       <h2>Rejoignez l'aventure</h2>
@@ -533,9 +718,7 @@
     </div>
   </section>
 
-  <!-- ============================================================
-       FOOTER
-       ============================================================ -->
+  <!-- FOOTER -->
   <footer class="footer">
     <div class="container">
       <p>© 2026 FinestGlobal — Tous droits réservés.</p>
@@ -546,20 +729,12 @@
   <script src="/js/auth.js"></script>
   <script src="/js/navbar.js"></script>
   <script>
-    // ============================================================
-    // INITIALISATION
-    // ============================================================
-    
     document.addEventListener('DOMContentLoaded', () => {
       renderNavbar();
       startCounters();
       adaptCTA();
       trackPageview();
     });
-    
-    // ============================================================
-    // COMPTEURS ANIMÉS
-    // ============================================================
     
     function startCounters() {
       const counters = document.querySelectorAll('[data-count]');
@@ -594,10 +769,6 @@
       }, 25);
     }
     
-    // ============================================================
-    // ADAPTER LE CTA
-    // ============================================================
-    
     function adaptCTA() {
       const btn = document.getElementById('cta-seller-btn');
       if (!btn) return;
@@ -610,10 +781,6 @@
         btn.href = '/become-seller.html';
       }
     }
-    
-    // ============================================================
-    // TRACKING
-    // ============================================================
     
     function trackPageview() {
       TrackAPI.pageview({ path: '/about' }).catch(() => {});

@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
   <title>Marketplace — Finest Global</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -355,10 +355,14 @@
       box-shadow: var(--shadow-lg);
       align-items: center;
       gap: 8px;
+      border: none;
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 0.95rem;
     }
     
     /* ============================================================
-       RESPONSIVE
+       RESPONSIVE — TABLETTE
        ============================================================ */
     @media (max-width: 900px) {
       .marketplace-layout {
@@ -377,6 +381,7 @@
         transform: translateX(-100%);
         transition: transform 0.3s ease;
         overflow-y: auto;
+        padding: 24px 20px;
       }
       
       .filters-sidebar.open {
@@ -393,9 +398,132 @@
       }
     }
     
-    @media (max-width: 500px) {
+    /* ============================================================
+       RESPONSIVE — TÉLÉPHONE ANDROID
+       ============================================================ */
+    @media (max-width: 640px) {
+      .marketplace-page {
+        padding: 16px 0 80px;
+      }
+      
+      .container {
+        padding: 0 14px;
+      }
+      
+      .marketplace-header {
+        padding: 14px 16px;
+        gap: 10px;
+        margin-bottom: 16px;
+        flex-direction: column;
+        align-items: stretch;
+      }
+      
+      .results-count {
+        font-size: 0.85rem;
+        text-align: center;
+      }
+      
+      .results-count strong {
+        font-size: 1rem;
+      }
+      
+      .sort-select {
+        width: 100%;
+        padding: 10px 12px;
+        font-size: 0.85rem;
+      }
+      
       .products-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+      }
+      
+      .product-info {
+        padding: 10px;
+      }
+      
+      .product-name {
+        font-size: 0.85rem;
+        min-height: 2.6em;
+        margin-bottom: 6px;
+      }
+      
+      .product-price {
+        font-size: 0.9rem;
+      }
+      
+      .product-stats {
+        font-size: 0.68rem;
+      }
+      
+      .product-badge-sales {
+        padding: 3px 8px;
+        font-size: 0.65rem;
+        top: 8px;
+        left: 8px;
+      }
+      
+      .product-color-dot {
+        width: 16px;
+        height: 16px;
+        top: 8px;
+        right: 8px;
+      }
+      
+      .pagination {
+        gap: 6px;
+        margin-top: 28px;
+      }
+      
+      .pagination button {
+        padding: 7px 11px;
+        font-size: 0.82rem;
+      }
+      
+      .filters-sidebar {
+        padding: 20px 16px;
+      }
+      
+      .filters-title {
+        font-size: 1rem;
+        margin-bottom: 16px;
+      }
+      
+      .filter-options {
+        max-height: 180px;
+      }
+      
+      .mobile-filter-btn {
+        bottom: 16px;
+        right: 16px;
+        padding: 12px 18px;
+        font-size: 0.88rem;
+      }
+    }
+    
+    /* ============================================================
+       RESPONSIVE — TRÈS PETIT TÉLÉPHONE
+       ============================================================ */
+    @media (max-width: 380px) {
+      .products-grid {
+        gap: 8px;
+      }
+      
+      .product-info {
+        padding: 8px;
+      }
+      
+      .product-name {
+        font-size: 0.8rem;
+      }
+      
+      .product-price {
+        font-size: 0.85rem;
+      }
+      
+      .pagination button {
+        padding: 6px 9px;
+        font-size: 0.75rem;
       }
     }
   </style>
@@ -409,9 +537,7 @@
       
       <div class="marketplace-layout">
         
-        <!-- ============================================================
-             SIDEBAR FILTRES
-             ============================================================ -->
+        <!-- SIDEBAR FILTRES -->
         <aside class="filters-sidebar" id="filters-sidebar">
           
           <div class="filters-title">
@@ -461,9 +587,7 @@
           
         </aside>
         
-        <!-- ============================================================
-             MAIN CONTENT
-             ============================================================ -->
+        <!-- MAIN CONTENT -->
         <main class="marketplace-main">
           
           <div class="marketplace-header">
@@ -482,7 +606,6 @@
           
           <div id="results-container">
             <div class="products-grid" id="products-grid">
-              <!-- Skeletons -->
               <div class="skeleton-card"><div class="skeleton-image skeleton" style="aspect-ratio:1;"></div><div style="padding:16px;"><div class="skeleton" style="height:14px;margin-bottom:8px;"></div><div class="skeleton" style="height:14px;width:60%;"></div></div></div>
               <div class="skeleton-card"><div class="skeleton-image skeleton" style="aspect-ratio:1;"></div><div style="padding:16px;"><div class="skeleton" style="height:14px;margin-bottom:8px;"></div><div class="skeleton" style="height:14px;width:60%;"></div></div></div>
               <div class="skeleton-card"><div class="skeleton-image skeleton" style="aspect-ratio:1;"></div><div style="padding:16px;"><div class="skeleton" style="height:14px;margin-bottom:8px;"></div><div class="skeleton" style="height:14px;width:60%;"></div></div></div>
@@ -508,10 +631,6 @@
   <script src="/js/auth.js"></script>
   <script src="/js/navbar.js"></script>
   <script>
-    // ============================================================
-    // ÉTAT GLOBAL
-    // ============================================================
-    
     const ITEMS_PER_PAGE = 12;
     
     const state = {
@@ -542,10 +661,6 @@
       'argent': '#C0C0C0',
     };
     
-    // ============================================================
-    // INITIALISATION
-    // ============================================================
-    
     document.addEventListener('DOMContentLoaded', () => {
       renderNavbar();
       readUrlParams();
@@ -553,10 +668,6 @@
       loadProducts();
       trackPageview();
     });
-    
-    // ============================================================
-    // LECTURE DES PARAMÈTRES URL
-    // ============================================================
     
     function readUrlParams() {
       const params = new URLSearchParams(window.location.search);
@@ -569,18 +680,12 @@
       if (params.get('sort_by')) state.sort_by = params.get('sort_by');
       if (params.get('skip')) state.skip = parseInt(params.get('skip')) || 0;
       
-      // Mettre à jour le select de tri
       const sortSelect = document.getElementById('sort-select');
       if (sortSelect) sortSelect.value = state.sort_by;
       
-      // Mettre à jour les champs de prix
       if (state.min_price) document.getElementById('min-price').value = state.min_price;
       if (state.max_price) document.getElementById('max-price').value = state.max_price;
     }
-    
-    // ============================================================
-    // CHARGEMENT DES FILTRES
-    // ============================================================
     
     async function loadFilters() {
       try {
@@ -589,7 +694,6 @@
           SearchAPI.colors(),
         ]);
         
-        // Catégories
         const catContainer = document.getElementById('categories-filter');
         if (catsData.categories.length === 0) {
           catContainer.innerHTML = '<p style="font-size:0.85rem;color:var(--gray-500);">Aucune catégorie disponible</p>';
@@ -609,7 +713,6 @@
           `).join('');
         }
         
-        // Couleurs
         const colContainer = document.getElementById('colors-filter');
         if (colorsData.colors.length === 0) {
           colContainer.innerHTML = '<p style="font-size:0.85rem;color:var(--gray-500);">Aucune couleur disponible</p>';
@@ -637,15 +740,10 @@
       }
     }
     
-    // ============================================================
-    // CHARGEMENT DES PRODUITS
-    // ============================================================
-    
     async function loadProducts() {
       const grid = document.getElementById('products-grid');
       const countEl = document.getElementById('results-count');
       
-      // Skeletons
       grid.innerHTML = Array(4).fill(`
         <div class="skeleton-card">
           <div class="skeleton" style="aspect-ratio:1;"></div>
@@ -670,10 +768,8 @@
         
         state.total = data.total;
         
-        // Mise à jour du compteur
         countEl.innerHTML = `<strong>${data.total}</strong> produit${data.total > 1 ? 's' : ''} trouvé${data.total > 1 ? 's' : ''}`;
         
-        // Résultats
         if (data.results.length === 0) {
           grid.innerHTML = '';
           grid.style.display = 'block';
@@ -692,7 +788,6 @@
         grid.style.display = 'grid';
         grid.innerHTML = data.results.map(p => renderProductCard(p)).join('');
         
-        // Pagination
         renderPagination();
         
       } catch (error) {
@@ -707,10 +802,6 @@
         `;
       }
     }
-    
-    // ============================================================
-    // RENDU D'UN PRODUIT
-    // ============================================================
     
     function renderProductCard(product) {
       const photo = product.photo_url 
@@ -739,10 +830,6 @@
       `;
     }
     
-    // ============================================================
-    // PAGINATION
-    // ============================================================
-    
     function renderPagination() {
       const container = document.getElementById('pagination');
       const totalPages = Math.ceil(state.total / ITEMS_PER_PAGE);
@@ -755,10 +842,8 @@
       
       let html = '';
       
-      // Bouton précédent
       html += `<button ${currentPage === 1 ? 'disabled' : ''} onclick="goToPage(${currentPage - 1})">← Précédent</button>`;
       
-      // Pages (max 5 visibles)
       const start = Math.max(1, currentPage - 2);
       const end = Math.min(totalPages, start + 4);
       
@@ -766,7 +851,6 @@
         html += `<button class="${i === currentPage ? 'active' : ''}" onclick="goToPage(${i})">${i}</button>`;
       }
       
-      // Bouton suivant
       html += `<button ${currentPage === totalPages ? 'disabled' : ''} onclick="goToPage(${currentPage + 1})">Suivant →</button>`;
       
       container.innerHTML = html;
@@ -778,10 +862,6 @@
       loadProducts();
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
-    
-    // ============================================================
-    // FILTRES
-    // ============================================================
     
     function applyFilter(key, value) {
       if (state[key] === value) {
@@ -842,23 +922,17 @@
       window.history.replaceState({}, '', `/marketplace.html${qs ? '?' + qs : ''}`);
     }
     
-    // ============================================================
-    // FILTRES MOBILES
-    // ============================================================
-    
     function openMobileFilters() {
       document.getElementById('filters-sidebar').classList.add('open');
       document.getElementById('close-filters-btn').style.display = 'block';
+      document.body.style.overflow = 'hidden';
     }
     
     function closeMobileFilters() {
       document.getElementById('filters-sidebar').classList.remove('open');
       document.getElementById('close-filters-btn').style.display = 'none';
+      document.body.style.overflow = '';
     }
-    
-    // ============================================================
-    // TRACKING
-    // ============================================================
     
     function trackPageview() {
       TrackAPI.pageview({ path: '/marketplace' }).catch(() => {});

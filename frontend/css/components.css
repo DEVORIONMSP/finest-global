@@ -421,10 +421,6 @@
   margin-bottom: 24px;
 }
 
-
-
-
-
 /* ============================================================
    NAVBAR DYNAMIQUE
    ============================================================ */
@@ -654,21 +650,147 @@
   color: var(--danger);
 }
 
-/* Responsive */
+/* ============================================================
+   NAVBAR — RESPONSIVE ANDROID
+   ============================================================ */
+
+/* Tablette paysage */
+@media (max-width: 1024px) {
+  .navbar-search { max-width: 380px; }
+}
+
+/* Tablette portrait */
 @media (max-width: 900px) {
   .navbar-links { display: none; }
   .nav-user-name { display: none; }
   .navbar-search { max-width: none; }
 }
 
-@media (max-width: 600px) {
+/* Téléphone Android */
+@media (max-width: 640px) {
   .navbar-inner {
     flex-wrap: wrap;
-    gap: 12px;
+    gap: 8px;
+    padding: 10px 14px;
+    align-items: center;
   }
+  
+  /* Ligne 1 : logo + auth */
+  .navbar-logo {
+    font-size: 1.1rem;
+    flex: 1;
+    order: 1;
+  }
+  
+  .nav-auth {
+    order: 2;
+    gap: 6px;
+  }
+  
+  .nav-auth .btn {
+    padding: 7px 12px;
+    font-size: 0.78rem;
+    border-radius: 6px;
+  }
+  
+  /* Ligne 2 : recherche en pleine largeur */
   .navbar-search {
     order: 3;
     width: 100%;
+    flex-basis: 100%;
     max-width: none;
+    margin-top: 4px;
+  }
+  
+  .navbar-search input {
+    padding: 9px 14px 9px 36px;
+    font-size: 0.85rem;
+    border-radius: 8px;
+  }
+  
+  .navbar-search::before {
+    left: 12px;
+    font-size: 0.85rem;
+  }
+  
+  .nav-user-btn {
+    padding: 4px 6px;
+    gap: 6px;
+  }
+  
+  .nav-avatar {
+    width: 28px;
+    height: 28px;
+    font-size: 0.72rem;
+  }
+  
+  .nav-chevron { display: none; }
+  
+  .nav-dropdown {
+    right: -6px;
+    min-width: 210px;
+    font-size: 0.9rem;
+  }
+}
+
+/* Très petit téléphone */
+@media (max-width: 380px) {
+  .navbar-logo { font-size: 0.95rem; }
+  .nav-auth .btn { 
+    padding: 6px 9px; 
+    font-size: 0.72rem; 
+  }
+}
+
+/* ============================================================
+   MODALES — RESPONSIVE ANDROID
+   ============================================================ */
+
+@media (max-width: 640px) {
+  .modal-overlay {
+    padding: 12px;
+    align-items: flex-end;
+  }
+  
+  .modal {
+    max-width: 100%;
+    max-height: 92vh;
+    border-radius: 20px 20px 0 0;
+  }
+  
+  .modal-header {
+    padding: 18px 20px;
+  }
+  
+  .modal-header h3 {
+    font-size: 1.1rem;
+  }
+  
+  .modal-body {
+    padding: 18px 20px;
+  }
+  
+  .modal-footer {
+    padding: 14px 20px;
+    flex-direction: column-reverse;
+    gap: 8px;
+  }
+  
+  .modal-footer .btn {
+    width: 100%;
+  }
+  
+  .toast-container {
+    top: 10px;
+    right: 10px;
+    left: 10px;
+  }
+  
+  .toast {
+    min-width: unset;
+    max-width: unset;
+    width: 100%;
+    padding: 14px 16px;
+    font-size: 0.88rem;
   }
 }

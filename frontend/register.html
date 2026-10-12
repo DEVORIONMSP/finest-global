@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
   <title>Inscription — Finest Global</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -56,6 +56,7 @@
       text-align: center;
       cursor: pointer;
       transition: all var(--transition);
+      background: var(--white);
     }
     
     .role-card:hover {
@@ -110,9 +111,109 @@
       gap: 16px;
     }
     
-    @media (max-width: 500px) {
+    /* ============================================================
+       RESPONSIVE — TÉLÉPHONE ANDROID
+       ============================================================ */
+    @media (max-width: 640px) {
+      .auth-page {
+        padding: 24px 14px;
+        min-height: calc(100vh - 60px);
+      }
+      
+      .auth-card {
+        padding: 28px 20px;
+        border-radius: var(--radius);
+      }
+      
+      .auth-header {
+        margin-bottom: 24px;
+      }
+      
+      .auth-header h1 {
+        font-size: 1.4rem;
+      }
+      
+      .auth-header p {
+        font-size: 0.88rem;
+      }
+      
+      .role-selector {
+        gap: 10px;
+        margin-bottom: 22px;
+      }
+      
+      .role-card {
+        padding: 16px 10px;
+      }
+      
+      .role-icon {
+        font-size: 1.5rem;
+        margin-bottom: 6px;
+      }
+      
+      .role-title {
+        font-size: 0.88rem;
+      }
+      
+      .role-desc {
+        font-size: 0.75rem;
+      }
+      
       .form-row {
         grid-template-columns: 1fr;
+        gap: 0;
+      }
+      
+      .form-label {
+        font-size: 0.85rem;
+      }
+      
+      .form-input {
+        padding: 11px 14px;
+        font-size: 0.92rem;
+      }
+      
+      .btn-lg {
+        padding: 13px 20px;
+        font-size: 0.92rem;
+      }
+      
+      .form-hint {
+        font-size: 0.78rem;
+      }
+      
+      .auth-footer {
+        margin-top: 20px;
+        font-size: 0.85rem;
+      }
+    }
+    
+    /* ============================================================
+       RESPONSIVE — TRÈS PETIT TÉLÉPHONE
+       ============================================================ */
+    @media (max-width: 380px) {
+      .auth-card {
+        padding: 24px 16px;
+      }
+      
+      .auth-header h1 {
+        font-size: 1.25rem;
+      }
+      
+      .role-card {
+        padding: 14px 8px;
+      }
+      
+      .role-icon {
+        font-size: 1.35rem;
+      }
+      
+      .role-title {
+        font-size: 0.82rem;
+      }
+      
+      .role-desc {
+        font-size: 0.7rem;
       }
     }
   </style>
@@ -265,10 +366,6 @@
       document.getElementById(`form-${role}`).classList.add('active');
     }
     
-    // ============================================================
-    // INSCRIPTION CLIENT
-    // ============================================================
-    
     async function registerClient(event) {
       event.preventDefault();
       
@@ -301,10 +398,6 @@
       }
     }
     
-    // ============================================================
-    // INSCRIPTION VENDEUR
-    // ============================================================
-    
     async function registerSeller(event) {
       event.preventDefault();
       
@@ -321,7 +414,6 @@
         password: document.getElementById('seller-password').value,
       };
       
-      // Validations
       if (data.phone.length !== 10 || !data.phone.startsWith('01')) {
         errorDiv.textContent = 'Le numéro doit être à 10 chiffres et commencer par 01.';
         errorDiv.classList.remove('hidden');
