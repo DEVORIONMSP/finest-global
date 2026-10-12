@@ -1,6 +1,7 @@
 /* ============================================================
-   FINEST GLOBAL — Navbar dynamique (version simplifiée)
-   Logo (gauche) + Marketplace (centre) + Profil (droite)
+   FINEST GLOBAL — Navbar dynamique
+   Desktop : recherche + Accueil + Marketplace + À propos + profil
+   Mobile : logo + Marketplace + avatar
    ============================================================ */
 
 function renderNavbar() {
@@ -10,8 +11,15 @@ function renderNavbar() {
   const user = Auth.getUser();
   const isAuth = Auth.isAuthenticated();
   
-  // Lien de navigation principal (Marketplace uniquement)
+  // Liens de base (desktop)
   const baseLinks = `
+    <a href="/index.html" class="nav-link">Accueil</a>
+    <a href="/marketplace.html" class="nav-link">Marketplace</a>
+    <a href="/about.html" class="nav-link">À propos</a>
+  `;
+  
+  // Lien simplifié (mobile)
+  const mobileLinks = `
     <a href="/marketplace.html" class="nav-link">Marketplace</a>
   `;
   
@@ -19,20 +27,17 @@ function renderNavbar() {
   let rightSection = '';
   
   if (!isAuth) {
-    // Non connecté
     rightSection = `
       <div class="nav-auth">
-        <a href="/login.html" class="btn btn-ghost btn-sm">Connexion</a>
-        <a href="/register.html" class="btn btn-primary btn-sm">Inscription</a>
+        <a href="/login.html" class="btn btn-ghost btn-sm">Se connecter</a>
+        <a href="/register.html" class="btn btn-primary btn-sm">S'inscrire</a>
       </div>
     `;
   } else {
-    // Connecté
     const initials = (
       (user.first_name?.[0] || '') + (user.last_name?.[0] || '')
     ).toUpperCase() || user.phone.slice(-2);
     
-    // Lien dashboard selon le rôle
     let dashboardLink = '';
     if (user.role === 'admin') {
       dashboardLink = `<a href="/dashboard-admin.html" class="dropdown-item">👑 Dashboard admin</a>`;
@@ -46,6 +51,7 @@ function renderNavbar() {
       <div class="nav-user" id="nav-user-menu">
         <button class="nav-user-btn" onclick="toggleUserMenu(event)" aria-label="Mon profil">
           <span class="nav-avatar">${initials}</span>
+          <span class="nav-user-name">${user.first_name || user.phone}</span>
           <span class="nav-chevron">▾</span>
         </button>
         <div class="nav-dropdown" id="nav-dropdown">
@@ -74,6 +80,16 @@ function renderNavbar() {
         <img src="/assets/logo.png" alt="Finest Global" class="navbar-logo-img">
       </a>
       
+      <div class="navbar-search">
+        <input 
+          type="text" 
+          id="navbar-search-input"
+          placeholder="Rechercher un produit, une boutique..."
+          autocomplete="off"
+        />
+        <div class="navbar-suggestions" id="navbar-suggestions"></div>
+      </div>
+      
       <div class="navbar-links">
         ${baseLinks}
       </div>
@@ -81,6 +97,34 @@ function renderNavbar() {
       ${rightSection}
     </div>
   `;
+  
+  // Initialiser l'autocomplétion (uniquement si la barre existe)
+  initNavbarSearch();
+  
+  // Mettre à jour les liens selon la taille d'écran
+  updateNavLinksForScreenSize();
+}
+
+/**
+ * Affiche les liens desktop ou mobile selon la largeur d'écran.
+ */
+function updateNavLinksForScreenSize() {
+  const linksContainer = document.querySelector('.navbar-links');
+  if (!linksContainer) return;
+  
+  const isMobile = window.innerWidth <= 900;
+  
+  if (isMobile) {
+    linksContainer.innerHTML = `
+      <a href="/marketplace.html" class="nav-link">Marketplace</a>
+    `;
+  } else {
+    linksContainer.innerHTML = `
+      <a href="/index.html" class="nav-link">Accueil</a>
+      <a href="/marketplace.html" class="nav-link">Marketplace</a>
+      <a href="/about.html" class="nav-link">À propos</a>
+    `;
+  }
 }
 
 /**
@@ -93,6 +137,69 @@ function toggleUserMenu(event) {
 }
 
 /**
+ * Autocomplétion dans la navbar (desktop uniquement).
+ */
+function initNavbarSearch() {
+  const input = document.getElementById('navbar-search-input');
+  const suggestions = document.getElementById('navbar-suggestions');
+  if (!input || !suggestions) return;
+  
+  let debounceTimer;
+  
+  input.addEventListener('input', (e) => {
+    clearTimeout(debounceTimer);
+    const q = e.target.value.trim();
+    
+    if (q.length < 2) {
+      suggestions.classList.remove('open');
+      return;
+    }
+    
+    debounceTimer = setTimeout(async () => {
+      try {
+        const data = await SearchAPI.suggest(q);
+        if (data.suggestions.length === 0) {
+          suggestions.classList.remove('open');
+          return;
+        }
+        
+        suggestions.innerHTML = data.suggestions.map(s => `
+          <div class="suggestion-item" onclick="goToSearch('${escapeHtml(s.text)}')">
+            <span class="suggestion-type">${
+              s.type === 'product' ? '📦' :
+              s.type === 'category' ? '🏷️' :
+              s.type === 'color' ? '🎨' : '🏪'
+            }</span>
+            <span>${escapeHtml(s.text)}</span>
+          </div>
+        `).join('');
+        suggestions.classList.add('open');
+      } catch (error) {
+        console.error('Erreur suggestions:', error);
+      }
+    }, 250);
+  });
+  
+  document.addEventListener('click', () => {
+    suggestions.classList.remove('open');
+  });
+  
+  input.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      goToSearch(input.value.trim());
+    }
+  });
+}
+
+/**
+ * Redirige vers la marketplace avec la recherche.
+ */
+function goToSearch(query) {
+  if (!query) return;
+  window.location.href = `/marketplace.html?q=${encodeURIComponent(query)}`;
+}
+
+/**
  * Échappe le HTML.
  */
 function escapeHtml(text) {
@@ -101,14 +208,14 @@ function escapeHtml(text) {
   return div.innerHTML;
 }
 
-/**
- * Redirige vers la marketplace avec la recherche.
- * (gardé pour compatibilité avec d'autres pages)
- */
-function goToSearch(query) {
-  if (!query) return;
-  window.location.href = `/marketplace.html?q=${encodeURIComponent(query)}`;
-}
+// Mettre à jour la navbar lors du redimensionnement
+let _navbarResizeTimer;
+window.addEventListener('resize', () => {
+  clearTimeout(_navbarResizeTimer);
+  _navbarResizeTimer = setTimeout(() => {
+    updateNavLinksForScreenSize();
+  }, 200);
+});
 
 // Fermer le menu au clic ailleurs
 document.addEventListener('click', (e) => {

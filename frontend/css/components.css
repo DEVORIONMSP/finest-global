@@ -368,8 +368,9 @@
 }
 
 /* ============================================================
-   NAVBAR — SIMPLIFIÉE ET CENTRÉE
-   Logo (gauche) + Marketplace (centre) + Profil (droite)
+   NAVBAR — COMPLÈTE SUR DESKTOP, SIMPLIFIÉE SUR MOBILE
+   Desktop : Logo + Recherche + Accueil + Marketplace + À propos + Profil
+   Mobile  : Logo + Marketplace centré + Avatar
    ============================================================ */
 
 .navbar {
@@ -386,7 +387,6 @@
   padding: 12px 24px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
   gap: 20px;
 }
 
@@ -409,15 +409,83 @@
   display: block;
 }
 
-/* Liens de navigation (Marketplace) */
+/* Barre de recherche (desktop) */
+.navbar-search {
+  flex: 1;
+  max-width: 480px;
+  position: relative;
+}
+
+.navbar-search input {
+  width: 100%;
+  padding: 10px 16px 10px 42px;
+  border: 1.5px solid var(--gray-200);
+  border-radius: var(--radius);
+  font-size: 0.9rem;
+  background: var(--gray-50);
+  transition: all var(--transition);
+}
+
+.navbar-search input:focus {
+  outline: none;
+  border-color: var(--blue-500);
+  background: var(--white);
+  box-shadow: 0 0 0 4px rgba(30, 136, 229, 0.1);
+}
+
+.navbar-search::before {
+  content: "🔍";
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 0.9rem;
+  pointer-events: none;
+}
+
+.navbar-suggestions {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  margin-top: 8px;
+  background: var(--white);
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-lg);
+  max-height: 320px;
+  overflow-y: auto;
+  display: none;
+  z-index: 200;
+}
+
+.navbar-suggestions.open { display: block; }
+
+.suggestion-item {
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  transition: background var(--transition);
+}
+
+.suggestion-item:hover {
+  background: var(--blue-50);
+}
+
+.suggestion-type { font-size: 1rem; }
+
+/* Liens de navigation */
 .navbar-links {
   display: flex;
   align-items: center;
   gap: 24px;
+  flex-shrink: 0;
 }
 
 .nav-link {
-  font-weight: 600;
+  font-weight: 500;
   font-size: 0.95rem;
   color: var(--gray-700);
   transition: color var(--transition);
@@ -438,13 +506,8 @@
   transition: width 0.25s ease;
 }
 
-.nav-link:hover {
-  color: var(--blue-700);
-}
-
-.nav-link:hover::after {
-  width: 100%;
-}
+.nav-link:hover { color: var(--blue-700); }
+.nav-link:hover::after { width: 100%; }
 
 /* Auth (non connecté) */
 .nav-auth {
@@ -453,19 +516,21 @@
   gap: 8px;
   white-space: nowrap;
   flex-shrink: 0;
+  margin-left: auto;
 }
 
 /* Menu utilisateur (connecté) */
 .nav-user {
   position: relative;
   flex-shrink: 0;
+  margin-left: auto;
 }
 
 .nav-user-btn {
   display: flex;
   align-items: center;
-  gap: 6px;
-  padding: 4px 8px;
+  gap: 8px;
+  padding: 6px 12px;
   border-radius: 50px;
   transition: background var(--transition);
   border: none;
@@ -493,6 +558,12 @@
   box-shadow: 0 2px 8px rgba(10, 77, 140, 0.2);
 }
 
+.nav-user-name {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--gray-900);
+}
+
 .nav-chevron {
   font-size: 0.65rem;
   color: var(--gray-500);
@@ -503,7 +574,7 @@
   transform: translateY(2px);
 }
 
-/* Dropdown (menu profil) — CORRIGÉ À DROITE */
+/* Dropdown */
 .nav-dropdown {
   position: absolute;
   top: calc(100% + 10px);
@@ -522,19 +593,11 @@
 }
 
 @keyframes dropdownFadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-6px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
-.nav-dropdown.open {
-  display: block;
-}
+.nav-dropdown.open { display: block; }
 
 .dropdown-header {
   padding: 16px;
@@ -587,75 +650,58 @@
 }
 
 /* ============================================================
-   NAVBAR — RESPONSIVE ANDROID
+   NAVBAR — RESPONSIVE MOBILE UNIQUEMENT
+   À partir de 900px, on cache la recherche et on centre Marketplace
    ============================================================ */
 
-/* Tablette portrait */
 @media (max-width: 900px) {
-  .navbar-inner {
-    padding: 10px 20px;
-    gap: 16px;
+  /* Cacher la barre de recherche */
+  .navbar-search {
+    display: none;
   }
   
-  .navbar-logo-img {
-    height: 40px;
-  }
-  
-  .nav-link {
-    font-size: 0.9rem;
-  }
-}
-
-/* Téléphone Android */
-@media (max-width: 640px) {
+  /* Layout simplifié : logo / marketplace / profil */
   .navbar-inner {
     padding: 10px 16px;
     gap: 12px;
     justify-content: space-between;
   }
   
-  /* Logo plus petit */
   .navbar-logo-img {
-    height: 36px;
+    height: 38px;
   }
   
-  /* Marketplace au centre */
+  /* Marketplace centré */
   .navbar-links {
-    gap: 0;
     flex: 1;
     justify-content: center;
+    gap: 0;
   }
   
   .nav-link {
     font-size: 0.88rem;
-    padding: 6px 12px;
     font-weight: 600;
+    padding: 6px 12px;
   }
   
-  /* Auth / profil à droite */
-  .nav-auth {
-    gap: 6px;
+  /* Cacher le nom dans le bouton profil */
+  .nav-user-name {
+    display: none;
   }
   
-  .nav-auth .btn {
-    padding: 7px 12px;
-    font-size: 0.78rem;
-    border-radius: 6px;
+  .nav-chevron {
+    display: none;
   }
   
   .nav-user-btn {
     padding: 3px 6px;
-    gap: 5px;
+    gap: 0;
   }
   
   .nav-avatar {
     width: 34px;
     height: 34px;
     font-size: 0.78rem;
-  }
-  
-  .nav-chevron {
-    display: none;
   }
   
   /* Dropdown aligné à droite, jamais coupé */
@@ -666,7 +712,6 @@
   }
 }
 
-/* Très petit téléphone */
 @media (max-width: 380px) {
   .navbar-inner {
     padding: 8px 12px;
@@ -674,17 +719,12 @@
   }
   
   .navbar-logo-img {
-    height: 32px;
+    height: 34px;
   }
   
   .nav-link {
     font-size: 0.82rem;
     padding: 5px 10px;
-  }
-  
-  .nav-auth .btn {
-    padding: 6px 10px;
-    font-size: 0.72rem;
   }
   
   .nav-avatar {
