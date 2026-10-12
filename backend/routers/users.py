@@ -1,17 +1,14 @@
 """
 Routes liées aux utilisateurs :
-- Inscription client (téléphone uniquement)
-- OTP (simulé en dev)
-- Connexion vendeur (téléphone/email + password)
+- Inscription client (nom + téléphone + password)
+- Inscription vendeur (nom + email + téléphone + password)
+- Connexion (téléphone + password) pour TOUS
 - Upgrade client → vendeur
 - Profil utilisateur
 """
 
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
-from datetime import datetime
-import random
-import string
 
 from database import get_db
 from models import User, UserRole
@@ -22,9 +19,6 @@ from schemas import (
     UserUpgradeToSeller,
     UserOut,
     Token,
-    OTPRequest,
-    OTPVerify,
-    detect_operator,
 )
 from auth import (
     hash_password,
@@ -38,42 +32,14 @@ router = APIRouter(prefix="/api/users", tags=["Utilisateurs"])
 
 
 # ============================================================
-# STOCKAGE OTP EN MÉMOIRE (dev uniquement)
-# En production → Redis ou base de données
+# 1. INSCRIPTION CLIENT (nom + téléphone + password)
 # ============================================================
 
-# { "0197123456": {"code": "1234", "expires_at": datetime} }
-_otp_store: dict = {}
-
-OTP_EXPIRE_MINUTES = 5
-
-
-def _generate_otp() -> str:
-    """Génère un code à 6 chiffres."""
-    return "".join(random.choices(string.digits, k=6))
-
-
-def _send_sms(phone: str, code: str) -> None:
-    """
-    Simule l'envoi d'un SMS.
-    En production : brancher Twilio, MTN SMS API, ou un service local.
-    """
-    print(f"\n{'='*50}")
-    print(f"📱 SMS SIMULÉ → {phone}")
-    print(f"   Code OTP : {code}")
-    print(f"{'='*50}\n")
-
-
-# ============================================================
-# 1. INSCRIPTION CLIENT (téléphone uniquement)
-# ============================================================
-
-@router.post("/register", response_model=UserOut, status_code=status.HTTP_201_CREATED)
+@router.post("/register", response_model=Token, status_code=status.HTTP_201_CREATED)
 def register_client(payload: UserRegisterClient, db: Session = Depends(get_db)):
     """
-    Inscription d'un client avec juste son numéro de téléphone.
-    L'utilisateur est créé mais non vérifié (is_verified=False).
-    Il devra valider un OTP pour se connecter.
+    Inscription d'un client avec prénom, nom, téléphone et password.
+    Le client est directement connecté après inscription.
     """
     # Vérifier si le numéro existe déjà
     existing = db.query(User).filter(User.phone == payload.phone).first()
@@ -86,109 +52,24 @@ def register_client(payload: UserRegisterClient, db: Session = Depends(get_db)):
     # Créer l'utilisateur
     user = User(
         phone=payload.phone,
+        first_name=payload.first_name,
+        last_name=payload.last_name,
+        password_hash=hash_password(payload.password),
         role=UserRole.CLIENT,
-        is_verified=False,
+        is_verified=True,  # Plus besoin de vérification OTP
     )
     db.add(user)
     db.commit()
     db.refresh(user)
     
-    # Générer et "envoyer" un OTP immédiatement
-    code = _generate_otp()
-    _otp_store[payload.phone] = {
-        "code": code,
-        "expires_at": datetime.utcnow().timestamp() + OTP_EXPIRE_MINUTES * 60,
-    }
-    _send_sms(payload.phone, code)
-    
-    return user
-
-
-# ============================================================
-# 2. DEMANDER UN OTP
-# ============================================================
-
-@router.post("/request-otp")
-def request_otp(payload: OTPRequest, db: Session = Depends(get_db)):
-    """
-    Demande un nouveau code OTP pour un numéro déjà enregistré.
-    """
-    user = db.query(User).filter(User.phone == payload.phone).first()
-    if not user:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail="Numéro non enregistré. Inscrivez-vous d'abord.",
-        )
-    
-    code = _generate_otp()
-    _otp_store[payload.phone] = {
-        "code": code,
-        "expires_at": datetime.utcnow().timestamp() + OTP_EXPIRE_MINUTES * 60,
-    }
-    _send_sms(payload.phone, code)
-    
-    return {
-        "message": "Code envoyé par SMS.",
-        "operator": detect_operator(payload.phone),
-    }
-
-
-# ============================================================
-# 3. VÉRIFIER L'OTP → CONNEXION
-# ============================================================
-
-@router.post("/verify-otp", response_model=Token)
-def verify_otp(payload: OTPVerify, db: Session = Depends(get_db)):
-    """
-    Vérifie le code OTP et connecte l'utilisateur.
-    """
-    # Vérifier que le code existe
-    stored = _otp_store.get(payload.phone)
-    if not stored:
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Aucun code en attente pour ce numéro.",
-        )
-    
-    # Vérifier l'expiration
-    if datetime.utcnow().timestamp() > stored["expires_at"]:
-        del _otp_store[payload.phone]
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Code expiré. Demandez-en un nouveau.",
-        )
-    
-    # Vérifier le code
-    if stored["code"] != payload.code:
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Code incorrect.",
-        )
-    
-    # Récupérer l'utilisateur
-    user = db.query(User).filter(User.phone == payload.phone).first()
-    if not user:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail="Utilisateur introuvable.",
-        )
-    
-    # Marquer comme vérifié
-    user.is_verified = True
-    db.commit()
-    db.refresh(user)
-    
-    # Supprimer le code utilisé
-    del _otp_store[payload.phone]
-    
-    # Générer le token JWT
+    # Générer le token JWT immédiatement (connexion automatique)
     token = create_access_token({"sub": str(user.id)})
     
     return Token(access_token=token, user=user)
 
 
 # ============================================================
-# 4. INSCRIPTION VENDEUR DIRECTE
+# 2. INSCRIPTION VENDEUR DIRECTE
 # ============================================================
 
 @router.post("/register-seller", response_model=Token, status_code=status.HTTP_201_CREATED)
@@ -219,7 +100,7 @@ def register_seller(payload: UserRegisterSeller, db: Session = Depends(get_db)):
         email=payload.email,
         password_hash=hash_password(payload.password),
         role=UserRole.SELLER,
-        is_verified=True,  # Pas d'OTP pour les vendeurs au MVP
+        is_verified=True,
     )
     db.add(user)
     db.commit()
@@ -230,13 +111,14 @@ def register_seller(payload: UserRegisterSeller, db: Session = Depends(get_db)):
 
 
 # ============================================================
-# 5. CONNEXION VENDEUR
+# 3. CONNEXION (téléphone + password) — pour TOUS les rôles
 # ============================================================
 
 @router.post("/login", response_model=Token)
 def login(payload: UserLogin, db: Session = Depends(get_db)):
     """
-    Connexion vendeur : téléphone + password.
+    Connexion : téléphone + password.
+    Fonctionne pour les clients, les vendeurs et les admins.
     """
     user = db.query(User).filter(User.phone == payload.phone).first()
     
@@ -246,14 +128,15 @@ def login(payload: UserLogin, db: Session = Depends(get_db)):
             detail="Numéro ou mot de passe incorrect.",
         )
     
-    # Les vendeurs ont un password_hash. Les clients non.
+    # Vérifier que le compte a bien un mot de passe
     if not user.password_hash:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Ce compte est un compte client. Utilisez la connexion par OTP.",
+            detail="Ce compte n'a pas de mot de passe. Contactez le support.",
         )
     
-    if not payload.password or not verify_password(payload.password, user.password_hash):
+    # Vérifier le mot de passe
+    if not verify_password(payload.password, user.password_hash):
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Numéro ou mot de passe incorrect.",
@@ -264,7 +147,7 @@ def login(payload: UserLogin, db: Session = Depends(get_db)):
 
 
 # ============================================================
-# 6. UPGRADE CLIENT → VENDEUR
+# 4. UPGRADE CLIENT → VENDEUR
 # ============================================================
 
 @router.post("/upgrade-to-seller", response_model=Token)
@@ -306,6 +189,7 @@ def upgrade_to_seller(
     current_user.email = payload.email
     current_user.password_hash = hash_password(payload.password)
     current_user.role = UserRole.SELLER
+    current_user.is_verified = True
     db.commit()
     db.refresh(current_user)
     
@@ -315,7 +199,7 @@ def upgrade_to_seller(
 
 
 # ============================================================
-# 7. PROFIL UTILISATEUR CONNECTÉ
+# 5. PROFIL UTILISATEUR CONNECTÉ
 # ============================================================
 
 @router.get("/me", response_model=UserOut)

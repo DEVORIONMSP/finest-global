@@ -42,37 +42,6 @@
       font-size: 0.95rem;
     }
     
-    .auth-tabs {
-      display: flex;
-      background: var(--gray-100);
-      border-radius: var(--radius);
-      padding: 4px;
-      margin-bottom: 24px;
-    }
-    
-    .auth-tab {
-      flex: 1;
-      padding: 10px;
-      border-radius: var(--radius-sm);
-      font-weight: 600;
-      font-size: 0.9rem;
-      color: var(--gray-500);
-      transition: all var(--transition);
-      border: none;
-      background: none;
-      cursor: pointer;
-      font-family: inherit;
-    }
-    
-    .auth-tab.active {
-      background: var(--white);
-      color: var(--blue-700);
-      box-shadow: var(--shadow-sm);
-    }
-    
-    .auth-form { display: none; }
-    .auth-form.active { display: block; }
-    
     .auth-footer {
       text-align: center;
       margin-top: 24px;
@@ -83,30 +52,6 @@
     .auth-footer a {
       color: var(--blue-700);
       font-weight: 600;
-    }
-    
-    .otp-inputs {
-      display: flex;
-      gap: 10px;
-      justify-content: center;
-      margin: 24px 0;
-    }
-    
-    .otp-inputs input {
-      width: 48px;
-      height: 56px;
-      text-align: center;
-      font-size: 1.5rem;
-      font-weight: 700;
-      border: 2px solid var(--gray-200);
-      border-radius: var(--radius);
-      transition: all var(--transition);
-    }
-    
-    .otp-inputs input:focus {
-      outline: none;
-      border-color: var(--blue-500);
-      box-shadow: 0 0 0 4px rgba(30, 136, 229, 0.1);
     }
     
     /* ============================================================
@@ -135,15 +80,6 @@
         font-size: 0.88rem;
       }
       
-      .auth-tabs {
-        margin-bottom: 20px;
-      }
-      
-      .auth-tab {
-        padding: 9px 8px;
-        font-size: 0.85rem;
-      }
-      
       .form-label {
         font-size: 0.85rem;
       }
@@ -156,18 +92,6 @@
       .btn-lg {
         padding: 13px 20px;
         font-size: 0.92rem;
-      }
-      
-      .otp-inputs {
-        gap: 6px;
-        margin: 20px 0;
-      }
-      
-      .otp-inputs input {
-        width: 42px;
-        height: 50px;
-        font-size: 1.3rem;
-        padding: 0;
       }
       
       .auth-footer {
@@ -187,12 +111,6 @@
       .auth-header h1 {
         font-size: 1.25rem;
       }
-      
-      .otp-inputs input {
-        width: 38px;
-        height: 46px;
-        font-size: 1.15rem;
-      }
     }
   </style>
 </head>
@@ -208,25 +126,15 @@
         <p>Connectez-vous à votre compte Finest Global</p>
       </div>
       
-      <div class="auth-tabs">
-        <button class="auth-tab active" onclick="switchTab('seller')" id="tab-seller">
-          Vendeur
-        </button>
-        <button class="auth-tab" onclick="switchTab('client')" id="tab-client">
-          Client
-        </button>
-      </div>
-      
-      <!-- FORMULAIRE VENDEUR -->
-      <form class="auth-form active" id="form-seller" onsubmit="loginSeller(event)">
-        <div id="seller-error" class="alert alert-error hidden"></div>
+      <form id="login-form" onsubmit="login(event)">
+        <div id="login-error" class="alert alert-error hidden"></div>
         
         <div class="form-group">
           <label class="form-label required">Numéro de téléphone</label>
           <input 
             type="tel" 
             class="form-input" 
-            id="seller-phone"
+            id="login-phone"
             placeholder="01 XX XX XX XX"
             maxlength="10"
             required
@@ -238,75 +146,15 @@
           <input 
             type="password" 
             class="form-input" 
-            id="seller-password"
+            id="login-password"
             placeholder="••••••••"
             required
           >
         </div>
         
-        <button type="submit" class="btn btn-primary btn-block btn-lg" id="btn-login-seller">
+        <button type="submit" class="btn btn-primary btn-block btn-lg" id="btn-login">
           Se connecter
         </button>
-      </form>
-      
-      <!-- FORMULAIRE CLIENT (OTP) -->
-      <form class="auth-form" id="form-client">
-        <!-- Étape 1 : demander le téléphone -->
-        <div id="client-step-1">
-          <div id="client-error-1" class="alert alert-error hidden"></div>
-          
-          <div class="form-group">
-            <label class="form-label required">Numéro de téléphone</label>
-            <input 
-              type="tel" 
-              class="form-input" 
-              id="client-phone"
-              placeholder="01 XX XX XX XX"
-              maxlength="10"
-              required
-            >
-            <div class="form-hint">
-              Format : 01 + 8 chiffres. Un code SMS vous sera envoyé.
-            </div>
-          </div>
-          
-          <button type="button" class="btn btn-primary btn-block btn-lg" id="btn-send-otp" onclick="requestOtp()">
-            Recevoir mon code SMS
-          </button>
-        </div>
-        
-        <!-- Étape 2 : saisir le code OTP -->
-        <div id="client-step-2" class="hidden">
-          <div id="client-error-2" class="alert alert-error hidden"></div>
-          
-          <p style="text-align: center; color: var(--gray-500); margin-bottom: 8px; font-size: 0.9rem;">
-            Un code à 6 chiffres a été envoyé au
-          </p>
-          <p style="text-align: center; font-weight: 700; margin-bottom: 8px;" id="otp-phone-display">
-            01 XX XX XX XX
-          </p>
-          
-          <div class="otp-inputs">
-            <input type="text" maxlength="1" inputmode="numeric" data-otp-index="0">
-            <input type="text" maxlength="1" inputmode="numeric" data-otp-index="1">
-            <input type="text" maxlength="1" inputmode="numeric" data-otp-index="2">
-            <input type="text" maxlength="1" inputmode="numeric" data-otp-index="3">
-            <input type="text" maxlength="1" inputmode="numeric" data-otp-index="4">
-            <input type="text" maxlength="1" inputmode="numeric" data-otp-index="5">
-          </div>
-          
-          <button type="button" class="btn btn-primary btn-block btn-lg" id="btn-verify-otp" onclick="verifyOtp()">
-            Vérifier et me connecter
-          </button>
-          
-          <button 
-            type="button" 
-            class="btn btn-ghost btn-block mt-16" 
-            onclick="backToStep1()"
-          >
-            ← Changer de numéro
-          </button>
-        </div>
       </form>
       
       <div class="auth-footer">
@@ -328,36 +176,33 @@
         redirectAfterLogin();
       }
       
+      // Auto-remplir le téléphone si passé en paramètre URL
       const urlParams = new URLSearchParams(window.location.search);
       const phone = urlParams.get('phone');
       if (phone) {
-        document.getElementById('client-phone').value = phone;
-        document.getElementById('seller-phone').value = phone;
+        document.getElementById('login-phone').value = phone;
       }
-      
-      initOtpInputs();
     });
     
-    function switchTab(tab) {
-      document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
-      document.querySelectorAll('.auth-form').forEach(f => f.classList.remove('active'));
-      
-      document.getElementById(`tab-${tab}`).classList.add('active');
-      document.getElementById(`form-${tab}`).classList.add('active');
-    }
-    
-    async function loginSeller(event) {
+    async function login(event) {
       event.preventDefault();
       
-      const phone = document.getElementById('seller-phone').value.trim();
-      const password = document.getElementById('seller-password').value;
-      const errorDiv = document.getElementById('seller-error');
-      const btn = document.getElementById('btn-login-seller');
+      const phone = document.getElementById('login-phone').value.trim();
+      const password = document.getElementById('login-password').value;
+      const errorDiv = document.getElementById('login-error');
+      const btn = document.getElementById('btn-login');
       
       errorDiv.classList.add('hidden');
       
+      // Validation
       if (phone.length !== 10 || !phone.startsWith('01')) {
         errorDiv.textContent = 'Le numéro doit être à 10 chiffres et commencer par 01.';
+        errorDiv.classList.remove('hidden');
+        return;
+      }
+      
+      if (!password) {
+        errorDiv.textContent = 'Le mot de passe est obligatoire.';
         errorDiv.classList.remove('hidden');
         return;
       }
@@ -375,106 +220,6 @@
         errorDiv.classList.remove('hidden');
         btn.disabled = false;
         btn.textContent = 'Se connecter';
-      }
-    }
-    
-    async function requestOtp() {
-      const phone = document.getElementById('client-phone').value.trim();
-      const errorDiv = document.getElementById('client-error-1');
-      const btn = document.getElementById('btn-send-otp');
-      
-      errorDiv.classList.add('hidden');
-      
-      if (phone.length !== 10 || !phone.startsWith('01')) {
-        errorDiv.textContent = 'Le numéro doit être à 10 chiffres et commencer par 01.';
-        errorDiv.classList.remove('hidden');
-        return;
-      }
-      
-      btn.disabled = true;
-      btn.innerHTML = '<span class="spinner"></span> Envoi...';
-      
-      try {
-        await UsersAPI.requestOtp(phone);
-        
-        document.getElementById('otp-phone-display').textContent = phone;
-        document.getElementById('client-step-1').classList.add('hidden');
-        document.getElementById('client-step-2').classList.remove('hidden');
-        
-        document.querySelector('[data-otp-index="0"]').focus();
-        
-        showToast('Code envoyé ! Vérifiez votre téléphone.', 'success');
-      } catch (error) {
-        errorDiv.textContent = error.message;
-        errorDiv.classList.remove('hidden');
-      } finally {
-        btn.disabled = false;
-        btn.textContent = 'Recevoir mon code SMS';
-      }
-    }
-    
-    function backToStep1() {
-      document.getElementById('client-step-1').classList.remove('hidden');
-      document.getElementById('client-step-2').classList.add('hidden');
-      document.querySelectorAll('.otp-inputs input').forEach(i => i.value = '');
-    }
-    
-    function initOtpInputs() {
-      const inputs = document.querySelectorAll('.otp-inputs input');
-      inputs.forEach((input, index) => {
-        input.addEventListener('input', (e) => {
-          if (e.target.value && index < inputs.length - 1) {
-            inputs[index + 1].focus();
-          }
-        });
-        
-        input.addEventListener('keydown', (e) => {
-          if (e.key === 'Backspace' && !e.target.value && index > 0) {
-            inputs[index - 1].focus();
-          }
-        });
-        
-        input.addEventListener('paste', (e) => {
-          e.preventDefault();
-          const pasted = e.clipboardData.getData('text').slice(0, 6);
-          pasted.split('').forEach((char, i) => {
-            if (inputs[i]) inputs[i].value = char;
-          });
-          inputs[Math.min(pasted.length, 5)].focus();
-        });
-      });
-    }
-    
-    async function verifyOtp() {
-      const phone = document.getElementById('client-phone').value.trim();
-      const errorDiv = document.getElementById('client-error-2');
-      const btn = document.getElementById('btn-verify-otp');
-      
-      errorDiv.classList.add('hidden');
-      
-      const code = Array.from(document.querySelectorAll('.otp-inputs input'))
-        .map(i => i.value)
-        .join('');
-      
-      if (code.length !== 6) {
-        errorDiv.textContent = 'Veuillez saisir les 6 chiffres du code.';
-        errorDiv.classList.remove('hidden');
-        return;
-      }
-      
-      btn.disabled = true;
-      btn.innerHTML = '<span class="spinner"></span> Vérification...';
-      
-      try {
-        const data = await UsersAPI.verifyOtp(phone, code);
-        Auth.setSession(data.access_token, data.user);
-        showToast('Connexion réussie !', 'success');
-        setTimeout(redirectAfterLogin, 500);
-      } catch (error) {
-        errorDiv.textContent = error.message;
-        errorDiv.classList.remove('hidden');
-        btn.disabled = false;
-        btn.textContent = 'Vérifier et me connecter';
       }
     }
     

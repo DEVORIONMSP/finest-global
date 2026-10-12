@@ -244,9 +244,32 @@
         </div>
       </div>
       
-      <!-- FORMULAIRE CLIENT -->
+      <!-- FORMULAIRE CLIENT (nom + téléphone + password) -->
       <form class="auth-form active" id="form-client" onsubmit="registerClient(event)">
         <div id="client-error" class="alert alert-error hidden"></div>
+        
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label required">Prénom</label>
+            <input 
+              type="text" 
+              class="form-input" 
+              id="client-firstname"
+              placeholder="Ex: Aïcha"
+              required
+            >
+          </div>
+          <div class="form-group">
+            <label class="form-label required">Nom</label>
+            <input 
+              type="text" 
+              class="form-input" 
+              id="client-lastname"
+              placeholder="Ex: Dossou"
+              required
+            >
+          </div>
+        </div>
         
         <div class="form-group">
           <label class="form-label required">Numéro de téléphone</label>
@@ -259,7 +282,22 @@
             required
           >
           <div class="form-hint">
-            Format : 01 + 8 chiffres. Vous recevrez un code SMS.
+            Format : 01 + 8 chiffres.
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label required">Mot de passe</label>
+          <input 
+            type="password" 
+            class="form-input" 
+            id="client-password"
+            placeholder="Minimum 6 caractères"
+            minlength="6"
+            required
+          >
+          <div class="form-hint">
+            Au moins 6 caractères.
           </div>
         </div>
         
@@ -366,17 +404,40 @@
       document.getElementById(`form-${role}`).classList.add('active');
     }
     
+    // ============================================================
+    // INSCRIPTION CLIENT (nom + téléphone + password)
+    // ============================================================
+    
     async function registerClient(event) {
       event.preventDefault();
       
-      const phone = document.getElementById('client-phone').value.trim();
       const errorDiv = document.getElementById('client-error');
       const btn = document.getElementById('btn-register-client');
       
       errorDiv.classList.add('hidden');
       
-      if (phone.length !== 10 || !phone.startsWith('01')) {
+      const data = {
+        first_name: document.getElementById('client-firstname').value.trim(),
+        last_name: document.getElementById('client-lastname').value.trim(),
+        phone: document.getElementById('client-phone').value.trim(),
+        password: document.getElementById('client-password').value,
+      };
+      
+      // Validations
+      if (!data.first_name || !data.last_name) {
+        errorDiv.textContent = 'Le prénom et le nom sont obligatoires.';
+        errorDiv.classList.remove('hidden');
+        return;
+      }
+      
+      if (data.phone.length !== 10 || !data.phone.startsWith('01')) {
         errorDiv.textContent = 'Le numéro doit être à 10 chiffres et commencer par 01.';
+        errorDiv.classList.remove('hidden');
+        return;
+      }
+      
+      if (data.password.length < 6) {
+        errorDiv.textContent = 'Le mot de passe doit contenir au moins 6 caractères.';
         errorDiv.classList.remove('hidden');
         return;
       }
@@ -385,11 +446,12 @@
       btn.innerHTML = '<span class="spinner"></span> Création...';
       
       try {
-        await UsersAPI.registerClient(phone);
-        showToast('Compte créé ! Connectez-vous avec le code SMS.', 'success');
+        const result = await UsersAPI.registerClient(data);
+        Auth.setSession(result.access_token, result.user);
+        showToast('Compte client créé !', 'success');
         setTimeout(() => {
-          window.location.href = `/login.html?phone=${phone}`;
-        }, 1000);
+          window.location.href = '/index.html';
+        }, 800);
       } catch (error) {
         errorDiv.textContent = error.message;
         errorDiv.classList.remove('hidden');
@@ -397,6 +459,10 @@
         btn.textContent = 'Créer mon compte client';
       }
     }
+    
+    // ============================================================
+    // INSCRIPTION VENDEUR
+    // ============================================================
     
     async function registerSeller(event) {
       event.preventDefault();

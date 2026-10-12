@@ -31,7 +31,7 @@ def detect_operator(phone: str) -> str:
     if len(phone) != 10 or not phone.startswith("01"):
         return "Inconnu"
     
-    prefix = phone[2:4]  # les 2 chiffres après "01"
+    prefix = phone[2:4]
     
     if prefix in MTN_PREFIXES:
         return "MTN"
@@ -50,26 +50,21 @@ def validate_benin_phone(phone: str) -> str:
     - commence par "01"
     - préfixe opérateur valide
     """
-    # Nettoyer (retirer espaces, tirets, +229)
     phone = re.sub(r"[\s\-\(\)]", "", phone)
     if phone.startswith("+229"):
         phone = "0" + phone[4:]
     if phone.startswith("229"):
         phone = "0" + phone[3:]
     
-    # Vérifier longueur
     if len(phone) != 10:
         raise ValueError("Le numéro doit contenir exactement 10 chiffres.")
     
-    # Vérifier qu'il ne contient que des chiffres
     if not phone.isdigit():
         raise ValueError("Le numéro ne doit contenir que des chiffres.")
     
-    # Vérifier le préfixe "01"
     if not phone.startswith("01"):
         raise ValueError("Le numéro doit commencer par 01.")
     
-    # Vérifier l'opérateur
     prefix = phone[2:4]
     if prefix not in VALID_PREFIXES:
         raise ValueError(
@@ -90,8 +85,12 @@ class UserBase(BaseModel):
 
 class UserRegisterClient(UserBase):
     """
-    Inscription d'un CLIENT : juste le téléphone.
+    Inscription d'un CLIENT : prénom + nom + téléphone + password.
     """
+    first_name: str = Field(..., min_length=2, max_length=50)
+    last_name: str = Field(..., min_length=2, max_length=50)
+    password: str = Field(..., min_length=6, max_length=100)
+    
     @field_validator("phone")
     @classmethod
     def validate_phone(cls, v):
@@ -114,9 +113,12 @@ class UserRegisterSeller(UserBase):
 
 
 class UserLogin(BaseModel):
-    """Connexion : téléphone + mot de passe (vendeur) ou juste téléphone (client via OTP)."""
+    """
+    Connexion : téléphone + mot de passe.
+    Fonctionne pour les clients, vendeurs et admins.
+    """
     phone: str
-    password: Optional[str] = None
+    password: str = Field(..., min_length=1)
     
     @field_validator("phone")
     @classmethod
@@ -158,26 +160,9 @@ class Token(BaseModel):
 
 
 # ============================================================
-# OTP (vérification par SMS — simulé en dev)
+# OTP — SUPPRIMÉ
+# Plus besoin de vérification par SMS.
 # ============================================================
-
-class OTPRequest(BaseModel):
-    phone: str
-    
-    @field_validator("phone")
-    @classmethod
-    def validate_phone(cls, v):
-        return validate_benin_phone(v)
-
-
-class OTPVerify(BaseModel):
-    phone: str
-    code: str = Field(..., min_length=4, max_length=6)
-    
-    @field_validator("phone")
-    @classmethod
-    def validate_phone(cls, v):
-        return validate_benin_phone(v)
 
 
 # ============================================================
@@ -285,15 +270,6 @@ class SearchResult(BaseModel):
     query: Optional[str] = None
 
 
-
-
-
-
-
-
-
-
-
 # ============================================================
 # ADMIN — STATISTIQUES
 # ============================================================
@@ -316,7 +292,7 @@ class VisitorsStats(BaseModel):
     period: str  # "day" | "week" | "month"
     total_visits: int
     unique_visitors: int
-    data: List[dict]  # [{date, count}, ...]
+    data: List[dict]
 
 
 class TopSeller(BaseModel):

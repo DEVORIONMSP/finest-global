@@ -25,23 +25,19 @@ class ApiError extends Error {
 async function apiFetch(endpoint, options = {}) {
   const url = `${API_BASE_URL}${endpoint}`;
   
-  // Headers par défaut
   const headers = {
     ...options.headers,
   };
   
-  // Si ce n'est pas un FormData, on met du JSON
   if (!(options.body instanceof FormData)) {
     headers['Content-Type'] = 'application/json';
   }
   
-  // Ajouter le token si présent
   const token = localStorage.getItem('fg_token');
   if (token) {
     headers['Authorization'] = `Bearer ${token}`;
   }
   
-  // Convertir le body en JSON si c'est un objet
   let body = options.body;
   if (body && typeof body === 'object' && !(body instanceof FormData)) {
     body = JSON.stringify(body);
@@ -54,7 +50,6 @@ async function apiFetch(endpoint, options = {}) {
       body,
     });
     
-    // Gérer les réponses vides (204)
     if (response.status === 204) {
       return null;
     }
@@ -62,7 +57,6 @@ async function apiFetch(endpoint, options = {}) {
     const data = await response.json();
     
     if (!response.ok) {
-      // Token expiré ou invalide → déconnexion
       if (response.status === 401) {
         localStorage.removeItem('fg_token');
         localStorage.removeItem('fg_user');
@@ -84,36 +78,38 @@ async function apiFetch(endpoint, options = {}) {
 // ============================================================
 
 const UsersAPI = {
-  registerClient: (phone) => 
+  /**
+   * Inscription client : { first_name, last_name, phone, password }
+   * Renvoie { access_token, token_type, user }
+   */
+  registerClient: (data) =>
     apiFetch('/api/users/register', {
       method: 'POST',
-      body: { phone },
+      body: data,
     }),
   
+  /**
+   * Inscription vendeur : { first_name, last_name, phone, email, password }
+   * Renvoie { access_token, token_type, user }
+   */
   registerSeller: (data) =>
     apiFetch('/api/users/register-seller', {
       method: 'POST',
       body: data,
     }),
   
-  requestOtp: (phone) =>
-    apiFetch('/api/users/request-otp', {
-      method: 'POST',
-      body: { phone },
-    }),
-  
-  verifyOtp: (phone, code) =>
-    apiFetch('/api/users/verify-otp', {
-      method: 'POST',
-      body: { phone, code },
-    }),
-  
+  /**
+   * Connexion : téléphone + password (pour TOUS les rôles)
+   */
   login: (phone, password) =>
     apiFetch('/api/users/login', {
       method: 'POST',
       body: { phone, password },
     }),
   
+  /**
+   * Upgrade client → vendeur
+   */
   upgradeToSeller: (data) =>
     apiFetch('/api/users/upgrade-to-seller', {
       method: 'POST',
@@ -273,6 +269,34 @@ const TrackAPI = {
 };
 
 // ============================================================
+// API — CATÉGORIES
+// ============================================================
+
+const CategoriesAPI = {
+  list: () => apiFetch('/api/categories/'),
+  
+  suggest: (q) => apiFetch(`/api/categories/suggest?q=${encodeURIComponent(q)}`),
+  
+  getById: (id) => apiFetch(`/api/categories/${id}`),
+};
+
+// ============================================================
+// API — ADMIN CATÉGORIES
+// ============================================================
+
+const AdminCategoriesAPI = {
+  list: () => apiFetch('/api/admin/categories/'),
+  
+  create: (data) => apiFetch('/api/admin/categories/', { method: 'POST', body: data }),
+  
+  update: (id, data) => apiFetch(`/api/admin/categories/${id}`, { method: 'PATCH', body: data }),
+  
+  delete: (id) => apiFetch(`/api/admin/categories/${id}`, { method: 'DELETE' }),
+  
+  seed: () => apiFetch('/api/admin/categories/seed', { method: 'POST' }),
+};
+
+// ============================================================
 // UTILITAIRES
 // ============================================================
 
@@ -329,32 +353,3 @@ function showToast(message, type = 'info', duration = 4000) {
     setTimeout(() => toast.remove(), 300);
   }, duration);
 }
-
-
-// ============================================================
-// API — CATÉGORIES
-// ============================================================
-
-const CategoriesAPI = {
-  list: () => apiFetch('/api/categories/'),
-  
-  suggest: (q) => apiFetch(`/api/categories/suggest?q=${encodeURIComponent(q)}`),
-  
-  getById: (id) => apiFetch(`/api/categories/${id}`),
-};
-
-// ============================================================
-// API — ADMIN CATÉGORIES
-// ============================================================
-
-const AdminCategoriesAPI = {
-  list: () => apiFetch('/api/admin/categories/'),
-  
-  create: (data) => apiFetch('/api/admin/categories/', { method: 'POST', body: data }),
-  
-  update: (id, data) => apiFetch(`/api/admin/categories/${id}`, { method: 'PATCH', body: data }),
-  
-  delete: (id) => apiFetch(`/api/admin/categories/${id}`, { method: 'DELETE' }),
-  
-  seed: () => apiFetch('/api/admin/categories/seed', { method: 'POST' }),
-};
