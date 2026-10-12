@@ -584,9 +584,10 @@
         document.getElementById('sidebar-shop-name').textContent = currentShop.name;
       } catch (error) {
         if (error.status === 404) {
-          showToast('Créez votre boutique pour commencer.', 'info');
-          setTimeout(() => window.location.href = '/become-seller.html', 1500);
-          return;
+            // Pas de boutique → rediriger vers la page de création
+            showToast('Créez votre boutique pour commencer.', 'info');
+            setTimeout(() => window.location.href = '/create-shop.html', 800);
+            return;
         }
         showToast(error.message, 'error');
         return;

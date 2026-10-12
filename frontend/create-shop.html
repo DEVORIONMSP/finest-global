@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Créer ma boutique — Finest Global</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/components.css">
+  <style>
+    .create-shop-page {
+      min-height: calc(100vh - 70px);
+      padding: 60px 20px;
+      background: linear-gradient(135deg, var(--blue-50) 0%, var(--white) 100%);
+    }
+    
+    .create-shop-container {
+      max-width: 640px;
+      margin: 0 auto;
+    }
+    
+    .create-shop-card {
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-lg);
+      padding: 48px 40px;
+    }
+    
+    .create-shop-header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    
+    .create-shop-icon {
+      font-size: 3.5rem;
+      margin-bottom: 16px;
+    }
+    
+    .create-shop-header h1 {
+      margin-bottom: 12px;
+      color: var(--blue-900);
+    }
+    
+    .create-shop-header p {
+      color: var(--gray-500);
+      max-width: 480px;
+      margin: 0 auto;
+    }
+    
+    .benefits {
+      background: var(--blue-50);
+      border-radius: var(--radius);
+      padding: 24px;
+      margin-bottom: 32px;
+    }
+    
+    .benefits h3 {
+      font-size: 1rem;
+      margin-bottom: 16px;
+      color: var(--blue-900);
+    }
+    
+    .benefits ul {
+      display: grid;
+      gap: 10px;
+    }
+    
+    .benefits li {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.9rem;
+      color: var(--gray-700);
+    }
+    
+    .benefits li::before {
+      content: "✓";
+      background: linear-gradient(135deg, var(--orange-400), var(--orange-600));
+      color: var(--white);
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.7rem;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+    
+    .image-upload {
+      border: 2px dashed var(--gray-300);
+      border-radius: var(--radius);
+      padding: 32px;
+      text-align: center;
+      cursor: pointer;
+      transition: all var(--transition);
+      background: var(--gray-50);
+    }
+    
+    .image-upload:hover {
+      border-color: var(--blue-500);
+      background: var(--blue-50);
+    }
+    
+    .image-upload input[type="file"] {
+      display: none;
+    }
+    
+    .image-preview {
+      max-width: 200px;
+      max-height: 200px;
+      border-radius: var(--radius);
+      margin: 0 auto;
+    }
+    
+    @media (max-width: 500px) {
+      .create-shop-card {
+        padding: 32px 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="navbar"></div>
+
+  <div class="create-shop-page">
+    <div class="create-shop-container">
+      
+      <div class="create-shop-card">
+        
+        <div class="create-shop-header">
+          <div class="create-shop-icon">🏪</div>
+          <h1>Créez votre boutique</h1>
+          <p>C'est la dernière étape avant de pouvoir vendre. Donnez un nom à votre boutique et commencez à ajouter des produits.</p>
+        </div>
+        
+        <div class="benefits">
+          <h3>Ce que vous obtenez :</h3>
+          <ul>
+            <li>Vitrine en ligne gratuite et personnalisable</li>
+            <li>Notifications en temps réel des commandes</li>
+            <li>Tableau de bord avec statistiques</li>
+            <li>Visible par des milliers d'acheteurs</li>
+          </ul>
+        </div>
+        
+        <form id="create-shop-form" onsubmit="createShop(event)">
+          <div id="shop-error" class="alert alert-error hidden"></div>
+          
+          <div class="form-group">
+            <label class="form-label required">Nom de la boutique</label>
+            <input 
+              type="text" 
+              class="form-input" 
+              id="shop-name"
+              placeholder="Ex: Boutique Aïcha"
+              maxlength="100"
+              required
+            >
+            <div class="form-hint">
+              Choisissez un nom court et mémorable.
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">Description (optionnel)</label>
+            <textarea 
+              class="form-textarea" 
+              id="shop-desc"
+              placeholder="Décrivez votre boutique en quelques mots..."
+              maxlength="1000"
+            ></textarea>
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">Photo de la boutique (optionnel)</label>
+            <div class="image-upload" onclick="document.getElementById('shop-image').click()">
+              <input type="file" id="shop-image" accept="image/jpeg,image/png,image/webp" onchange="handleImage(event)">
+              <div id="image-preview">
+                <div style="color: var(--gray-500);">
+                  <div style="font-size: 2rem; margin-bottom: 8px;">📸</div>
+                  <div>Cliquez pour ajouter une photo</div>
+                  <div style="font-size: 0.8rem; margin-top: 4px;">JPEG, PNG ou WEBP, max 5 MB</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <button type="submit" class="btn btn-primary btn-block btn-lg" id="btn-create-shop">
+            Créer ma boutique →
+          </button>
+        </form>
+        
+      </div>
+      
+    </div>
+  </div>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/auth.js"></script>
+  <script src="/js/navbar.js"></script>
+  <script>
+    let imageFile = null;
+    
+    document.addEventListener('DOMContentLoaded', async () => {
+      renderNavbar();
+      
+      // Vérifier qu'on est vendeur
+      if (!Auth.requireSeller()) return;
+      
+      // Si le vendeur a déjà une boutique, rediriger vers le dashboard
+      try {
+        await ShopsAPI.getMine();
+        window.location.href = '/dashboard-seller.html';
+        return;
+      } catch (error) {
+        if (error.status !== 404) {
+          // Une autre erreur que 404
+          console.error(error);
+        }
+        // 404 = pas de boutique → on reste sur cette page
+      }
+    });
+    
+    function handleImage(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      
+      if (file.size > 5 * 1024 * 1024) {
+        showToast('Image trop volumineuse (max 5 MB)', 'error');
+        return;
+      }
+      
+      imageFile = file;
+      
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        document.getElementById('image-preview').innerHTML = 
+          `<img src="${e.target.result}" class="image-preview" alt="Preview">`;
+      };
+      reader.readAsDataURL(file);
+    }
+    
+    async function createShop(event) {
+      event.preventDefault();
+      
+      const btn = document.getElementById('btn-create-shop');
+      const errorDiv = document.getElementById('shop-error');
+      
+      errorDiv.classList.add('hidden');
+      
+      const name = document.getElementById('shop-name').value.trim();
+      const description = document.getElementById('shop-desc').value.trim() || null;
+      
+      if (!name) {
+        errorDiv.textContent = 'Le nom est obligatoire.';
+        errorDiv.classList.remove('hidden');
+        return;
+      }
+      
+      btn.disabled = true;
+      btn.innerHTML = '<span class="spinner"></span> Création...';
+      
+      try {
+        // 1. Créer la boutique
+        const shop = await ShopsAPI.create({ name, description });
+        
+        // 2. Uploader la photo si présente
+        if (imageFile) {
+          await ShopsAPI.uploadPhoto(imageFile);
+        }
+        
+        showToast('✅ Boutique créée avec succès !', 'success');
+        
+        // 3. Rediriger vers le dashboard
+        setTimeout(() => {
+          window.location.href = '/dashboard-seller.html';
+        }, 800);
+        
+      } catch (error) {
+        errorDiv.textContent = error.message;
+        errorDiv.classList.remove('hidden');
+        btn.disabled = false;
+        btn.textContent = 'Créer ma boutique →';
+      }
+    }
+  </script>
+</body>
+</html>
