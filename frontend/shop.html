@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Boutique — Finest Global</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/components.css">
+  <style>
+    .shop-page {
+      min-height: calc(100vh - 70px);
+      background: var(--gray-50);
+    }
+    
+    /* ============================================================
+       BANNIÈRE BOUTIQUE
+       ============================================================ */
+    .shop-hero {
+      background: linear-gradient(135deg, var(--blue-900) 0%, var(--blue-700) 100%);
+      color: var(--white);
+      padding: 60px 0;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .shop-hero::before {
+      content: "";
+      position: absolute;
+      top: -150px;
+      right: -150px;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(255,138,61,0.15) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+    
+    .shop-hero-inner {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      position: relative;
+      z-index: 1;
+    }
+    
+    .shop-hero-avatar {
+      width: 96px;
+      height: 96px;
+      border-radius: 50%;
+      background: var(--white);
+      color: var(--blue-700);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      font-size: 2rem;
+      flex-shrink: 0;
+      border: 4px solid rgba(255,255,255,0.2);
+    }
+    
+    .shop-hero-info h1 {
+      color: var(--white);
+      font-size: 2rem;
+      margin-bottom: 8px;
+      letter-spacing: -0.5px;
+    }
+    
+    .shop-hero-info p {
+      color: rgba(255,255,255,0.85);
+      max-width: 600px;
+      line-height: 1.6;
+      margin-bottom: 12px;
+    }
+    
+    .shop-hero-stats {
+      display: flex;
+      gap: 20px;
+      font-size: 0.9rem;
+    }
+    
+    .shop-hero-stats span {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: rgba(255,255,255,0.9);
+    }
+    
+    /* ============================================================
+       FILTRES BOUTIQUE
+       ============================================================ */
+    .shop-toolbar {
+      background: var(--white);
+      border-bottom: 1px solid var(--gray-200);
+      padding: 16px 0;
+      position: sticky;
+      top: 70px;
+      z-index: 40;
+    }
+    
+    .shop-toolbar-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    
+    .shop-toolbar h2 {
+      font-size: 1.1rem;
+      color: var(--blue-900);
+    }
+    
+    .sort-select {
+      padding: 8px 14px;
+      border: 1.5px solid var(--gray-200);
+      border-radius: var(--radius);
+      font-size: 0.9rem;
+      background: var(--white);
+      color: var(--gray-700);
+      font-weight: 600;
+      cursor: pointer;
+    }
+    
+    /* ============================================================
+       GRILLE PRODUITS (mode boutique)
+       ============================================================ */
+    .products-section {
+      padding: 40px 0 60px;
+    }
+    
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+      gap: 20px;
+    }
+    
+    .product-card {
+      background: var(--white);
+      border: 1.5px solid var(--gray-200);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      transition: all var(--transition);
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      text-decoration: none;
+    }
+    
+    .product-card:hover {
+      border-color: var(--blue-500);
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-md);
+    }
+    
+    .product-image {
+      aspect-ratio: 1;
+      background: linear-gradient(135deg, var(--blue-50), var(--gray-100));
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3rem;
+      color: var(--gray-500);
+    }
+    
+    .product-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    
+    .product-badge-sales {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      background: var(--orange-500);
+      color: var(--white);
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 700;
+    }
+    
+    .product-info {
+      padding: 16px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .product-name {
+      font-weight: 700;
+      color: var(--blue-900);
+      font-size: 0.95rem;
+      margin-bottom: 4px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      min-height: 2.4em;
+    }
+    
+    .product-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: auto;
+    }
+    
+    .product-price {
+      font-weight: 800;
+      color: var(--orange-600);
+      font-size: 1rem;
+    }
+    
+    /* ============================================================
+       PAGE PRODUIT (mode détail)
+       ============================================================ */
+    .product-detail {
+      padding: 40px 0 60px;
+    }
+    
+    .product-detail-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      padding: 32px;
+      border: 1.5px solid var(--gray-200);
+    }
+    
+    .product-detail-image {
+      aspect-ratio: 1;
+      border-radius: var(--radius);
+      background: linear-gradient(135deg, var(--blue-50), var(--gray-100));
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 5rem;
+      color: var(--gray-500);
+      position: relative;
+    }
+    
+    .product-detail-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    
+    .product-detail-info h1 {
+      font-size: 1.8rem;
+      margin-bottom: 12px;
+      color: var(--blue-900);
+      letter-spacing: -0.5px;
+    }
+    
+    .product-detail-meta {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+    
+    .product-detail-price {
+      font-size: 2rem;
+      font-weight: 900;
+      color: var(--orange-600);
+      margin-bottom: 24px;
+      letter-spacing: -1px;
+    }
+    
+    .product-detail-desc {
+      color: var(--gray-700);
+      line-height: 1.7;
+      margin-bottom: 24px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--gray-200);
+    }
+    
+    .product-detail-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    
+    .stat-box {
+      background: var(--gray-50);
+      padding: 14px;
+      border-radius: var(--radius);
+      text-align: center;
+    }
+    
+    .stat-value {
+      font-weight: 800;
+      color: var(--blue-900);
+      font-size: 1.25rem;
+    }
+    
+    .stat-label {
+      font-size: 0.75rem;
+      color: var(--gray-500);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    
+    .product-seller {
+      background: var(--blue-50);
+      padding: 16px;
+      border-radius: var(--radius);
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    
+    .product-seller-avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: var(--blue-700);
+      color: var(--white);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      flex-shrink: 0;
+    }
+    
+    .product-seller-info {
+      flex: 1;
+    }
+    
+    .product-seller-name {
+      font-weight: 700;
+      color: var(--blue-900);
+    }
+    
+    .product-seller-label {
+      font-size: 0.8rem;
+      color: var(--gray-500);
+    }
+    
+    .qty-selector {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    
+    .qty-selector label {
+      font-weight: 600;
+      color: var(--gray-700);
+    }
+    
+    .qty-controls {
+      display: flex;
+      align-items: center;
+      border: 1.5px solid var(--gray-200);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+    
+    .qty-btn {
+      padding: 10px 16px;
+      background: var(--gray-50);
+      font-weight: 700;
+      color: var(--gray-700);
+      transition: background var(--transition);
+    }
+    
+    .qty-btn:hover {
+      background: var(--gray-100);
+    }
+    
+    .qty-value {
+      padding: 10px 20px;
+      font-weight: 700;
+      min-width: 50px;
+      text-align: center;
+    }
+    
+    /* ============================================================
+       PRODUITS SIMILAIRES
+       ============================================================ */
+    .similar-section {
+      margin-top: 60px;
+    }
+    
+    .similar-section h2 {
+      font-size: 1.5rem;
+      margin-bottom: 24px;
+      color: var(--blue-900);
+    }
+    
+    /* ============================================================
+       MODAL DE COMMANDE
+       ============================================================ */
+    .order-summary {
+      background: var(--blue-50);
+      padding: 16px;
+      border-radius: var(--radius);
+      margin-bottom: 20px;
+    }
+    
+    .order-summary-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 6px 0;
+      font-size: 0.9rem;
+    }
+    
+    .order-summary-row.total {
+      border-top: 2px solid var(--blue-200);
+      margin-top: 8px;
+      padding-top: 12px;
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: var(--blue-900);
+    }
+    
+    /* ============================================================
+       RESPONSIVE
+       ============================================================ */
+    @media (max-width: 900px) {
+      .product-detail-grid {
+        grid-template-columns: 1fr;
+        gap: 24px;
+        padding: 20px;
+      }
+      .shop-hero-inner {
+        flex-direction: column;
+        text-align: center;
+      }
+      .shop-hero-stats { justify-content: center; }
+      .shop-hero-info h1 { font-size: 1.5rem; }
+    }
+    
+    @media (max-width: 600px) {
+      .products-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+      .product-detail-info h1 { font-size: 1.3rem; }
+      .product-detail-price { font-size: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="navbar"></div>
+
+  <div class="shop-page" id="shop-page">
+    
+    <!-- ============================================================
+         CHARGEMENT
+         ============================================================ -->
+    <div id="loading" class="loading-container">
+      <span class="spinner spinner-blue" style="width: 40px; height: 40px;"></span>
+    </div>
+    
+    <!-- ============================================================
+         CONTENU DYNAMIQUE
+         ============================================================ -->
+    <div id="content" class="hidden"></div>
+    
+  </div>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/auth.js"></script>
+  <script src="/js/navbar.js"></script>
+  <script>
+    // ============================================================
+    // ÉTAT
+    // ============================================================
+    
+    let currentProduct = null;
+    let currentShop = null;
+    let quantity = 1;
+    
+    const COLOR_HEX = {
+      'rouge': '#EF4444', 'bleu': '#1E88E5', 'noir': '#0F172A',
+      'blanc': '#FFFFFF', 'marron': '#78350F', 'beige': '#F5DEB3',
+      'vert': '#10B981', 'jaune': '#FBBF24', 'rose': '#EC4899',
+      'violet': '#8B5CF6', 'gris': '#9CA3AF', 'orange': '#FF8A3D',
+      'doré': '#D4AF37', 'argent': '#C0C0C0',
+    };
+    
+    // ============================================================
+    // INITIALISATION
+    // ============================================================
+    
+    document.addEventListener('DOMContentLoaded', () => {
+      renderNavbar();
+      route();
+    });
+    
+    function route() {
+      const params = new URLSearchParams(window.location.search);
+      
+      if (params.get('product')) {
+        loadProductDetail(parseInt(params.get('product')));
+      } else if (params.get('id')) {
+        loadShop(parseInt(params.get('id')));
+      } else {
+        showError('Aucun produit ou boutique spécifié.');
+      }
+    }
+    
+    // ============================================================
+    // MODE BOUTIQUE
+    // ============================================================
+    
+    async function loadShop(shopId) {
+      try {
+        const [shop, products] = await Promise.all([
+          ShopsAPI.getById(shopId),
+          ProductsAPI.getByShop(shopId, { sort_by: 'sales' }),
+        ]);
+        
+        currentShop = shop;
+        document.title = `${shop.name} — Finest Global`;
+        
+        renderShopPage(shop, products);
+        showContent();
+        
+        TrackAPI.pageview({ path: `/shop/${shopId}`, shop_id: shopId }).catch(() => {});
+      } catch (error) {
+        showError(error.message);
+      }
+    }
+    
+    function renderShopPage(shop, products) {
+      const initials = shop.name.substring(0, 2).toUpperCase();
+      
+      document.getElementById('content').innerHTML = `
+        <div class="shop-hero">
+          <div class="container">
+            <div class="shop-hero-inner">
+              <div class="shop-hero-avatar">${initials}</div>
+              <div class="shop-hero-info">
+                <h1>${escapeHtml(shop.name)}</h1>
+                <p>${escapeHtml(shop.description || 'Aucune description pour le moment.')}</p>
+                <div class="shop-hero-stats">
+                  <span>👁️ ${shop.views_count} vues</span>
+                  <span>📦 ${products.length} produit${products.length > 1 ? 's' : ''}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="shop-toolbar">
+          <div class="container">
+            <div class="shop-toolbar-inner">
+              <h2>Tous les produits</h2>
+              <select class="sort-select" id="sort-select" onchange="sortShopProducts(${shop.id})">
+                <option value="sales">🔥 Plus vendus</option>
+                <option value="recent">🆕 Plus récents</option>
+                <option value="price_asc">💰 Prix croissant</option>
+                <option value="price_desc">💎 Prix décroissant</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        
+        <div class="products-section">
+          <div class="container">
+            <div class="products-grid" id="shop-products">
+              ${renderProducts(products)}
+            </div>
+          </div>
+        </div>
+      `;
+    }
+    
+    function renderProducts(products) {
+      if (products.length === 0) {
+        return `
+          <div class="empty-state" style="grid-column: 1 / -1;">
+            <div class="empty-state-icon">📦</div>
+            <h3>Aucun produit</h3>
+            <p>Cette boutique n'a pas encore de produits.</p>
+          </div>
+        `;
+      }
+      
+      return products.map(p => `
+        <a href="/shop.html?product=${p.id}" class="product-card">
+          <div class="product-image">
+            ${p.photo_url ? `<img src="${imageUrl(p.photo_url)}" alt="${escapeHtml(p.name)}" loading="lazy">` : '📦'}
+            ${p.sales_count > 0 ? `<div class="product-badge-sales">${p.sales_count} vente${p.sales_count > 1 ? 's' : ''}</div>` : ''}
+          </div>
+          <div class="product-info">
+            <div class="product-name">${escapeHtml(p.name)}</div>
+            <div class="product-footer">
+              <div class="product-price">${formatPrice(p.price)}</div>
+            </div>
+          </div>
+        </a>
+      `).join('');
+    }
+    
+    async function sortShopProducts(shopId) {
+      const sortBy = document.getElementById('sort-select').value;
+      try {
+        const products = await ProductsAPI.getByShop(shopId, { sort_by: sortBy });
+        document.getElementById('shop-products').innerHTML = renderProducts(products);
+      } catch (error) {
+        showToast(error.message, 'error');
+      }
+    }
+    
+    // ============================================================
+    // MODE PRODUIT
+    // ============================================================
+    
+    async function loadProductDetail(productId) {
+      try {
+        const product = await ProductsAPI.getById(productId);
+        currentProduct = product;
+        
+        // Charger la boutique
+        const shop = await ShopsAPI.getById(product.shop_id);
+        currentShop = shop;
+        
+        document.title = `${product.name} — Finest Global`;
+        
+        // Charger produits similaires (même catégorie, même boutique)
+        let similar = [];
+        if (product.category) {
+          similar = await ProductsAPI.getByShop(product.shop_id, {
+            category: product.category,
+            limit: 5,
+          });
+          similar = similar.filter(p => p.id !== product.id).slice(0, 4);
+        }
+        
+        renderProductDetail(product, shop, similar);
+        showContent();
+        
+        TrackAPI.pageview({
+          path: `/product/${productId}`,
+          product_id: productId,
+          shop_id: shop.id,
+        }).catch(() => {});
+      } catch (error) {
+        showError(error.message);
+      }
+    }
+    
+    function renderProductDetail(product, shop, similar) {
+      const colorHex = product.color && COLOR_HEX[product.color.toLowerCase()]
+        ? COLOR_HEX[product.color.toLowerCase()] : null;
+      
+      document.getElementById('content').innerHTML = `
+        <div class="product-detail">
+          <div class="container">
+            <div class="product-detail-grid">
+              
+              <div class="product-detail-image">
+                ${product.photo_url 
+                  ? `<img src="${imageUrl(product.photo_url)}" alt="${escapeHtml(product.name)}">` 
+                  : '📦'}
+              </div>
+              
+              <div class="product-detail-info">
+                <h1>${escapeHtml(product.name)}</h1>
+                
+                <div class="product-detail-meta">
+                  ${product.category ? `<span class="badge badge-blue" style="text-transform:capitalize;">${product.category}</span>` : ''}
+                  ${product.color ? `<span class="badge badge-blue"><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:${colorHex};margin-right:4px;vertical-align:middle;"></span>${product.color}</span>` : ''}
+                  ${!product.in_stock ? `<span class="badge badge-danger">Rupture de stock</span>` : ''}
+                </div>
+                
+                <div class="product-detail-price">${formatPrice(product.price)}</div>
+                
+                <div class="product-detail-stats">
+                  <div class="stat-box">
+                    <div class="stat-value">${product.sales_count}</div>
+                    <div class="stat-label">Ventes</div>
+                  </div>
+                  <div class="stat-box">
+                    <div class="stat-value">${product.views_count}</div>
+                    <div class="stat-label">Vues</div>
+                  </div>
+                  <div class="stat-box">
+                    <div class="stat-value">${product.in_stock ? '✅' : '❌'}</div>
+                    <div class="stat-label">Stock</div>
+                  </div>
+                </div>
+                
+                <div class="product-detail-desc">
+                  ${escapeHtml(product.description || 'Aucune description fournie.')}
+                </div>
+                
+                <div class="product-seller">
+                  <div class="product-seller-avatar">${shop.name.substring(0, 2).toUpperCase()}</div>
+                  <div class="product-seller-info">
+                    <div class="product-seller-label">Vendu par</div>
+                    <div class="product-seller-name">${escapeHtml(shop.name)}</div>
+                  </div>
+                  <a href="/shop.html?id=${shop.id}" class="btn btn-ghost btn-sm">Voir →</a>
+                </div>
+                
+                <div class="qty-selector">
+                  <label>Quantité :</label>
+                  <div class="qty-controls">
+                    <button class="qty-btn" onclick="changeQty(-1)">−</button>
+                    <span class="qty-value" id="qty-value">1</span>
+                    <button class="qty-btn" onclick="changeQty(1)">+</button>
+                  </div>
+                </div>
+                
+                <button 
+                  class="btn btn-orange btn-lg btn-block" 
+                  id="order-btn"
+                  onclick="openOrderModal()"
+                  ${!product.in_stock ? 'disabled' : ''}
+                >
+                  ${product.in_stock ? '🛒 Commander maintenant' : 'Produit indisponible'}
+                </button>
+              </div>
+              
+            </div>
+            
+            ${similar.length > 0 ? `
+              <div class="similar-section">
+                <h2>📦 Vous aimerez aussi</h2>
+                <div class="products-grid">
+                  ${similar.map(p => `
+                    <a href="/shop.html?product=${p.id}" class="product-card">
+                      <div class="product-image">
+                        ${p.photo_url ? `<img src="${imageUrl(p.photo_url)}" alt="${escapeHtml(p.name)}" loading="lazy">` : '📦'}
+                        ${p.sales_count > 0 ? `<div class="product-badge-sales">${p.sales_count} vente${p.sales_count > 1 ? 's' : ''}</div>` : ''}
+                      </div>
+                      <div class="product-info">
+                        <div class="product-name">${escapeHtml(p.name)}</div>
+                        <div class="product-footer">
+                          <div class="product-price">${formatPrice(p.price)}</div>
+                        </div>
+                      </div>
+                    </a>
+                  `).join('')}
+                </div>
+              </div>
+            ` : ''}
+            
+          </div>
+        </div>
+        
+        <!-- Modal de commande -->
+        <div id="order-modal" class="hidden"></div>
+      `;
+    }
+    
+    // ============================================================
+    // QUANTITÉ
+    // ============================================================
+    
+    function changeQty(delta) {
+      quantity = Math.max(1, quantity + delta);
+      document.getElementById('qty-value').textContent = quantity;
+    }
+    
+    // ============================================================
+    // MODAL DE COMMANDE
+    // ============================================================
+    
+    function openOrderModal() {
+      if (!Auth.isAuthenticated()) {
+        showToast('Connectez-vous pour commander.', 'warning');
+        setTimeout(() => {
+          window.location.href = '/login.html?redirect=' + encodeURIComponent(window.location.pathname + window.location.search);
+        }, 1000);
+        return;
+      }
+      
+      const user = Auth.getUser();
+      
+      // Empêcher le vendeur de commander chez lui-même
+      if (user.id === currentShop.owner_id) {
+        showToast('Vous ne pouvez pas commander votre propre produit.', 'error');
+        return;
+      }
+      
+      const total = currentProduct.price * quantity;
+      
+      const modal = document.getElementById('order-modal');
+      modal.innerHTML = `
+        <div class="modal-overlay" onclick="closeOrderModal(event)">
+          <div class="modal" onclick="event.stopPropagation()">
+            <div class="modal-header">
+              <h3>Confirmer la commande</h3>
+              <button class="modal-close" onclick="closeOrderModal()">✕</button>
+            </div>
+            
+            <div class="modal-body">
+              <div id="order-error" class="alert alert-error hidden"></div>
+              
+              <div class="order-summary">
+                <div class="order-summary-row">
+                  <span>Produit</span>
+                  <strong>${escapeHtml(currentProduct.name)}</strong>
+                </div>
+                <div class="order-summary-row">
+                  <span>Prix unitaire</span>
+                  <strong>${formatPrice(currentProduct.price)}</strong>
+                </div>
+                <div class="order-summary-row">
+                  <span>Quantité</span>
+                  <strong>${quantity}</strong>
+                </div>
+                <div class="order-summary-row total">
+                  <span>Total</span>
+                  <span>${formatPrice(total)}</span>
+                </div>
+              </div>
+              
+              <div class="form-group">
+                <label class="form-label">Note pour le vendeur (optionnel)</label>
+                <textarea 
+                  class="form-textarea" 
+                  id="order-note"
+                  placeholder="Ex: Livraison à Cotonou, quartier Fidjrossè. Merci de m'appeler avant."
+                  maxlength="500"
+                ></textarea>
+              </div>
+              
+              <div class="alert alert-info" style="margin-bottom: 0;">
+                <strong>💡 Comment ça marche ?</strong><br>
+                Le vendeur reçoit votre commande instantanément. 
+                Il vous contactera au <strong>${user.phone}</strong> pour organiser la livraison.
+              </div>
+            </div>
+            
+            <div class="modal-footer">
+              <button class="btn btn-ghost" onclick="closeOrderModal()">Annuler</button>
+              <button 
+                class="btn btn-orange" 
+                id="confirm-order-btn"
+                onclick="confirmOrder()"
+              >
+                Confirmer la commande
+              </button>
+            </div>
+          </div>
+        </div>
+      `;
+      modal.classList.remove('hidden');
+    }
+    
+    function closeOrderModal(event) {
+      if (event && event.target !== event.currentTarget) return;
+      document.getElementById('order-modal').classList.add('hidden');
+    }
+    
+    async function confirmOrder() {
+      const btn = document.getElementById('confirm-order-btn');
+      const errorDiv = document.getElementById('order-error');
+      const note = document.getElementById('order-note').value.trim();
+      
+      errorDiv.classList.add('hidden');
+      btn.disabled = true;
+      btn.innerHTML = '<span class="spinner"></span> Envoi...';
+      
+      try {
+        const order = await OrdersAPI.create({
+          product_id: currentProduct.id,
+          quantity: quantity,
+          note: note || null,
+        });
+        
+        showToast('✅ Commande envoyée ! Le vendeur a été notifié.', 'success', 5000);
+        closeOrderModal();
+        
+        // Rediriger après 2s
+        setTimeout(() => {
+          window.location.href = '/index.html';
+        }, 2000);
+        
+      } catch (error) {
+        errorDiv.textContent = error.message;
+        errorDiv.classList.remove('hidden');
+        btn.disabled = false;
+        btn.textContent = 'Confirmer la commande';
+      }
+    }
+    
+    // ============================================================
+    // HELPERS
+    // ============================================================
+    
+    function showContent() {
+      document.getElementById('loading').classList.add('hidden');
+      document.getElementById('content').classList.remove('hidden');
+    }
+    
+    function showError(message) {
+      document.getElementById('loading').classList.add('hidden');
+      document.getElementById('content').classList.remove('hidden');
+      document.getElementById('content').innerHTML = `
+        <div class="container" style="padding: 80px 24px;">
+          <div class="empty-state">
+            <div class="empty-state-icon">⚠️</div>
+            <h3>Erreur</h3>
+            <p>${escapeHtml(message)}</p>
+            <a href="/marketplace.html" class="btn btn-primary mt-16">Retour à la marketplace</a>
+          </div>
+        </div>
+      `;
+    }
+  </script>
+</body>
+</html>

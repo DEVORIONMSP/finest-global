@@ -1,0 +1,1270 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Finest Global — Be Findable</title>
+  <meta name="description" content="Trouvez les commerçants du marché et commandez directement.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/components.css">
+  <style>
+    /* ============================================================
+       HERO
+       ============================================================ */
+    .hero {
+      background: linear-gradient(135deg, var(--blue-900) 0%, var(--blue-700) 60%, var(--blue-500) 100%);
+      color: var(--white);
+      padding: 100px 0 120px;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .hero::before {
+      content: "";
+      position: absolute;
+      top: -200px;
+      right: -200px;
+      width: 700px;
+      height: 700px;
+      background: radial-gradient(circle, rgba(255,138,61,0.18) 0%, transparent 70%);
+      border-radius: 50%;
+      animation: float-slow 12s ease-in-out infinite;
+    }
+    
+    .hero::after {
+      content: "";
+      position: absolute;
+      bottom: -250px;
+      left: -150px;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(30,136,229,0.25) 0%, transparent 70%);
+      border-radius: 50%;
+      animation: float-slow 15s ease-in-out infinite reverse;
+    }
+    
+    @keyframes float-slow {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      50% { transform: translate(30px, -30px) scale(1.05); }
+    }
+    
+    .hero-inner {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      max-width: 950px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+    
+    .hero h1 {
+      font-size: 4.5rem;
+      font-weight: 900;
+      line-height: 1.05;
+      letter-spacing: -3px;
+      margin-bottom: 28px;
+      min-height: 2.2em;
+      color: var(--white);
+    }
+    
+    .hero h1 .line { display: block; }
+    
+    .hero h1 .line-2 {
+      color: var(--orange-500);
+      text-shadow: 0 0 30px rgba(255,138,61,0.4);
+    }
+    
+    .typed-text {
+      display: inline-block;
+      border-right: 5px solid var(--orange-500);
+      padding-right: 8px;
+      animation: blink 0.8s infinite;
+    }
+    
+    @keyframes blink {
+      0%, 50% { border-color: var(--orange-500); }
+      51%, 100% { border-color: transparent; }
+    }
+    
+    .hero p {
+      font-size: 1.2rem;
+      color: rgba(255,255,255,0.88);
+      max-width: 680px;
+      margin: 0 auto 44px;
+      line-height: 1.7;
+    }
+    
+    .hero-buttons {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    
+    .btn-white {
+      background: var(--white);
+      color: var(--blue-800);
+    }
+    .btn-white:hover {
+      background: var(--orange-500);
+      color: var(--white);
+      transform: translateY(-2px);
+    }
+    
+    .btn-outline-white {
+      background: transparent;
+      color: var(--white);
+      border: 2px solid rgba(255,255,255,0.5);
+    }
+    .btn-outline-white:hover {
+      background: var(--white);
+      color: var(--blue-800);
+      border-color: var(--white);
+    }
+    
+    /* ============================================================
+       SECTIONS CARROUSEL — FOND DÉCORÉ
+       ============================================================ */
+    .section-carousel {
+      padding: 90px 0;
+      background: var(--white);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    /* Motif décoratif en arrière-plan */
+    .section-carousel::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      right: -300px;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(255,138,61,0.06) 0%, transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+    
+    .section-carousel::after {
+      content: "";
+      position: absolute;
+      bottom: -300px;
+      left: -200px;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(30,136,229,0.05) 0%, transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+    
+    .section-carousel:nth-child(even) {
+      background: linear-gradient(180deg, var(--gray-50) 0%, var(--white) 100%);
+    }
+    
+    /* Bande décorative en haut */
+    .section-carousel:nth-child(even)::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, var(--orange-400), transparent);
+      opacity: 0.3;
+    }
+    
+    /* ============================================================
+       EN-TÊTE SECTION (CENTRÉ)
+       ============================================================ */
+    .section-header-centered {
+      text-align: center;
+      margin-bottom: 48px;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+      padding: 0 24px;
+      position: relative;
+      z-index: 1;
+    }
+    
+    .section-header-centered h2 {
+      font-size: 2.25rem;
+      font-weight: 900;
+      letter-spacing: -1px;
+      margin-bottom: 14px;
+      color: var(--blue-900);
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+    }
+    
+    .section-header-centered h2 .accent-bar {
+      display: inline-block;
+      width: 6px;
+      height: 36px;
+      background: linear-gradient(180deg, var(--orange-400), var(--orange-600));
+      border-radius: 3px;
+      box-shadow: 0 4px 12px rgba(255,138,61,0.4);
+    }
+    
+    .section-header-centered p {
+      color: var(--gray-500);
+      font-size: 1.05rem;
+      line-height: 1.6;
+    }
+    
+    /* ============================================================
+       CARROUSEL — TOUS À LA MÊME TAILLE
+       ============================================================ */
+    .carousel {
+      position: relative;
+      max-width: 1320px;
+      margin: 0 auto;
+      padding: 0 70px;
+      z-index: 1;
+    }
+    
+    .carousel-track-wrapper {
+      overflow-x: auto;
+      overflow-y: hidden;
+      scroll-behavior: smooth;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      padding: 16px 4px;
+      margin: -16px -4px;
+    }
+    
+    .carousel-track-wrapper::-webkit-scrollbar {
+      display: none;
+    }
+    
+    .carousel-track {
+      display: flex;
+      gap: 28px;
+    }
+    
+    /* Navigation */
+    .carousel-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: var(--blue-800);
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 1.6rem;
+      color: var(--white);
+      box-shadow: 0 8px 24px rgba(6, 46, 84, 0.25);
+      transition: all 0.25s ease;
+      z-index: 10;
+      font-weight: 800;
+      line-height: 1;
+    }
+    
+    .carousel-nav:hover:not(:disabled) {
+      background: linear-gradient(135deg, var(--orange-400), var(--orange-600));
+      transform: translateY(-50%) scale(1.1);
+      box-shadow: 0 12px 32px rgba(255,138,61,0.4);
+    }
+    
+    .carousel-nav:disabled {
+      opacity: 0.25;
+      cursor: not-allowed;
+    }
+    
+    .carousel-nav.prev { left: 0; }
+    .carousel-nav.next { right: 0; }
+    
+    /* ============================================================
+       TAILLE UNIFORME POUR TOUTES LES CARTES
+       ============================================================ */
+    .category-card,
+    .product-slide,
+    .shop-slide {
+      flex: 0 0 auto;
+      /* 4 cartes visibles max — même largeur partout */
+      width: calc((100% - 84px) / 4);
+      min-width: 280px;
+    }
+    
+    /* ============================================================
+       CARTE CATÉGORIE — BLEU
+       ============================================================ */
+    .category-card {
+      background: linear-gradient(135deg, var(--blue-800), var(--blue-700));
+      border: 1.5px solid rgba(255,138,61,0.15);
+      border-radius: var(--radius-lg);
+      padding: 40px 24px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      position: relative;
+      overflow: hidden;
+      min-height: 260px;
+    }
+    
+    .category-card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--orange-400), var(--orange-600));
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.4s ease;
+    }
+    
+    .category-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 24px 48px rgba(6, 46, 84, 0.35);
+      border-color: var(--orange-400);
+    }
+    
+    .category-card:hover::before {
+      transform: scaleX(1);
+    }
+    
+    .category-emoji {
+      font-size: 3.5rem;
+      transition: transform 0.3s ease;
+      filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));
+    }
+    
+    .category-card:hover .category-emoji {
+      transform: scale(1.2) rotate(-8deg);
+    }
+    
+    .category-name {
+      font-weight: 800;
+      color: var(--orange-400);
+      font-size: 1.2rem;
+      text-transform: capitalize;
+      letter-spacing: -0.3px;
+    }
+    
+    .category-count {
+      font-size: 0.9rem;
+      color: rgba(255,255,255,0.75);
+      background: rgba(255,255,255,0.1);
+      padding: 6px 16px;
+      border-radius: 20px;
+      font-weight: 600;
+    }
+    
+    /* ============================================================
+       CARTE PRODUIT — BLEU
+       ============================================================ */
+    .product-card {
+      background: linear-gradient(135deg, var(--blue-800), var(--blue-700));
+      border: 1.5px solid rgba(255,138,61,0.15);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      min-height: 380px;
+    }
+    
+    .product-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 24px 48px rgba(6, 46, 84, 0.35);
+      border-color: var(--orange-400);
+    }
+    
+    .product-image {
+      aspect-ratio: 1;
+      background: linear-gradient(135deg, rgba(255,255,255,0.08), rgba(255,255,255,0.03));
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 4rem;
+      color: rgba(255,255,255,0.3);
+    }
+    
+    .product-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+    
+    .product-card:hover .product-image img {
+      transform: scale(1.1);
+    }
+    
+    .product-badge-sales {
+      position: absolute;
+      top: 14px;
+      left: 14px;
+      background: linear-gradient(135deg, var(--orange-400), var(--orange-600));
+      color: var(--white);
+      padding: 6px 14px;
+      border-radius: 24px;
+      font-size: 0.8rem;
+      font-weight: 800;
+      box-shadow: 0 6px 16px rgba(255,138,61,0.5);
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    
+    .product-info {
+      padding: 22px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .product-name {
+      font-weight: 700;
+      color: var(--white);
+      font-size: 1.1rem;
+      margin-bottom: 14px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      min-height: 2.8em;
+      line-height: 1.4;
+    }
+    
+    .product-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: auto;
+      padding-top: 14px;
+      border-top: 1px solid rgba(255,255,255,0.1);
+    }
+    
+    .product-price {
+      font-weight: 900;
+      color: var(--orange-400);
+      font-size: 1.25rem;
+      letter-spacing: -0.5px;
+    }
+    
+    .product-stats {
+      font-size: 0.85rem;
+      color: rgba(255,255,255,0.7);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      background: rgba(255,255,255,0.08);
+      padding: 5px 12px;
+      border-radius: 12px;
+    }
+    
+    /* ============================================================
+       CARTE BOUTIQUE — BLEU
+       ============================================================ */
+    .shop-card {
+      background: linear-gradient(135deg, var(--blue-800), var(--blue-700));
+      border: 1.5px solid rgba(255,138,61,0.15);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      cursor: pointer;
+      height: 100%;
+      min-height: 380px;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .shop-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 24px 48px rgba(6, 46, 84, 0.35);
+      border-color: var(--orange-400);
+    }
+    
+    .shop-banner {
+      height: 140px;
+      background: linear-gradient(135deg, var(--blue-700), var(--blue-500));
+      position: relative;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+    
+    .shop-banner img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s;
+      opacity: 0.85;
+    }
+    
+    .shop-card:hover .shop-banner img {
+      transform: scale(1.08);
+      opacity: 1;
+    }
+    
+    .shop-avatar {
+      position: absolute;
+      bottom: -28px;
+      left: 24px;
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      background: var(--white);
+      border: 4px solid var(--blue-800);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      font-size: 1.5rem;
+      color: var(--blue-700);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+    }
+    
+    .shop-body {
+      padding: 44px 24px 24px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .shop-name {
+      font-weight: 800;
+      color: var(--orange-400);
+      margin-bottom: 10px;
+      font-size: 1.25rem;
+      letter-spacing: -0.3px;
+    }
+    
+    .shop-desc {
+      font-size: 0.95rem;
+      color: rgba(255,255,255,0.8);
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      margin-bottom: 18px;
+      min-height: 3.9em;
+      line-height: 1.3;
+    }
+    
+    .shop-stats {
+      display: flex;
+      gap: 16px;
+      font-size: 0.9rem;
+      color: rgba(255,255,255,0.7);
+      margin-top: auto;
+      padding-top: 14px;
+      border-top: 1px solid rgba(255,255,255,0.1);
+    }
+    
+    .shop-stats span {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    
+    /* ============================================================
+       CTA VENDEUR
+       ============================================================ */
+    .cta-seller {
+      background: linear-gradient(135deg, var(--blue-800), var(--blue-700));
+      color: var(--white);
+      padding: 80px 0;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .cta-seller::before {
+      content: "";
+      position: absolute;
+      bottom: -150px;
+      right: -150px;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(255,138,61,0.2) 0%, transparent 70%);
+      border-radius: 50%;
+      animation: float-slow 10s ease-in-out infinite;
+    }
+    
+    .cta-seller-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+      position: relative;
+      z-index: 1;
+    }
+    
+    .cta-seller h2 {
+      font-size: 2.25rem;
+      font-weight: 900;
+      margin-bottom: 16px;
+      color: var(--white);
+      letter-spacing: -0.8px;
+    }
+    
+    .cta-seller p {
+      font-size: 1.05rem;
+      opacity: 0.88;
+      margin-bottom: 28px;
+      line-height: 1.7;
+    }
+    
+    .btn-orange {
+      background: linear-gradient(135deg, var(--orange-400), var(--orange-600));
+      color: var(--white);
+      font-weight: 700;
+    }
+    
+    .btn-orange:hover {
+      background: linear-gradient(135deg, var(--orange-500), var(--orange-700));
+      transform: translateY(-2px);
+      box-shadow: 0 12px 28px rgba(255,138,61,0.4);
+    }
+    
+    .cta-list {
+      display: grid;
+      gap: 14px;
+    }
+    
+    .cta-list li {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 1rem;
+    }
+    
+    .cta-list li::before {
+      content: "✓";
+      background: linear-gradient(135deg, var(--orange-400), var(--orange-600));
+      color: var(--white);
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      font-weight: 900;
+      flex-shrink: 0;
+      box-shadow: 0 4px 12px rgba(255,138,61,0.4);
+    }
+    
+    /* ============================================================
+       SKELETON
+       ============================================================ */
+    .skeleton-card {
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      background: linear-gradient(135deg, var(--blue-800), var(--blue-700));
+      border: 1.5px solid rgba(255,255,255,0.08);
+      min-height: 380px;
+    }
+    
+    .skeleton-image {
+      aspect-ratio: 1;
+      background: linear-gradient(90deg, rgba(255,255,255,0.05) 25%, rgba(255,255,255,0.12) 50%, rgba(255,255,255,0.05) 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.5s infinite;
+    }
+    
+    @keyframes shimmer {
+      0% { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+    
+    .skeleton-body { padding: 22px; }
+    
+    .skeleton-line {
+      height: 16px;
+      background: linear-gradient(90deg, rgba(255,255,255,0.05) 25%, rgba(255,255,255,0.12) 50%, rgba(255,255,255,0.05) 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.5s infinite;
+      border-radius: 4px;
+      margin-bottom: 12px;
+    }
+    
+    .skeleton-line.short { width: 60%; }
+    
+    .skeleton-category {
+      width: calc((100% - 84px) / 4);
+      min-width: 280px;
+      height: 260px;
+      border-radius: var(--radius-lg);
+      background: linear-gradient(135deg, var(--blue-800), var(--blue-700));
+      border: 1.5px solid rgba(255,255,255,0.08);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .skeleton-category::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, transparent 25%, rgba(255,255,255,0.08) 50%, transparent 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.5s infinite;
+    }
+    
+    /* ============================================================
+       FOOTER
+       ============================================================ */
+    .footer {
+      background: var(--blue-950);
+      color: var(--white);
+      padding: 70px 0 30px;
+    }
+    
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1.5fr;
+      gap: 40px;
+      margin-bottom: 48px;
+    }
+    
+    .footer h4 {
+      font-size: 1rem;
+      margin-bottom: 22px;
+      color: var(--white);
+      font-weight: 700;
+    }
+    
+    .footer p, .footer a {
+      color: #94A9C4;
+      font-size: 0.95rem;
+      line-height: 2;
+    }
+    
+    .footer a:hover { color: var(--white); }
+    .footer ul { list-style: none; }
+    
+    .footer-brand {
+      font-size: 1.4rem;
+      font-weight: 900;
+      color: var(--white);
+      letter-spacing: -0.5px;
+      margin-bottom: 16px;
+    }
+    
+    .footer-brand span { color: var(--orange-500); }
+    
+    /* Liste de contact poussée à droite */
+    .footer-contact {
+      justify-self: end;
+      text-align: right;
+    }
+    
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,0.1);
+      padding-top: 28px;
+      text-align: center;
+      color: #94A9C4;
+      font-size: 0.9rem;
+    }
+    
+    /* ============================================================
+       RESPONSIVE
+       ============================================================ */
+    @media (max-width: 1024px) {
+      .category-card,
+      .product-slide,
+      .shop-slide {
+        width: calc((100% - 56px) / 3);
+      }
+      .skeleton-category {
+        width: calc((100% - 56px) / 3);
+      }
+      .footer-grid {
+        grid-template-columns: 2fr 1fr 1fr;
+      }
+      .footer-contact {
+        grid-column: 1 / -1;
+        justify-self: start;
+        text-align: left;
+        margin-top: 20px;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .hero { padding: 70px 0 90px; }
+      .hero h1 { font-size: 3rem; letter-spacing: -1.5px; }
+      .hero p { font-size: 1.05rem; }
+      .cta-seller-inner { grid-template-columns: 1fr; gap: 40px; }
+      .cta-seller h2 { font-size: 1.75rem; }
+      .section-carousel { padding: 64px 0; }
+      .section-header-centered h2 { font-size: 1.75rem; }
+      .carousel { padding: 0 50px; }
+      .carousel-nav { width: 46px; height: 46px; font-size: 1.3rem; }
+      
+      .category-card,
+      .product-slide,
+      .shop-slide {
+        width: calc((100% - 28px) / 2);
+      }
+      .skeleton-category {
+        width: calc((100% - 28px) / 2);
+      }
+      
+      .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
+    }
+    
+    @media (max-width: 500px) {
+      .hero { padding: 60px 0 80px; }
+      .hero h1 { font-size: 2rem; letter-spacing: -1px; }
+      .section-carousel { padding: 48px 0; }
+      .carousel { padding: 0 44px; }
+      
+      .category-card,
+      .product-slide,
+      .shop-slide {
+        width: 85%;
+        min-width: unset;
+      }
+      .skeleton-category {
+        width: 85%;
+        min-width: unset;
+      }
+      
+      .footer-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="navbar"></div>
+
+  <!-- ============================================================
+       HERO
+       ============================================================ -->
+  <section class="hero">
+    <div class="hero-inner">
+      <h1>
+        <span class="line line-1">
+          <span class="typed-text" id="typed-1"></span>
+        </span>
+        <span class="line line-2">
+          <span class="typed-text" id="typed-2"></span>
+        </span>
+      </h1>
+      <p>Finest Global rend les commerçants du marché visibles, trouvables et connectés à leurs clients. Sans remplacer le marché physique — en le rendant simplement accessible.</p>
+      <div class="hero-buttons">
+        <a href="/marketplace.html" class="btn btn-white btn-lg">Explorer la marketplace →</a>
+        <a href="/register.html" class="btn btn-outline-white btn-lg">Devenir vendeur</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       CATÉGORIES POPULAIRES
+       ============================================================ -->
+  <section class="section-carousel">
+    <div class="section-header-centered">
+      <h2><span class="accent-bar"></span> Catégories populaires</h2>
+      <p>Explorez les produits par catégorie et trouvez ce que vous cherchez rapidement.</p>
+    </div>
+    
+    <div class="carousel">
+      <button class="carousel-nav prev" onclick="scrollCarousel('categories', -1)" aria-label="Précédent">‹</button>
+      <div class="carousel-track-wrapper" id="categories-track-wrapper">
+        <div class="carousel-track" id="categories-track">
+          <div class="skeleton-category"></div>
+          <div class="skeleton-category"></div>
+          <div class="skeleton-category"></div>
+          <div class="skeleton-category"></div>
+        </div>
+      </div>
+      <button class="carousel-nav next" onclick="scrollCarousel('categories', 1)" aria-label="Suivant">›</button>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       LES PLUS VENDUS
+       ============================================================ -->
+  <section class="section-carousel">
+    <div class="section-header-centered">
+      <h2><span class="accent-bar"></span> Les plus vendus</h2>
+      <p>Les produits les plus populaires de la plateforme, choisis par nos clients.</p>
+    </div>
+    
+    <div class="carousel">
+      <button class="carousel-nav prev" onclick="scrollCarousel('trending', -1)" aria-label="Précédent">‹</button>
+      <div class="carousel-track-wrapper" id="trending-track-wrapper">
+        <div class="carousel-track" id="trending-track">
+          <div class="product-slide"><div class="skeleton-card"><div class="skeleton-image"></div><div class="skeleton-body"><div class="skeleton-line"></div><div class="skeleton-line short"></div></div></div></div>
+          <div class="product-slide"><div class="skeleton-card"><div class="skeleton-image"></div><div class="skeleton-body"><div class="skeleton-line"></div><div class="skeleton-line short"></div></div></div></div>
+          <div class="product-slide"><div class="skeleton-card"><div class="skeleton-image"></div><div class="skeleton-body"><div class="skeleton-line"></div><div class="skeleton-line short"></div></div></div></div>
+          <div class="product-slide"><div class="skeleton-card"><div class="skeleton-image"></div><div class="skeleton-body"><div class="skeleton-line"></div><div class="skeleton-line short"></div></div></div></div>
+        </div>
+      </div>
+      <button class="carousel-nav next" onclick="scrollCarousel('trending', 1)" aria-label="Suivant">›</button>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       BOUTIQUES EN VEDETTE
+       ============================================================ -->
+  <section class="section-carousel">
+    <div class="section-header-centered">
+      <h2><span class="accent-bar"></span> Boutiques en vedette</h2>
+      <p>Découvrez les meilleures boutiques de la plateforme et leurs produits.</p>
+    </div>
+    
+    <div class="carousel">
+      <button class="carousel-nav prev" onclick="scrollCarousel('shops', -1)" aria-label="Précédent">‹</button>
+      <div class="carousel-track-wrapper" id="shops-track-wrapper">
+        <div class="carousel-track" id="shops-track">
+          <div class="shop-slide"><div class="skeleton-card"><div style="height:140px;background:rgba(255,255,255,0.08);"></div><div class="skeleton-body"><div class="skeleton-line"></div><div class="skeleton-line short"></div></div></div></div>
+          <div class="shop-slide"><div class="skeleton-card"><div style="height:140px;background:rgba(255,255,255,0.08);"></div><div class="skeleton-body"><div class="skeleton-line"></div><div class="skeleton-line short"></div></div></div></div>
+          <div class="shop-slide"><div class="skeleton-card"><div style="height:140px;background:rgba(255,255,255,0.08);"></div><div class="skeleton-body"><div class="skeleton-line"></div><div class="skeleton-line short"></div></div></div></div>
+          <div class="shop-slide"><div class="skeleton-card"><div style="height:140px;background:rgba(255,255,255,0.08);"></div><div class="skeleton-body"><div class="skeleton-line"></div><div class="skeleton-line short"></div></div></div></div>
+        </div>
+      </div>
+      <button class="carousel-nav next" onclick="scrollCarousel('shops', 1)" aria-label="Suivant">›</button>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       CTA VENDEUR
+       ============================================================ -->
+  <section class="cta-seller">
+    <div class="container">
+      <div class="cta-seller-inner">
+        <div>
+          <h2>Vous êtes commerçant ?</h2>
+          <p>Créez votre boutique en ligne gratuitement et recevez vos commandes directement sur votre téléphone.</p>
+          <a href="/register.html" class="btn btn-orange btn-lg" id="cta-button">
+            Créer ma boutique →
+          </a>
+        </div>
+        <div>
+          <ul class="cta-list">
+            <li>Boutique en ligne gratuite</li>
+            <li>Notifications en temps réel</li>
+            <li>Visible par des milliers d'acheteurs</li>
+            <li>Aucune commission au démarrage</li>
+            <li>Support en français</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       FOOTER
+       ============================================================ -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-brand">Finest<span>Global</span></div>
+          <p>Le marché physique, rendu visible. Connecter les vendeurs du Bénin à leurs clients, sans remplacer le marché traditionnel.</p>
+        </div>
+        <div>
+          <h4>Navigation</h4>
+          <ul>
+            <li><a href="/index.html">Accueil</a></li>
+            <li><a href="/marketplace.html">Marketplace</a></li>
+            <li><a href="/about.html">À propos</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Vendeurs</h4>
+          <ul>
+            <li><a href="/register.html">Créer une boutique</a></li>
+            <li><a href="/dashboard-seller.html">Mon dashboard</a></li>
+            <li><a href="/orders.html">Mes commandes</a></li>
+          </ul>
+        </div>
+        <div class="footer-contact">
+          <h4>Contact</h4>
+          <ul>
+            <li><a href="mailto:hello@finestglobal.com">hello@finestglobal.com</a></li>
+            <li><a href="#">WhatsApp</a></li>
+            <li><a href="#">Facebook</a></li>
+            <li><a href="#">Instagram</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        © 2026 FinestGlobal — Tous droits réservés.
+      </div>
+    </div>
+  </footer>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/auth.js"></script>
+  <script src="/js/navbar.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      renderNavbar();
+      startTypingAnimation();
+      loadCategories();
+      loadTrending();
+      loadShops();
+      adaptCTA();
+      trackPageview();
+      initCarousels();
+    });
+    
+    function startTypingAnimation() {
+      const typed1 = document.getElementById('typed-1');
+      const typed2 = document.getElementById('typed-2');
+      
+      const word1 = "Be Findable.";
+      const word2 = "Devenez Visible.";
+      
+      function typeSequence() {
+        typed1.textContent = "";
+        typed2.textContent = "";
+        
+        let i = 0;
+        function typeWord1() {
+          if (i <= word1.length) {
+            typed1.textContent = word1.substring(0, i);
+            i++;
+            setTimeout(typeWord1, 100);
+          } else {
+            setTimeout(typeWord2, 400);
+          }
+        }
+        
+        let j = 0;
+        function typeWord2() {
+          if (j <= word2.length) {
+            typed2.textContent = word2.substring(0, j);
+            j++;
+            setTimeout(typeWord2, 100);
+          } else {
+            setTimeout(typeSequence, 3500);
+          }
+        }
+        
+        typeWord1();
+      }
+      
+      typeSequence();
+    }
+    
+    const carouselState = {
+      categories: { el: null, nav: null },
+      trending: { el: null, nav: null },
+      shops: { el: null, nav: null },
+    };
+    
+    function initCarousels() {
+      ['categories', 'trending', 'shops'].forEach(name => {
+        const wrapper = document.getElementById(`${name}-track-wrapper`);
+        const carousel = wrapper?.closest('.carousel');
+        if (!wrapper || !carousel) return;
+        
+        carouselState[name].el = wrapper;
+        carouselState[name].nav = carousel.querySelectorAll('.carousel-nav');
+        
+        wrapper.addEventListener('scroll', () => updateCarouselButtons(name));
+        window.addEventListener('resize', () => updateCarouselButtons(name));
+        
+        updateCarouselButtons(name);
+      });
+    }
+    
+    function scrollCarousel(name, direction) {
+      const wrapper = carouselState[name]?.el;
+      if (!wrapper) return;
+      
+      const scrollAmount = wrapper.clientWidth * 0.9;
+      wrapper.scrollBy({
+        left: direction * scrollAmount,
+        behavior: 'smooth',
+      });
+    }
+    
+    function updateCarouselButtons(name) {
+      const wrapper = carouselState[name]?.el;
+      const nav = carouselState[name]?.nav;
+      if (!wrapper || !nav || nav.length < 2) return;
+      
+      const [prev, next] = nav;
+      const scrollLeft = wrapper.scrollLeft;
+      const maxScroll = wrapper.scrollWidth - wrapper.clientWidth;
+      
+      prev.disabled = scrollLeft <= 4;
+      next.disabled = scrollLeft >= maxScroll - 4;
+    }
+    
+    async function loadCategories() {
+      const track = document.getElementById('categories-track');
+      
+      try {
+        const categories = await CategoriesAPI.list();
+        
+        if (!categories || categories.length === 0) {
+          track.innerHTML = `
+            <div class="empty-state" style="width: 100%; padding: 60px 20px;">
+              <div class="empty-state-icon">🏷️</div>
+              <h3>Aucune catégorie pour l'instant</h3>
+              <p style="color: var(--gray-500);">Les catégories apparaîtront dès que l'admin en aura créé.</p>
+            </div>
+          `;
+          const carousel = track.closest('.carousel');
+          carousel.querySelectorAll('.carousel-nav').forEach(b => b.style.display = 'none');
+          return;
+        }
+        
+        track.innerHTML = categories.map(cat => `
+          <a href="/marketplace.html?category=${encodeURIComponent(cat.name)}" class="category-card">
+            <span class="category-emoji">${cat.emoji || '🏷️'}</span>
+            <span class="category-name">${escapeHtml(cat.name)}</span>
+            <span class="category-count">${cat.product_count} produit${cat.product_count > 1 ? 's' : ''}</span>
+          </a>
+        `).join('');
+        
+        setTimeout(() => updateCarouselButtons('categories'), 100);
+        
+      } catch (error) {
+        console.error('Erreur catégories:', error);
+      }
+    }
+    
+    async function loadTrending() {
+      const track = document.getElementById('trending-track');
+      
+      try {
+        const data = await SearchAPI.trending(12);
+        
+        if (!data.results || data.results.length === 0) {
+          track.innerHTML = `
+            <div class="empty-state" style="width: 100%; padding: 60px 20px;">
+              <div class="empty-state-icon">📦</div>
+              <h3>Aucun produit pour l'instant</h3>
+              <p style="color: var(--gray-500);">Les produits les plus vendus apparaîtront ici.</p>
+            </div>
+          `;
+          const carousel = track.closest('.carousel');
+          carousel.querySelectorAll('.carousel-nav').forEach(b => b.style.display = 'none');
+          return;
+        }
+        
+        track.innerHTML = data.results.map(p => `
+          <div class="product-slide">
+            ${renderProductCard(p)}
+          </div>
+        `).join('');
+        
+        setTimeout(() => updateCarouselButtons('trending'), 100);
+        
+      } catch (error) {
+        console.error('Erreur trending:', error);
+      }
+    }
+    
+    function renderProductCard(product) {
+      const photo = product.photo_url 
+        ? `<img src="${imageUrl(product.photo_url)}" alt="${escapeHtml(product.name)}" loading="lazy">`
+        : '📦';
+      
+      return `
+        <a href="/shop.html?product=${product.id}" class="product-card">
+          <div class="product-image">
+            ${photo}
+            ${product.sales_count > 0 ? `<div class="product-badge-sales">🔥 ${product.sales_count}</div>` : ''}
+          </div>
+          <div class="product-info">
+            <div class="product-name">${escapeHtml(product.name)}</div>
+            <div class="product-footer">
+              <div class="product-price">${formatPrice(product.price)}</div>
+              <div class="product-stats">👁️ ${product.views_count}</div>
+            </div>
+          </div>
+        </a>
+      `;
+    }
+    
+    async function loadShops() {
+      const track = document.getElementById('shops-track');
+      
+      try {
+        const shops = await ShopsAPI.list(0, 10);
+        
+        if (!shops || shops.length === 0) {
+          track.innerHTML = `
+            <div class="empty-state" style="width: 100%; padding: 60px 20px;">
+              <div class="empty-state-icon">🏪</div>
+              <h3>Aucune boutique pour l'instant</h3>
+              <p style="color: var(--gray-500);">Soyez le premier à créer votre boutique !</p>
+            </div>
+          `;
+          const carousel = track.closest('.carousel');
+          carousel.querySelectorAll('.carousel-nav').forEach(b => b.style.display = 'none');
+          return;
+        }
+        
+        track.innerHTML = shops.map(shop => `
+          <div class="shop-slide">
+            ${renderShopCard(shop)}
+          </div>
+        `).join('');
+        
+        setTimeout(() => updateCarouselButtons('shops'), 100);
+        
+      } catch (error) {
+        console.error('Erreur boutiques:', error);
+      }
+    }
+    
+    function renderShopCard(shop) {
+      const initials = shop.name.substring(0, 2).toUpperCase();
+      const banner = shop.photo_url 
+        ? `<img src="${imageUrl(shop.photo_url)}" alt="${escapeHtml(shop.name)}">`
+        : '';
+      
+      return `
+        <a href="/shop.html?id=${shop.id}" class="shop-card">
+          <div class="shop-banner">
+            ${banner}
+            <div class="shop-avatar">${initials}</div>
+          </div>
+          <div class="shop-body">
+            <div class="shop-name">${escapeHtml(shop.name)}</div>
+            <div class="shop-desc">${escapeHtml(shop.description || 'Aucune description')}</div>
+            <div class="shop-stats">
+              <span>👁️ ${shop.views_count} vues</span>
+            </div>
+          </div>
+        </a>
+      `;
+    }
+    
+    function adaptCTA() {
+      const btn = document.getElementById('cta-button');
+      if (!btn) return;
+      
+      if (Auth.isSeller()) {
+        btn.textContent = 'Aller à mon dashboard →';
+        btn.href = '/dashboard-seller.html';
+      } else if (Auth.isAuthenticated()) {
+        btn.textContent = 'Devenir vendeur →';
+        btn.href = '/become-seller.html';
+      }
+    }
+    
+    function trackPageview() {
+      TrackAPI.pageview({ path: '/' }).catch(() => {});
+    }
+  </script>
+</body>
+</html>

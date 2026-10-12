@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mes commandes — Finest Global</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/components.css">
+  <style>
+    .orders-page {
+      min-height: calc(100vh - 70px);
+      background: var(--gray-50);
+      padding: 40px 0 60px;
+    }
+    
+    .orders-header {
+      margin-bottom: 32px;
+    }
+    
+    .orders-header h1 {
+      font-size: 1.75rem;
+      color: var(--blue-900);
+      margin-bottom: 6px;
+      letter-spacing: -0.5px;
+    }
+    
+    .orders-header p {
+      color: var(--gray-500);
+    }
+    
+    .orders-tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 24px;
+      background: var(--white);
+      padding: 6px;
+      border-radius: var(--radius);
+      border: 1.5px solid var(--gray-200);
+      width: fit-content;
+      max-width: 100%;
+      overflow-x: auto;
+    }
+    
+    .orders-tab {
+      padding: 10px 20px;
+      border-radius: var(--radius-sm);
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: var(--gray-500);
+      cursor: pointer;
+      transition: all var(--transition);
+      border: none;
+      background: none;
+      white-space: nowrap;
+      font-family: inherit;
+    }
+    
+    .orders-tab:hover {
+      color: var(--blue-700);
+    }
+    
+    .orders-tab.active {
+      background: var(--blue-700);
+      color: var(--white);
+    }
+    
+    .orders-tab-count {
+      display: inline-block;
+      margin-left: 6px;
+      background: rgba(255,255,255,0.2);
+      padding: 2px 8px;
+      border-radius: 10px;
+      font-size: 0.75rem;
+    }
+    
+    .orders-tab.active .orders-tab-count {
+      background: rgba(255,255,255,0.3);
+    }
+    
+    .orders-list {
+      display: grid;
+      gap: 16px;
+    }
+    
+    .order-item {
+      background: var(--white);
+      border: 1.5px solid var(--gray-200);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      transition: all var(--transition);
+    }
+    
+    .order-item:hover {
+      border-color: var(--blue-500);
+      box-shadow: var(--shadow-md);
+    }
+    
+    .order-item.pending {
+      border-left: 4px solid var(--orange-500);
+    }
+    
+    .order-item.confirmed {
+      border-left: 4px solid var(--blue-500);
+    }
+    
+    .order-item.delivered {
+      border-left: 4px solid var(--success);
+    }
+    
+    .order-item.cancelled {
+      border-left: 4px solid var(--danger);
+      opacity: 0.7;
+    }
+    
+    .order-item-body {
+      padding: 20px;
+      display: grid;
+      grid-template-columns: 80px 1fr auto;
+      gap: 20px;
+      align-items: center;
+    }
+    
+    .order-thumb {
+      width: 80px;
+      height: 80px;
+      border-radius: var(--radius);
+      background: linear-gradient(135deg, var(--blue-50), var(--gray-100));
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      color: var(--gray-500);
+      flex-shrink: 0;
+    }
+    
+    .order-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    
+    .order-details {
+      min-width: 0;
+    }
+    
+    .order-product-name {
+      font-weight: 700;
+      color: var(--blue-900);
+      font-size: 1.05rem;
+      margin-bottom: 6px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    
+    .order-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      font-size: 0.85rem;
+      color: var(--gray-500);
+      margin-bottom: 8px;
+    }
+    
+    .order-note {
+      font-size: 0.85rem;
+      color: var(--gray-600);
+      padding: 8px 12px;
+      background: var(--gray-50);
+      border-radius: var(--radius-sm);
+      margin-top: 8px;
+      border-left: 3px solid var(--gray-300);
+    }
+    
+    .order-right {
+      text-align: right;
+      flex-shrink: 0;
+    }
+    
+    .order-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+    
+    .status-pending {
+      background: #FEF3C7;
+      color: #92400E;
+    }
+    
+    .status-confirmed {
+      background: var(--blue-50);
+      color: var(--blue-700);
+    }
+    
+    .status-delivered {
+      background: #D1FAE5;
+      color: #065F46;
+    }
+    
+    .status-cancelled {
+      background: #FEE2E2;
+      color: #991B1B;
+    }
+    
+    .order-price {
+      font-size: 1.25rem;
+      font-weight: 900;
+      color: var(--orange-600);
+      letter-spacing: -0.5px;
+    }
+    
+    .order-date {
+      font-size: 0.8rem;
+      color: var(--gray-500);
+      margin-top: 4px;
+    }
+    
+    .order-actions {
+      display: flex;
+      gap: 8px;
+      justify-content: flex-end;
+      margin-top: 12px;
+    }
+    
+    /* ============================================================
+       RESPONSIVE
+       ============================================================ */
+    @media (max-width: 700px) {
+      .order-item-body {
+        grid-template-columns: 1fr;
+      }
+      .order-thumb {
+        width: 100%;
+        height: 140px;
+        font-size: 3rem;
+      }
+      .order-right {
+        text-align: left;
+      }
+      .order-actions {
+        justify-content: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="navbar"></div>
+
+  <div class="orders-page">
+    <div class="container">
+      
+      <div class="orders-header">
+        <h1>📦 Mes commandes</h1>
+        <p>Suivez l'état de vos commandes en temps réel.</p>
+      </div>
+      
+      <div id="loading" class="loading-container">
+        <span class="spinner spinner-blue" style="width: 40px; height: 40px;"></span>
+      </div>
+      
+      <div id="content" class="hidden"></div>
+      
+    </div>
+  </div>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/auth.js"></script>
+  <script src="/js/navbar.js"></script>
+  <script>
+    // ============================================================
+    // ÉTAT GLOBAL
+    // ============================================================
+    
+    let allOrders = [];
+    let currentFilter = 'all';
+    let ws = null;
+    
+    const STATUS_LABELS = {
+      pending: { text: 'En attente', emoji: '⏳', class: 'status-pending' },
+      confirmed: { text: 'Confirmée', emoji: '✅', class: 'status-confirmed' },
+      delivered: { text: 'Livrée', emoji: '📦', class: 'status-delivered' },
+      cancelled: { text: 'Annulée', emoji: '❌', class: 'status-cancelled' },
+    };
+    
+    // ============================================================
+    // INITIALISATION
+    // ============================================================
+    
+    document.addEventListener('DOMContentLoaded', async () => {
+      renderNavbar();
+      
+      // Vérifier qu'on est connecté
+      if (!Auth.requireAuth()) return;
+      
+      await loadOrders();
+      showContent();
+      render();
+      
+      // Démarrer le WebSocket pour les mises à jour en direct
+      startWebSocket();
+    });
+    
+    // ============================================================
+    // CHARGEMENT
+    // ============================================================
+    
+    async function loadOrders() {
+      try {
+        allOrders = await OrdersAPI.getMine();
+      } catch (error) {
+        showToast(error.message, 'error');
+        allOrders = [];
+      }
+    }
+    
+    function showContent() {
+      document.getElementById('loading').classList.add('hidden');
+      document.getElementById('content').classList.remove('hidden');
+    }
+    
+    // ============================================================
+    // RENDU
+    // ============================================================
+    
+    function render() {
+      const counts = {
+        all: allOrders.length,
+        pending: allOrders.filter(o => o.status === 'pending').length,
+        confirmed: allOrders.filter(o => o.status === 'confirmed').length,
+        delivered: allOrders.filter(o => o.status === 'delivered').length,
+        cancelled: allOrders.filter(o => o.status === 'cancelled').length,
+      };
+      
+      const filtered = currentFilter === 'all' 
+        ? allOrders 
+        : allOrders.filter(o => o.status === currentFilter);
+      
+      const content = document.getElementById('content');
+      
+      content.innerHTML = `
+        <div class="orders-tabs">
+          <button class="orders-tab ${currentFilter === 'all' ? 'active' : ''}" onclick="setFilter('all')">
+            Toutes
+            ${counts.all > 0 ? `<span class="orders-tab-count">${counts.all}</span>` : ''}
+          </button>
+          <button class="orders-tab ${currentFilter === 'pending' ? 'active' : ''}" onclick="setFilter('pending')">
+            ⏳ En attente
+            ${counts.pending > 0 ? `<span class="orders-tab-count">${counts.pending}</span>` : ''}
+          </button>
+          <button class="orders-tab ${currentFilter === 'confirmed' ? 'active' : ''}" onclick="setFilter('confirmed')">
+            ✅ Confirmées
+            ${counts.confirmed > 0 ? `<span class="orders-tab-count">${counts.confirmed}</span>` : ''}
+          </button>
+          <button class="orders-tab ${currentFilter === 'delivered' ? 'active' : ''}" onclick="setFilter('delivered')">
+            📦 Livrées
+            ${counts.delivered > 0 ? `<span class="orders-tab-count">${counts.delivered}</span>` : ''}
+          </button>
+          <button class="orders-tab ${currentFilter === 'cancelled' ? 'active' : ''}" onclick="setFilter('cancelled')">
+            ❌ Annulées
+            ${counts.cancelled > 0 ? `<span class="orders-tab-count">${counts.cancelled}</span>` : ''}
+          </button>
+        </div>
+        
+        ${filtered.length === 0 
+          ? renderEmptyState()
+          : `<div class="orders-list">${filtered.map(o => renderOrderItem(o)).join('')}</div>`
+        }
+      `;
+    }
+    
+    function renderEmptyState() {
+      if (allOrders.length === 0) {
+        return `
+          <div class="empty-state">
+            <div class="empty-state-icon">📭</div>
+            <h3>Vous n'avez pas encore de commandes</h3>
+            <p>Parcourez la marketplace et passez votre première commande.</p>
+            <a href="/marketplace.html" class="btn btn-primary mt-16">Explorer la marketplace →</a>
+          </div>
+        `;
+      }
+      
+      return `
+        <div class="empty-state">
+          <div class="empty-state-icon">🔍</div>
+          <h3>Aucune commande dans cette catégorie</h3>
+          <p>Essayez un autre filtre.</p>
+        </div>
+      `;
+    }
+    
+    function renderOrderItem(order) {
+      const status = STATUS_LABELS[order.status] || STATUS_LABELS.pending;
+      
+      // On ne peut pas annuler une commande déjà livrée ou annulée
+      const canCancel = order.status === 'pending';
+      
+      return `
+        <div class="order-item ${order.status}">
+          <div class="order-item-body">
+            <div class="order-thumb">
+              ${order.product?.photo_url 
+                ? `<img src="${imageUrl(order.product.photo_url)}" alt="${escapeHtml(order.product.name)}">`
+                : '📦'}
+            </div>
+            
+            <div class="order-details">
+              <div class="order-product-name">
+                ${escapeHtml(order.product?.name || 'Produit #' + order.product_id)}
+              </div>
+              <div class="order-meta">
+                <span>🏪 ${escapeHtml(order.product?.shop_name || 'Boutique')}</span>
+                <span>🔢 Quantité : ${order.quantity}</span>
+                <span>🆔 Commande #${order.id}</span>
+              </div>
+              ${order.note ? `
+                <div class="order-note">
+                  💬 ${escapeHtml(order.note)}
+                </div>
+              ` : ''}
+            </div>
+            
+            <div class="order-right">
+              <div class="order-status ${status.class}">
+                ${status.emoji} ${status.text}
+              </div>
+              <div class="order-price">${formatPrice(order.total_price)}</div>
+              <div class="order-date">${formatDate(order.created_at)}</div>
+              
+              ${canCancel ? `
+                <div class="order-actions">
+                  <button class="btn btn-ghost btn-sm" onclick="cancelOrder(${order.id})" style="color:var(--danger);">
+                    Annuler
+                  </button>
+                </div>
+              ` : ''}
+            </div>
+          </div>
+        </div>
+      `;
+    }
+    
+    // ============================================================
+    // FILTRES
+    // ============================================================
+    
+    function setFilter(filter) {
+      currentFilter = filter;
+      render();
+    }
+    
+    // ============================================================
+    // ACTIONS
+    // ============================================================
+    
+    async function cancelOrder(orderId) {
+      if (!confirm('Voulez-vous vraiment annuler cette commande ?')) return;
+      
+      try {
+        await OrdersAPI.updateStatus(orderId, 'cancelled');
+        showToast('Commande annulée.', 'success');
+        await loadOrders();
+        render();
+      } catch (error) {
+        showToast(error.message, 'error');
+      }
+    }
+    
+    // ============================================================
+    // WEBSOCKET TEMPS RÉEL
+    // ============================================================
+    
+    function startWebSocket() {
+      const token = Auth.getToken();
+      if (!token) return;
+      
+      const wsUrl = `ws://127.0.0.1:8000/ws/notifications?token=${token}`;
+      ws = new WebSocket(wsUrl);
+      
+      ws.onopen = () => {
+        console.log('🟢 WebSocket connecté');
+      };
+      
+      ws.onmessage = async (event) => {
+        try {
+          const message = JSON.parse(event.data);
+          
+          if (message.type === 'order_status_changed') {
+            showToast(
+              `🔔 Votre commande #${message.order_id} est maintenant : ${message.status}`,
+              'info',
+              6000
+            );
+            
+            // Recharger les commandes
+            await loadOrders();
+            render();
+          }
+        } catch (error) {
+          console.error('Erreur WebSocket:', error);
+        }
+      };
+      
+      ws.onerror = (error) => {
+        console.error('WebSocket erreur:', error);
+      };
+      
+      ws.onclose = () => {
+        console.log('🔴 WebSocket déconnecté, reconnexion dans 3s...');
+        setTimeout(startWebSocket, 3000);
+      };
+    }
+  </script>
+</body>
+</html>

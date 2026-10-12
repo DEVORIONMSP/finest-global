@@ -1,0 +1,1213 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard admin — Finest Global</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/components.css">
+  <style>
+    .dashboard {
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      min-height: calc(100vh - 70px);
+      background: var(--gray-50);
+    }
+    
+    /* ============================================================
+       SIDEBAR
+       ============================================================ */
+    .sidebar {
+      background: linear-gradient(180deg, var(--blue-950), var(--blue-800));
+      color: var(--white);
+      padding: 24px 0;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+    }
+    
+    .sidebar-header {
+      padding: 0 24px 24px;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      margin-bottom: 16px;
+    }
+    
+    .sidebar-title {
+      font-size: 1.1rem;
+      font-weight: 800;
+      margin-bottom: 4px;
+      color: var(--white);
+    }
+    
+    .sidebar-subtitle {
+      font-size: 0.8rem;
+      color: rgba(255,255,255,0.6);
+    }
+    
+    .sidebar-nav {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      padding: 0 12px;
+    }
+    
+    .sidebar-link {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      border-radius: var(--radius);
+      color: rgba(255,255,255,0.75);
+      font-weight: 500;
+      font-size: 0.9rem;
+      transition: all var(--transition);
+      cursor: pointer;
+      border: none;
+      background: none;
+      font-family: inherit;
+      text-align: left;
+      width: 100%;
+    }
+    
+    .sidebar-link:hover {
+      background: rgba(255,255,255,0.08);
+      color: var(--white);
+    }
+    
+    .sidebar-link.active {
+      background: var(--blue-700);
+      color: var(--white);
+    }
+    
+    .sidebar-link-icon { font-size: 1.1rem; }
+    
+    /* ============================================================
+       MAIN
+       ============================================================ */
+    .dashboard-main {
+      padding: 32px;
+      min-width: 0;
+    }
+    
+    .dashboard-header {
+      margin-bottom: 28px;
+    }
+    
+    .dashboard-header h1 {
+      font-size: 1.75rem;
+      color: var(--blue-900);
+      margin-bottom: 6px;
+      letter-spacing: -0.5px;
+    }
+    
+    .dashboard-header p {
+      color: var(--gray-500);
+      font-size: 0.95rem;
+    }
+    
+    /* ============================================================
+       STATS CARDS
+       ============================================================ */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+    
+    .stat-card {
+      background: var(--white);
+      border: 1.5px solid var(--gray-200);
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      transition: all var(--transition);
+    }
+    
+    .stat-card:hover {
+      border-color: var(--blue-500);
+      box-shadow: var(--shadow-md);
+      transform: translateY(-2px);
+    }
+    
+    .stat-card-icon {
+      font-size: 1.5rem;
+      margin-bottom: 8px;
+    }
+    
+    .stat-card-value {
+      font-size: 1.75rem;
+      font-weight: 900;
+      color: var(--blue-900);
+      letter-spacing: -1px;
+      margin-bottom: 4px;
+    }
+    
+    .stat-card-label {
+      font-size: 0.85rem;
+      color: var(--gray-500);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    
+    .stat-card-highlight {
+      background: linear-gradient(135deg, var(--blue-700), var(--blue-500));
+      color: var(--white);
+      border: none;
+    }
+    
+    .stat-card-highlight .stat-card-value,
+    .stat-card-highlight .stat-card-label {
+      color: var(--white);
+    }
+    
+    /* ============================================================
+       GRAPHIQUE VISITEURS
+       ============================================================ */
+    .chart-card {
+      background: var(--white);
+      border: 1.5px solid var(--gray-200);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      margin-bottom: 24px;
+    }
+    
+    .chart-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    
+    .chart-header h3 {
+      font-size: 1.1rem;
+      color: var(--blue-900);
+    }
+    
+    .chart-tabs {
+      display: flex;
+      gap: 4px;
+      background: var(--gray-100);
+      border-radius: var(--radius);
+      padding: 4px;
+    }
+    
+    .chart-tab {
+      padding: 6px 14px;
+      border-radius: var(--radius-sm);
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--gray-500);
+      cursor: pointer;
+      transition: all var(--transition);
+      border: none;
+      background: none;
+    }
+    
+    .chart-tab.active {
+      background: var(--white);
+      color: var(--blue-700);
+      box-shadow: var(--shadow-sm);
+    }
+    
+    .chart-bars {
+      display: flex;
+      align-items: flex-end;
+      gap: 6px;
+      height: 200px;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--gray-200);
+      overflow-x: auto;
+    }
+    
+    .bar-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      flex: 1;
+      min-width: 30px;
+      height: 100%;
+      justify-content: flex-end;
+    }
+    
+    .bar {
+      width: 100%;
+      max-width: 40px;
+      background: linear-gradient(180deg, var(--blue-500), var(--blue-700));
+      border-radius: 4px 4px 0 0;
+      min-height: 4px;
+      position: relative;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+    
+    .bar:hover {
+      background: linear-gradient(180deg, var(--orange-500), var(--orange-600));
+    }
+    
+    .bar-tooltip {
+      position: absolute;
+      bottom: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--blue-900);
+      color: var(--white);
+      font-size: 0.7rem;
+      padding: 4px 8px;
+      border-radius: 4px;
+      white-space: nowrap;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s;
+      margin-bottom: 4px;
+    }
+    
+    .bar:hover .bar-tooltip {
+      opacity: 1;
+    }
+    
+    .bar-label {
+      font-size: 0.65rem;
+      color: var(--gray-500);
+      margin-top: 6px;
+      transform: rotate(-45deg);
+      white-space: nowrap;
+      text-align: right;
+    }
+    
+    /* ============================================================
+       TABLEAU
+       ============================================================ */
+    .table-card {
+      background: var(--white);
+      border: 1.5px solid var(--gray-200);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+    }
+    
+    .table-header {
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--gray-200);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    
+    .table-header h3 {
+      font-size: 1.1rem;
+      color: var(--blue-900);
+    }
+    
+    .table-filter {
+      padding: 8px 14px;
+      border: 1.5px solid var(--gray-200);
+      border-radius: var(--radius);
+      font-size: 0.85rem;
+      background: var(--white);
+      cursor: pointer;
+    }
+    
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    
+    table th {
+      text-align: left;
+      padding: 12px 16px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--gray-500);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      background: var(--gray-50);
+      border-bottom: 1px solid var(--gray-200);
+    }
+    
+    table td {
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--gray-100);
+      font-size: 0.9rem;
+      color: var(--gray-700);
+    }
+    
+    table tr:last-child td {
+      border-bottom: none;
+    }
+    
+    table tr:hover td {
+      background: var(--gray-50);
+    }
+    
+    .table-empty {
+      padding: 60px 20px;
+      text-align: center;
+      color: var(--gray-500);
+    }
+    
+    /* ============================================================
+       CLASSEMENTS
+       ============================================================ */
+    .rankings-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+    
+    .ranking-card {
+      background: var(--white);
+      border: 1.5px solid var(--gray-200);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+    }
+    
+    .ranking-card h3 {
+      font-size: 1.1rem;
+      color: var(--blue-900);
+      margin-bottom: 20px;
+    }
+    
+    .ranking-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--gray-100);
+    }
+    
+    .ranking-item:last-child {
+      border-bottom: none;
+    }
+    
+    .ranking-position {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--gray-100);
+      color: var(--gray-700);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 0.85rem;
+      flex-shrink: 0;
+    }
+    
+    .ranking-position.top-1 {
+      background: linear-gradient(135deg, #FBBF24, #D97706);
+      color: var(--white);
+    }
+    
+    .ranking-position.top-2 {
+      background: linear-gradient(135deg, #CBD5E1, #94A3B8);
+      color: var(--white);
+    }
+    
+    .ranking-position.top-3 {
+      background: linear-gradient(135deg, #FDBA74, #EA580C);
+      color: var(--white);
+    }
+    
+    .ranking-info {
+      flex: 1;
+      min-width: 0;
+    }
+    
+    .ranking-name {
+      font-weight: 700;
+      color: var(--blue-900);
+      font-size: 0.95rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    
+    .ranking-sub {
+      font-size: 0.8rem;
+      color: var(--gray-500);
+    }
+    
+    .ranking-value {
+      font-weight: 800;
+      color: var(--orange-600);
+      font-size: 0.95rem;
+      text-align: right;
+      white-space: nowrap;
+    }
+    
+    /* ============================================================
+       RESPONSIVE
+       ============================================================ */
+    @media (max-width: 900px) {
+      .dashboard {
+        grid-template-columns: 1fr;
+      }
+      .sidebar {
+        position: relative;
+        height: auto;
+        padding: 16px 0;
+      }
+      .sidebar-nav {
+        flex-direction: row;
+        overflow-x: auto;
+        padding: 0 16px;
+      }
+      .sidebar-link {
+        white-space: nowrap;
+        padding: 10px 14px;
+      }
+      .dashboard-main {
+        padding: 20px 16px;
+      }
+      .rankings-grid {
+        grid-template-columns: 1fr;
+      }
+      .chart-bars {
+        height: 150px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="navbar"></div>
+
+  <div class="dashboard">
+    
+    <!-- ============================================================
+         SIDEBAR
+         ============================================================ -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-title">👑 Admin</div>
+        <div class="sidebar-subtitle">Finest Global</div>
+      </div>
+      
+      <nav class="sidebar-nav">
+        <button class="sidebar-link active" onclick="switchTab('overview')" data-tab="overview">
+          <span class="sidebar-link-icon">📊</span>
+          Vue d'ensemble
+        </button>
+        <button class="sidebar-link" onclick="switchTab('users')" data-tab="users">
+          <span class="sidebar-link-icon">👥</span>
+          Utilisateurs
+        </button>
+        <button class="sidebar-link" onclick="switchTab('shops')" data-tab="shops">
+          <span class="sidebar-link-icon">🏪</span>
+          Boutiques
+        </button>
+        <button class="sidebar-link" onclick="switchTab('orders')" data-tab="orders">
+          <span class="sidebar-link-icon">📦</span>
+          Commandes
+        </button>
+        <button class="sidebar-link" onclick="switchTab('categories')" data-tab="categories">
+          <span class="sidebar-link-icon">🏷️</span>
+          Catégories
+        </button>
+        <button class="sidebar-link" onclick="switchTab('rankings')" data-tab="rankings">
+          <span class="sidebar-link-icon">🏆</span>
+          Classements
+        </button>
+      </nav>
+    </aside>
+    
+    <!-- ============================================================
+         MAIN
+         ============================================================ -->
+    <main class="dashboard-main" id="dashboard-main">
+      <div class="loading-container">
+        <span class="spinner spinner-blue" style="width: 40px; height: 40px;"></span>
+      </div>
+    </main>
+    
+  </div>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/auth.js"></script>
+  <script src="/js/navbar.js"></script>
+  <script>
+    // ============================================================
+    // ÉTAT GLOBAL
+    // ============================================================
+    
+    let overview = null;
+    let users = [];
+    let shops = [];
+    let orders = [];
+    let topSellers = [];
+    let topProducts = [];
+    let visitorsData = null;
+    let visitorsPeriod = 'week';
+    let allCategories = [];
+    
+    // ============================================================
+    // INITIALISATION
+    // ============================================================
+    
+    document.addEventListener('DOMContentLoaded', async () => {
+      renderNavbar();
+      
+      if (!Auth.requireAdmin()) return;
+      
+      await Promise.all([
+        loadOverview(),
+        loadUsers(),
+        loadShops(),
+        loadOrders(),
+        loadRankings(),
+        loadVisitors('week'),
+        loadCategories(),
+      ]);
+      
+      switchTab('overview');
+    });
+    
+    // ============================================================
+    // NAVIGATION
+    // ============================================================
+    
+    function switchTab(tabName) {
+      document.querySelectorAll('.sidebar-link').forEach(link => {
+        link.classList.toggle('active', link.dataset.tab === tabName);
+      });
+      
+      if (tabName === 'overview') renderOverview();
+      else if (tabName === 'users') renderUsers();
+      else if (tabName === 'shops') renderShops();
+      else if (tabName === 'orders') renderOrders();
+      else if (tabName === 'categories') renderCategories();
+      else if (tabName === 'rankings') renderRankings();
+    }
+    
+    // ============================================================
+    // CHARGEMENTS
+    // ============================================================
+    
+    async function loadOverview() {
+      try { overview = await AdminAPI.overview(); }
+      catch (e) { console.error('Erreur overview:', e); }
+    }
+    
+    async function loadUsers() {
+      try { users = await AdminAPI.users(); }
+      catch (e) { console.error('Erreur users:', e); }
+    }
+    
+    async function loadShops() {
+      try { shops = await AdminAPI.shops(); }
+      catch (e) { console.error('Erreur shops:', e); }
+    }
+    
+    async function loadOrders() {
+      try { orders = await AdminAPI.orders(); }
+      catch (e) { console.error('Erreur orders:', e); }
+    }
+    
+    async function loadRankings() {
+      try {
+        [topSellers, topProducts] = await Promise.all([
+          AdminAPI.topSellers(10),
+          AdminAPI.topProducts(10),
+        ]);
+      } catch (e) { console.error('Erreur rankings:', e); }
+    }
+    
+    async function loadVisitors(period) {
+      try {
+        visitorsData = await AdminAPI.visitors(period);
+        visitorsPeriod = period;
+      } catch (e) { console.error('Erreur visitors:', e); }
+    }
+    
+    async function loadCategories() {
+      try {
+        allCategories = await AdminCategoriesAPI.list();
+      } catch (e) {
+        console.error('Erreur catégories:', e);
+        allCategories = [];
+      }
+    }
+    
+    // ============================================================
+    // ONGLET OVERVIEW
+    // ============================================================
+    
+    function renderOverview() {
+      if (!overview) return;
+      
+      const main = document.getElementById('dashboard-main');
+      
+      main.innerHTML = `
+        <div class="dashboard-header">
+          <h1>Vue d'ensemble 👑</h1>
+          <p>Statistiques globales de la plateforme Finest Global.</p>
+        </div>
+        
+        <div class="stats-grid">
+          <div class="stat-card stat-card-highlight">
+            <div class="stat-card-icon">💰</div>
+            <div class="stat-card-value">${formatPrice(overview.total_revenue)}</div>
+            <div class="stat-card-label">Chiffre d'affaires</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card-icon">👥</div>
+            <div class="stat-card-value">${overview.total_users}</div>
+            <div class="stat-card-label">Utilisateurs</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card-icon">🏪</div>
+            <div class="stat-card-value">${overview.total_shops}</div>
+            <div class="stat-card-label">Boutiques</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card-icon">🛍️</div>
+            <div class="stat-card-value">${overview.total_products}</div>
+            <div class="stat-card-label">Produits</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card-icon">📦</div>
+            <div class="stat-card-value">${overview.total_orders}</div>
+            <div class="stat-card-label">Commandes</div>
+          </div>
+          <div class="stat-card ${overview.pending_orders > 0 ? 'stat-card-highlight' : ''}">
+            <div class="stat-card-icon">⏳</div>
+            <div class="stat-card-value">${overview.pending_orders}</div>
+            <div class="stat-card-label">En attente</div>
+          </div>
+        </div>
+        
+        <div class="stats-grid" style="grid-template-columns: repeat(2, 1fr);">
+          <div class="stat-card">
+            <div class="stat-card-icon">👤</div>
+            <div class="stat-card-value">${overview.total_sellers}</div>
+            <div class="stat-card-label">Vendeurs</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card-icon">🛒</div>
+            <div class="stat-card-value">${overview.total_clients}</div>
+            <div class="stat-card-label">Clients</div>
+          </div>
+        </div>
+        
+        <div class="chart-card">
+          <div class="chart-header">
+            <h3>📈 Visiteurs</h3>
+            <div class="chart-tabs">
+              <button class="chart-tab ${visitorsPeriod === 'day' ? 'active' : ''}" onclick="changeVisitorsPeriod('day')">Jour</button>
+              <button class="chart-tab ${visitorsPeriod === 'week' ? 'active' : ''}" onclick="changeVisitorsPeriod('week')">Semaine</button>
+              <button class="chart-tab ${visitorsPeriod === 'month' ? 'active' : ''}" onclick="changeVisitorsPeriod('month')">Mois</button>
+            </div>
+          </div>
+          
+          <div style="display:flex;gap:24px;margin-bottom:16px;font-size:0.9rem;">
+            <span><strong style="font-size:1.3rem;color:var(--blue-700);">${visitorsData?.total_visits || 0}</strong> <span style="color:var(--gray-500);">visites</span></span>
+            <span><strong style="font-size:1.3rem;color:var(--blue-700);">${visitorsData?.unique_visitors || 0}</strong> <span style="color:var(--gray-500);">visiteurs uniques</span></span>
+          </div>
+          
+          ${renderVisitorChart()}
+        </div>
+      `;
+    }
+    
+    function renderVisitorChart() {
+      if (!visitorsData || !visitorsData.data || visitorsData.data.length === 0) {
+        return '<div class="table-empty">Aucune donnée de visite pour cette période.</div>';
+      }
+      
+      const max = Math.max(...visitorsData.data.map(d => d.count), 1);
+      const data = visitorsData.data.slice(-30);
+      
+      return `
+        <div class="chart-bars">
+          ${data.map(d => {
+            const height = (d.count / max) * 100;
+            return `
+              <div class="bar-wrapper">
+                <div class="bar" style="height: ${Math.max(height, 2)}%;">
+                  <span class="bar-tooltip">${d.count} visites<br>${d.date}</span>
+                </div>
+                <span class="bar-label">${d.date}</span>
+              </div>
+            `;
+          }).join('')}
+        </div>
+      `;
+    }
+    
+    async function changeVisitorsPeriod(period) {
+      await loadVisitors(period);
+      renderOverview();
+    }
+    
+    // ============================================================
+    // ONGLET UTILISATEURS
+    // ============================================================
+    
+    function renderUsers() {
+      const main = document.getElementById('dashboard-main');
+      
+      main.innerHTML = `
+        <div class="dashboard-header">
+          <h1>👥 Utilisateurs</h1>
+          <p>${users.length} utilisateur${users.length > 1 ? 's' : ''} sur la plateforme.</p>
+        </div>
+        
+        <div class="table-card">
+          <div class="table-header">
+            <h3>Liste des utilisateurs</h3>
+            <select class="table-filter" onchange="filterUsers(this.value)">
+              <option value="">Tous les rôles</option>
+              <option value="client">Clients</option>
+              <option value="seller">Vendeurs</option>
+              <option value="admin">Admins</option>
+            </select>
+          </div>
+          
+          ${users.length === 0 
+            ? '<div class="table-empty">Aucun utilisateur.</div>'
+            : `
+              <table>
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Nom</th>
+                    <th>Téléphone</th>
+                    <th>Email</th>
+                    <th>Rôle</th>
+                    <th>Inscription</th>
+                  </tr>
+                </thead>
+                <tbody id="users-tbody">
+                  ${users.map(u => renderUserRow(u)).join('')}
+                </tbody>
+              </table>
+            `
+          }
+        </div>
+      `;
+    }
+    
+    function renderUserRow(user) {
+      const roleBadge = {
+        admin: '<span class="badge badge-danger">👑 Admin</span>',
+        seller: '<span class="badge badge-orange">🏪 Vendeur</span>',
+        client: '<span class="badge badge-blue">🛒 Client</span>',
+      };
+      
+      return `
+        <tr data-role="${user.role}">
+          <td><strong>#${user.id}</strong></td>
+          <td>${user.first_name ? `${escapeHtml(user.first_name)} ${escapeHtml(user.last_name || '')}` : '<em style="color:var(--gray-500);">—</em>'}</td>
+          <td>${escapeHtml(user.phone)}</td>
+          <td>${user.email ? escapeHtml(user.email) : '<em style="color:var(--gray-500);">—</em>'}</td>
+          <td>${roleBadge[user.role] || user.role}</td>
+          <td>${formatDate(user.created_at)}</td>
+        </tr>
+      `;
+    }
+    
+    function filterUsers(role) {
+      document.querySelectorAll('#users-tbody tr').forEach(row => {
+        row.style.display = (!role || row.dataset.role === role) ? '' : 'none';
+      });
+    }
+    
+    // ============================================================
+    // ONGLET BOUTIQUES
+    // ============================================================
+    
+    function renderShops() {
+      const main = document.getElementById('dashboard-main');
+      
+      main.innerHTML = `
+        <div class="dashboard-header">
+          <h1>🏪 Boutiques</h1>
+          <p>${shops.length} boutique${shops.length > 1 ? 's' : ''} active${shops.length > 1 ? 's' : ''}.</p>
+        </div>
+        
+        <div class="table-card">
+          <div class="table-header">
+            <h3>Toutes les boutiques</h3>
+          </div>
+          
+          ${shops.length === 0 
+            ? '<div class="table-empty">Aucune boutique.</div>'
+            : `
+              <table>
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Nom</th>
+                    <th>Description</th>
+                    <th>Vues</th>
+                    <th>Créée le</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  ${shops.map(s => `
+                    <tr>
+                      <td><strong>#${s.id}</strong></td>
+                      <td><strong>${escapeHtml(s.name)}</strong></td>
+                      <td style="max-width:300px;"><em style="color:var(--gray-500);">${escapeHtml((s.description || '—').substring(0, 60))}${s.description && s.description.length > 60 ? '...' : ''}</em></td>
+                      <td>👁️ ${s.views_count}</td>
+                      <td>${formatDate(s.created_at)}</td>
+                      <td><a href="/shop.html?id=${s.id}" target="_blank" class="btn btn-ghost btn-sm">Voir →</a></td>
+                    </tr>
+                  `).join('')}
+                </tbody>
+              </table>
+            `
+          }
+        </div>
+      `;
+    }
+    
+    // ============================================================
+    // ONGLET COMMANDES
+    // ============================================================
+    
+    function renderOrders() {
+      const main = document.getElementById('dashboard-main');
+      
+      main.innerHTML = `
+        <div class="dashboard-header">
+          <h1>📦 Commandes</h1>
+          <p>${orders.length} commande${orders.length > 1 ? 's' : ''} sur la plateforme.</p>
+        </div>
+        
+        <div class="table-card">
+          <div class="table-header">
+            <h3>Toutes les commandes</h3>
+            <select class="table-filter" onchange="filterOrders(this.value)">
+              <option value="">Tous les statuts</option>
+              <option value="pending">⏳ En attente</option>
+              <option value="confirmed">✅ Confirmées</option>
+              <option value="delivered">📦 Livrées</option>
+              <option value="cancelled">❌ Annulées</option>
+            </select>
+          </div>
+          
+          ${orders.length === 0 
+            ? '<div class="table-empty">Aucune commande.</div>'
+            : `
+              <table>
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Produit</th>
+                    <th>Quantité</th>
+                    <th>Total</th>
+                    <th>Statut</th>
+                    <th>Date</th>
+                  </tr>
+                </thead>
+                <tbody id="orders-tbody">
+                  ${orders.map(o => renderOrderRow(o)).join('')}
+                </tbody>
+              </table>
+            `
+          }
+        </div>
+      `;
+    }
+    
+    function renderOrderRow(order) {
+      const statusBadges = {
+        pending: '<span class="badge badge-warning">⏳ En attente</span>',
+        confirmed: '<span class="badge badge-blue">✅ Confirmée</span>',
+        delivered: '<span class="badge badge-success">📦 Livrée</span>',
+        cancelled: '<span class="badge badge-danger">❌ Annulée</span>',
+      };
+      
+      return `
+        <tr data-status="${order.status}">
+          <td><strong>#${order.id}</strong></td>
+          <td>Produit #${order.product_id}</td>
+          <td>${order.quantity}</td>
+          <td><strong style="color:var(--orange-600);">${formatPrice(order.total_price)}</strong></td>
+          <td>${statusBadges[order.status]}</td>
+          <td>${formatDate(order.created_at)}</td>
+        </tr>
+      `;
+    }
+    
+    function filterOrders(status) {
+      document.querySelectorAll('#orders-tbody tr').forEach(row => {
+        row.style.display = (!status || row.dataset.status === status) ? '' : 'none';
+      });
+    }
+    
+    // ============================================================
+    // ONGLET CATÉGORIES
+    // ============================================================
+    
+    function renderCategories() {
+      const main = document.getElementById('dashboard-main');
+      
+      main.innerHTML = `
+        <div class="dashboard-header" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;">
+          <div>
+            <h1>🏷️ Catégories</h1>
+            <p>${allCategories.length} catégorie${allCategories.length > 1 ? 's' : ''} au total. Les catégories aident les vendeurs à classer leurs produits.</p>
+          </div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;">
+            ${allCategories.length === 0 ? `
+              <button class="btn btn-secondary" onclick="seedCategories()">
+                ⚡ Créer les catégories de base
+              </button>
+            ` : ''}
+            <button class="btn btn-primary" onclick="openCategoryModal()">
+              ➕ Ajouter une catégorie
+            </button>
+          </div>
+        </div>
+        
+        ${allCategories.length === 0 
+          ? `<div class="empty-state">
+              <div class="empty-state-icon">🏷️</div>
+              <h3>Aucune catégorie</h3>
+              <p>Créez les catégories de base pour permettre aux vendeurs de classer leurs produits.</p>
+              <button class="btn btn-primary mt-16" onclick="seedCategories()">⚡ Créer les catégories de base</button>
+            </div>`
+          : `<div class="table-card">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Emoji</th>
+                    <th>Nom</th>
+                    <th>Description</th>
+                    <th>Produits</th>
+                    <th>Ordre</th>
+                    <th>Statut</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  ${allCategories.map(c => `
+                    <tr>
+                      <td style="font-size:1.5rem;">${c.emoji || '🏷️'}</td>
+                      <td><strong style="text-transform:capitalize;">${escapeHtml(c.name)}</strong></td>
+                      <td><em style="color:var(--gray-500);">${escapeHtml(c.description || '—')}</em></td>
+                      <td>${c.product_count}</td>
+                      <td>${c.display_order}</td>
+                      <td>${c.is_active 
+                        ? '<span class="badge badge-success">Active</span>' 
+                        : '<span class="badge badge-danger">Inactive</span>'}</td>
+                      <td>
+                        <button class="btn btn-ghost btn-sm" onclick="openCategoryModal(${c.id})" title="Modifier">✏️</button>
+                        <button class="btn btn-ghost btn-sm" onclick="deleteCategory(${c.id}, '${escapeHtml(c.name)}')" style="color:var(--danger);" title="Supprimer">🗑️</button>
+                      </td>
+                    </tr>
+                  `).join('')}
+                </tbody>
+              </table>
+            </div>`
+        }
+        
+        <div id="category-modal" class="hidden"></div>
+      `;
+    }
+    
+    function openCategoryModal(categoryId = null) {
+      const isEdit = !!categoryId;
+      const cat = isEdit ? allCategories.find(c => c.id === categoryId) : {
+        name: '', description: '', emoji: '🏷️', display_order: 0, is_active: true,
+      };
+      
+      const modal = document.getElementById('category-modal');
+      modal.innerHTML = `
+        <div class="modal-overlay" onclick="closeCategoryModal(event)">
+          <div class="modal" style="max-width:480px;" onclick="event.stopPropagation()">
+            <div class="modal-header">
+              <h3>${isEdit ? '✏️ Modifier la catégorie' : '➕ Nouvelle catégorie'}</h3>
+              <button class="modal-close" onclick="closeCategoryModal()">✕</button>
+            </div>
+            
+            <div class="modal-body">
+              <div id="cat-error" class="alert alert-error hidden"></div>
+              
+              <div class="form-group">
+                <label class="form-label required">Nom</label>
+                <input type="text" class="form-input" id="c-name" value="${escapeHtml(cat.name)}" placeholder="Ex: chaussures">
+                <div class="form-hint">En minuscules, court et clair. Ce nom apparaîtra dans les filtres.</div>
+              </div>
+              
+              <div class="form-group">
+                <label class="form-label">Emoji</label>
+                <input type="text" class="form-input" id="c-emoji" value="${escapeHtml(cat.emoji || '🏷️')}" maxlength="4" placeholder="🏷️">
+                <div class="form-hint">Un emoji pour identifier visuellement la catégorie.</div>
+              </div>
+              
+              <div class="form-group">
+                <label class="form-label">Description</label>
+                <input type="text" class="form-input" id="c-desc" value="${escapeHtml(cat.description || '')}" placeholder="Ex: Chaussures homme, femme, enfant">
+              </div>
+              
+              <div class="form-group">
+                <label class="form-label">Ordre d'affichage</label>
+                <input type="number" class="form-input" id="c-order" value="${cat.display_order}" min="0">
+                <div class="form-hint">Plus le chiffre est petit, plus la catégorie apparaît en haut.</div>
+              </div>
+              
+              ${isEdit ? `
+                <div class="form-group">
+                  <label style="display:flex;align-items:center;gap:8px;cursor:pointer;">
+                    <input type="checkbox" id="c-active" ${cat.is_active ? 'checked' : ''}>
+                    <span>Catégorie active (visible par les vendeurs)</span>
+                  </label>
+                </div>
+              ` : ''}
+            </div>
+            
+            <div class="modal-footer">
+              <button class="btn btn-ghost" onclick="closeCategoryModal()">Annuler</button>
+              <button class="btn btn-primary" id="save-cat-btn" onclick="saveCategory(${categoryId || 'null'})">
+                ${isEdit ? 'Enregistrer' : 'Créer'}
+              </button>
+            </div>
+          </div>
+        </div>
+      `;
+      modal.classList.remove('hidden');
+    }
+    
+    function closeCategoryModal(event) {
+      if (event && event.target !== event.currentTarget) return;
+      document.getElementById('category-modal').classList.add('hidden');
+    }
+    
+    async function saveCategory(categoryId) {
+      const btn = document.getElementById('save-cat-btn');
+      const errorDiv = document.getElementById('cat-error');
+      errorDiv.classList.add('hidden');
+      
+      const data = {
+        name: document.getElementById('c-name').value.trim().toLowerCase(),
+        emoji: document.getElementById('c-emoji').value.trim() || '🏷️',
+        description: document.getElementById('c-desc').value.trim() || null,
+        display_order: parseInt(document.getElementById('c-order').value) || 0,
+      };
+      
+      if (categoryId) {
+        const activeCheckbox = document.getElementById('c-active');
+        if (activeCheckbox) data.is_active = activeCheckbox.checked;
+      }
+      
+      if (!data.name) {
+        errorDiv.textContent = 'Le nom est obligatoire.';
+        errorDiv.classList.remove('hidden');
+        return;
+      }
+      
+      btn.disabled = true;
+      btn.innerHTML = '<span class="spinner"></span>';
+      
+      try {
+        if (categoryId) {
+          await AdminCategoriesAPI.update(categoryId, data);
+          showToast('Catégorie mise à jour.', 'success');
+        } else {
+          await AdminCategoriesAPI.create(data);
+          showToast('Catégorie créée.', 'success');
+        }
+        closeCategoryModal();
+        await loadCategories();
+        renderCategories();
+      } catch (error) {
+        errorDiv.textContent = error.message;
+        errorDiv.classList.remove('hidden');
+        btn.disabled = false;
+        btn.textContent = categoryId ? 'Enregistrer' : 'Créer';
+      }
+    }
+    
+    async function deleteCategory(categoryId, name) {
+      if (!confirm(`Supprimer la catégorie "${name}" ?`)) return;
+      try {
+        await AdminCategoriesAPI.delete(categoryId);
+        showToast('Catégorie supprimée.', 'success');
+        await loadCategories();
+        renderCategories();
+      } catch (error) {
+        showToast(error.message, 'error');
+      }
+    }
+    
+    async function seedCategories() {
+      if (!confirm('Créer les catégories de base (mode, chaussures, sacs, etc.) ?')) return;
+      try {
+        const result = await AdminCategoriesAPI.seed();
+        showToast(`✅ ${result.created} catégorie(s) créée(s).`, 'success');
+        await loadCategories();
+        renderCategories();
+      } catch (error) {
+        showToast(error.message, 'error');
+      }
+    }
+    
+    // ============================================================
+    // ONGLET CLASSEMENTS
+    // ============================================================
+    
+    function renderRankings() {
+      const main = document.getElementById('dashboard-main');
+      
+      main.innerHTML = `
+        <div class="dashboard-header">
+          <h1>🏆 Classements</h1>
+          <p>Les meilleurs vendeurs et produits de la plateforme.</p>
+        </div>
+        
+        <div class="rankings-grid">
+          
+          <div class="ranking-card">
+            <h3>🥇 Top vendeurs</h3>
+            ${topSellers.length === 0 
+              ? '<div class="table-empty">Aucune vente pour l\'instant.</div>'
+              : topSellers.map((s, i) => `
+                <div class="ranking-item">
+                  <div class="ranking-position ${i === 0 ? 'top-1' : i === 1 ? 'top-2' : i === 2 ? 'top-3' : ''}">
+                    ${i + 1}
+                  </div>
+                  <div class="ranking-info">
+                    <div class="ranking-name">${escapeHtml(s.shop_name || 'Boutique')}</div>
+                    <div class="ranking-sub">${escapeHtml(s.first_name || '')} ${escapeHtml(s.last_name || '')} • ${s.total_sales} vente${s.total_sales > 1 ? 's' : ''}</div>
+                  </div>
+                  <div class="ranking-value">${formatPrice(s.total_revenue)}</div>
+                </div>
+              `).join('')
+            }
+          </div>
+          
+          <div class="ranking-card">
+            <h3>🔥 Top produits</h3>
+            ${topProducts.length === 0 
+              ? '<div class="table-empty">Aucun produit vendu pour l\'instant.</div>'
+              : topProducts.map((p, i) => `
+                <div class="ranking-item">
+                  <div class="ranking-position ${i === 0 ? 'top-1' : i === 1 ? 'top-2' : i === 2 ? 'top-3' : ''}">
+                    ${i + 1}
+                  </div>
+                  <div class="ranking-info">
+                    <div class="ranking-name">${escapeHtml(p.name)}</div>
+                    <div class="ranking-sub">${escapeHtml(p.shop_name || '')} • ${p.sales_count} vente${p.sales_count > 1 ? 's' : ''} • 👁️ ${p.views_count}</div>
+                  </div>
+                  <div class="ranking-value">${formatPrice(p.revenue)}</div>
+                </div>
+              `).join('')
+            }
+          </div>
+          
+        </div>
+      `;
+    }
+  </script>
+</body>
+</html>

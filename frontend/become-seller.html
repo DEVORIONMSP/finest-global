@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Devenir vendeur — Finest Global</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/components.css">
+  <style>
+    .upgrade-page {
+      min-height: calc(100vh - 70px);
+      padding: 60px 20px;
+      background: linear-gradient(135deg, var(--blue-50) 0%, var(--white) 100%);
+    }
+    
+    .upgrade-container {
+      max-width: 640px;
+      margin: 0 auto;
+    }
+    
+    .upgrade-card {
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-lg);
+      padding: 48px 40px;
+    }
+    
+    .upgrade-header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    
+    .upgrade-icon {
+      font-size: 3.5rem;
+      margin-bottom: 16px;
+    }
+    
+    .upgrade-header h1 {
+      margin-bottom: 12px;
+    }
+    
+    .upgrade-header p {
+      color: var(--gray-500);
+      max-width: 480px;
+      margin: 0 auto;
+    }
+    
+    .benefits {
+      background: var(--blue-50);
+      border-radius: var(--radius);
+      padding: 24px;
+      margin-bottom: 32px;
+    }
+    
+    .benefits h3 {
+      font-size: 1rem;
+      margin-bottom: 16px;
+    }
+    
+    .benefits ul {
+      display: grid;
+      gap: 10px;
+    }
+    
+    .benefits li {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.9rem;
+      color: var(--gray-700);
+    }
+    
+    .benefits li::before {
+      content: "✓";
+      background: var(--blue-500);
+      color: var(--white);
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.7rem;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+    
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    
+    @media (max-width: 500px) {
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+      .upgrade-card {
+        padding: 32px 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="navbar"></div>
+
+  <div class="upgrade-page">
+    <div class="upgrade-container">
+      
+      <div class="upgrade-card">
+        
+        <div class="upgrade-header">
+          <div class="upgrade-icon">🚀</div>
+          <h1>Devenez vendeur</h1>
+          <p>Ajoutez quelques informations et commencez à vendre sur Finest Global.</p>
+        </div>
+        
+        <div class="benefits">
+          <h3>Ce que vous obtenez :</h3>
+          <ul>
+            <li>Boutique en ligne gratuite et personnalisable</li>
+            <li>Notifications en temps réel des commandes</li>
+            <li>Tableau de bord avec statistiques</li>
+            <li>Accès à des milliers d'acheteurs potentiels</li>
+            <li>Aucune commission au démarrage</li>
+          </ul>
+        </div>
+        
+        <form id="upgrade-form" onsubmit="upgrade(event)">
+          <div id="upgrade-error" class="alert alert-error hidden"></div>
+          
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label required">Prénom</label>
+              <input 
+                type="text" 
+                class="form-input" 
+                id="first-name"
+                placeholder="Ex: Aïcha"
+                required
+              >
+            </div>
+            <div class="form-group">
+              <label class="form-label required">Nom</label>
+              <input 
+                type="text" 
+                class="form-input" 
+                id="last-name"
+                placeholder="Ex: Dossou"
+                required
+              >
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label required">Email</label>
+            <input 
+              type="email" 
+              class="form-input" 
+              id="email"
+              placeholder="vous@exemple.com"
+              required
+            >
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label required">Mot de passe</label>
+            <input 
+              type="password" 
+              class="form-input" 
+              id="password"
+              placeholder="Minimum 6 caractères"
+              minlength="6"
+              required
+            >
+            <div class="form-hint">
+              Ce mot de passe vous servira pour les connexions futures.
+            </div>
+          </div>
+          
+          <button type="submit" class="btn btn-primary btn-block btn-lg" id="btn-upgrade">
+            Devenir vendeur
+          </button>
+        </form>
+        
+      </div>
+      
+    </div>
+  </div>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/auth.js"></script>
+  <script src="/js/navbar.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      renderNavbar();
+      
+      // Vérifier qu'on est connecté
+      if (!Auth.requireAuth()) return;
+      
+      // Si déjà vendeur, rediriger
+      if (Auth.isSeller()) {
+        window.location.href = '/dashboard-seller.html';
+      }
+    });
+    
+    async function upgrade(event) {
+      event.preventDefault();
+      
+      const errorDiv = document.getElementById('upgrade-error');
+      const btn = document.getElementById('btn-upgrade');
+      
+      errorDiv.classList.add('hidden');
+      
+      const data = {
+        first_name: document.getElementById('first-name').value.trim(),
+        last_name: document.getElementById('last-name').value.trim(),
+        email: document.getElementById('email').value.trim(),
+        password: document.getElementById('password').value,
+      };
+      
+      if (data.password.length < 6) {
+        errorDiv.textContent = 'Le mot de passe doit contenir au moins 6 caractères.';
+        errorDiv.classList.remove('hidden');
+        return;
+      }
+      
+      btn.disabled = true;
+      btn.innerHTML = '<span class="spinner"></span> Transformation...';
+      
+      try {
+        const result = await UsersAPI.upgradeToSeller(data);
+        Auth.setSession(result.access_token, result.user);
+        showToast('Vous êtes maintenant vendeur !', 'success');
+        setTimeout(() => {
+          window.location.href = '/dashboard-seller.html';
+        }, 800);
+      } catch (error) {
+        errorDiv.textContent = error.message;
+        errorDiv.classList.remove('hidden');
+        btn.disabled = false;
+        btn.textContent = 'Devenir vendeur';
+      }
+    }
+  </script>
+</body>
+</html>
