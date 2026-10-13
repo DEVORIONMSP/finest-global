@@ -15,9 +15,7 @@
       padding: 40px 0 60px;
     }
     
-    .orders-header {
-      margin-bottom: 32px;
-    }
+    .orders-header { margin-bottom: 32px; }
     
     .orders-header h1 {
       font-size: 1.75rem;
@@ -26,9 +24,7 @@
       letter-spacing: -0.5px;
     }
     
-    .orders-header p {
-      color: var(--gray-500);
-    }
+    .orders-header p { color: var(--gray-500); }
     
     .orders-tabs {
       display: flex;
@@ -46,9 +42,7 @@
       -webkit-overflow-scrolling: touch;
     }
     
-    .orders-tabs::-webkit-scrollbar {
-      display: none;
-    }
+    .orders-tabs::-webkit-scrollbar { display: none; }
     
     .orders-tab {
       padding: 10px 20px;
@@ -64,9 +58,7 @@
       font-family: inherit;
     }
     
-    .orders-tab:hover {
-      color: var(--blue-700);
-    }
+    .orders-tab:hover { color: var(--blue-700); }
     
     .orders-tab.active {
       background: var(--blue-700);
@@ -82,14 +74,9 @@
       font-size: 0.75rem;
     }
     
-    .orders-tab.active .orders-tab-count {
-      background: rgba(255,255,255,0.3);
-    }
+    .orders-tab.active .orders-tab-count { background: rgba(255,255,255,0.3); }
     
-    .orders-list {
-      display: grid;
-      gap: 16px;
-    }
+    .orders-list { display: grid; gap: 16px; }
     
     .order-item {
       background: var(--white);
@@ -104,22 +91,10 @@
       box-shadow: var(--shadow-md);
     }
     
-    .order-item.pending {
-      border-left: 4px solid var(--orange-500);
-    }
-    
-    .order-item.confirmed {
-      border-left: 4px solid var(--blue-500);
-    }
-    
-    .order-item.delivered {
-      border-left: 4px solid var(--success);
-    }
-    
-    .order-item.cancelled {
-      border-left: 4px solid var(--danger);
-      opacity: 0.7;
-    }
+    .order-item.pending { border-left: 4px solid var(--orange-500); }
+    .order-item.confirmed { border-left: 4px solid var(--blue-500); }
+    .order-item.delivered { border-left: 4px solid var(--success); }
+    .order-item.cancelled { border-left: 4px solid var(--danger); opacity: 0.7; }
     
     .order-item-body {
       padding: 20px;
@@ -149,9 +124,7 @@
       object-fit: cover;
     }
     
-    .order-details {
-      min-width: 0;
-    }
+    .order-details { min-width: 0; }
     
     .order-product-name {
       font-weight: 700;
@@ -198,25 +171,10 @@
       margin-bottom: 12px;
     }
     
-    .status-pending {
-      background: #FEF3C7;
-      color: #92400E;
-    }
-    
-    .status-confirmed {
-      background: var(--blue-50);
-      color: var(--blue-700);
-    }
-    
-    .status-delivered {
-      background: #D1FAE5;
-      color: #065F46;
-    }
-    
-    .status-cancelled {
-      background: #FEE2E2;
-      color: #991B1B;
-    }
+    .status-pending { background: #FEF3C7; color: #92400E; }
+    .status-confirmed { background: var(--blue-50); color: var(--blue-700); }
+    .status-delivered { background: #D1FAE5; color: #065F46; }
+    .status-cancelled { background: #FEE2E2; color: #991B1B; }
     
     .order-price {
       font-size: 1.25rem;
@@ -238,79 +196,24 @@
       margin-top: 12px;
     }
     
-    /* ============================================================
-       RESPONSIVE — TABLETTE
-       ============================================================ */
     @media (max-width: 700px) {
-      .order-item-body {
-        grid-template-columns: 1fr;
-      }
-      .order-thumb {
-        width: 100%;
-        height: 140px;
-        font-size: 3rem;
-      }
-      .order-right {
-        text-align: left;
-      }
-      .order-actions {
-        justify-content: flex-start;
-      }
+      .order-item-body { grid-template-columns: 1fr; }
+      .order-thumb { width: 100%; height: 140px; font-size: 3rem; }
+      .order-right { text-align: left; }
+      .order-actions { justify-content: flex-start; }
     }
     
-    /* ============================================================
-       RESPONSIVE — TÉLÉPHONE ANDROID
-       ============================================================ */
     @media (max-width: 640px) {
-      .orders-page {
-        padding: 20px 0 40px;
-      }
-      
-      .orders-header {
-        margin-bottom: 20px;
-      }
-      
-      .orders-header h1 {
-        font-size: 1.35rem;
-      }
-      
-      .orders-header p {
-        font-size: 0.88rem;
-      }
-      
-      .orders-tabs {
-        width: 100%;
-        padding: 5px;
-        gap: 4px;
-        margin-bottom: 16px;
-      }
-      
-      .orders-tab {
-        padding: 8px 14px;
-        font-size: 0.82rem;
-      }
-      
-      .orders-tab-count {
-        font-size: 0.68rem;
-        padding: 1px 6px;
-        margin-left: 4px;
-      }
-      
-      .orders-list {
-        gap: 12px;
-      }
-      
-      .order-item-body {
-        padding: 14px;
-        gap: 12px;
-      }
-      
-      .order-thumb {
-        height: 100px;
-        font-size: 2.5rem;
-        border-radius: var(--radius-sm);
-      }
-      
+      .orders-page { padding: 20px 0 40px; }
+      .orders-header { margin-bottom: 20px; }
+      .orders-header h1 { font-size: 1.35rem; }
+      .orders-header p { font-size: 0.88rem; }
+      .orders-tabs { width: 100%; padding: 5px; gap: 4px; margin-bottom: 16px; }
+      .orders-tab { padding: 8px 14px; font-size: 0.82rem; }
+      .orders-tab-count { font-size: 0.68rem; padding: 1px 6px; margin-left: 4px; }
+      .orders-list { gap: 12px; }
+      .order-item-body { padding: 14px; gap: 12px; }
+      .order-thumb { height: 100px; font-size: 2.5rem; border-radius: var(--radius-sm); }
       .order-product-name {
         font-size: 0.95rem;
         margin-bottom: 4px;
@@ -320,62 +223,20 @@
         display: -webkit-box;
         overflow: hidden;
       }
-      
-      .order-meta {
-        font-size: 0.78rem;
-        gap: 8px;
-        margin-bottom: 6px;
-      }
-      
-      .order-note {
-        font-size: 0.78rem;
-        padding: 6px 10px;
-      }
-      
-      .order-status {
-        padding: 4px 10px;
-        font-size: 0.72rem;
-        margin-bottom: 8px;
-      }
-      
-      .order-price {
-        font-size: 1.1rem;
-      }
-      
-      .order-date {
-        font-size: 0.72rem;
-      }
-      
-      .order-actions {
-        margin-top: 10px;
-      }
-      
-      .order-actions .btn {
-        padding: 6px 12px;
-        font-size: 0.78rem;
-      }
+      .order-meta { font-size: 0.78rem; gap: 8px; margin-bottom: 6px; }
+      .order-note { font-size: 0.78rem; padding: 6px 10px; }
+      .order-status { padding: 4px 10px; font-size: 0.72rem; margin-bottom: 8px; }
+      .order-price { font-size: 1.1rem; }
+      .order-date { font-size: 0.72rem; }
+      .order-actions { margin-top: 10px; }
+      .order-actions .btn { padding: 6px 12px; font-size: 0.78rem; }
     }
     
-    /* ============================================================
-       RESPONSIVE — TRÈS PETIT TÉLÉPHONE
-       ============================================================ */
     @media (max-width: 380px) {
-      .orders-header h1 {
-        font-size: 1.2rem;
-      }
-      
-      .orders-tab {
-        padding: 7px 11px;
-        font-size: 0.75rem;
-      }
-      
-      .order-product-name {
-        font-size: 0.88rem;
-      }
-      
-      .order-price {
-        font-size: 1rem;
-      }
+      .orders-header h1 { font-size: 1.2rem; }
+      .orders-tab { padding: 7px 11px; font-size: 0.75rem; }
+      .order-product-name { font-size: 0.88rem; }
+      .order-price { font-size: 1rem; }
     }
   </style>
 </head>
@@ -387,8 +248,8 @@
     <div class="container">
       
       <div class="orders-header">
-        <h1>📦 Mes commandes</h1>
-        <p>Suivez l'état de vos commandes en temps réel.</p>
+        <h1 data-i18n="orders.title">📦 Mes commandes</h1>
+        <p data-i18n="orders.subtitle">Suivez l'état de vos commandes en temps réel.</p>
       </div>
       
       <div id="loading" class="loading-container">
@@ -402,6 +263,7 @@
 
   <script src="/js/api.js"></script>
   <script src="/js/auth.js"></script>
+  <script src="/js/i18n.js"></script>
   <script src="/js/navbar.js"></script>
   <script>
     let allOrders = [];
@@ -409,10 +271,10 @@
     let ws = null;
     
     const STATUS_LABELS = {
-      pending: { text: 'En attente', emoji: '⏳', class: 'status-pending' },
-      confirmed: { text: 'Confirmée', emoji: '✅', class: 'status-confirmed' },
-      delivered: { text: 'Livrée', emoji: '📦', class: 'status-delivered' },
-      cancelled: { text: 'Annulée', emoji: '❌', class: 'status-cancelled' },
+      pending: { text: t('orders.status_pending'), emoji: '⏳', class: 'status-pending' },
+      confirmed: { text: t('orders.status_confirmed'), emoji: '✅', class: 'status-confirmed' },
+      delivered: { text: t('orders.status_delivered'), emoji: '📦', class: 'status-delivered' },
+      cancelled: { text: t('orders.status_cancelled'), emoji: '❌', class: 'status-cancelled' },
     };
     
     document.addEventListener('DOMContentLoaded', async () => {
@@ -459,23 +321,23 @@
       content.innerHTML = `
         <div class="orders-tabs">
           <button class="orders-tab ${currentFilter === 'all' ? 'active' : ''}" onclick="setFilter('all')">
-            Toutes
+            ${t('orders.all')}
             ${counts.all > 0 ? `<span class="orders-tab-count">${counts.all}</span>` : ''}
           </button>
           <button class="orders-tab ${currentFilter === 'pending' ? 'active' : ''}" onclick="setFilter('pending')">
-            ⏳ En attente
+            ${t('orders.pending')}
             ${counts.pending > 0 ? `<span class="orders-tab-count">${counts.pending}</span>` : ''}
           </button>
           <button class="orders-tab ${currentFilter === 'confirmed' ? 'active' : ''}" onclick="setFilter('confirmed')">
-            ✅ Confirmées
+            ${t('orders.confirmed')}
             ${counts.confirmed > 0 ? `<span class="orders-tab-count">${counts.confirmed}</span>` : ''}
           </button>
           <button class="orders-tab ${currentFilter === 'delivered' ? 'active' : ''}" onclick="setFilter('delivered')">
-            📦 Livrées
+            ${t('orders.delivered')}
             ${counts.delivered > 0 ? `<span class="orders-tab-count">${counts.delivered}</span>` : ''}
           </button>
           <button class="orders-tab ${currentFilter === 'cancelled' ? 'active' : ''}" onclick="setFilter('cancelled')">
-            ❌ Annulées
+            ${t('orders.cancelled')}
             ${counts.cancelled > 0 ? `<span class="orders-tab-count">${counts.cancelled}</span>` : ''}
           </button>
         </div>
@@ -492,9 +354,9 @@
         return `
           <div class="empty-state">
             <div class="empty-state-icon">📭</div>
-            <h3>Vous n'avez pas encore de commandes</h3>
-            <p>Parcourez la marketplace et passez votre première commande.</p>
-            <a href="/marketplace.html" class="btn btn-primary mt-16">Explorer la marketplace →</a>
+            <h3 data-i18n="orders.empty">${t('orders.empty')}</h3>
+            <p data-i18n="orders.empty_p">${t('orders.empty_p')}</p>
+            <a href="/marketplace.html" class="btn btn-primary mt-16" data-i18n="orders.explore">${t('orders.explore')}</a>
           </div>
         `;
       }
@@ -502,8 +364,8 @@
       return `
         <div class="empty-state">
           <div class="empty-state-icon">🔍</div>
-          <h3>Aucune commande dans cette catégorie</h3>
-          <p>Essayez un autre filtre.</p>
+          <h3 data-i18n="orders.no_in_category">${t('orders.no_in_category')}</h3>
+          <p data-i18n="orders.try_other">${t('orders.try_other')}</p>
         </div>
       `;
     }
@@ -526,9 +388,9 @@
                 ${escapeHtml(order.product?.name || 'Produit #' + order.product_id)}
               </div>
               <div class="order-meta">
-                <span>🏪 ${escapeHtml(order.product?.shop_name || 'Boutique')}</span>
-                <span>🔢 Quantité : ${order.quantity}</span>
-                <span>🆔 Commande #${order.id}</span>
+                <span>🏪 ${escapeHtml(order.product?.shop_name || t('orders.shop'))}</span>
+                <span>🔢 ${t('orders.quantity')} : ${order.quantity}</span>
+                <span>🆔 ${t('orders.order_id')} #${order.id}</span>
               </div>
               ${order.note ? `
                 <div class="order-note">
@@ -546,8 +408,8 @@
               
               ${canCancel ? `
                 <div class="order-actions">
-                  <button class="btn btn-ghost btn-sm" onclick="cancelOrder(${order.id})" style="color:var(--danger);">
-                    Annuler
+                  <button class="btn btn-ghost btn-sm" onclick="cancelOrder(${order.id})" style="color:var(--danger);" data-i18n="orders.cancel">
+                    ${t('orders.cancel')}
                   </button>
                 </div>
               ` : ''}
@@ -563,11 +425,11 @@
     }
     
     async function cancelOrder(orderId) {
-      if (!confirm('Voulez-vous vraiment annuler cette commande ?')) return;
+      if (!confirm('?')) return;
       
       try {
         await OrdersAPI.updateStatus(orderId, 'cancelled');
-        showToast('Commande annulée.', 'success');
+        showToast('✅', 'success');
         await loadOrders();
         render();
       } catch (error) {
@@ -593,7 +455,7 @@
           
           if (message.type === 'order_status_changed') {
             showToast(
-              `🔔 Votre commande #${message.order_id} est maintenant : ${message.status}`,
+              `🔔 ${t('orders.order_id')} #${message.order_id} — ${message.status}`,
               'info',
               6000
             );

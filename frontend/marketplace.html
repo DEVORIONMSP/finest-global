@@ -9,9 +9,6 @@
   <link rel="stylesheet" href="/css/main.css">
   <link rel="stylesheet" href="/css/components.css">
   <style>
-    /* ============================================================
-       LAYOUT PAGE
-       ============================================================ */
     .marketplace-page {
       min-height: calc(100vh - 70px);
       background: var(--gray-50);
@@ -25,9 +22,6 @@
       align-items: start;
     }
     
-    /* ============================================================
-       SIDEBAR FILTRES
-       ============================================================ */
     .filters-sidebar {
       background: var(--white);
       border-radius: var(--radius-lg);
@@ -69,9 +63,7 @@
       border-bottom: 1px solid var(--gray-100);
     }
     
-    .filter-group:last-child {
-      border-bottom: none;
-    }
+    .filter-group:last-child { border-bottom: none; }
     
     .filter-label {
       font-size: 0.85rem;
@@ -103,15 +95,8 @@
       color: var(--gray-700);
     }
     
-    .filter-option:hover {
-      background: var(--gray-50);
-    }
-    
-    .filter-option input {
-      margin: 0;
-      cursor: pointer;
-    }
-    
+    .filter-option:hover { background: var(--gray-50); }
+    .filter-option input { margin: 0; cursor: pointer; }
     .filter-option.active {
       background: var(--blue-50);
       color: var(--blue-800);
@@ -138,12 +123,7 @@
       font-size: 0.85rem;
     }
     
-    /* ============================================================
-       MAIN CONTENT
-       ============================================================ */
-    .marketplace-main {
-      min-width: 0;
-    }
+    .marketplace-main { min-width: 0; }
     
     .marketplace-header {
       background: var(--white);
@@ -184,9 +164,6 @@
       border-color: var(--blue-500);
     }
     
-    /* ============================================================
-       GRILLE PRODUITS
-       ============================================================ */
     .products-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
@@ -298,9 +275,6 @@
       gap: 4px;
     }
     
-    /* ============================================================
-       PAGINATION
-       ============================================================ */
     .pagination {
       display: flex;
       justify-content: center;
@@ -338,9 +312,6 @@
       cursor: not-allowed;
     }
     
-    /* ============================================================
-       FILTRES MOBILES (bouton)
-       ============================================================ */
     .mobile-filter-btn {
       display: none;
       position: fixed;
@@ -361,13 +332,8 @@
       font-size: 0.95rem;
     }
     
-    /* ============================================================
-       RESPONSIVE — TABLETTE
-       ============================================================ */
     @media (max-width: 900px) {
-      .marketplace-layout {
-        grid-template-columns: 1fr;
-      }
+      .marketplace-layout { grid-template-columns: 1fr; }
       
       .filters-sidebar {
         position: fixed;
@@ -384,13 +350,8 @@
         padding: 24px 20px;
       }
       
-      .filters-sidebar.open {
-        transform: translateX(0);
-      }
-      
-      .mobile-filter-btn {
-        display: inline-flex;
-      }
+      .filters-sidebar.open { transform: translateX(0); }
+      .mobile-filter-btn { display: inline-flex; }
       
       .products-grid {
         grid-template-columns: repeat(2, 1fr);
@@ -398,17 +359,9 @@
       }
     }
     
-    /* ============================================================
-       RESPONSIVE — TÉLÉPHONE ANDROID
-       ============================================================ */
     @media (max-width: 640px) {
-      .marketplace-page {
-        padding: 16px 0 80px;
-      }
-      
-      .container {
-        padding: 0 14px;
-      }
+      .marketplace-page { padding: 16px 0 80px; }
+      .container { padding: 0 14px; }
       
       .marketplace-header {
         padding: 14px 16px;
@@ -423,9 +376,7 @@
         text-align: center;
       }
       
-      .results-count strong {
-        font-size: 1rem;
-      }
+      .results-count strong { font-size: 1rem; }
       
       .sort-select {
         width: 100%;
@@ -438,9 +389,7 @@
         gap: 10px;
       }
       
-      .product-info {
-        padding: 10px;
-      }
+      .product-info { padding: 10px; }
       
       .product-name {
         font-size: 0.85rem;
@@ -448,13 +397,8 @@
         margin-bottom: 6px;
       }
       
-      .product-price {
-        font-size: 0.9rem;
-      }
-      
-      .product-stats {
-        font-size: 0.68rem;
-      }
+      .product-price { font-size: 0.9rem; }
+      .product-stats { font-size: 0.68rem; }
       
       .product-badge-sales {
         padding: 3px 8px;
@@ -480,18 +424,9 @@
         font-size: 0.82rem;
       }
       
-      .filters-sidebar {
-        padding: 20px 16px;
-      }
-      
-      .filters-title {
-        font-size: 1rem;
-        margin-bottom: 16px;
-      }
-      
-      .filter-options {
-        max-height: 180px;
-      }
+      .filters-sidebar { padding: 20px 16px; }
+      .filters-title { font-size: 1rem; margin-bottom: 16px; }
+      .filter-options { max-height: 180px; }
       
       .mobile-filter-btn {
         bottom: 16px;
@@ -501,25 +436,11 @@
       }
     }
     
-    /* ============================================================
-       RESPONSIVE — TRÈS PETIT TÉLÉPHONE
-       ============================================================ */
     @media (max-width: 380px) {
-      .products-grid {
-        gap: 8px;
-      }
-      
-      .product-info {
-        padding: 8px;
-      }
-      
-      .product-name {
-        font-size: 0.8rem;
-      }
-      
-      .product-price {
-        font-size: 0.85rem;
-      }
+      .products-grid { gap: 8px; }
+      .product-info { padding: 8px; }
+      .product-name { font-size: 0.8rem; }
+      .product-price { font-size: 0.85rem; }
       
       .pagination button {
         padding: 6px 9px;
@@ -541,12 +462,12 @@
         <aside class="filters-sidebar" id="filters-sidebar">
           
           <div class="filters-title">
-            <span>🎯 Filtres</span>
-            <button class="filters-reset" onclick="resetFilters()">Tout effacer</button>
+            <span>🎯 <span data-i18n="marketplace.filters">Filtres</span></span>
+            <button class="filters-reset" onclick="resetFilters()" data-i18n="marketplace.clear_all">Tout effacer</button>
           </div>
           
           <div class="filter-group">
-            <label class="filter-label">Catégories</label>
+            <label class="filter-label" data-i18n="marketplace.categories">Catégories</label>
             <div class="filter-options" id="categories-filter">
               <div class="skeleton" style="height: 32px;"></div>
               <div class="skeleton" style="height: 32px;"></div>
@@ -555,7 +476,7 @@
           </div>
           
           <div class="filter-group">
-            <label class="filter-label">Couleurs</label>
+            <label class="filter-label" data-i18n="marketplace.colors">Couleurs</label>
             <div class="filter-options" id="colors-filter">
               <div class="skeleton" style="height: 32px;"></div>
               <div class="skeleton" style="height: 32px;"></div>
@@ -563,14 +484,15 @@
           </div>
           
           <div class="filter-group">
-            <label class="filter-label">Prix (FCFA)</label>
+            <label class="filter-label" data-i18n="marketplace.price">Prix (FCFA)</label>
             <div class="price-range">
-              <input type="number" id="min-price" placeholder="Min" min="0">
-              <input type="number" id="max-price" placeholder="Max" min="0">
+              <input type="number" id="min-price" placeholder="Min" min="0" data-i18n="marketplace.min" data-i18n-attr="placeholder">
+              <input type="number" id="max-price" placeholder="Max" min="0" data-i18n="marketplace.max" data-i18n-attr="placeholder">
             </div>
             <button 
               class="btn btn-primary btn-sm btn-block mt-8" 
               onclick="applyPriceFilter()"
+              data-i18n="marketplace.apply"
             >
               Appliquer
             </button>
@@ -581,6 +503,7 @@
             onclick="closeMobileFilters()"
             style="display: none;"
             id="close-filters-btn"
+            data-i18n="marketplace.close_filters"
           >
             ✕ Fermer les filtres
           </button>
@@ -592,15 +515,15 @@
           
           <div class="marketplace-header">
             <div class="results-count" id="results-count">
-              <strong>—</strong> produit(s)
+              <strong>—</strong> <span data-i18n="marketplace.products_found">produit(s) trouvé(s)</span>
             </div>
             
             <select class="sort-select" id="sort-select" onchange="changeSort()">
-              <option value="sales">🔥 Plus vendus</option>
-              <option value="recent">🆕 Plus récents</option>
-              <option value="views">👁️ Plus vus</option>
-              <option value="price_asc">💰 Prix croissant</option>
-              <option value="price_desc">💎 Prix décroissant</option>
+              <option value="sales" data-i18n="marketplace.sort_sales">🔥 Plus vendus</option>
+              <option value="recent" data-i18n="marketplace.sort_recent">🆕 Plus récents</option>
+              <option value="views" data-i18n="marketplace.sort_views">👁️ Plus vus</option>
+              <option value="price_asc" data-i18n="marketplace.sort_price_asc">💰 Prix croissant</option>
+              <option value="price_desc" data-i18n="marketplace.sort_price_desc">💎 Prix décroissant</option>
             </select>
           </div>
           
@@ -624,11 +547,12 @@
   
   <!-- Bouton filtres mobile -->
   <button class="mobile-filter-btn" onclick="openMobileFilters()">
-    🎯 Filtres
+    🎯 <span data-i18n="marketplace.filters">Filtres</span>
   </button>
 
   <script src="/js/api.js"></script>
   <script src="/js/auth.js"></script>
+  <script src="/js/i18n.js"></script>
   <script src="/js/navbar.js"></script>
   <script>
     const ITEMS_PER_PAGE = 12;
@@ -696,7 +620,7 @@
         
         const catContainer = document.getElementById('categories-filter');
         if (catsData.categories.length === 0) {
-          catContainer.innerHTML = '<p style="font-size:0.85rem;color:var(--gray-500);">Aucune catégorie disponible</p>';
+          catContainer.innerHTML = '<p style="font-size:0.85rem;color:var(--gray-500);">—</p>';
         } else {
           catContainer.innerHTML = catsData.categories.map(cat => `
             <label class="filter-option ${state.category === cat.name ? 'active' : ''}" data-value="${cat.name}">
@@ -715,7 +639,7 @@
         
         const colContainer = document.getElementById('colors-filter');
         if (colorsData.colors.length === 0) {
-          colContainer.innerHTML = '<p style="font-size:0.85rem;color:var(--gray-500);">Aucune couleur disponible</p>';
+          colContainer.innerHTML = '<p style="font-size:0.85rem;color:var(--gray-500);">—</p>';
         } else {
           colContainer.innerHTML = colorsData.colors.map(col => {
             const hex = COLOR_HEX[col.name.toLowerCase()] || '#CBD5E1';
@@ -768,7 +692,7 @@
         
         state.total = data.total;
         
-        countEl.innerHTML = `<strong>${data.total}</strong> produit${data.total > 1 ? 's' : ''} trouvé${data.total > 1 ? 's' : ''}`;
+        countEl.innerHTML = `<strong>${data.total}</strong> <span data-i18n="marketplace.products_found">${t('marketplace.products_found')}</span>`;
         
         if (data.results.length === 0) {
           grid.innerHTML = '';
@@ -776,9 +700,9 @@
           grid.innerHTML = `
             <div class="empty-state">
               <div class="empty-state-icon">🔍</div>
-              <h3>Aucun produit trouvé</h3>
-              <p>Essayez avec d'autres mots-clés ou réinitialisez les filtres.</p>
-              <button class="btn btn-primary" onclick="resetFilters()">Réinitialiser les filtres</button>
+              <h3 data-i18n="marketplace.no_products">${t('marketplace.no_products')}</h3>
+              <p data-i18n="marketplace.no_products_p">${t('marketplace.no_products_p')}</p>
+              <button class="btn btn-primary" onclick="resetFilters()" data-i18n="marketplace.reset_filters">${t('marketplace.reset_filters')}</button>
             </div>
           `;
           document.getElementById('pagination').innerHTML = '';
@@ -795,9 +719,9 @@
         grid.innerHTML = `
           <div class="empty-state" style="grid-column: 1 / -1;">
             <div class="empty-state-icon">⚠️</div>
-            <h3>Erreur de chargement</h3>
+            <h3>${t('marketplace.no_products')}</h3>
             <p>${escapeHtml(error.message)}</p>
-            <button class="btn btn-primary" onclick="loadProducts()">Réessayer</button>
+            <button class="btn btn-primary" onclick="loadProducts()">↻</button>
           </div>
         `;
       }
@@ -812,11 +736,13 @@
         ? `<span class="product-color-dot" style="background: ${COLOR_HEX[product.color.toLowerCase()]}"></span>`
         : '';
       
+      const salesText = product.sales_count > 1 ? 'ventes' : 'vente';
+      
       return `
         <a href="/shop.html?product=${product.id}" class="product-card">
           <div class="product-image">
             ${photo}
-            ${product.sales_count > 0 ? `<div class="product-badge-sales">${product.sales_count} vente${product.sales_count > 1 ? 's' : ''}</div>` : ''}
+            ${product.sales_count > 0 ? `<div class="product-badge-sales">${product.sales_count} ${salesText}</div>` : ''}
             ${colorDot}
           </div>
           <div class="product-info">
@@ -842,7 +768,7 @@
       
       let html = '';
       
-      html += `<button ${currentPage === 1 ? 'disabled' : ''} onclick="goToPage(${currentPage - 1})">← Précédent</button>`;
+      html += `<button ${currentPage === 1 ? 'disabled' : ''} onclick="goToPage(${currentPage - 1})">${t('marketplace.previous')}</button>`;
       
       const start = Math.max(1, currentPage - 2);
       const end = Math.min(totalPages, start + 4);
@@ -851,7 +777,7 @@
         html += `<button class="${i === currentPage ? 'active' : ''}" onclick="goToPage(${i})">${i}</button>`;
       }
       
-      html += `<button ${currentPage === totalPages ? 'disabled' : ''} onclick="goToPage(${currentPage + 1})">Suivant →</button>`;
+      html += `<button ${currentPage === totalPages ? 'disabled' : ''} onclick="goToPage(${currentPage + 1})">${t('marketplace.next')}</button>`;
       
       container.innerHTML = html;
     }

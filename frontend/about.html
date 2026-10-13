@@ -10,9 +10,6 @@
   <link rel="stylesheet" href="/css/main.css">
   <link rel="stylesheet" href="/css/components.css">
   <style>
-    /* ============================================================
-       HERO
-       ============================================================ */
     .about-hero {
       background: linear-gradient(135deg, var(--blue-950) 0%, var(--blue-700) 60%, var(--blue-500) 100%);
       color: var(--white);
@@ -61,9 +58,7 @@
       color: var(--white);
     }
     
-    .about-hero h1 span {
-      color: var(--orange-500);
-    }
+    .about-hero h1 span { color: var(--orange-500); }
     
     .about-hero p {
       font-size: 1.2rem;
@@ -71,9 +66,6 @@
       line-height: 1.7;
     }
     
-    /* ============================================================
-       SECTIONS
-       ============================================================ */
     .section { padding: 90px 0; }
     
     .section-title {
@@ -96,9 +88,6 @@
       margin: 0 auto;
     }
     
-    /* ============================================================
-       PROBLÈME
-       ============================================================ */
     .section-problem {
       background: var(--blue-800);
       padding: 90px 0;
@@ -164,9 +153,6 @@
       line-height: 1.7;
     }
     
-    /* ============================================================
-       SOLUTION
-       ============================================================ */
     .section-solution {
       background: var(--blue-50);
       padding: 90px 0;
@@ -204,9 +190,6 @@
       line-height: 1.7;
     }
     
-    /* ============================================================
-       VISION
-       ============================================================ */
     .section-vision {
       background: linear-gradient(135deg, var(--blue-900) 0%, var(--blue-700) 100%);
       color: var(--white);
@@ -254,9 +237,6 @@
       font-weight: 800;
     }
     
-    /* ============================================================
-       CHIFFRES CLÉS
-       ============================================================ */
     .stats-band {
       background: var(--white);
       padding: 60px 0;
@@ -288,9 +268,6 @@
       font-weight: 600;
     }
     
-    /* ============================================================
-       CTA FINAL
-       ============================================================ */
     .cta-final {
       background: var(--blue-800);
       color: var(--white);
@@ -361,9 +338,6 @@
       border-color: var(--white);
     }
     
-    /* ============================================================
-       FOOTER
-       ============================================================ */
     .footer {
       background: var(--blue-950);
       color: var(--white);
@@ -376,9 +350,6 @@
       font-size: 0.9rem;
     }
     
-    /* ============================================================
-       RESPONSIVE — TABLETTE
-       ============================================================ */
     @media (max-width: 900px) {
       .about-hero h1 { font-size: 2.25rem; letter-spacing: -1px; }
       .about-hero p { font-size: 1.05rem; }
@@ -392,203 +363,48 @@
       .cta-final h2 { font-size: 1.6rem; }
     }
     
-    /* ============================================================
-       RESPONSIVE — TÉLÉPHONE ANDROID
-       ============================================================ */
     @media (max-width: 640px) {
-      /* Hero */
-      .about-hero {
-        padding: 56px 0 64px;
-      }
-      
-      .about-hero-inner {
-        padding: 0 18px;
-      }
-      
-      .about-hero h1 {
-        font-size: 1.85rem;
-        letter-spacing: -0.8px;
-        margin-bottom: 14px;
-      }
-      
-      .about-hero p {
-        font-size: 0.95rem;
-        line-height: 1.55;
-      }
-      
-      /* Stats band */
-      .stats-band {
-        padding: 36px 0;
-      }
-      
-      .stats-band-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 20px 16px;
-      }
-      
-      .stat-band-item .stat-value {
-        font-size: 1.75rem;
-      }
-      
-      .stat-band-item .stat-label {
-        font-size: 0.72rem;
-        letter-spacing: 0.5px;
-      }
-      
-      /* Sections */
-      .section {
-        padding: 44px 0;
-      }
-      
-      .section-problem,
-      .section-solution {
-        padding: 44px 0;
-      }
-      
-      .section-vision {
-        padding: 52px 0;
-      }
-      
-      .section-title {
-        margin-bottom: 32px;
-        padding: 0 16px;
-      }
-      
-      .section-title h2 {
-        font-size: 1.35rem;
-        letter-spacing: -0.3px;
-      }
-      
-      .section-title p {
-        font-size: 0.88rem;
-        line-height: 1.55;
-      }
-      
-      /* Cartes */
-      .cards-grid {
-        gap: 14px;
-      }
-      
-      .card-glass,
-      .card-white {
-        padding: 22px 20px;
-        border-radius: var(--radius);
-      }
-      
-      .card-glass-emoji,
-      .card-white-emoji {
-        font-size: 1.65rem;
-        margin-bottom: 12px;
-      }
-      
-      .card-glass h3,
-      .card-white h3 {
-        font-size: 1rem;
-        margin-bottom: 8px;
-      }
-      
-      .card-glass p,
-      .card-white p {
-        font-size: 0.85rem;
-        line-height: 1.6;
-      }
-      
-      /* Vision */
-      .vision-text {
-        font-size: 0.95rem;
-        line-height: 1.75;
-        padding: 0 18px;
-      }
-      
-      .vision-text p {
-        margin-bottom: 20px;
-      }
-      
-      /* CTA final */
-      .cta-final {
-        padding: 48px 0;
-      }
-      
-      .cta-final h2 {
-        font-size: 1.4rem;
-        margin-bottom: 12px;
-      }
-      
-      .cta-final p {
-        font-size: 0.9rem;
-        margin-bottom: 24px;
-        padding: 0 18px;
-      }
-      
-      .cta-final-buttons {
-        flex-direction: column;
-        align-items: center;
-        gap: 10px;
-        padding: 0 18px;
-      }
-      
-      .cta-final-buttons .btn {
-        width: 100%;
-        justify-content: center;
-        padding: 13px 20px;
-        font-size: 0.92rem;
-      }
-      
-      /* Footer */
-      .footer {
-        padding: 24px 0;
-      }
-      
-      .footer p {
-        font-size: 0.82rem;
-      }
+      .about-hero { padding: 56px 0 64px; }
+      .about-hero-inner { padding: 0 18px; }
+      .about-hero h1 { font-size: 1.85rem; letter-spacing: -0.8px; margin-bottom: 14px; }
+      .about-hero p { font-size: 0.95rem; line-height: 1.55; }
+      .stats-band { padding: 36px 0; }
+      .stats-band-grid { grid-template-columns: repeat(2, 1fr); gap: 20px 16px; }
+      .stat-band-item .stat-value { font-size: 1.75rem; }
+      .stat-band-item .stat-label { font-size: 0.72rem; letter-spacing: 0.5px; }
+      .section { padding: 44px 0; }
+      .section-problem, .section-solution { padding: 44px 0; }
+      .section-vision { padding: 52px 0; }
+      .section-title { margin-bottom: 32px; padding: 0 16px; }
+      .section-title h2 { font-size: 1.35rem; letter-spacing: -0.3px; }
+      .section-title p { font-size: 0.88rem; line-height: 1.55; }
+      .cards-grid { gap: 14px; }
+      .card-glass, .card-white { padding: 22px 20px; border-radius: var(--radius); }
+      .card-glass-emoji, .card-white-emoji { font-size: 1.65rem; margin-bottom: 12px; }
+      .card-glass h3, .card-white h3 { font-size: 1rem; margin-bottom: 8px; }
+      .card-glass p, .card-white p { font-size: 0.85rem; line-height: 1.6; }
+      .vision-text { font-size: 0.95rem; line-height: 1.75; padding: 0 18px; }
+      .vision-text p { margin-bottom: 20px; }
+      .cta-final { padding: 48px 0; }
+      .cta-final h2 { font-size: 1.4rem; margin-bottom: 12px; }
+      .cta-final p { font-size: 0.9rem; margin-bottom: 24px; padding: 0 18px; }
+      .cta-final-buttons { flex-direction: column; align-items: center; gap: 10px; padding: 0 18px; }
+      .cta-final-buttons .btn { width: 100%; justify-content: center; padding: 13px 20px; font-size: 0.92rem; }
+      .footer { padding: 24px 0; }
+      .footer p { font-size: 0.82rem; }
     }
     
-    /* ============================================================
-       RESPONSIVE — TRÈS PETIT TÉLÉPHONE
-       ============================================================ */
     @media (max-width: 380px) {
-      .about-hero h1 {
-        font-size: 1.6rem;
-      }
-      
-      .about-hero p {
-        font-size: 0.88rem;
-      }
-      
-      .stat-band-item .stat-value {
-        font-size: 1.5rem;
-      }
-      
-      .stat-band-item .stat-label {
-        font-size: 0.65rem;
-      }
-      
-      .section-title h2 {
-        font-size: 1.2rem;
-      }
-      
-      .section-title p {
-        font-size: 0.82rem;
-      }
-      
-      .card-glass h3,
-      .card-white h3 {
-        font-size: 0.92rem;
-      }
-      
-      .card-glass p,
-      .card-white p {
-        font-size: 0.8rem;
-      }
-      
-      .vision-text {
-        font-size: 0.88rem;
-      }
-      
-      .cta-final h2 {
-        font-size: 1.25rem;
-      }
+      .about-hero h1 { font-size: 1.6rem; }
+      .about-hero p { font-size: 0.88rem; }
+      .stat-band-item .stat-value { font-size: 1.5rem; }
+      .stat-band-item .stat-label { font-size: 0.65rem; }
+      .section-title h2 { font-size: 1.2rem; }
+      .section-title p { font-size: 0.82rem; }
+      .card-glass h3, .card-white h3 { font-size: 0.92rem; }
+      .card-glass p, .card-white p { font-size: 0.8rem; }
+      .vision-text { font-size: 0.88rem; }
+      .cta-final h2 { font-size: 1.25rem; }
     }
   </style>
 </head>
@@ -599,8 +415,11 @@
   <!-- HERO -->
   <section class="about-hero">
     <div class="about-hero-inner">
-      <h1>Rendre le commerce <span>visible.</span></h1>
-      <p>Finest Global connecte les commerçants du marché physique à leurs clients — sans remplacer la tradition, en la rendant simplement accessible au monde digital.</p>
+      <h1>
+        <span data-i18n="about.hero_title">Rendre le commerce </span>
+        <span style="color: var(--orange-500);" data-i18n="about.hero_visible">visible.</span>
+      </h1>
+      <p data-i18n="about.hero_p">Finest Global connecte les commerçants du marché physique à leurs clients — sans remplacer la tradition, en la rendant simplement accessible au monde digital.</p>
     </div>
   </section>
 
@@ -610,19 +429,19 @@
       <div class="stats-band-grid">
         <div class="stat-band-item">
           <div class="stat-value" data-count="3">0</div>
-          <div class="stat-label">Vendeurs actifs</div>
+          <div class="stat-label" data-i18n="about.stats_sellers">Vendeurs actifs</div>
         </div>
         <div class="stat-band-item">
           <div class="stat-value" data-count="6">0</div>
-          <div class="stat-label">Produits en ligne</div>
+          <div class="stat-label" data-i18n="about.stats_products">Produits en ligne</div>
         </div>
         <div class="stat-band-item">
           <div class="stat-value" data-count="3">0</div>
-          <div class="stat-label">Réseaux supportés</div>
+          <div class="stat-label" data-i18n="about.stats_networks">Réseaux supportés</div>
         </div>
         <div class="stat-band-item">
           <div class="stat-value" data-count="100" data-suffix="%">0</div>
-          <div class="stat-label">Gratuit pour démarrer</div>
+          <div class="stat-label" data-i18n="about.stats_free">Gratuit pour démarrer</div>
         </div>
       </div>
     </div>
@@ -632,25 +451,25 @@
   <section class="section-problem">
     <div class="container">
       <div class="section-title">
-        <h2>Le problème que nous résolvons</h2>
-        <p>Des milliers de commerçants ont un produit à vendre et un emplacement physique — mais restent invisibles.</p>
+        <h2 data-i18n="about.problem_title">Le problème que nous résolvons</h2>
+        <p data-i18n="about.problem_p">Des milliers de commerçants ont un produit à vendre et un emplacement physique — mais restent invisibles.</p>
       </div>
       
       <div class="cards-grid">
         <div class="card-glass">
           <span class="card-glass-emoji">🚫</span>
-          <h3>Les business sont introuvables</h3>
-          <p>Un vendeur a un stand, mais aucun moyen pour un client de savoir qu'il existe ni ce qu'il propose. Le marché physique est vivant, mais invisible.</p>
+          <h3 data-i18n="about.problem_1_title">Les business sont introuvables</h3>
+          <p data-i18n="about.problem_1_p">Un vendeur a un stand, mais aucun moyen pour un client de savoir qu'il existe ni ce qu'il propose.</p>
         </div>
         <div class="card-glass">
           <span class="card-glass-emoji">🔍</span>
-          <h3>Les clients cherchent sans trouver</h3>
-          <p>Un acheteur veut un produit précis, mais ne sait pas quel commerçant le propose, ni où le trouver. Le lien avec le vendeur est rompu.</p>
+          <h3 data-i18n="about.problem_2_title">Les clients cherchent sans trouver</h3>
+          <p data-i18n="about.problem_2_p">Un acheteur veut un produit précis, mais ne sait pas quel commerçant le propose, ni où le trouver.</p>
         </div>
         <div class="card-glass">
           <span class="card-glass-emoji">📱</span>
-          <h3>Le digital reste une barrière</h3>
-          <p>Beaucoup de commerçants ne sont pas orientés vers les outils numériques. Résultat : le commerce traditionnel reste en marge du digital.</p>
+          <h3 data-i18n="about.problem_3_title">Le digital reste une barrière</h3>
+          <p data-i18n="about.problem_3_p">Beaucoup de commerçants ne sont pas orientés vers les outils numériques.</p>
         </div>
       </div>
     </div>
@@ -660,25 +479,25 @@
   <section class="section-solution">
     <div class="container">
       <div class="section-title">
-        <h2>Notre solution</h2>
-        <p>Un écosystème à trois faces qui connecte tout le monde.</p>
+        <h2 data-i18n="about.solution_title">Notre solution</h2>
+        <p data-i18n="about.solution_p">Un écosystème à trois faces qui connecte tout le monde.</p>
       </div>
       
       <div class="cards-grid">
         <div class="card-white">
           <span class="card-white-emoji">🏪</span>
-          <h3>Les business</h3>
-          <p>Rendus findables pour ce qu'ils vendent déjà. Une vitrine en ligne, sans quitter leur stand physique. Notifications en temps réel des commandes.</p>
+          <h3 data-i18n="about.solution_1_title">Les business</h3>
+          <p data-i18n="about.solution_1_p">Rendus findables pour ce qu'ils vendent déjà. Une vitrine en ligne, sans quitter leur stand physique.</p>
         </div>
         <div class="card-white">
           <span class="card-white-emoji">🛒</span>
-          <h3>Les clients</h3>
-          <p>Trouvent le bon produit, au bon endroit, au bon moment. Commandent directement, sans intermédiaire inutile, depuis leur téléphone.</p>
+          <h3 data-i18n="about.solution_2_title">Les clients</h3>
+          <p data-i18n="about.solution_2_p">Trouvent le bon produit, au bon endroit, au bon moment. Commandent directement.</p>
         </div>
         <div class="card-white">
           <span class="card-white-emoji">🎥</span>
-          <h3>Les talents du digital</h3>
-          <p>Photographes, vidéastes et community managers deviennent les ponts entre vendeurs et acheteurs, et créent de la valeur localement.</p>
+          <h3 data-i18n="about.solution_3_title">Les talents du digital</h3>
+          <p data-i18n="about.solution_3_p">Photographes, vidéastes et community managers deviennent les ponts entre vendeurs et acheteurs.</p>
         </div>
       </div>
     </div>
@@ -688,19 +507,13 @@
   <section class="section-vision">
     <div class="container">
       <div class="section-title">
-        <h2>Notre vision</h2>
+        <h2 data-i18n="about.vision_title">Notre vision</h2>
       </div>
       
       <div class="vision-text">
-        <p>
-          Nous ne remplaçons pas le marché physique. Nous l'<span class="vision-highlight">adaptons à la réalité digitale</span>.
-        </p>
-        <p>
-          Les marchés continueront d'exister — mais leurs commerçants seront <strong>visibles, trouvables et connectés</strong> à leurs clients, partout et à tout moment.
-        </p>
-        <p>
-          Notre objectif : créer un écosystème fort entre <strong>business</strong>, <strong>clients</strong> et <strong>créateurs de contenu</strong>, pour que le commerce entre pleinement dans l'ère numérique — sans perdre son âme.
-        </p>
+        <p data-i18n="about.vision_1">Nous ne remplaçons pas le marché physique. Nous l'adaptons à la réalité digitale.</p>
+        <p data-i18n="about.vision_2">Les marchés continueront d'exister — mais leurs commerçants seront visibles, trouvables et connectés à leurs clients.</p>
+        <p data-i18n="about.vision_3">Notre objectif : créer un écosystème fort entre business, clients et créateurs de contenu.</p>
       </div>
     </div>
   </section>
@@ -708,12 +521,12 @@
   <!-- CTA FINAL -->
   <section class="cta-final">
     <div class="container">
-      <h2>Rejoignez l'aventure</h2>
-      <p>Que vous soyez vendeur, acheteur ou créateur de contenu, il y a une place pour vous sur Finest Global.</p>
+      <h2 data-i18n="about.cta_title">Rejoignez l'aventure</h2>
+      <p data-i18n="about.cta_p">Que vous soyez vendeur, acheteur ou créateur de contenu, il y a une place pour vous sur Finest Global.</p>
       
       <div class="cta-final-buttons">
-        <a href="/marketplace.html" class="btn btn-white btn-lg">Explorer la marketplace →</a>
-        <a href="/register.html" class="btn btn-outline-white btn-lg" id="cta-seller-btn">Devenir vendeur</a>
+        <a href="/marketplace.html" class="btn btn-white btn-lg" data-i18n="about.explore">Explorer la marketplace →</a>
+        <a href="/register.html" class="btn btn-outline-white btn-lg" id="cta-seller-btn" data-i18n="about.become_seller">Devenir vendeur</a>
       </div>
     </div>
   </section>
@@ -721,12 +534,13 @@
   <!-- FOOTER -->
   <footer class="footer">
     <div class="container">
-      <p>© 2026 FinestGlobal — Tous droits réservés.</p>
+      <p>© 2026 FinestGlobal — <span data-i18n="footer.rights">Tous droits réservés.</span></p>
     </div>
   </footer>
 
   <script src="/js/api.js"></script>
   <script src="/js/auth.js"></script>
+  <script src="/js/i18n.js"></script>
   <script src="/js/navbar.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
@@ -774,10 +588,10 @@
       if (!btn) return;
       
       if (Auth.isSeller()) {
-        btn.textContent = 'Aller à mon dashboard →';
+        btn.textContent = t('nav.dashboard') + ' →';
         btn.href = '/dashboard-seller.html';
       } else if (Auth.isAuthenticated()) {
-        btn.textContent = 'Devenir vendeur →';
+        btn.textContent = t('about.become_seller') + ' →';
         btn.href = '/become-seller.html';
       }
     }

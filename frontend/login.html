@@ -54,9 +54,6 @@
       font-weight: 600;
     }
     
-    /* ============================================================
-       RESPONSIVE — TÉLÉPHONE ANDROID
-       ============================================================ */
     @media (max-width: 640px) {
       .auth-page {
         padding: 24px 14px;
@@ -68,21 +65,10 @@
         border-radius: var(--radius);
       }
       
-      .auth-header {
-        margin-bottom: 24px;
-      }
-      
-      .auth-header h1 {
-        font-size: 1.4rem;
-      }
-      
-      .auth-header p {
-        font-size: 0.88rem;
-      }
-      
-      .form-label {
-        font-size: 0.85rem;
-      }
+      .auth-header { margin-bottom: 24px; }
+      .auth-header h1 { font-size: 1.4rem; }
+      .auth-header p { font-size: 0.88rem; }
+      .form-label { font-size: 0.85rem; }
       
       .form-input {
         padding: 11px 14px;
@@ -100,17 +86,9 @@
       }
     }
     
-    /* ============================================================
-       RESPONSIVE — TRÈS PETIT TÉLÉPHONE
-       ============================================================ */
     @media (max-width: 380px) {
-      .auth-card {
-        padding: 24px 18px;
-      }
-      
-      .auth-header h1 {
-        font-size: 1.25rem;
-      }
+      .auth-card { padding: 24px 18px; }
+      .auth-header h1 { font-size: 1.25rem; }
     }
   </style>
 </head>
@@ -122,15 +100,15 @@
     <div class="auth-card">
       
       <div class="auth-header">
-        <h1>Bon retour 👋</h1>
-        <p>Connectez-vous à votre compte Finest Global</p>
+        <h1 data-i18n="login.title">Bon retour 👋</h1>
+        <p data-i18n="login.subtitle">Connectez-vous à votre compte Finest Global</p>
       </div>
       
       <form id="login-form" onsubmit="login(event)">
         <div id="login-error" class="alert alert-error hidden"></div>
         
         <div class="form-group">
-          <label class="form-label required">Numéro de téléphone</label>
+          <label class="form-label required" data-i18n="login.phone">Numéro de téléphone</label>
           <input 
             type="tel" 
             class="form-input" 
@@ -142,7 +120,7 @@
         </div>
         
         <div class="form-group">
-          <label class="form-label required">Mot de passe</label>
+          <label class="form-label required" data-i18n="login.password">Mot de passe</label>
           <input 
             type="password" 
             class="form-input" 
@@ -152,14 +130,14 @@
           >
         </div>
         
-        <button type="submit" class="btn btn-primary btn-block btn-lg" id="btn-login">
+        <button type="submit" class="btn btn-primary btn-block btn-lg" id="btn-login" data-i18n="login.submit">
           Se connecter
         </button>
       </form>
       
       <div class="auth-footer">
-        Pas encore de compte ? 
-        <a href="/register.html">S'inscrire</a>
+        <span data-i18n="login.no_account">Pas encore de compte ?</span>
+        <a href="/register.html" data-i18n="login.signup_link">S'inscrire</a>
       </div>
       
     </div>
@@ -167,6 +145,7 @@
 
   <script src="/js/api.js"></script>
   <script src="/js/auth.js"></script>
+  <script src="/js/i18n.js"></script>
   <script src="/js/navbar.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
@@ -196,30 +175,30 @@
       
       // Validation
       if (phone.length !== 10 || !phone.startsWith('01')) {
-        errorDiv.textContent = 'Le numéro doit être à 10 chiffres et commencer par 01.';
+        errorDiv.textContent = t('register.phone_hint');
         errorDiv.classList.remove('hidden');
         return;
       }
       
       if (!password) {
-        errorDiv.textContent = 'Le mot de passe est obligatoire.';
+        errorDiv.textContent = t('login.password');
         errorDiv.classList.remove('hidden');
         return;
       }
       
       btn.disabled = true;
-      btn.innerHTML = '<span class="spinner"></span> Connexion...';
+      btn.innerHTML = '<span class="spinner"></span>';
       
       try {
         const data = await UsersAPI.login(phone, password);
         Auth.setSession(data.access_token, data.user);
-        showToast('Connexion réussie !', 'success');
+        showToast('✅', 'success');
         setTimeout(redirectAfterLogin, 500);
       } catch (error) {
         errorDiv.textContent = error.message;
         errorDiv.classList.remove('hidden');
         btn.disabled = false;
-        btn.textContent = 'Se connecter';
+        btn.textContent = t('login.submit');
       }
     }
     

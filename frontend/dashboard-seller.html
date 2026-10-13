@@ -16,9 +16,6 @@
       background: var(--gray-50);
     }
     
-    /* ============================================================
-       SIDEBAR
-       ============================================================ */
     .sidebar {
       background: var(--blue-900);
       color: var(--white);
@@ -112,9 +109,6 @@
       border-radius: 12px;
     }
     
-    /* ============================================================
-       MAIN
-       ============================================================ */
     .dashboard-main {
       padding: 32px;
       min-width: 0;
@@ -136,9 +130,6 @@
       font-size: 0.95rem;
     }
     
-    /* ============================================================
-       STATS CARDS
-       ============================================================ */
     .stats-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -184,9 +175,6 @@
       background: linear-gradient(135deg, var(--orange-100), var(--white));
     }
     
-    /* ============================================================
-       COMMANDES
-       ============================================================ */
     .orders-list {
       display: grid;
       gap: 12px;
@@ -276,9 +264,6 @@
       flex-wrap: wrap;
     }
     
-    /* ============================================================
-       PRODUITS
-       ============================================================ */
     .products-grid-admin {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
@@ -355,9 +340,6 @@
       gap: 8px;
     }
     
-    /* ============================================================
-       FORMULAIRE PRODUIT
-       ============================================================ */
     .form-row {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -388,9 +370,6 @@
       margin: 0 auto;
     }
     
-    /* ============================================================
-       CATÉGORIE AUTOCOMPLETE
-       ============================================================ */
     .category-input-wrapper { position: relative; }
     
     .category-suggestions {
@@ -448,9 +427,6 @@
       text-align: center;
     }
     
-    /* ============================================================
-       STOCK BADGE
-       ============================================================ */
     .product-badge-stock {
       position: absolute;
       top: 10px;
@@ -465,9 +441,6 @@
     .badge-stock-yes { background: #D1FAE5; color: #065F46; }
     .badge-stock-no { background: #FEE2E2; color: #991B1B; }
     
-    /* ============================================================
-       RESPONSIVE — TABLETTE
-       ============================================================ */
     @media (max-width: 900px) {
       .dashboard { grid-template-columns: 1fr; }
       .sidebar {
@@ -493,15 +466,9 @@
       .form-row { grid-template-columns: 1fr; }
     }
     
-    /* ============================================================
-       RESPONSIVE — TÉLÉPHONE ANDROID
-       ============================================================ */
     @media (max-width: 640px) {
-      .dashboard {
-        min-height: calc(100vh - 60px);
-      }
+      .dashboard { min-height: calc(100vh - 60px); }
       
-      /* Sidebar */
       .sidebar {
         padding: 12px 0;
         position: sticky;
@@ -520,24 +487,11 @@
         gap: 10px;
       }
       
-      .sidebar-shop-name {
-        font-size: 0.95rem;
-        margin-bottom: 2px;
-      }
+      .sidebar-shop-name { font-size: 0.95rem; margin-bottom: 2px; }
+      .sidebar-shop-status { font-size: 0.7rem; }
+      .status-dot { width: 6px; height: 6px; }
       
-      .sidebar-shop-status {
-        font-size: 0.7rem;
-      }
-      
-      .status-dot {
-        width: 6px;
-        height: 6px;
-      }
-      
-      .sidebar-nav {
-        padding: 0 10px;
-        gap: 6px;
-      }
+      .sidebar-nav { padding: 0 10px; gap: 6px; }
       
       .sidebar-link {
         padding: 8px 12px;
@@ -547,31 +501,13 @@
       }
       
       .sidebar-link-icon { font-size: 1rem; }
+      .sidebar-badge { font-size: 0.65rem; padding: 1px 6px; }
       
-      .sidebar-badge {
-        font-size: 0.65rem;
-        padding: 1px 6px;
-      }
+      .dashboard-main { padding: 16px 12px 32px; }
+      .dashboard-header { margin-bottom: 20px; }
+      .dashboard-header h1 { font-size: 1.35rem; margin-bottom: 4px; }
+      .dashboard-header p { font-size: 0.85rem; }
       
-      /* Main */
-      .dashboard-main {
-        padding: 16px 12px 32px;
-      }
-      
-      .dashboard-header {
-        margin-bottom: 20px;
-      }
-      
-      .dashboard-header h1 {
-        font-size: 1.35rem;
-        margin-bottom: 4px;
-      }
-      
-      .dashboard-header p {
-        font-size: 0.85rem;
-      }
-      
-      /* Stats */
       .stats-grid {
         grid-template-columns: repeat(2, 1fr);
         gap: 10px;
@@ -582,43 +518,15 @@
         grid-template-columns: 1fr !important;
       }
       
-      .stat-card {
-        padding: 14px;
-      }
+      .stat-card { padding: 14px; }
+      .stat-card-icon { font-size: 1.25rem; margin-bottom: 6px; }
+      .stat-card-value { font-size: 1.3rem; }
+      .stat-card-label { font-size: 0.7rem; }
+      .stat-card h3 { font-size: 0.95rem !important; margin-bottom: 8px !important; }
       
-      .stat-card-icon {
-        font-size: 1.25rem;
-        margin-bottom: 6px;
-      }
-      
-      .stat-card-value {
-        font-size: 1.3rem;
-      }
-      
-      .stat-card-label {
-        font-size: 0.7rem;
-      }
-      
-      .stat-card h3 {
-        font-size: 0.95rem !important;
-        margin-bottom: 8px !important;
-      }
-      
-      /* Commandes */
-      .order-card {
-        padding: 14px;
-        gap: 12px;
-      }
-      
-      .order-info {
-        gap: 10px;
-      }
-      
-      .order-icon {
-        width: 38px;
-        height: 38px;
-        font-size: 1.15rem;
-      }
+      .order-card { padding: 14px; gap: 12px; }
+      .order-info { gap: 10px; }
+      .order-icon { width: 38px; height: 38px; font-size: 1.15rem; }
       
       .order-title {
         font-size: 0.88rem;
@@ -629,109 +537,32 @@
         overflow: hidden;
       }
       
-      .order-meta {
-        font-size: 0.72rem;
-        gap: 8px;
-      }
+      .order-meta { font-size: 0.72rem; gap: 8px; }
+      .order-meta .badge { font-size: 0.65rem; padding: 3px 8px; }
+      .order-price { font-size: 1rem; }
+      .order-actions .btn { padding: 7px 12px; font-size: 0.78rem; }
       
-      .order-meta .badge {
-        font-size: 0.65rem;
-        padding: 3px 8px;
-      }
+      .products-grid-admin { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+      .admin-product-body { padding: 10px; }
+      .admin-product-name { font-size: 0.85rem; margin-bottom: 4px; }
+      .admin-product-category { font-size: 0.68rem; padding: 2px 6px; }
+      .admin-product-price { font-size: 0.9rem; margin-bottom: 6px; }
+      .admin-product-stats { font-size: 0.7rem; gap: 8px; margin-bottom: 8px; }
+      .admin-product-actions { gap: 4px; }
+      .admin-product-actions .btn { padding: 6px 8px; font-size: 0.72rem; }
       
-      .order-price {
-        font-size: 1rem;
-      }
-      
-      .order-actions .btn {
-        padding: 7px 12px;
-        font-size: 0.78rem;
-      }
-      
-      /* Produits */
-      .products-grid-admin {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 10px;
-      }
-      
-      .admin-product-body {
-        padding: 10px;
-      }
-      
-      .admin-product-name {
-        font-size: 0.85rem;
-        margin-bottom: 4px;
-      }
-      
-      .admin-product-category {
-        font-size: 0.68rem;
-        padding: 2px 6px;
-      }
-      
-      .admin-product-price {
-        font-size: 0.9rem;
-        margin-bottom: 6px;
-      }
-      
-      .admin-product-stats {
-        font-size: 0.7rem;
-        gap: 8px;
-        margin-bottom: 8px;
-      }
-      
-      .admin-product-actions {
-        gap: 4px;
-      }
-      
-      .admin-product-actions .btn {
-        padding: 6px 8px;
-        font-size: 0.72rem;
-      }
-      
-      /* Modal produit */
-      .modal {
-        max-width: 100% !important;
-      }
-      
-      .form-row {
-        gap: 0;
-      }
-      
-      /* Image upload */
-      .image-upload {
-        padding: 16px;
-      }
-      
-      .image-preview {
-        max-width: 140px;
-        max-height: 140px;
-      }
+      .modal { max-width: 100% !important; }
+      .form-row { gap: 0; }
+      .image-upload { padding: 16px; }
+      .image-preview { max-width: 140px; max-height: 140px; }
     }
     
-    /* ============================================================
-       RESPONSIVE — TRÈS PETIT TÉLÉPHONE
-       ============================================================ */
     @media (max-width: 380px) {
-      .dashboard-header h1 {
-        font-size: 1.15rem;
-      }
-      
-      .stats-grid {
-        grid-template-columns: 1fr;
-      }
-      
-      .sidebar-link {
-        padding: 7px 10px;
-        font-size: 0.78rem;
-      }
-      
-      .order-meta {
-        font-size: 0.68rem;
-      }
-      
-      .admin-product-name {
-        font-size: 0.78rem;
-      }
+      .dashboard-header h1 { font-size: 1.15rem; }
+      .stats-grid { grid-template-columns: 1fr; }
+      .sidebar-link { padding: 7px 10px; font-size: 0.78rem; }
+      .order-meta { font-size: 0.68rem; }
+      .admin-product-name { font-size: 0.78rem; }
     }
   </style>
 </head>
@@ -743,30 +574,30 @@
     
     <aside class="sidebar">
       <div class="sidebar-header">
-        <div class="sidebar-shop-name" id="sidebar-shop-name">Chargement...</div>
+        <div class="sidebar-shop-name" id="sidebar-shop-name">...</div>
         <div class="sidebar-shop-status">
           <span class="status-dot"></span>
-          <span>Notifications actives</span>
+          <span data-i18n="seller.notifications_active">Notifications actives</span>
         </div>
       </div>
       
       <nav class="sidebar-nav">
         <button class="sidebar-link active" onclick="switchTab('overview')" data-tab="overview">
           <span class="sidebar-link-icon">📊</span>
-          Vue d'ensemble
+          <span data-i18n="seller.overview">Vue d'ensemble</span>
         </button>
         <button class="sidebar-link" onclick="switchTab('orders')" data-tab="orders">
           <span class="sidebar-link-icon">📦</span>
-          Commandes
+          <span data-i18n="seller.orders">Commandes</span>
           <span class="sidebar-badge hidden" id="orders-badge">0</span>
         </button>
         <button class="sidebar-link" onclick="switchTab('products')" data-tab="products">
           <span class="sidebar-link-icon">🛍️</span>
-          Mes produits
+          <span data-i18n="seller.products">Mes produits</span>
         </button>
         <button class="sidebar-link" onclick="switchTab('shop')" data-tab="shop">
           <span class="sidebar-link-icon">🏪</span>
-          Ma boutique
+          <span data-i18n="seller.shop">Ma boutique</span>
         </button>
       </nav>
     </aside>
@@ -781,6 +612,7 @@
 
   <script src="/js/api.js"></script>
   <script src="/js/auth.js"></script>
+  <script src="/js/i18n.js"></script>
   <script src="/js/navbar.js"></script>
   <script>
     let currentShop = null;
@@ -803,7 +635,7 @@
         document.getElementById('sidebar-shop-name').textContent = currentShop.name;
       } catch (error) {
         if (error.status === 404) {
-            showToast('Créez votre boutique pour commencer.', 'info');
+            showToast(t('shop.create_title'), 'info');
             setTimeout(() => window.location.href = '/create-shop.html', 800);
             return;
         }
@@ -855,44 +687,44 @@
       const main = document.getElementById('dashboard-main');
       main.innerHTML = `
         <div class="dashboard-header">
-          <h1>Bonjour ${Auth.getUser().first_name || 'vendeur'} 👋</h1>
-          <p>Voici un aperçu de votre activité sur Finest Global.</p>
+          <h1>${t('seller.hello')} ${Auth.getUser().first_name || ''} 👋</h1>
+          <p>${t('admin.subtitle')}</p>
         </div>
         
         <div class="stats-grid">
           <div class="stat-card">
             <div class="stat-card-icon">💰</div>
             <div class="stat-card-value">${formatPrice(totalRevenue)}</div>
-            <div class="stat-card-label">Chiffre d'affaires</div>
+            <div class="stat-card-label">${t('seller.revenue')}</div>
           </div>
           <div class="stat-card">
             <div class="stat-card-icon">📦</div>
             <div class="stat-card-value">${totalSales}</div>
-            <div class="stat-card-label">Ventes totales</div>
+            <div class="stat-card-label">${t('seller.total_sales')}</div>
           </div>
           <div class="stat-card">
             <div class="stat-card-icon">👁️</div>
             <div class="stat-card-value">${totalViews}</div>
-            <div class="stat-card-label">Vues produits</div>
+            <div class="stat-card-label">${t('seller.product_views')}</div>
           </div>
           <div class="stat-card ${pendingOrders > 0 ? 'pending' : ''}">
             <div class="stat-card-icon">⏳</div>
             <div class="stat-card-value">${pendingOrders}</div>
-            <div class="stat-card-label">En attente</div>
+            <div class="stat-card-label">${t('seller.pending')}</div>
           </div>
         </div>
         
         <div class="stats-grid" style="grid-template-columns: 1fr 1fr;">
           <div class="stat-card">
-            <h3 style="font-size:1.1rem;margin-bottom:12px;">🏆 Top produits</h3>
+            <h3 style="font-size:1.1rem;margin-bottom:12px;">${t('seller.top_products')}</h3>
             ${topProducts.length === 0 
-              ? '<p style="color:var(--gray-500);font-size:0.9rem;">Aucun produit pour l\'instant.</p>'
+              ? `<p style="color:var(--gray-500);font-size:0.9rem;">${t('seller.no_products')}</p>`
               : topProducts.map((p, i) => `
                 <div style="display:flex;align-items:center;gap:12px;padding:8px 0;border-bottom:1px solid var(--gray-100);">
                   <span style="font-weight:800;color:var(--gray-400);">#${i+1}</span>
                   <div style="flex:1;min-width:0;">
                     <div style="font-weight:600;font-size:0.9rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${escapeHtml(p.name)}</div>
-                    <div style="font-size:0.75rem;color:var(--gray-500);">${p.sales_count} vente${p.sales_count > 1 ? 's' : ''}</div>
+                    <div style="font-size:0.75rem;color:var(--gray-500);">${p.sales_count} ${t('product.sales').toLowerCase()}</div>
                   </div>
                   <div style="font-weight:700;color:var(--orange-600);font-size:0.85rem;">${formatPrice(p.price * p.sales_count)}</div>
                 </div>
@@ -901,14 +733,14 @@
           </div>
           
           <div class="stat-card">
-            <h3 style="font-size:1.1rem;margin-bottom:12px;">📊 Commandes par statut</h3>
+            <h3 style="font-size:1.1rem;margin-bottom:12px;">${t('seller.orders_by_status')}</h3>
             ${['pending','confirmed','delivered','cancelled'].map(status => {
               const count = currentOrders.filter(o => o.status === status).length;
               const labels = {
-                pending: '⏳ En attente',
-                confirmed: '✅ Confirmées',
-                delivered: '📦 Livrées',
-                cancelled: '❌ Annulées',
+                pending: t('orders.pending'),
+                confirmed: t('orders.confirmed'),
+                delivered: t('orders.delivered'),
+                cancelled: t('orders.cancelled'),
               };
               return `
                 <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--gray-100);">
@@ -936,16 +768,16 @@
       
       main.innerHTML = `
         <div class="dashboard-header">
-          <h1>📦 Commandes reçues</h1>
-          <p>Gérez vos commandes clients en temps réel.</p>
+          <h1>${t('seller.orders_received')}</h1>
+          <p>${t('seller.orders_received_p')}</p>
         </div>
         
         <div class="orders-list" id="orders-container">
           ${currentOrders.length === 0 
             ? `<div class="empty-state">
                 <div class="empty-state-icon">📭</div>
-                <h3>Aucune commande pour l'instant</h3>
-                <p>Vous recevrez une notification dès qu'un client commande.</p>
+                <h3>${t('seller.no_orders')}</h3>
+                <p>${t('seller.no_orders_p')}</p>
               </div>`
             : currentOrders.map(order => renderOrderCard(order)).join('')
           }
@@ -955,10 +787,10 @@
     
     function renderOrderCard(order) {
       const statusLabels = {
-        pending: { text: 'En attente', class: 'badge-warning' },
-        confirmed: { text: 'Confirmée', class: 'badge-blue' },
-        delivered: { text: 'Livrée', class: 'badge-success' },
-        cancelled: { text: 'Annulée', class: 'badge-danger' },
+        pending: { text: t('orders.status_pending'), class: 'badge-warning' },
+        confirmed: { text: t('orders.status_confirmed'), class: 'badge-blue' },
+        delivered: { text: t('orders.status_delivered'), class: 'badge-success' },
+        cancelled: { text: t('orders.status_cancelled'), class: 'badge-danger' },
       };
       const status = statusLabels[order.status] || statusLabels.pending;
       
@@ -967,7 +799,7 @@
           <div class="order-info">
             <div class="order-icon">${order.status === 'pending' ? '🔔' : '📦'}</div>
             <div class="order-details">
-              <div class="order-title">Commande #${order.id} — ${escapeHtml(order.product?.name || 'Produit')}</div>
+              <div class="order-title">${t('orders.order_id')} #${order.id} — ${escapeHtml(order.product?.name || t('seller.product'))}</div>
               <div class="order-meta">
                 <span class="badge ${status.class}">${status.text}</span>
                 <span>📅 ${formatDate(order.created_at)}</span>
@@ -980,11 +812,11 @@
           <div class="order-actions">
             <div class="order-price">${formatPrice(order.total_price)}</div>
             ${order.status === 'pending' ? `
-              <button class="btn btn-primary btn-sm" onclick="updateOrderStatus(${order.id}, 'confirmed')">✅ Confirmer</button>
-              <button class="btn btn-danger btn-sm" onclick="updateOrderStatus(${order.id}, 'cancelled')">❌ Annuler</button>
+              <button class="btn btn-primary btn-sm" onclick="updateOrderStatus(${order.id}, 'confirmed')">${t('seller.confirm')}</button>
+              <button class="btn btn-danger btn-sm" onclick="updateOrderStatus(${order.id}, 'cancelled')">${t('seller.cancel')}</button>
             ` : ''}
             ${order.status === 'confirmed' ? `
-              <button class="btn btn-primary btn-sm" onclick="updateOrderStatus(${order.id}, 'delivered')">📦 Marquer livrée</button>
+              <button class="btn btn-primary btn-sm" onclick="updateOrderStatus(${order.id}, 'delivered')">${t('seller.deliver')}</button>
             ` : ''}
           </div>
         </div>
@@ -994,7 +826,7 @@
     async function updateOrderStatus(orderId, newStatus) {
       try {
         await OrdersAPI.updateStatus(orderId, newStatus);
-        showToast('Statut mis à jour !', 'success');
+        showToast('✅', 'success');
         await loadOrders();
         await loadProducts();
         renderOrders();
@@ -1030,20 +862,20 @@
       main.innerHTML = `
         <div class="dashboard-header" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;">
           <div>
-            <h1>🛍️ Mes produits</h1>
-            <p>${currentProducts.length} produit${currentProducts.length > 1 ? 's' : ''} dans votre boutique</p>
+            <h1>${t('seller.my_products')}</h1>
+            <p>${currentProducts.length} ${t('seller.my_products_p')}</p>
           </div>
           <button class="btn btn-primary" onclick="openProductModal()">
-            ➕ Ajouter un produit
+            ${t('seller.add_product')}
           </button>
         </div>
         
         ${currentProducts.length === 0 
           ? `<div class="empty-state">
               <div class="empty-state-icon">📦</div>
-              <h3>Aucun produit pour l'instant</h3>
-              <p>Ajoutez votre premier produit pour commencer à vendre.</p>
-              <button class="btn btn-primary mt-16" onclick="openProductModal()">➕ Ajouter un produit</button>
+              <h3>${t('seller.no_products')}</h3>
+              <p>${t('seller.no_products_p')}</p>
+              <button class="btn btn-primary mt-16" onclick="openProductModal()">${t('seller.add_product')}</button>
             </div>`
           : `<div class="products-grid-admin">
               ${currentProducts.map(p => renderAdminProductCard(p)).join('')}
@@ -1062,7 +894,7 @@
               ? `<img src="${imageUrl(product.photo_url)}" alt="${escapeHtml(product.name)}">`
               : '📦'}
             <span class="product-badge-stock ${product.in_stock ? 'badge-stock-yes' : 'badge-stock-no'}">
-              ${product.in_stock ? 'En stock' : 'Rupture'}
+              ${product.in_stock ? '✓' : '✗'}
             </span>
           </div>
           <div class="admin-product-body">
@@ -1074,7 +906,7 @@
               <span>👁️ ${product.views_count}</span>
             </div>
             <div class="admin-product-actions">
-              <button class="btn btn-ghost btn-sm" onclick="openProductModal(${product.id})">✏️ Éditer</button>
+              <button class="btn btn-ghost btn-sm" onclick="openProductModal(${product.id})">${t('seller.edit')}</button>
               <button class="btn btn-ghost btn-sm" onclick="deleteProduct(${product.id})" style="color:var(--danger);">🗑️</button>
             </div>
           </div>
@@ -1101,7 +933,7 @@
         <div class="modal-overlay" onclick="closeProductModal(event)">
           <div class="modal" style="max-width:600px;" onclick="event.stopPropagation()">
             <div class="modal-header">
-              <h3>${isEdit ? '✏️ Modifier le produit' : '➕ Nouveau produit'}</h3>
+              <h3>${isEdit ? '✏️ ' + t('seller.edit') : '➕ ' + t('seller.add_product')}</h3>
               <button class="modal-close" onclick="closeProductModal()">✕</button>
             </div>
             
@@ -1109,13 +941,13 @@
               <div id="product-error" class="alert alert-error hidden"></div>
               
               <div class="form-group">
-                <label class="form-label required">Nom du produit</label>
-                <input type="text" class="form-input" id="p-name" value="${escapeHtml(product.name)}" placeholder="Ex: Chemise en wax">
+                <label class="form-label required">${t('seller.product')}</label>
+                <input type="text" class="form-input" id="p-name" value="${escapeHtml(product.name)}" placeholder="...">
               </div>
               
               <div class="form-group">
                 <label class="form-label">Description</label>
-                <textarea class="form-textarea" id="p-desc" placeholder="Décrivez votre produit...">${escapeHtml(product.description || '')}</textarea>
+                <textarea class="form-textarea" id="p-desc" placeholder="...">${escapeHtml(product.description || '')}</textarea>
               </div>
               
               <div class="form-row">
@@ -1124,29 +956,28 @@
                   <input type="number" class="form-input" id="p-price" value="${product.price}" placeholder="12000" min="1">
                 </div>
                 <div class="form-group">
-                  <label class="form-label">Catégorie</label>
+                  <label class="form-label">${t('marketplace.categories')}</label>
                   <div class="category-input-wrapper">
                     <input 
                       type="text" 
                       class="form-input" 
                       id="p-category"
                       value="${escapeHtml(product.category || '')}"
-                      placeholder="Tapez pour rechercher..."
+                      placeholder="..."
                       autocomplete="off"
                     >
                     <div class="category-suggestions" id="p-category-suggestions"></div>
                   </div>
-                  <div class="form-hint">Commencez à taper pour voir les suggestions.</div>
                 </div>
               </div>
               
               <div class="form-group">
-                <label class="form-label">Couleur</label>
-                <input type="text" class="form-input" id="p-color" value="${escapeHtml(product.color || '')}" placeholder="bleu, rouge, noir...">
+                <label class="form-label">${t('marketplace.colors')}</label>
+                <input type="text" class="form-input" id="p-color" value="${escapeHtml(product.color || '')}" placeholder="...">
               </div>
               
               <div class="form-group">
-                <label class="form-label">Photo du produit</label>
+                <label class="form-label">${t('shop.photo')}</label>
                 <div class="image-upload" onclick="document.getElementById('p-image').click()">
                   <input type="file" id="p-image" accept="image/jpeg,image/png,image/webp" onchange="handleProductImage(event)">
                   <div id="p-image-preview">
@@ -1154,8 +985,7 @@
                       ? `<img src="${imageUrl(product.photo_url)}" class="image-preview" alt="Preview">`
                       : `<div style="color:var(--gray-500);">
                           <div style="font-size:2rem;margin-bottom:8px;">📸</div>
-                          <div>Cliquez pour ${isEdit ? 'changer' : 'ajouter'} une photo</div>
-                          <div style="font-size:0.8rem;margin-top:4px;">JPEG, PNG ou WEBP, max 5 MB</div>
+                          <div>JPEG, PNG, WEBP — max 5 MB</div>
                         </div>`}
                   </div>
                 </div>
@@ -1165,16 +995,16 @@
                 <div class="form-group">
                   <label style="display:flex;align-items:center;gap:8px;cursor:pointer;">
                     <input type="checkbox" id="p-stock" ${product.in_stock ? 'checked' : ''}>
-                    <span>Produit en stock</span>
+                    <span>${t('product.stock')}</span>
                   </label>
                 </div>
               ` : ''}
             </div>
             
             <div class="modal-footer">
-              <button class="btn btn-ghost" onclick="closeProductModal()">Annuler</button>
+              <button class="btn btn-ghost" onclick="closeProductModal()">${t('product.cancel')}</button>
               <button class="btn btn-primary" id="save-product-btn" onclick="saveProduct()">
-                ${isEdit ? 'Enregistrer' : 'Créer le produit'}
+                ${isEdit ? t('seller.edit') : t('seller.add_product')}
               </button>
             </div>
           </div>
@@ -1199,12 +1029,7 @@
         );
         
         if (filtered.length === 0) {
-          suggestions.innerHTML = `
-            <div class="category-suggestions-empty">
-              Aucune catégorie trouvée.<br>
-              <span style="font-size: 0.75rem;">Contactez l'admin pour en ajouter.</span>
-            </div>
-          `;
+          suggestions.innerHTML = `<div class="category-suggestions-empty">—</div>`;
           suggestions.classList.add('open');
           return;
         }
@@ -1239,9 +1064,7 @@
       });
       
       input.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') {
-          suggestions.classList.remove('open');
-        }
+        if (e.key === 'Escape') suggestions.classList.remove('open');
         if (e.key === 'Enter') {
           e.preventDefault();
           const first = suggestions.querySelector('.category-suggestion-item');
@@ -1265,7 +1088,7 @@
       if (!file) return;
       
       if (file.size > 5 * 1024 * 1024) {
-        showToast('Image trop volumineuse (max 5 MB)', 'error');
+        showToast('max 5 MB', 'error');
         return;
       }
       
@@ -1294,19 +1117,19 @@
       };
       
       if (!data.name) {
-        errorDiv.textContent = 'Le nom est obligatoire.';
+        errorDiv.textContent = '—';
         errorDiv.classList.remove('hidden');
         return;
       }
       
       if (!data.price || data.price <= 0) {
-        errorDiv.textContent = 'Le prix doit être supérieur à 0.';
+        errorDiv.textContent = '—';
         errorDiv.classList.remove('hidden');
         return;
       }
       
       btn.disabled = true;
-      btn.innerHTML = '<span class="spinner"></span> Enregistrement...';
+      btn.innerHTML = '<span class="spinner"></span>';
       
       try {
         let product;
@@ -1322,7 +1145,7 @@
             product = await ProductsAPI.uploadPhoto(editingProductId, productImageFile);
           }
           
-          showToast('Produit mis à jour !', 'success');
+          showToast('✅', 'success');
         } else {
           product = await ProductsAPI.create(data);
           
@@ -1330,7 +1153,7 @@
             product = await ProductsAPI.uploadPhoto(product.id, productImageFile);
           }
           
-          showToast('Produit créé !', 'success');
+          showToast('✅', 'success');
         }
         
         closeProductModal();
@@ -1341,16 +1164,16 @@
         errorDiv.textContent = error.message;
         errorDiv.classList.remove('hidden');
         btn.disabled = false;
-        btn.textContent = editingProductId ? 'Enregistrer' : 'Créer le produit';
+        btn.textContent = editingProductId ? t('seller.edit') : t('seller.add_product');
       }
     }
     
     async function deleteProduct(productId) {
-      if (!confirm('Supprimer ce produit ? Cette action est irréversible.')) return;
+      if (!confirm('?')) return;
       
       try {
         await ProductsAPI.delete(productId);
-        showToast('Produit supprimé.', 'success');
+        showToast('✅', 'success');
         await loadProducts();
         renderProducts();
         renderOverview();
@@ -1364,8 +1187,8 @@
       
       main.innerHTML = `
         <div class="dashboard-header">
-          <h1>🏪 Ma boutique</h1>
-          <p>Personnalisez les informations de votre boutique.</p>
+          <h1>${t('seller.my_shop')}</h1>
+          <p>${t('seller.my_shop_p')}</p>
         </div>
         
         <div class="stat-card" style="max-width:600px;">
@@ -1373,17 +1196,17 @@
           <div id="shop-success" class="alert alert-success hidden"></div>
           
           <div class="form-group">
-            <label class="form-label required">Nom de la boutique</label>
+            <label class="form-label required">${t('shop.name')}</label>
             <input type="text" class="form-input" id="s-name" value="${escapeHtml(currentShop.name)}">
           </div>
           
           <div class="form-group">
-            <label class="form-label">Description</label>
-            <textarea class="form-textarea" id="s-desc" placeholder="Décrivez votre boutique...">${escapeHtml(currentShop.description || '')}</textarea>
+            <label class="form-label">${t('shop.description')}</label>
+            <textarea class="form-textarea" id="s-desc" placeholder="...">${escapeHtml(currentShop.description || '')}</textarea>
           </div>
           
           <div class="form-group">
-            <label class="form-label">Photo de la boutique</label>
+            <label class="form-label">${t('shop.photo')}</label>
             <div class="image-upload" onclick="document.getElementById('s-image').click()">
               <input type="file" id="s-image" accept="image/jpeg,image/png,image/webp" onchange="handleShopImage(event)">
               <div id="s-image-preview">
@@ -1391,14 +1214,14 @@
                   ? `<img src="${imageUrl(currentShop.photo_url)}" class="image-preview" alt="Preview">`
                   : `<div style="color:var(--gray-500);">
                       <div style="font-size:2rem;margin-bottom:8px;">📸</div>
-                      <div>Cliquez pour ajouter une photo</div>
+                      <div>${t('shop.photo_click')}</div>
                     </div>`}
               </div>
             </div>
           </div>
           
           <button class="btn btn-primary btn-block" id="save-shop-btn" onclick="saveShop()">
-            Enregistrer les modifications
+            ${t('seller.my_shop')}
           </button>
         </div>
       `;
@@ -1409,7 +1232,7 @@
       if (!file) return;
       
       if (file.size > 5 * 1024 * 1024) {
-        showToast('Image trop volumineuse (max 5 MB)', 'error');
+        showToast('max 5 MB', 'error');
         return;
       }
       
@@ -1435,13 +1258,13 @@
       const description = document.getElementById('s-desc').value.trim();
       
       if (!name) {
-        errorDiv.textContent = 'Le nom est obligatoire.';
+        errorDiv.textContent = '—';
         errorDiv.classList.remove('hidden');
         return;
       }
       
       btn.disabled = true;
-      btn.innerHTML = '<span class="spinner"></span> Enregistrement...';
+      btn.innerHTML = '<span class="spinner"></span>';
       
       try {
         currentShop = await ShopsAPI.updateMine({ name, description });
@@ -1453,7 +1276,7 @@
         
         document.getElementById('sidebar-shop-name').textContent = currentShop.name;
         
-        successDiv.textContent = '✅ Modifications enregistrées !';
+        successDiv.textContent = '✅';
         successDiv.classList.remove('hidden');
         
         setTimeout(() => successDiv.classList.add('hidden'), 3000);
@@ -1462,68 +1285,47 @@
         errorDiv.classList.remove('hidden');
       } finally {
         btn.disabled = false;
-        btn.textContent = 'Enregistrer les modifications';
+        btn.textContent = t('seller.my_shop');
       }
     }
-    
-    // ============================================================
-    // WEBSOCKET TEMPS RÉEL (PRODUCTION)
-    // ============================================================
     
     function startWebSocket() {
       const token = Auth.getToken();
       if (!token) return;
       
-      // ✅ Détection automatique : localhost vs production
       const isLocal = window.location.hostname === 'localhost' || 
                       window.location.hostname === '127.0.0.1';
       
-      const API_HOST = isLocal 
-        ? '127.0.0.1:8000' 
-        : 'finest-global-api.onrender.com';
-      
+      const API_HOST = isLocal ? '127.0.0.1:8000' : 'finest-global-api.onrender.com';
       const WS_PROTOCOL = isLocal ? 'ws' : 'wss';
       
       const wsUrl = `${WS_PROTOCOL}://${API_HOST}/ws/notifications?token=${token}`;
-      
-      console.log('🔌 WebSocket URL:', wsUrl);
       ws = new WebSocket(wsUrl);
       
-      ws.onopen = () => {
-        console.log('🟢 WebSocket connecté');
-      };
+      ws.onopen = () => console.log('🟢 WebSocket connecté');
       
       ws.onmessage = (event) => {
         try {
           const message = JSON.parse(event.data);
           
-          if (message.type === 'connected') {
-            console.log('✅ WebSocket prêt');
-          } else if (message.type === 'new_order') {
+          if (message.type === 'new_order') {
             handleNewOrder(message.order);
-          } else if (message.type === 'order_status_changed') {
-            handleOrderStatusChanged(message);
           }
         } catch (error) {
           console.error('Erreur WebSocket:', error);
         }
       };
       
-      ws.onerror = (error) => {
-        console.error('WebSocket erreur:', error);
-      };
+      ws.onerror = (error) => console.error('WebSocket erreur:', error);
       
       ws.onclose = () => {
-        console.log('🔴 WebSocket déconnecté, reconnexion dans 3s...');
         setTimeout(startWebSocket, 3000);
       };
     }
     
     async function handleNewOrder(orderData) {
-      console.log('🔔 Nouvelle commande:', orderData);
-      
       showToast(
-        `🔔 Nouvelle commande : ${orderData.product_name} (${orderData.quantity}x)`,
+        `🔔 ${t('seller.new_order')} : ${orderData.product_name} (${orderData.quantity}x)`,
         'orange',
         8000
       );

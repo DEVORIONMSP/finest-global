@@ -16,9 +16,6 @@
       background: var(--gray-50);
     }
     
-    /* ============================================================
-       SIDEBAR
-       ============================================================ */
     .sidebar {
       background: linear-gradient(180deg, var(--blue-950), var(--blue-800));
       color: var(--white);
@@ -84,9 +81,6 @@
     
     .sidebar-link-icon { font-size: 1.1rem; }
     
-    /* ============================================================
-       MAIN
-       ============================================================ */
     .dashboard-main {
       padding: 32px;
       min-width: 0;
@@ -108,9 +102,6 @@
       font-size: 0.95rem;
     }
     
-    /* ============================================================
-       STATS CARDS
-       ============================================================ */
     .stats-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -163,9 +154,6 @@
       color: var(--white);
     }
     
-    /* ============================================================
-       GRAPHIQUE VISITEURS
-       ============================================================ */
     .chart-card {
       background: var(--white);
       border: 1.5px solid var(--gray-200);
@@ -279,9 +267,6 @@
       text-align: right;
     }
     
-    /* ============================================================
-       TABLEAU
-       ============================================================ */
     .table-card {
       background: var(--white);
       border: 1.5px solid var(--gray-200);
@@ -313,7 +298,6 @@
       cursor: pointer;
     }
     
-    /* Tableau scrollable horizontalement sur mobile */
     .table-scroll {
       overflow-x: auto;
       -webkit-overflow-scrolling: touch;
@@ -354,9 +338,6 @@
       color: var(--gray-500);
     }
     
-    /* ============================================================
-       CLASSEMENTS
-       ============================================================ */
     .rankings-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -439,9 +420,6 @@
       white-space: nowrap;
     }
     
-    /* ============================================================
-       RESPONSIVE — TABLETTE
-       ============================================================ */
     @media (max-width: 900px) {
       .dashboard { grid-template-columns: 1fr; }
       .sidebar {
@@ -467,15 +445,9 @@
       .chart-bars { height: 150px; }
     }
     
-    /* ============================================================
-       RESPONSIVE — TÉLÉPHONE ANDROID
-       ============================================================ */
     @media (max-width: 640px) {
-      .dashboard {
-        min-height: calc(100vh - 60px);
-      }
+      .dashboard { min-height: calc(100vh - 60px); }
       
-      /* Sidebar */
       .sidebar {
         padding: 12px 0;
         position: sticky;
@@ -494,19 +466,10 @@
         gap: 8px;
       }
       
-      .sidebar-title {
-        font-size: 0.95rem;
-        margin-bottom: 0;
-      }
+      .sidebar-title { font-size: 0.95rem; margin-bottom: 0; }
+      .sidebar-subtitle { font-size: 0.7rem; }
       
-      .sidebar-subtitle {
-        font-size: 0.7rem;
-      }
-      
-      .sidebar-nav {
-        padding: 0 10px;
-        gap: 6px;
-      }
+      .sidebar-nav { padding: 0 10px; gap: 6px; }
       
       .sidebar-link {
         padding: 8px 12px;
@@ -517,26 +480,11 @@
       
       .sidebar-link-icon { font-size: 0.95rem; }
       
-      /* Main */
-      .dashboard-main {
-        padding: 16px 12px 32px;
-      }
+      .dashboard-main { padding: 16px 12px 32px; }
+      .dashboard-header { margin-bottom: 18px; }
+      .dashboard-header h1 { font-size: 1.3rem; margin-bottom: 4px; }
+      .dashboard-header p { font-size: 0.82rem; line-height: 1.5; }
       
-      .dashboard-header {
-        margin-bottom: 18px;
-      }
-      
-      .dashboard-header h1 {
-        font-size: 1.3rem;
-        margin-bottom: 4px;
-      }
-      
-      .dashboard-header p {
-        font-size: 0.82rem;
-        line-height: 1.5;
-      }
-      
-      /* Stats */
       .stats-grid {
         grid-template-columns: repeat(2, 1fr);
         gap: 10px;
@@ -547,62 +495,20 @@
         grid-template-columns: repeat(2, 1fr) !important;
       }
       
-      .stat-card {
-        padding: 14px;
-      }
+      .stat-card { padding: 14px; }
+      .stat-card-icon { font-size: 1.25rem; margin-bottom: 6px; }
+      .stat-card-value { font-size: 1.25rem; }
+      .stat-card-label { font-size: 0.68rem; }
       
-      .stat-card-icon {
-        font-size: 1.25rem;
-        margin-bottom: 6px;
-      }
+      .chart-card { padding: 16px; margin-bottom: 16px; }
+      .chart-header { margin-bottom: 16px; gap: 8px; }
+      .chart-header h3 { font-size: 0.95rem; }
+      .chart-tabs { padding: 3px; }
+      .chart-tab { padding: 5px 10px; font-size: 0.75rem; }
+      .chart-bars { height: 130px; gap: 4px; padding: 8px 0; }
+      .bar-wrapper { min-width: 24px; }
+      .bar-label { font-size: 0.55rem; }
       
-      .stat-card-value {
-        font-size: 1.25rem;
-      }
-      
-      .stat-card-label {
-        font-size: 0.68rem;
-      }
-      
-      /* Graphique */
-      .chart-card {
-        padding: 16px;
-        margin-bottom: 16px;
-      }
-      
-      .chart-header {
-        margin-bottom: 16px;
-        gap: 8px;
-      }
-      
-      .chart-header h3 {
-        font-size: 0.95rem;
-      }
-      
-      .chart-tabs {
-        padding: 3px;
-      }
-      
-      .chart-tab {
-        padding: 5px 10px;
-        font-size: 0.75rem;
-      }
-      
-      .chart-bars {
-        height: 130px;
-        gap: 4px;
-        padding: 8px 0;
-      }
-      
-      .bar-wrapper {
-        min-width: 24px;
-      }
-      
-      .bar-label {
-        font-size: 0.55rem;
-      }
-      
-      /* Tableau */
       .table-header {
         padding: 14px 16px;
         flex-direction: column;
@@ -610,9 +516,7 @@
         gap: 8px;
       }
       
-      .table-header h3 {
-        font-size: 0.95rem;
-      }
+      .table-header h3 { font-size: 0.95rem; }
       
       .table-filter {
         width: 100%;
@@ -620,100 +524,31 @@
         font-size: 0.82rem;
       }
       
-      table {
-        min-width: 520px;
-      }
+      table { min-width: 520px; }
+      table th { padding: 10px 12px; font-size: 0.7rem; }
+      table td { padding: 10px 12px; font-size: 0.8rem; }
+      .table-empty { padding: 40px 16px; font-size: 0.85rem; }
       
-      table th {
-        padding: 10px 12px;
-        font-size: 0.7rem;
-      }
+      .rankings-grid { gap: 14px; }
+      .ranking-card { padding: 16px; }
+      .ranking-card h3 { font-size: 0.95rem; margin-bottom: 14px; }
+      .ranking-item { gap: 10px; padding: 10px 0; }
+      .ranking-position { width: 26px; height: 26px; font-size: 0.72rem; }
+      .ranking-name { font-size: 0.85rem; }
+      .ranking-sub { font-size: 0.7rem; }
+      .ranking-value { font-size: 0.82rem; }
       
-      table td {
-        padding: 10px 12px;
-        font-size: 0.8rem;
-      }
-      
-      .table-empty {
-        padding: 40px 16px;
-        font-size: 0.85rem;
-      }
-      
-      /* Classements */
-      .rankings-grid {
-        gap: 14px;
-      }
-      
-      .ranking-card {
-        padding: 16px;
-      }
-      
-      .ranking-card h3 {
-        font-size: 0.95rem;
-        margin-bottom: 14px;
-      }
-      
-      .ranking-item {
-        gap: 10px;
-        padding: 10px 0;
-      }
-      
-      .ranking-position {
-        width: 26px;
-        height: 26px;
-        font-size: 0.72rem;
-      }
-      
-      .ranking-name {
-        font-size: 0.85rem;
-      }
-      
-      .ranking-sub {
-        font-size: 0.7rem;
-      }
-      
-      .ranking-value {
-        font-size: 0.82rem;
-      }
-      
-      /* Modal catégorie */
-      .modal {
-        max-width: 100% !important;
-      }
+      .modal { max-width: 100% !important; }
     }
     
-    /* ============================================================
-       RESPONSIVE — TRÈS PETIT TÉLÉPHONE
-       ============================================================ */
     @media (max-width: 380px) {
-      .dashboard-header h1 {
-        font-size: 1.15rem;
-      }
-      
-      .stats-grid {
-        grid-template-columns: 1fr;
-      }
-      
-      .sidebar-link {
-        padding: 7px 10px;
-        font-size: 0.75rem;
-      }
-      
-      .sidebar-link-icon {
-        font-size: 0.9rem;
-      }
-      
-      .chart-bars {
-        height: 110px;
-      }
-      
-      .bar-wrapper {
-        min-width: 20px;
-      }
-      
-      .ranking-name {
-        font-size: 0.8rem;
-      }
+      .dashboard-header h1 { font-size: 1.15rem; }
+      .stats-grid { grid-template-columns: 1fr; }
+      .sidebar-link { padding: 7px 10px; font-size: 0.75rem; }
+      .sidebar-link-icon { font-size: 0.9rem; }
+      .chart-bars { height: 110px; }
+      .bar-wrapper { min-width: 20px; }
+      .ranking-name { font-size: 0.8rem; }
     }
   </style>
 </head>
@@ -723,42 +558,40 @@
 
   <div class="dashboard">
     
-    <!-- SIDEBAR -->
     <aside class="sidebar">
       <div class="sidebar-header">
-        <div class="sidebar-title">👑 Admin</div>
+        <div class="sidebar-title" data-i18n="admin.sidebar_title">👑 Admin</div>
         <div class="sidebar-subtitle">Finest Global</div>
       </div>
       
       <nav class="sidebar-nav">
         <button class="sidebar-link active" onclick="switchTab('overview')" data-tab="overview">
           <span class="sidebar-link-icon">📊</span>
-          Vue d'ensemble
+          <span data-i18n="admin.overview">Vue d'ensemble</span>
         </button>
         <button class="sidebar-link" onclick="switchTab('users')" data-tab="users">
           <span class="sidebar-link-icon">👥</span>
-          Utilisateurs
+          <span data-i18n="admin.users">Utilisateurs</span>
         </button>
         <button class="sidebar-link" onclick="switchTab('shops')" data-tab="shops">
           <span class="sidebar-link-icon">🏪</span>
-          Boutiques
+          <span data-i18n="admin.shops">Boutiques</span>
         </button>
         <button class="sidebar-link" onclick="switchTab('orders')" data-tab="orders">
           <span class="sidebar-link-icon">📦</span>
-          Commandes
+          <span data-i18n="admin.orders">Commandes</span>
         </button>
         <button class="sidebar-link" onclick="switchTab('categories')" data-tab="categories">
           <span class="sidebar-link-icon">🏷️</span>
-          Catégories
+          <span data-i18n="admin.categories">Catégories</span>
         </button>
         <button class="sidebar-link" onclick="switchTab('rankings')" data-tab="rankings">
           <span class="sidebar-link-icon">🏆</span>
-          Classements
+          <span data-i18n="admin.rankings">Classements</span>
         </button>
       </nav>
     </aside>
     
-    <!-- MAIN -->
     <main class="dashboard-main" id="dashboard-main">
       <div class="loading-container">
         <span class="spinner spinner-blue" style="width: 40px; height: 40px;"></span>
@@ -769,6 +602,7 @@
 
   <script src="/js/api.js"></script>
   <script src="/js/auth.js"></script>
+  <script src="/js/i18n.js"></script>
   <script src="/js/navbar.js"></script>
   <script>
     let overview = null;
@@ -864,40 +698,40 @@
       
       main.innerHTML = `
         <div class="dashboard-header">
-          <h1>Vue d'ensemble 👑</h1>
-          <p>Statistiques globales de la plateforme Finest Global.</p>
+          <h1>${t('admin.title')}</h1>
+          <p>${t('admin.subtitle')}</p>
         </div>
         
         <div class="stats-grid">
           <div class="stat-card stat-card-highlight">
             <div class="stat-card-icon">💰</div>
             <div class="stat-card-value">${formatPrice(overview.total_revenue)}</div>
-            <div class="stat-card-label">Chiffre d'affaires</div>
+            <div class="stat-card-label">${t('seller.revenue')}</div>
           </div>
           <div class="stat-card">
             <div class="stat-card-icon">👥</div>
             <div class="stat-card-value">${overview.total_users}</div>
-            <div class="stat-card-label">Utilisateurs</div>
+            <div class="stat-card-label">${t('admin.users_label')}</div>
           </div>
           <div class="stat-card">
             <div class="stat-card-icon">🏪</div>
             <div class="stat-card-value">${overview.total_shops}</div>
-            <div class="stat-card-label">Boutiques</div>
+            <div class="stat-card-label">${t('admin.shops_label')}</div>
           </div>
           <div class="stat-card">
             <div class="stat-card-icon">🛍️</div>
             <div class="stat-card-value">${overview.total_products}</div>
-            <div class="stat-card-label">Produits</div>
+            <div class="stat-card-label">${t('admin.products_label')}</div>
           </div>
           <div class="stat-card">
             <div class="stat-card-icon">📦</div>
             <div class="stat-card-value">${overview.total_orders}</div>
-            <div class="stat-card-label">Commandes</div>
+            <div class="stat-card-label">${t('admin.orders_label')}</div>
           </div>
           <div class="stat-card ${overview.pending_orders > 0 ? 'stat-card-highlight' : ''}">
             <div class="stat-card-icon">⏳</div>
             <div class="stat-card-value">${overview.pending_orders}</div>
-            <div class="stat-card-label">En attente</div>
+            <div class="stat-card-label">${t('seller.pending')}</div>
           </div>
         </div>
         
@@ -905,28 +739,28 @@
           <div class="stat-card">
             <div class="stat-card-icon">👤</div>
             <div class="stat-card-value">${overview.total_sellers}</div>
-            <div class="stat-card-label">Vendeurs</div>
+            <div class="stat-card-label">${t('admin.sellers')}</div>
           </div>
           <div class="stat-card">
             <div class="stat-card-icon">🛒</div>
             <div class="stat-card-value">${overview.total_clients}</div>
-            <div class="stat-card-label">Clients</div>
+            <div class="stat-card-label">${t('admin.clients')}</div>
           </div>
         </div>
         
         <div class="chart-card">
           <div class="chart-header">
-            <h3>📈 Visiteurs</h3>
+            <h3>${t('admin.visitors')}</h3>
             <div class="chart-tabs">
-              <button class="chart-tab ${visitorsPeriod === 'day' ? 'active' : ''}" onclick="changeVisitorsPeriod('day')">Jour</button>
-              <button class="chart-tab ${visitorsPeriod === 'week' ? 'active' : ''}" onclick="changeVisitorsPeriod('week')">Semaine</button>
-              <button class="chart-tab ${visitorsPeriod === 'month' ? 'active' : ''}" onclick="changeVisitorsPeriod('month')">Mois</button>
+              <button class="chart-tab ${visitorsPeriod === 'day' ? 'active' : ''}" onclick="changeVisitorsPeriod('day')">${t('admin.day')}</button>
+              <button class="chart-tab ${visitorsPeriod === 'week' ? 'active' : ''}" onclick="changeVisitorsPeriod('week')">${t('admin.week')}</button>
+              <button class="chart-tab ${visitorsPeriod === 'month' ? 'active' : ''}" onclick="changeVisitorsPeriod('month')">${t('admin.month')}</button>
             </div>
           </div>
           
           <div style="display:flex;gap:20px;margin-bottom:16px;font-size:0.85rem;flex-wrap:wrap;">
-            <span><strong style="font-size:1.2rem;color:var(--blue-700);">${visitorsData?.total_visits || 0}</strong> <span style="color:var(--gray-500);">visites</span></span>
-            <span><strong style="font-size:1.2rem;color:var(--blue-700);">${visitorsData?.unique_visitors || 0}</strong> <span style="color:var(--gray-500);">visiteurs uniques</span></span>
+            <span><strong style="font-size:1.2rem;color:var(--blue-700);">${visitorsData?.total_visits || 0}</strong> <span style="color:var(--gray-500);">${t('admin.visits')}</span></span>
+            <span><strong style="font-size:1.2rem;color:var(--blue-700);">${visitorsData?.unique_visitors || 0}</strong> <span style="color:var(--gray-500);">${t('admin.unique_visitors')}</span></span>
           </div>
           
           ${renderVisitorChart()}
@@ -936,7 +770,7 @@
     
     function renderVisitorChart() {
       if (!visitorsData || !visitorsData.data || visitorsData.data.length === 0) {
-        return '<div class="table-empty">Aucune donnée de visite pour cette période.</div>';
+        return `<div class="table-empty">${t('admin.no_visits')}</div>`;
       }
       
       const max = Math.max(...visitorsData.data.map(d => d.count), 1);
@@ -949,7 +783,7 @@
             return `
               <div class="bar-wrapper">
                 <div class="bar" style="height: ${Math.max(height, 2)}%;">
-                  <span class="bar-tooltip">${d.count} visites<br>${d.date}</span>
+                  <span class="bar-tooltip">${d.count} ${t('admin.visits')}<br>${d.date}</span>
                 </div>
                 <span class="bar-label">${d.date}</span>
               </div>
@@ -969,34 +803,34 @@
       
       main.innerHTML = `
         <div class="dashboard-header">
-          <h1>👥 Utilisateurs</h1>
-          <p>${users.length} utilisateur${users.length > 1 ? 's' : ''} sur la plateforme.</p>
+          <h1>${t('admin.users')}</h1>
+          <p>${users.length} ${t('admin.users_count')}</p>
         </div>
         
         <div class="table-card">
           <div class="table-header">
-            <h3>Liste des utilisateurs</h3>
+            <h3>${t('admin.all_users')}</h3>
             <select class="table-filter" onchange="filterUsers(this.value)">
-              <option value="">Tous les rôles</option>
-              <option value="client">Clients</option>
-              <option value="seller">Vendeurs</option>
-              <option value="admin">Admins</option>
+              <option value="">${t('admin.all_roles')}</option>
+              <option value="client">${t('admin.clients')}</option>
+              <option value="seller">${t('admin.sellers')}</option>
+              <option value="admin">${t('role.admin')}</option>
             </select>
           </div>
           
           ${users.length === 0 
-            ? '<div class="table-empty">Aucun utilisateur.</div>'
+            ? `<div class="table-empty">${t('admin.no_users')}</div>`
             : `
               <div class="table-scroll">
                 <table>
                   <thead>
                     <tr>
-                      <th>ID</th>
-                      <th>Nom</th>
-                      <th>Téléphone</th>
-                      <th>Email</th>
-                      <th>Rôle</th>
-                      <th>Inscription</th>
+                      <th>${t('admin.id')}</th>
+                      <th>${t('admin.name')}</th>
+                      <th>${t('admin.phone')}</th>
+                      <th>${t('admin.email')}</th>
+                      <th>${t('admin.role')}</th>
+                      <th>${t('admin.date')}</th>
                     </tr>
                   </thead>
                   <tbody id="users-tbody">
@@ -1012,9 +846,9 @@
     
     function renderUserRow(user) {
       const roleBadge = {
-        admin: '<span class="badge badge-danger">👑 Admin</span>',
-        seller: '<span class="badge badge-orange">🏪 Vendeur</span>',
-        client: '<span class="badge badge-blue">🛒 Client</span>',
+        admin: `<span class="badge badge-danger">👑 ${t('role.admin')}</span>`,
+        seller: `<span class="badge badge-orange">🏪 ${t('role.seller')}</span>`,
+        client: `<span class="badge badge-blue">🛒 ${t('role.client')}</span>`,
       };
       
       return `
@@ -1040,27 +874,27 @@
       
       main.innerHTML = `
         <div class="dashboard-header">
-          <h1>🏪 Boutiques</h1>
-          <p>${shops.length} boutique${shops.length > 1 ? 's' : ''} active${shops.length > 1 ? 's' : ''}.</p>
+          <h1>${t('admin.shops')}</h1>
+          <p>${shops.length} ${t('admin.shops_count')}</p>
         </div>
         
         <div class="table-card">
           <div class="table-header">
-            <h3>Toutes les boutiques</h3>
+            <h3>${t('admin.all_shops')}</h3>
           </div>
           
           ${shops.length === 0 
-            ? '<div class="table-empty">Aucune boutique.</div>'
+            ? `<div class="table-empty">${t('admin.no_shops')}</div>`
             : `
               <div class="table-scroll">
                 <table>
                   <thead>
                     <tr>
-                      <th>ID</th>
-                      <th>Nom</th>
-                      <th>Description</th>
-                      <th>Vues</th>
-                      <th>Créée le</th>
+                      <th>${t('admin.id')}</th>
+                      <th>${t('admin.name')}</th>
+                      <th>${t('admin.description')}</th>
+                      <th>${t('admin.views')}</th>
+                      <th>${t('admin.date')}</th>
                       <th></th>
                     </tr>
                   </thead>
@@ -1072,7 +906,7 @@
                         <td style="max-width:300px;"><em style="color:var(--gray-500);">${escapeHtml((s.description || '—').substring(0, 60))}${s.description && s.description.length > 60 ? '...' : ''}</em></td>
                         <td>👁️ ${s.views_count}</td>
                         <td>${formatDate(s.created_at)}</td>
-                        <td><a href="/shop.html?id=${s.id}" target="_blank" class="btn btn-ghost btn-sm">Voir →</a></td>
+                        <td><a href="/shop.html?id=${s.id}" target="_blank" class="btn btn-ghost btn-sm">${t('admin.view')}</a></td>
                       </tr>
                     `).join('')}
                   </tbody>
@@ -1089,35 +923,35 @@
       
       main.innerHTML = `
         <div class="dashboard-header">
-          <h1>📦 Commandes</h1>
-          <p>${orders.length} commande${orders.length > 1 ? 's' : ''} sur la plateforme.</p>
+          <h1>${t('admin.orders')}</h1>
+          <p>${orders.length} ${t('admin.orders_count')}</p>
         </div>
         
         <div class="table-card">
           <div class="table-header">
-            <h3>Toutes les commandes</h3>
+            <h3>${t('admin.all_orders')}</h3>
             <select class="table-filter" onchange="filterOrders(this.value)">
-              <option value="">Tous les statuts</option>
-              <option value="pending">⏳ En attente</option>
-              <option value="confirmed">✅ Confirmées</option>
-              <option value="delivered">📦 Livrées</option>
-              <option value="cancelled">❌ Annulées</option>
+              <option value="">${t('admin.all_status')}</option>
+              <option value="pending">${t('orders.pending')}</option>
+              <option value="confirmed">${t('orders.confirmed')}</option>
+              <option value="delivered">${t('orders.delivered')}</option>
+              <option value="cancelled">${t('orders.cancelled')}</option>
             </select>
           </div>
           
           ${orders.length === 0 
-            ? '<div class="table-empty">Aucune commande.</div>'
+            ? `<div class="table-empty">${t('admin.no_orders')}</div>`
             : `
               <div class="table-scroll">
                 <table>
                   <thead>
                     <tr>
-                      <th>ID</th>
-                      <th>Produit</th>
-                      <th>Quantité</th>
-                      <th>Total</th>
-                      <th>Statut</th>
-                      <th>Date</th>
+                      <th>${t('admin.id')}</th>
+                      <th>${t('admin.product')}</th>
+                      <th>${t('admin.quantity')}</th>
+                      <th>${t('admin.total')}</th>
+                      <th>${t('admin.status')}</th>
+                      <th>${t('admin.date')}</th>
                     </tr>
                   </thead>
                   <tbody id="orders-tbody">
@@ -1133,16 +967,16 @@
     
     function renderOrderRow(order) {
       const statusBadges = {
-        pending: '<span class="badge badge-warning">⏳ En attente</span>',
-        confirmed: '<span class="badge badge-blue">✅ Confirmée</span>',
-        delivered: '<span class="badge badge-success">📦 Livrée</span>',
-        cancelled: '<span class="badge badge-danger">❌ Annulée</span>',
+        pending: `<span class="badge badge-warning">${t('orders.status_pending')}</span>`,
+        confirmed: `<span class="badge badge-blue">${t('orders.status_confirmed')}</span>`,
+        delivered: `<span class="badge badge-success">${t('orders.status_delivered')}</span>`,
+        cancelled: `<span class="badge badge-danger">${t('orders.status_cancelled')}</span>`,
       };
       
       return `
         <tr data-status="${order.status}">
           <td><strong>#${order.id}</strong></td>
-          <td>Produit #${order.product_id}</td>
+          <td>${t('admin.product')} #${order.product_id}</td>
           <td>${order.quantity}</td>
           <td><strong style="color:var(--orange-600);">${formatPrice(order.total_price)}</strong></td>
           <td>${statusBadges[order.status]}</td>
@@ -1163,17 +997,17 @@
       main.innerHTML = `
         <div class="dashboard-header" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;">
           <div>
-            <h1>🏷️ Catégories</h1>
-            <p>${allCategories.length} catégorie${allCategories.length > 1 ? 's' : ''} au total. Les catégories aident les vendeurs à classer leurs produits.</p>
+            <h1>${t('admin.categories')}</h1>
+            <p>${allCategories.length} ${t('admin.categories_count')}</p>
           </div>
           <div style="display:flex;gap:8px;flex-wrap:wrap;">
             ${allCategories.length === 0 ? `
               <button class="btn btn-secondary" onclick="seedCategories()">
-                ⚡ Créer les catégories de base
+                ${t('admin.seed_categories')}
               </button>
             ` : ''}
             <button class="btn btn-primary" onclick="openCategoryModal()">
-              ➕ Ajouter une catégorie
+              ${t('admin.add_category')}
             </button>
           </div>
         </div>
@@ -1181,22 +1015,22 @@
         ${allCategories.length === 0 
           ? `<div class="empty-state">
               <div class="empty-state-icon">🏷️</div>
-              <h3>Aucune catégorie</h3>
-              <p>Créez les catégories de base pour permettre aux vendeurs de classer leurs produits.</p>
-              <button class="btn btn-primary mt-16" onclick="seedCategories()">⚡ Créer les catégories de base</button>
+              <h3>${t('admin.no_categories')}</h3>
+              <p>${t('admin.no_categories_p')}</p>
+              <button class="btn btn-primary mt-16" onclick="seedCategories()">${t('admin.seed_categories')}</button>
             </div>`
           : `<div class="table-card">
               <div class="table-scroll">
                 <table>
                   <thead>
                     <tr>
-                      <th>Emoji</th>
-                      <th>Nom</th>
-                      <th>Description</th>
-                      <th>Produits</th>
-                      <th>Ordre</th>
-                      <th>Statut</th>
-                      <th>Actions</th>
+                      <th>${t('admin.emoji')}</th>
+                      <th>${t('admin.name')}</th>
+                      <th>${t('admin.description')}</th>
+                      <th>${t('admin.products_label')}</th>
+                      <th>${t('admin.order_label')}</th>
+                      <th>${t('admin.status')}</th>
+                      <th>${t('admin.actions')}</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -1208,11 +1042,11 @@
                         <td>${c.product_count}</td>
                         <td>${c.display_order}</td>
                         <td>${c.is_active 
-                          ? '<span class="badge badge-success">Active</span>' 
-                          : '<span class="badge badge-danger">Inactive</span>'}</td>
+                          ? `<span class="badge badge-success">${t('admin.active')}</span>` 
+                          : `<span class="badge badge-danger">${t('admin.inactive')}</span>`}</td>
                         <td>
-                          <button class="btn btn-ghost btn-sm" onclick="openCategoryModal(${c.id})" title="Modifier">✏️</button>
-                          <button class="btn btn-ghost btn-sm" onclick="deleteCategory(${c.id}, '${escapeHtml(c.name)}')" style="color:var(--danger);" title="Supprimer">🗑️</button>
+                          <button class="btn btn-ghost btn-sm" onclick="openCategoryModal(${c.id})" title="${t('admin.edit')}">✏️</button>
+                          <button class="btn btn-ghost btn-sm" onclick="deleteCategory(${c.id}, '${escapeHtml(c.name)}')" style="color:var(--danger);" title="${t('admin.delete')}">🗑️</button>
                         </td>
                       </tr>
                     `).join('')}
@@ -1237,7 +1071,7 @@
         <div class="modal-overlay" onclick="closeCategoryModal(event)">
           <div class="modal" style="max-width:480px;" onclick="event.stopPropagation()">
             <div class="modal-header">
-              <h3>${isEdit ? '✏️ Modifier la catégorie' : '➕ Nouvelle catégorie'}</h3>
+              <h3>${isEdit ? '✏️ ' + t('admin.edit') : '➕ ' + t('admin.add_category')}</h3>
               <button class="modal-close" onclick="closeCategoryModal()">✕</button>
             </div>
             
@@ -1245,42 +1079,39 @@
               <div id="cat-error" class="alert alert-error hidden"></div>
               
               <div class="form-group">
-                <label class="form-label required">Nom</label>
-                <input type="text" class="form-input" id="c-name" value="${escapeHtml(cat.name)}" placeholder="Ex: chaussures">
-                <div class="form-hint">En minuscules, court et clair. Ce nom apparaîtra dans les filtres.</div>
+                <label class="form-label required">${t('admin.name')}</label>
+                <input type="text" class="form-input" id="c-name" value="${escapeHtml(cat.name)}" placeholder="...">
               </div>
               
               <div class="form-group">
-                <label class="form-label">Emoji</label>
+                <label class="form-label">${t('admin.emoji')}</label>
                 <input type="text" class="form-input" id="c-emoji" value="${escapeHtml(cat.emoji || '🏷️')}" maxlength="4" placeholder="🏷️">
-                <div class="form-hint">Un emoji pour identifier visuellement la catégorie.</div>
               </div>
               
               <div class="form-group">
-                <label class="form-label">Description</label>
-                <input type="text" class="form-input" id="c-desc" value="${escapeHtml(cat.description || '')}" placeholder="Ex: Chaussures homme, femme, enfant">
+                <label class="form-label">${t('admin.description')}</label>
+                <input type="text" class="form-input" id="c-desc" value="${escapeHtml(cat.description || '')}" placeholder="...">
               </div>
               
               <div class="form-group">
-                <label class="form-label">Ordre d'affichage</label>
+                <label class="form-label">${t('admin.order_label')}</label>
                 <input type="number" class="form-input" id="c-order" value="${cat.display_order}" min="0">
-                <div class="form-hint">Plus le chiffre est petit, plus la catégorie apparaît en haut.</div>
               </div>
               
               ${isEdit ? `
                 <div class="form-group">
                   <label style="display:flex;align-items:center;gap:8px;cursor:pointer;">
                     <input type="checkbox" id="c-active" ${cat.is_active ? 'checked' : ''}>
-                    <span>Catégorie active (visible par les vendeurs)</span>
+                    <span>${t('admin.active')}</span>
                   </label>
                 </div>
               ` : ''}
             </div>
             
             <div class="modal-footer">
-              <button class="btn btn-ghost" onclick="closeCategoryModal()">Annuler</button>
+              <button class="btn btn-ghost" onclick="closeCategoryModal()">${t('product.cancel')}</button>
               <button class="btn btn-primary" id="save-cat-btn" onclick="saveCategory(${categoryId || 'null'})">
-                ${isEdit ? 'Enregistrer' : 'Créer'}
+                ${isEdit ? t('admin.save') : t('admin.create')}
               </button>
             </div>
           </div>
@@ -1312,7 +1143,7 @@
       }
       
       if (!data.name) {
-        errorDiv.textContent = 'Le nom est obligatoire.';
+        errorDiv.textContent = '—';
         errorDiv.classList.remove('hidden');
         return;
       }
@@ -1323,10 +1154,10 @@
       try {
         if (categoryId) {
           await AdminCategoriesAPI.update(categoryId, data);
-          showToast('Catégorie mise à jour.', 'success');
+          showToast('✅', 'success');
         } else {
           await AdminCategoriesAPI.create(data);
-          showToast('Catégorie créée.', 'success');
+          showToast('✅', 'success');
         }
         closeCategoryModal();
         await loadCategories();
@@ -1335,15 +1166,15 @@
         errorDiv.textContent = error.message;
         errorDiv.classList.remove('hidden');
         btn.disabled = false;
-        btn.textContent = categoryId ? 'Enregistrer' : 'Créer';
+        btn.textContent = categoryId ? t('admin.save') : t('admin.create');
       }
     }
     
     async function deleteCategory(categoryId, name) {
-      if (!confirm(`Supprimer la catégorie "${name}" ?`)) return;
+      if (!confirm('?')) return;
       try {
         await AdminCategoriesAPI.delete(categoryId);
-        showToast('Catégorie supprimée.', 'success');
+        showToast('✅', 'success');
         await loadCategories();
         renderCategories();
       } catch (error) {
@@ -1352,10 +1183,10 @@
     }
     
     async function seedCategories() {
-      if (!confirm('Créer les catégories de base (mode, chaussures, sacs, etc.) ?')) return;
+      if (!confirm('?')) return;
       try {
         const result = await AdminCategoriesAPI.seed();
-        showToast(`✅ ${result.created} catégorie(s) créée(s).`, 'success');
+        showToast(`✅ ${result.created}`, 'success');
         await loadCategories();
         renderCategories();
       } catch (error) {
@@ -1368,24 +1199,24 @@
       
       main.innerHTML = `
         <div class="dashboard-header">
-          <h1>🏆 Classements</h1>
-          <p>Les meilleurs vendeurs et produits de la plateforme.</p>
+          <h1>${t('admin.rankings')}</h1>
+          <p>${t('admin.rankings_p')}</p>
         </div>
         
         <div class="rankings-grid">
           
           <div class="ranking-card">
-            <h3>🥇 Top vendeurs</h3>
+            <h3>${t('admin.top_sellers')}</h3>
             ${topSellers.length === 0 
-              ? '<div class="table-empty">Aucune vente pour l\'instant.</div>'
+              ? `<div class="table-empty">${t('admin.no_sales')}</div>`
               : topSellers.map((s, i) => `
                 <div class="ranking-item">
                   <div class="ranking-position ${i === 0 ? 'top-1' : i === 1 ? 'top-2' : i === 2 ? 'top-3' : ''}">
                     ${i + 1}
                   </div>
                   <div class="ranking-info">
-                    <div class="ranking-name">${escapeHtml(s.shop_name || 'Boutique')}</div>
-                    <div class="ranking-sub">${escapeHtml(s.first_name || '')} ${escapeHtml(s.last_name || '')} • ${s.total_sales} vente${s.total_sales > 1 ? 's' : ''}</div>
+                    <div class="ranking-name">${escapeHtml(s.shop_name || t('admin.shop_label'))}</div>
+                    <div class="ranking-sub">${escapeHtml(s.first_name || '')} ${escapeHtml(s.last_name || '')} • ${s.total_sales} ${t('product.sales').toLowerCase()}</div>
                   </div>
                   <div class="ranking-value">${formatPrice(s.total_revenue)}</div>
                 </div>
@@ -1394,9 +1225,9 @@
           </div>
           
           <div class="ranking-card">
-            <h3>🔥 Top produits</h3>
+            <h3>${t('admin.top_products')}</h3>
             ${topProducts.length === 0 
-              ? '<div class="table-empty">Aucun produit vendu pour l\'instant.</div>'
+              ? `<div class="table-empty">${t('admin.no_products_sold')}</div>`
               : topProducts.map((p, i) => `
                 <div class="ranking-item">
                   <div class="ranking-position ${i === 0 ? 'top-1' : i === 1 ? 'top-2' : i === 2 ? 'top-3' : ''}">
@@ -1404,7 +1235,7 @@
                   </div>
                   <div class="ranking-info">
                     <div class="ranking-name">${escapeHtml(p.name)}</div>
-                    <div class="ranking-sub">${escapeHtml(p.shop_name || '')} • ${p.sales_count} vente${p.sales_count > 1 ? 's' : ''} • 👁️ ${p.views_count}</div>
+                    <div class="ranking-sub">${escapeHtml(p.shop_name || '')} • ${p.sales_count} ${t('product.sales').toLowerCase()} • 👁️ ${p.views_count}</div>
                   </div>
                   <div class="ranking-value">${formatPrice(p.revenue)}</div>
                 </div>

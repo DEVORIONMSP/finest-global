@@ -125,7 +125,7 @@
     }
     
     /* ============================================================
-       SECTIONS CARROUSEL — FOND DÉCORÉ
+       SECTIONS CARROUSEL
        ============================================================ */
     .section-carousel {
       padding: 90px 0;
@@ -173,9 +173,6 @@
       opacity: 0.3;
     }
     
-    /* ============================================================
-       EN-TÊTE SECTION (CENTRÉ)
-       ============================================================ */
     .section-header-centered {
       text-align: center;
       margin-bottom: 48px;
@@ -213,9 +210,6 @@
       line-height: 1.6;
     }
     
-    /* ============================================================
-       CARROUSEL
-       ============================================================ */
     .carousel {
       position: relative;
       max-width: 1320px;
@@ -280,9 +274,6 @@
     .carousel-nav.prev { left: 0; }
     .carousel-nav.next { right: 0; }
     
-    /* ============================================================
-       TAILLE UNIFORME
-       ============================================================ */
     .category-card,
     .product-slide,
     .shop-slide {
@@ -291,9 +282,6 @@
       min-width: 280px;
     }
     
-    /* ============================================================
-       CARTE CATÉGORIE
-       ============================================================ */
     .category-card {
       background: linear-gradient(135deg, var(--blue-800), var(--blue-700));
       border: 1.5px solid rgba(255,138,61,0.15);
@@ -362,9 +350,6 @@
       font-weight: 600;
     }
     
-    /* ============================================================
-       CARTE PRODUIT
-       ============================================================ */
     .product-card {
       background: linear-gradient(135deg, var(--blue-800), var(--blue-700));
       border: 1.5px solid rgba(255,138,61,0.15);
@@ -471,9 +456,6 @@
       border-radius: 12px;
     }
     
-    /* ============================================================
-       CARTE BOUTIQUE
-       ============================================================ */
     .shop-card {
       background: linear-gradient(135deg, var(--blue-800), var(--blue-700));
       border: 1.5px solid rgba(255,138,61,0.15);
@@ -575,9 +557,6 @@
       gap: 4px;
     }
     
-    /* ============================================================
-       CTA VENDEUR
-       ============================================================ */
     .cta-seller {
       background: linear-gradient(135deg, var(--blue-800), var(--blue-700));
       color: var(--white);
@@ -637,6 +616,7 @@
     .cta-list {
       display: grid;
       gap: 14px;
+      list-style: none;
     }
     
     .cta-list li {
@@ -662,9 +642,6 @@
       box-shadow: 0 4px 12px rgba(255,138,61,0.4);
     }
     
-    /* ============================================================
-       SKELETON
-       ============================================================ */
     .skeleton-card {
       border-radius: var(--radius-lg);
       overflow: hidden;
@@ -718,9 +695,6 @@
       animation: shimmer 1.5s infinite;
     }
     
-    /* ============================================================
-       FOOTER
-       ============================================================ */
     .footer {
       background: var(--blue-950);
       color: var(--white);
@@ -773,299 +747,92 @@
       font-size: 0.9rem;
     }
     
-    /* ============================================================
-       RESPONSIVE — TABLETTE
-       ============================================================ */
     @media (max-width: 1024px) {
-      .category-card,
-      .product-slide,
-      .shop-slide {
-        width: calc((100% - 56px) / 3);
-      }
-      .skeleton-category {
-        width: calc((100% - 56px) / 3);
-      }
-      .footer-grid {
-        grid-template-columns: 2fr 1fr 1fr;
-      }
-      .footer-contact {
-        grid-column: 1 / -1;
-        justify-self: start;
-        text-align: left;
-        margin-top: 20px;
-      }
+      .category-card, .product-slide, .shop-slide { width: calc((100% - 56px) / 3); }
+      .skeleton-category { width: calc((100% - 56px) / 3); }
+      .footer-grid { grid-template-columns: 2fr 1fr 1fr; }
+      .footer-contact { grid-column: 1 / -1; justify-self: start; text-align: left; margin-top: 20px; }
     }
     
-    /* ============================================================
-       RESPONSIVE — TABLETTE PORTRAIT
-       ============================================================ */
     @media (max-width: 900px) {
-      .hero {
-        padding: 60px 0 80px;
-      }
-      .hero h1 {
-        font-size: 2.5rem;
-        letter-spacing: -1.5px;
-        line-height: 1.1;
-        min-height: 2.5em;
-      }
-      .hero p {
-        font-size: 1rem;
-      }
-      
-      .section-carousel {
-        padding: 56px 0;
-      }
-      .section-header-centered {
-        margin-bottom: 32px;
-      }
-      .section-header-centered h2 {
-        font-size: 1.6rem;
-      }
-      .section-header-centered p {
-        font-size: 0.95rem;
-      }
-      
+      .hero { padding: 60px 0 80px; }
+      .hero h1 { font-size: 2.5rem; letter-spacing: -1.5px; line-height: 1.1; min-height: 2.5em; }
+      .hero p { font-size: 1rem; }
+      .section-carousel { padding: 56px 0; }
+      .section-header-centered { margin-bottom: 32px; }
+      .section-header-centered h2 { font-size: 1.6rem; }
+      .section-header-centered p { font-size: 0.95rem; }
       .carousel { padding: 0 50px; }
       .carousel-track { gap: 18px; }
-      .carousel-nav {
-        width: 42px;
-        height: 42px;
-        font-size: 1.2rem;
-      }
-      
-      .category-card,
-      .product-slide,
-      .shop-slide {
-        width: calc((100% - 36px) / 2);
-        min-width: unset;
-      }
-      .skeleton-category {
-        width: calc((100% - 36px) / 2);
-      }
-      
-      .cta-seller {
-        padding: 60px 0;
-      }
-      .cta-seller-inner {
-        grid-template-columns: 1fr;
-        gap: 32px;
-      }
-      .cta-seller h2 {
-        font-size: 1.75rem;
-      }
-      
-      .footer-grid {
-        grid-template-columns: 1fr 1fr;
-        gap: 32px;
-      }
+      .carousel-nav { width: 42px; height: 42px; font-size: 1.2rem; }
+      .category-card, .product-slide, .shop-slide { width: calc((100% - 36px) / 2); min-width: unset; }
+      .skeleton-category { width: calc((100% - 36px) / 2); }
+      .cta-seller { padding: 60px 0; }
+      .cta-seller-inner { grid-template-columns: 1fr; gap: 32px; }
+      .cta-seller h2 { font-size: 1.75rem; }
+      .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
     }
     
-    /* ============================================================
-       RESPONSIVE — TÉLÉPHONE ANDROID
-       ============================================================ */
     @media (max-width: 640px) {
-      /* Hero */
-      .hero {
-        padding: 40px 0 56px;
-      }
-      .hero-inner {
-        padding: 0 18px;
-      }
-      .hero h1 {
-        font-size: 1.75rem;
-        letter-spacing: -0.6px;
-        line-height: 1.15;
-        min-height: 2.9em;
-        margin-bottom: 18px;
-      }
-      .hero p {
-        font-size: 0.92rem;
-        line-height: 1.55;
-        margin-bottom: 28px;
-        padding: 0 4px;
-      }
-      .hero-buttons {
-        flex-direction: column;
-        gap: 10px;
-        width: 100%;
-      }
-      .hero-buttons .btn {
-        width: 100%;
-        justify-content: center;
-        padding: 13px 20px;
-        font-size: 0.92rem;
-      }
-      .btn-lg {
-        padding: 13px 20px;
-        font-size: 0.92rem;
-      }
-      
-      /* Sections */
-      .section-carousel {
-        padding: 40px 0;
-      }
-      .section-header-centered {
-        margin-bottom: 22px;
-        padding: 0 16px;
-      }
-      .section-header-centered h2 {
-        font-size: 1.3rem;
-        gap: 9px;
-        letter-spacing: -0.3px;
-      }
-      .section-header-centered h2 .accent-bar {
-        width: 4px;
-        height: 24px;
-      }
-      .section-header-centered p {
-        font-size: 0.83rem;
-        line-height: 1.5;
-      }
-      
-      /* Carrousels */
-      .carousel {
-        padding: 0 44px;
-      }
-      .carousel-track {
-        gap: 14px;
-      }
-      .carousel-track-wrapper {
-        padding: 12px 4px;
-      }
-      .carousel-nav {
-        width: 34px;
-        height: 34px;
-        font-size: 1rem;
-      }
+      .hero { padding: 40px 0 56px; }
+      .hero-inner { padding: 0 18px; }
+      .hero h1 { font-size: 1.75rem; letter-spacing: -0.6px; line-height: 1.15; min-height: 2.9em; margin-bottom: 18px; }
+      .hero p { font-size: 0.92rem; line-height: 1.55; margin-bottom: 28px; padding: 0 4px; }
+      .hero-buttons { flex-direction: column; gap: 10px; width: 100%; }
+      .hero-buttons .btn { width: 100%; justify-content: center; padding: 13px 20px; font-size: 0.92rem; }
+      .btn-lg { padding: 13px 20px; font-size: 0.92rem; }
+      .section-carousel { padding: 40px 0; }
+      .section-header-centered { margin-bottom: 22px; padding: 0 16px; }
+      .section-header-centered h2 { font-size: 1.3rem; gap: 9px; letter-spacing: -0.3px; }
+      .section-header-centered h2 .accent-bar { width: 4px; height: 24px; }
+      .section-header-centered p { font-size: 0.83rem; line-height: 1.5; }
+      .carousel { padding: 0 44px; }
+      .carousel-track { gap: 14px; }
+      .carousel-track-wrapper { padding: 12px 4px; }
+      .carousel-nav { width: 34px; height: 34px; font-size: 1rem; }
       .carousel-nav.prev { left: 2px; }
       .carousel-nav.next { right: 2px; }
-      
-      .category-card,
-      .product-slide,
-      .shop-slide {
-        width: calc(100% - 16px);
-        min-width: unset;
-      }
-      .skeleton-category {
-        width: calc(100% - 16px);
-      }
-      
-      /* Catégories */
-      .category-card {
-        min-height: 190px;
-        padding: 26px 18px;
-        gap: 12px;
-      }
+      .category-card, .product-slide, .shop-slide { width: calc(100% - 16px); min-width: unset; }
+      .skeleton-category { width: calc(100% - 16px); }
+      .category-card { min-height: 190px; padding: 26px 18px; gap: 12px; }
       .category-emoji { font-size: 2.4rem; }
       .category-name { font-size: 0.98rem; }
       .category-count { font-size: 0.78rem; }
-      
-      /* Produits */
       .product-card { min-height: 340px; }
       .product-image { aspect-ratio: 1; }
       .product-info { padding: 16px; }
       .product-name { font-size: 0.98rem; }
       .product-price { font-size: 1.05rem; }
       .product-stats { font-size: 0.72rem; }
-      .product-badge-sales {
-        padding: 5px 10px;
-        font-size: 0.7rem;
-        top: 10px;
-        left: 10px;
-      }
-      
-      /* Boutiques */
+      .product-badge-sales { padding: 5px 10px; font-size: 0.7rem; top: 10px; left: 10px; }
       .shop-card { min-height: 340px; }
       .shop-banner { height: 105px; }
-      .shop-avatar {
-        width: 54px;
-        height: 54px;
-        font-size: 1.1rem;
-        bottom: -22px;
-        left: 20px;
-      }
+      .shop-avatar { width: 54px; height: 54px; font-size: 1.1rem; bottom: -22px; left: 20px; }
       .shop-body { padding: 34px 20px 18px; }
       .shop-name { font-size: 1rem; }
       .shop-desc { font-size: 0.83rem; }
       .shop-stats { font-size: 0.78rem; }
-      
-      /* CTA vendeur */
-      .cta-seller {
-        padding: 48px 0;
-      }
-      .cta-seller h2 {
-        font-size: 1.45rem;
-        letter-spacing: -0.3px;
-      }
-      .cta-seller p {
-        font-size: 0.92rem;
-        margin-bottom: 22px;
-      }
-      .cta-list li {
-        font-size: 0.88rem;
-        padding: 8px 0;
-      }
-      .cta-list li::before {
-        width: 22px;
-        height: 22px;
-        font-size: 0.7rem;
-      }
-      
-      /* Footer */
-      .footer {
-        padding: 48px 0 24px;
-      }
-      .footer-grid {
-        grid-template-columns: 1fr;
-        gap: 26px;
-        margin-bottom: 32px;
-      }
-      .footer-contact {
-        text-align: left;
-        justify-self: start;
-      }
-      .footer-brand {
-        font-size: 1.2rem;
-      }
-      .footer h4 {
-        margin-bottom: 14px;
-      }
-      .footer p, .footer a {
-        font-size: 0.9rem;
-        line-height: 1.9;
-      }
+      .cta-seller { padding: 48px 0; }
+      .cta-seller h2 { font-size: 1.45rem; letter-spacing: -0.3px; }
+      .cta-seller p { font-size: 0.92rem; margin-bottom: 22px; }
+      .cta-list li { font-size: 0.88rem; padding: 8px 0; }
+      .cta-list li::before { width: 22px; height: 22px; font-size: 0.7rem; }
+      .footer { padding: 48px 0 24px; }
+      .footer-grid { grid-template-columns: 1fr; gap: 26px; margin-bottom: 32px; }
+      .footer-contact { text-align: left; justify-self: start; }
+      .footer-brand { font-size: 1.2rem; }
+      .footer h4 { margin-bottom: 14px; }
+      .footer p, .footer a { font-size: 0.9rem; line-height: 1.9; }
     }
     
-    /* ============================================================
-       RESPONSIVE — TRÈS PETIT TÉLÉPHONE
-       ============================================================ */
     @media (max-width: 380px) {
-      .hero h1 {
-        font-size: 1.55rem;
-        min-height: 3.1em;
-      }
-      .hero p {
-        font-size: 0.87rem;
-      }
-      .section-header-centered h2 {
-        font-size: 1.15rem;
-      }
-      .section-header-centered p {
-        font-size: 0.78rem;
-      }
-      .carousel {
-        padding: 0 40px;
-      }
-      .carousel-nav {
-        width: 30px;
-        height: 30px;
-        font-size: 0.9rem;
-      }
-      .btn-lg {
-        font-size: 0.85rem;
-        padding: 12px 18px;
-      }
+      .hero h1 { font-size: 1.55rem; min-height: 3.1em; }
+      .hero p { font-size: 0.87rem; }
+      .section-header-centered h2 { font-size: 1.15rem; }
+      .section-header-centered p { font-size: 0.78rem; }
+      .carousel { padding: 0 40px; }
+      .carousel-nav { width: 30px; height: 30px; font-size: 0.9rem; }
+      .btn-lg { font-size: 0.85rem; padding: 12px 18px; }
     }
   </style>
 </head>
@@ -1084,10 +851,10 @@
           <span class="typed-text" id="typed-2"></span>
         </span>
       </h1>
-      <p>Finest Global rend les commerçants du marché visibles, trouvables et connectés à leurs clients. Sans remplacer le marché physique — en le rendant simplement accessible.</p>
+      <p data-i18n="home.hero_p">Finest Global rend les commerçants du marché visibles, trouvables et connectés à leurs clients. Sans remplacer le marché physique — en le rendant simplement accessible.</p>
       <div class="hero-buttons">
-        <a href="/marketplace.html" class="btn btn-white btn-lg">Explorer la marketplace →</a>
-        <a href="/register.html" class="btn btn-outline-white btn-lg">Devenir vendeur</a>
+        <a href="/marketplace.html" class="btn btn-white btn-lg" data-i18n="home.explore">Explorer la marketplace →</a>
+        <a href="/register.html" class="btn btn-outline-white btn-lg" data-i18n="home.become_seller">Devenir vendeur</a>
       </div>
     </div>
   </section>
@@ -1095,8 +862,8 @@
   <!-- CATÉGORIES POPULAIRES -->
   <section class="section-carousel">
     <div class="section-header-centered">
-      <h2><span class="accent-bar"></span> Catégories populaires</h2>
-      <p>Explorez les produits par catégorie et trouvez ce que vous cherchez rapidement.</p>
+      <h2><span class="accent-bar"></span> <span data-i18n="home.categories_title">Catégories populaires</span></h2>
+      <p data-i18n="home.categories_p">Explorez les produits par catégorie et trouvez ce que vous cherchez rapidement.</p>
     </div>
     
     <div class="carousel">
@@ -1116,8 +883,8 @@
   <!-- LES PLUS VENDUS -->
   <section class="section-carousel">
     <div class="section-header-centered">
-      <h2><span class="accent-bar"></span> Les plus vendus</h2>
-      <p>Les produits les plus populaires de la plateforme, choisis par nos clients.</p>
+      <h2><span class="accent-bar"></span> <span data-i18n="home.trending_title">Les plus vendus</span></h2>
+      <p data-i18n="home.trending_p">Les produits les plus populaires de la plateforme, choisis par nos clients.</p>
     </div>
     
     <div class="carousel">
@@ -1137,8 +904,8 @@
   <!-- BOUTIQUES EN VEDETTE -->
   <section class="section-carousel">
     <div class="section-header-centered">
-      <h2><span class="accent-bar"></span> Boutiques en vedette</h2>
-      <p>Découvrez les meilleures boutiques de la plateforme et leurs produits.</p>
+      <h2><span class="accent-bar"></span> <span data-i18n="home.shops_title">Boutiques en vedette</span></h2>
+      <p data-i18n="home.shops_p">Découvrez les meilleures boutiques de la plateforme et leurs produits.</p>
     </div>
     
     <div class="carousel">
@@ -1160,19 +927,19 @@
     <div class="container">
       <div class="cta-seller-inner">
         <div>
-          <h2>Vous êtes commerçant ?</h2>
-          <p>Créez votre boutique en ligne gratuitement et recevez vos commandes directement sur votre téléphone.</p>
-          <a href="/register.html" class="btn btn-orange btn-lg" id="cta-button">
+          <h2 data-i18n="home.cta_title">Vous êtes commerçant ?</h2>
+          <p data-i18n="home.cta_p">Créez votre boutique en ligne gratuitement et recevez vos commandes directement sur votre téléphone.</p>
+          <a href="/register.html" class="btn btn-orange btn-lg" id="cta-button" data-i18n="home.cta_btn">
             Créer ma boutique →
           </a>
         </div>
         <div>
           <ul class="cta-list">
-            <li>Boutique en ligne gratuite</li>
-            <li>Notifications en temps réel</li>
-            <li>Visible par des milliers d'acheteurs</li>
-            <li>Aucune commission au démarrage</li>
-            <li>Support en français</li>
+            <li data-i18n="home.cta_1">Boutique en ligne gratuite</li>
+            <li data-i18n="home.cta_2">Notifications en temps réel</li>
+            <li data-i18n="home.cta_3">Visible par des milliers d'acheteurs</li>
+            <li data-i18n="home.cta_4">Aucune commission au démarrage</li>
+            <li data-i18n="home.cta_5">Support en français</li>
           </ul>
         </div>
       </div>
@@ -1185,26 +952,26 @@
       <div class="footer-grid">
         <div>
           <div class="footer-brand">Finest<span>Global</span></div>
-          <p>Le marché physique, rendu visible. Connecter les vendeurs du Bénin à leurs clients, sans remplacer le marché traditionnel.</p>
+          <p data-i18n="footer.tagline">Le marché physique, rendu visible. Connecter les vendeurs du Bénin à leurs clients, sans remplacer le marché traditionnel.</p>
         </div>
         <div>
-          <h4>Navigation</h4>
+          <h4 data-i18n="footer.navigation">Navigation</h4>
           <ul>
-            <li><a href="/index.html">Accueil</a></li>
-            <li><a href="/marketplace.html">Marketplace</a></li>
-            <li><a href="/about.html">À propos</a></li>
+            <li><a href="/index.html" data-i18n="nav.home">Accueil</a></li>
+            <li><a href="/marketplace.html" data-i18n="nav.marketplace">Marketplace</a></li>
+            <li><a href="/about.html" data-i18n="nav.about">À propos</a></li>
           </ul>
         </div>
         <div>
-          <h4>Vendeurs</h4>
+          <h4 data-i18n="footer.sellers">Vendeurs</h4>
           <ul>
-            <li><a href="/register.html">Créer une boutique</a></li>
-            <li><a href="/dashboard-seller.html">Mon dashboard</a></li>
-            <li><a href="/orders.html">Mes commandes</a></li>
+            <li><a href="/register.html" data-i18n="footer.create_shop">Créer une boutique</a></li>
+            <li><a href="/dashboard-seller.html" data-i18n="footer.my_dashboard">Mon dashboard</a></li>
+            <li><a href="/orders.html" data-i18n="footer.my_orders">Mes commandes</a></li>
           </ul>
         </div>
         <div class="footer-contact">
-          <h4>Contact</h4>
+          <h4 data-i18n="footer.contact">Contact</h4>
           <ul>
             <li><a href="mailto:hello@finestglobal.com">hello@finestglobal.com</a></li>
             <li><a href="#">WhatsApp</a></li>
@@ -1214,13 +981,14 @@
         </div>
       </div>
       <div class="footer-bottom">
-        © 2026 FinestGlobal — Tous droits réservés.
+        © 2026 FinestGlobal — <span data-i18n="footer.rights">Tous droits réservés.</span>
       </div>
     </div>
   </footer>
 
   <script src="/js/api.js"></script>
   <script src="/js/auth.js"></script>
+  <script src="/js/i18n.js"></script>
   <script src="/js/navbar.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
@@ -1238,8 +1006,8 @@
       const typed1 = document.getElementById('typed-1');
       const typed2 = document.getElementById('typed-2');
       
-      const word1 = "Be Findable.";
-      const word2 = "Devenez Visible.";
+      const word1 = t('home.hero_1');
+      const word2 = t('home.hero_2');
       
       function typeSequence() {
         typed1.textContent = "";
@@ -1329,8 +1097,8 @@
           track.innerHTML = `
             <div class="empty-state" style="width: 100%; padding: 60px 20px;">
               <div class="empty-state-icon">🏷️</div>
-              <h3>Aucune catégorie pour l'instant</h3>
-              <p style="color: var(--gray-500);">Les catégories apparaîtront dès que l'admin en aura créé.</p>
+              <h3 data-i18n="home.no_categories">${t('home.categories_title')}</h3>
+              <p style="color: var(--gray-500);">—</p>
             </div>
           `;
           const carousel = track.closest('.carousel');
@@ -1342,7 +1110,7 @@
           <a href="/marketplace.html?category=${encodeURIComponent(cat.name)}" class="category-card">
             <span class="category-emoji">${cat.emoji || '🏷️'}</span>
             <span class="category-name">${escapeHtml(cat.name)}</span>
-            <span class="category-count">${cat.product_count} produit${cat.product_count > 1 ? 's' : ''}</span>
+            <span class="category-count">${cat.product_count} ${cat.product_count > 1 ? 'produits' : 'produit'}</span>
           </a>
         `).join('');
         
@@ -1363,8 +1131,8 @@
           track.innerHTML = `
             <div class="empty-state" style="width: 100%; padding: 60px 20px;">
               <div class="empty-state-icon">📦</div>
-              <h3>Aucun produit pour l'instant</h3>
-              <p style="color: var(--gray-500);">Les produits les plus vendus apparaîtront ici.</p>
+              <h3>—</h3>
+              <p style="color: var(--gray-500);">—</p>
             </div>
           `;
           const carousel = track.closest('.carousel');
@@ -1417,8 +1185,8 @@
           track.innerHTML = `
             <div class="empty-state" style="width: 100%; padding: 60px 20px;">
               <div class="empty-state-icon">🏪</div>
-              <h3>Aucune boutique pour l'instant</h3>
-              <p style="color: var(--gray-500);">Soyez le premier à créer votre boutique !</p>
+              <h3>—</h3>
+              <p style="color: var(--gray-500);">—</p>
             </div>
           `;
           const carousel = track.closest('.carousel');
@@ -1453,9 +1221,9 @@
           </div>
           <div class="shop-body">
             <div class="shop-name">${escapeHtml(shop.name)}</div>
-            <div class="shop-desc">${escapeHtml(shop.description || 'Aucune description')}</div>
+            <div class="shop-desc">${escapeHtml(shop.description || '—')}</div>
             <div class="shop-stats">
-              <span>👁️ ${shop.views_count} vues</span>
+              <span>👁️ ${shop.views_count}</span>
             </div>
           </div>
         </a>
@@ -1467,10 +1235,10 @@
       if (!btn) return;
       
       if (Auth.isSeller()) {
-        btn.textContent = 'Aller à mon dashboard →';
+        btn.textContent = t('nav.dashboard') + ' →';
         btn.href = '/dashboard-seller.html';
       } else if (Auth.isAuthenticated()) {
-        btn.textContent = 'Devenir vendeur →';
+        btn.textContent = t('home.become_seller') + ' →';
         btn.href = '/become-seller.html';
       }
     }

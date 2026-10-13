@@ -776,3 +776,57 @@
     font-size: 0.88rem;
   }
 }
+
+
+
+/* ============================================================
+   SÉLECTEUR DE LANGUE
+   ============================================================ */
+
+.lang-selector {
+  display: flex;
+  gap: 4px;
+  background: var(--gray-100);
+  border-radius: 20px;
+  padding: 3px;
+  flex-shrink: 0;
+}
+
+.lang-btn {
+  padding: 5px 10px;
+  border-radius: 16px;
+  border: none;
+  background: transparent;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  line-height: 1;
+  font-family: inherit;
+}
+
+.lang-btn:hover {
+  background: var(--gray-200);
+}
+
+.lang-btn.active {
+  background: var(--white);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+}
+
+@media (max-width: 900px) {
+  .lang-selector {
+    padding: 2px;
+  }
+  
+  .lang-btn {
+    padding: 4px 7px;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 380px) {
+  .lang-btn {
+    padding: 3px 5px;
+    font-size: 0.8rem;
+  }
+}

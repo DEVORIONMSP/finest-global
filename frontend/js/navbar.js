@@ -1,7 +1,7 @@
 /* ============================================================
    FINEST GLOBAL — Navbar dynamique
-   Desktop : recherche + Accueil + Marketplace + À propos + profil
-   Mobile : logo + Marketplace + avatar
+   Desktop : recherche + Accueil + Marketplace + À propos + profil + langue
+   Mobile : logo + Marketplace + langue + avatar
    ============================================================ */
 
 function renderNavbar() {
@@ -10,17 +10,24 @@ function renderNavbar() {
   
   const user = Auth.getUser();
   const isAuth = Auth.isAuthenticated();
+  const currentLang = getCurrentLanguage();
   
-  // Liens de base (desktop)
-  const baseLinks = `
-    <a href="/index.html" class="nav-link">Accueil</a>
-    <a href="/marketplace.html" class="nav-link">Marketplace</a>
-    <a href="/about.html" class="nav-link">À propos</a>
-  `;
-  
-  // Lien simplifié (mobile)
-  const mobileLinks = `
-    <a href="/marketplace.html" class="nav-link">Marketplace</a>
+  // Sélecteur de langue
+  const langSelector = `
+    <div class="lang-selector">
+      <button 
+        class="lang-btn ${currentLang === 'fr' ? 'active' : ''}" 
+        onclick="setLanguage('fr')"
+        aria-label="Français"
+        title="Français"
+      >🇫🇷</button>
+      <button 
+        class="lang-btn ${currentLang === 'en' ? 'active' : ''}" 
+        onclick="setLanguage('en')"
+        aria-label="English"
+        title="English"
+      >🇬🇧</button>
+    </div>
   `;
   
   // Partie droite : auth ou profil
@@ -29,8 +36,8 @@ function renderNavbar() {
   if (!isAuth) {
     rightSection = `
       <div class="nav-auth">
-        <a href="/login.html" class="btn btn-ghost btn-sm">Se connecter</a>
-        <a href="/register.html" class="btn btn-primary btn-sm">S'inscrire</a>
+        <a href="/login.html" class="btn btn-ghost btn-sm">${t('nav.login')}</a>
+        <a href="/register.html" class="btn btn-primary btn-sm">${t('nav.register')}</a>
       </div>
     `;
   } else {
@@ -38,18 +45,23 @@ function renderNavbar() {
       (user.first_name?.[0] || '') + (user.last_name?.[0] || '')
     ).toUpperCase() || user.phone.slice(-2);
     
+    // Lien dashboard selon le rôle
     let dashboardLink = '';
     if (user.role === 'admin') {
-      dashboardLink = `<a href="/dashboard-admin.html" class="dropdown-item">👑 Dashboard admin</a>`;
+      dashboardLink = `<a href="/dashboard-admin.html" class="dropdown-item">👑 ${t('nav.dashboard_admin')}</a>`;
     } else if (user.role === 'seller') {
-      dashboardLink = `<a href="/dashboard-seller.html" class="dropdown-item">📊 Mon dashboard</a>`;
+      dashboardLink = `<a href="/dashboard-seller.html" class="dropdown-item">📊 ${t('nav.dashboard')}</a>`;
     } else {
-      dashboardLink = `<a href="/become-seller.html" class="dropdown-item">🚀 Devenir vendeur</a>`;
+      dashboardLink = `<a href="/become-seller.html" class="dropdown-item">🚀 ${t('nav.become_seller')}</a>`;
     }
+    
+    // Badge rôle
+    const roleBadgeClass = user.role === 'admin' ? 'danger' : user.role === 'seller' ? 'orange' : 'blue';
+    const roleLabel = t('role.' + user.role);
     
     rightSection = `
       <div class="nav-user" id="nav-user-menu">
-        <button class="nav-user-btn" onclick="toggleUserMenu(event)" aria-label="Mon profil">
+        <button class="nav-user-btn" onclick="toggleUserMenu(event)" aria-label="${t('nav.profile')}">
           <span class="nav-avatar">${initials}</span>
           <span class="nav-user-name">${user.first_name || user.phone}</span>
           <span class="nav-chevron">▾</span>
@@ -58,16 +70,16 @@ function renderNavbar() {
           <div class="dropdown-header">
             <div class="dropdown-name">${user.first_name || ''} ${user.last_name || ''}</div>
             <div class="dropdown-phone">${user.phone}</div>
-            <div class="dropdown-role badge badge-${user.role === 'admin' ? 'danger' : user.role === 'seller' ? 'orange' : 'blue'}">
-              ${user.role === 'admin' ? 'Admin' : user.role === 'seller' ? 'Vendeur' : 'Client'}
+            <div class="dropdown-role badge badge-${roleBadgeClass}">
+              ${roleLabel}
             </div>
           </div>
           <div class="dropdown-divider"></div>
           ${dashboardLink}
-          <a href="/orders.html" class="dropdown-item">📦 Mes commandes</a>
+          <a href="/orders.html" class="dropdown-item">📦 ${t('nav.orders')}</a>
           <div class="dropdown-divider"></div>
           <button class="dropdown-item dropdown-item-danger" onclick="Auth.logout()">
-            🚪 Se déconnecter
+            🚪 ${t('nav.logout')}
           </button>
         </div>
       </div>
@@ -76,7 +88,7 @@ function renderNavbar() {
   
   navContainer.innerHTML = `
     <div class="navbar-inner">
-      <a href="/index.html" class="navbar-logo" aria-label="Accueil Finest Global">
+      <a href="/index.html" class="navbar-logo" aria-label="Finest Global">
         <img src="/assets/logo.png" alt="Finest Global" class="navbar-logo-img">
       </a>
       
@@ -84,15 +96,17 @@ function renderNavbar() {
         <input 
           type="text" 
           id="navbar-search-input"
-          placeholder="Rechercher un produit, une boutique..."
+          placeholder="${t('nav.search_placeholder')}"
           autocomplete="off"
         />
         <div class="navbar-suggestions" id="navbar-suggestions"></div>
       </div>
       
       <div class="navbar-links">
-        ${baseLinks}
+        ${baseLinksForScreen()}
       </div>
+      
+      ${langSelector}
       
       ${rightSection}
     </div>
@@ -100,31 +114,32 @@ function renderNavbar() {
   
   // Initialiser l'autocomplétion (uniquement si la barre existe)
   initNavbarSearch();
-  
-  // Mettre à jour les liens selon la taille d'écran
-  updateNavLinksForScreenSize();
 }
 
 /**
- * Affiche les liens desktop ou mobile selon la largeur d'écran.
+ * Retourne les liens selon la taille d'écran.
+ */
+function baseLinksForScreen() {
+  const isMobile = window.innerWidth <= 900;
+  
+  if (isMobile) {
+    return `<a href="/marketplace.html" class="nav-link">${t('nav.marketplace')}</a>`;
+  }
+  
+  return `
+    <a href="/index.html" class="nav-link">${t('nav.home')}</a>
+    <a href="/marketplace.html" class="nav-link">${t('nav.marketplace')}</a>
+    <a href="/about.html" class="nav-link">${t('nav.about')}</a>
+  `;
+}
+
+/**
+ * Met à jour les liens lors du redimensionnement.
  */
 function updateNavLinksForScreenSize() {
   const linksContainer = document.querySelector('.navbar-links');
   if (!linksContainer) return;
-  
-  const isMobile = window.innerWidth <= 900;
-  
-  if (isMobile) {
-    linksContainer.innerHTML = `
-      <a href="/marketplace.html" class="nav-link">Marketplace</a>
-    `;
-  } else {
-    linksContainer.innerHTML = `
-      <a href="/index.html" class="nav-link">Accueil</a>
-      <a href="/marketplace.html" class="nav-link">Marketplace</a>
-      <a href="/about.html" class="nav-link">À propos</a>
-    `;
-  }
+  linksContainer.innerHTML = baseLinksForScreen();
 }
 
 /**

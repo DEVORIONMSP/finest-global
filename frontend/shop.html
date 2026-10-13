@@ -14,9 +14,6 @@
       background: var(--gray-50);
     }
     
-    /* ============================================================
-       BANNIÈRE BOUTIQUE
-       ============================================================ */
     .shop-hero {
       background: linear-gradient(135deg, var(--blue-900) 0%, var(--blue-700) 100%);
       color: var(--white);
@@ -86,9 +83,6 @@
       color: rgba(255,255,255,0.9);
     }
     
-    /* ============================================================
-       FILTRES BOUTIQUE
-       ============================================================ */
     .shop-toolbar {
       background: var(--white);
       border-bottom: 1px solid var(--gray-200);
@@ -122,12 +116,7 @@
       cursor: pointer;
     }
     
-    /* ============================================================
-       GRILLE PRODUITS
-       ============================================================ */
-    .products-section {
-      padding: 40px 0 60px;
-    }
+    .products-section { padding: 40px 0 60px; }
     
     .products-grid {
       display: grid;
@@ -215,12 +204,7 @@
       font-size: 1rem;
     }
     
-    /* ============================================================
-       PAGE PRODUIT (mode détail)
-       ============================================================ */
-    .product-detail {
-      padding: 40px 0 60px;
-    }
+    .product-detail { padding: 40px 0 60px; }
     
     .product-detail-grid {
       display: grid;
@@ -331,15 +315,11 @@
       flex-shrink: 0;
     }
     
-    .product-seller-info {
-      flex: 1;
-    }
-    
+    .product-seller-info { flex: 1; }
     .product-seller-name {
       font-weight: 700;
       color: var(--blue-900);
     }
-    
     .product-seller-label {
       font-size: 0.8rem;
       color: var(--gray-500);
@@ -371,11 +351,12 @@
       font-weight: 700;
       color: var(--gray-700);
       transition: background var(--transition);
+      border: none;
+      cursor: pointer;
+      font-family: inherit;
     }
     
-    .qty-btn:hover {
-      background: var(--gray-100);
-    }
+    .qty-btn:hover { background: var(--gray-100); }
     
     .qty-value {
       padding: 10px 20px;
@@ -384,12 +365,7 @@
       text-align: center;
     }
     
-    /* ============================================================
-       PRODUITS SIMILAIRES
-       ============================================================ */
-    .similar-section {
-      margin-top: 60px;
-    }
+    .similar-section { margin-top: 60px; }
     
     .similar-section h2 {
       font-size: 1.5rem;
@@ -397,9 +373,6 @@
       color: var(--blue-900);
     }
     
-    /* ============================================================
-       MODAL DE COMMANDE
-       ============================================================ */
     .order-summary {
       background: var(--blue-50);
       padding: 16px;
@@ -423,277 +396,66 @@
       color: var(--blue-900);
     }
     
-    /* ============================================================
-       RESPONSIVE — TABLETTE
-       ============================================================ */
     @media (max-width: 900px) {
-      .product-detail-grid {
-        grid-template-columns: 1fr;
-        gap: 24px;
-        padding: 20px;
-      }
-      .shop-hero-inner {
-        flex-direction: column;
-        text-align: center;
-      }
+      .product-detail-grid { grid-template-columns: 1fr; gap: 24px; padding: 20px; }
+      .shop-hero-inner { flex-direction: column; text-align: center; }
       .shop-hero-stats { justify-content: center; }
       .shop-hero-info h1 { font-size: 1.5rem; }
     }
     
-    /* ============================================================
-       RESPONSIVE — TÉLÉPHONE ANDROID
-       ============================================================ */
     @media (max-width: 640px) {
-      .shop-hero {
-        padding: 36px 0;
-      }
-      
-      .shop-hero-inner {
-        flex-direction: column;
-        text-align: center;
-        gap: 16px;
-        padding: 0 16px;
-      }
-      
-      .shop-hero-avatar {
-        width: 72px;
-        height: 72px;
-        font-size: 1.6rem;
-        border-width: 3px;
-      }
-      
-      .shop-hero-info h1 {
-        font-size: 1.35rem;
-        margin-bottom: 6px;
-      }
-      
-      .shop-hero-info p {
-        font-size: 0.88rem;
-        line-height: 1.5;
-        margin-bottom: 10px;
-      }
-      
-      .shop-hero-stats {
-        justify-content: center;
-        gap: 14px;
-        font-size: 0.8rem;
-        flex-wrap: wrap;
-      }
-      
-      .shop-toolbar {
-        top: 60px;
-        padding: 12px 0;
-      }
-      
-      .shop-toolbar-inner {
-        flex-direction: column;
-        gap: 10px;
-        align-items: stretch;
-      }
-      
-      .shop-toolbar h2 {
-        font-size: 0.95rem;
-        text-align: center;
-      }
-      
-      .sort-select {
-        width: 100%;
-        padding: 9px 12px;
-        font-size: 0.85rem;
-      }
-      
-      .products-section {
-        padding: 20px 0 40px;
-      }
-      
-      .products-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 10px;
-      }
-      
-      .product-info {
-        padding: 10px;
-      }
-      
-      .product-name {
-        font-size: 0.85rem;
-        min-height: 2.6em;
-        margin-bottom: 6px;
-      }
-      
-      .product-price {
-        font-size: 0.9rem;
-      }
-      
-      .product-badge-sales {
-        padding: 3px 8px;
-        font-size: 0.65rem;
-        top: 8px;
-        left: 8px;
-      }
-      
-      /* Détail produit */
-      .product-detail {
-        padding: 20px 0 40px;
-      }
-      
-      .product-detail-grid {
-        padding: 16px;
-        gap: 18px;
-        border-radius: var(--radius);
-      }
-      
-      .product-detail-image {
-        font-size: 4rem;
-      }
-      
-      .product-detail-info h1 {
-        font-size: 1.25rem;
-        margin-bottom: 10px;
-      }
-      
-      .product-detail-meta {
-        gap: 8px;
-        margin-bottom: 14px;
-      }
-      
-      .product-detail-meta .badge {
-        font-size: 0.7rem;
-        padding: 4px 10px;
-      }
-      
-      .product-detail-price {
-        font-size: 1.6rem;
-        margin-bottom: 18px;
-      }
-      
-      .product-detail-desc {
-        font-size: 0.9rem;
-        line-height: 1.6;
-        margin-bottom: 18px;
-        padding-bottom: 18px;
-      }
-      
-      .product-detail-stats {
-        gap: 10px;
-        margin-bottom: 18px;
-      }
-      
-      .stat-box {
-        padding: 10px 8px;
-      }
-      
-      .stat-value {
-        font-size: 1.05rem;
-      }
-      
-      .stat-label {
-        font-size: 0.65rem;
-      }
-      
-      .product-seller {
-        padding: 12px;
-        margin-bottom: 18px;
-        gap: 10px;
-      }
-      
-      .product-seller-avatar {
-        width: 40px;
-        height: 40px;
-        font-size: 0.9rem;
-      }
-      
-      .product-seller-name {
-        font-size: 0.9rem;
-      }
-      
-      .product-seller-label {
-        font-size: 0.72rem;
-      }
-      
-      .qty-selector {
-        gap: 10px;
-        margin-bottom: 14px;
-      }
-      
-      .qty-selector label {
-        font-size: 0.88rem;
-      }
-      
-      .qty-btn {
-        padding: 8px 14px;
-        font-size: 0.95rem;
-      }
-      
-      .qty-value {
-        padding: 8px 16px;
-        min-width: 44px;
-        font-size: 0.95rem;
-      }
-      
-      .btn-orange.btn-lg {
-        padding: 14px 20px;
-        font-size: 0.95rem;
-      }
-      
-      /* Produits similaires */
-      .similar-section {
-        margin-top: 40px;
-      }
-      
-      .similar-section h2 {
-        font-size: 1.2rem;
-        margin-bottom: 16px;
-      }
-      
-      /* Modal de commande */
-      .order-summary {
-        padding: 12px;
-        margin-bottom: 16px;
-      }
-      
-      .order-summary-row {
-        font-size: 0.85rem;
-        padding: 5px 0;
-      }
-      
-      .order-summary-row.total {
-        font-size: 1rem;
-        padding-top: 10px;
-      }
+      .shop-hero { padding: 36px 0; }
+      .shop-hero-inner { flex-direction: column; text-align: center; gap: 16px; padding: 0 16px; }
+      .shop-hero-avatar { width: 72px; height: 72px; font-size: 1.6rem; border-width: 3px; }
+      .shop-hero-info h1 { font-size: 1.35rem; margin-bottom: 6px; }
+      .shop-hero-info p { font-size: 0.88rem; line-height: 1.5; margin-bottom: 10px; }
+      .shop-hero-stats { justify-content: center; gap: 14px; font-size: 0.8rem; flex-wrap: wrap; }
+      .shop-toolbar { top: 60px; padding: 12px 0; }
+      .shop-toolbar-inner { flex-direction: column; gap: 10px; align-items: stretch; }
+      .shop-toolbar h2 { font-size: 0.95rem; text-align: center; }
+      .sort-select { width: 100%; padding: 9px 12px; font-size: 0.85rem; }
+      .products-section { padding: 20px 0 40px; }
+      .products-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+      .product-info { padding: 10px; }
+      .product-name { font-size: 0.85rem; min-height: 2.6em; margin-bottom: 6px; }
+      .product-price { font-size: 0.9rem; }
+      .product-badge-sales { padding: 3px 8px; font-size: 0.65rem; top: 8px; left: 8px; }
+      .product-detail { padding: 20px 0 40px; }
+      .product-detail-grid { padding: 16px; gap: 18px; border-radius: var(--radius); }
+      .product-detail-image { font-size: 4rem; }
+      .product-detail-info h1 { font-size: 1.25rem; margin-bottom: 10px; }
+      .product-detail-meta { gap: 8px; margin-bottom: 14px; }
+      .product-detail-meta .badge { font-size: 0.7rem; padding: 4px 10px; }
+      .product-detail-price { font-size: 1.6rem; margin-bottom: 18px; }
+      .product-detail-desc { font-size: 0.9rem; line-height: 1.6; margin-bottom: 18px; padding-bottom: 18px; }
+      .product-detail-stats { gap: 10px; margin-bottom: 18px; }
+      .stat-box { padding: 10px 8px; }
+      .stat-value { font-size: 1.05rem; }
+      .stat-label { font-size: 0.65rem; }
+      .product-seller { padding: 12px; margin-bottom: 18px; gap: 10px; }
+      .product-seller-avatar { width: 40px; height: 40px; font-size: 0.9rem; }
+      .product-seller-name { font-size: 0.9rem; }
+      .product-seller-label { font-size: 0.72rem; }
+      .qty-selector { gap: 10px; margin-bottom: 14px; }
+      .qty-selector label { font-size: 0.88rem; }
+      .qty-btn { padding: 8px 14px; font-size: 0.95rem; }
+      .qty-value { padding: 8px 16px; min-width: 44px; font-size: 0.95rem; }
+      .btn-orange.btn-lg { padding: 14px 20px; font-size: 0.95rem; }
+      .similar-section { margin-top: 40px; }
+      .similar-section h2 { font-size: 1.2rem; margin-bottom: 16px; }
+      .order-summary { padding: 12px; margin-bottom: 16px; }
+      .order-summary-row { font-size: 0.85rem; padding: 5px 0; }
+      .order-summary-row.total { font-size: 1rem; padding-top: 10px; }
     }
     
-    /* ============================================================
-       RESPONSIVE — TRÈS PETIT TÉLÉPHONE
-       ============================================================ */
     @media (max-width: 380px) {
-      .shop-hero-info h1 {
-        font-size: 1.15rem;
-      }
-      
-      .product-detail-info h1 {
-        font-size: 1.1rem;
-      }
-      
-      .product-detail-price {
-        font-size: 1.35rem;
-      }
-      
-      .products-grid {
-        gap: 8px;
-      }
-      
-      .product-info {
-        padding: 8px;
-      }
-      
-      .product-name {
-        font-size: 0.78rem;
-      }
-      
-      .product-price {
-        font-size: 0.82rem;
-      }
+      .shop-hero-info h1 { font-size: 1.15rem; }
+      .product-detail-info h1 { font-size: 1.1rem; }
+      .product-detail-price { font-size: 1.35rem; }
+      .products-grid { gap: 8px; }
+      .product-info { padding: 8px; }
+      .product-name { font-size: 0.78rem; }
+      .product-price { font-size: 0.82rem; }
     }
   </style>
 </head>
@@ -702,19 +464,15 @@
   <div id="navbar"></div>
 
   <div class="shop-page" id="shop-page">
-    
-    <!-- CHARGEMENT -->
     <div id="loading" class="loading-container">
       <span class="spinner spinner-blue" style="width: 40px; height: 40px;"></span>
     </div>
-    
-    <!-- CONTENU DYNAMIQUE -->
     <div id="content" class="hidden"></div>
-    
   </div>
 
   <script src="/js/api.js"></script>
   <script src="/js/auth.js"></script>
+  <script src="/js/i18n.js"></script>
   <script src="/js/navbar.js"></script>
   <script>
     let currentProduct = null;
@@ -742,7 +500,7 @@
       } else if (params.get('id')) {
         loadShop(parseInt(params.get('id')));
       } else {
-        showError('Aucun produit ou boutique spécifié.');
+        showError(t('product.no_products'));
       }
     }
     
@@ -779,10 +537,10 @@
               <div class="shop-hero-avatar">${initials}</div>
               <div class="shop-hero-info">
                 <h1>${escapeHtml(shop.name)}</h1>
-                <p>${escapeHtml(shop.description || 'Aucune description pour le moment.')}</p>
+                <p>${escapeHtml(shop.description || '—')}</p>
                 <div class="shop-hero-stats">
-                  <span>👁️ ${shop.views_count} vues</span>
-                  <span>📦 ${products.length} produit${products.length > 1 ? 's' : ''}</span>
+                  <span>👁️ ${shop.views_count} ${t('product.views')}</span>
+                  <span>📦 ${products.length} ${t('seller.product')}${products.length > 1 ? 's' : ''}</span>
                 </div>
               </div>
             </div>
@@ -792,12 +550,12 @@
         <div class="shop-toolbar">
           <div class="container">
             <div class="shop-toolbar-inner">
-              <h2>Tous les produits</h2>
+              <h2 data-i18n="product.all_products">${t('product.all_products')}</h2>
               <select class="sort-select" id="sort-select" onchange="sortShopProducts(${shop.id})">
-                <option value="sales">🔥 Plus vendus</option>
-                <option value="recent">🆕 Plus récents</option>
-                <option value="price_asc">💰 Prix croissant</option>
-                <option value="price_desc">💎 Prix décroissant</option>
+                <option value="sales" data-i18n="marketplace.sort_sales">${t('marketplace.sort_sales')}</option>
+                <option value="recent" data-i18n="marketplace.sort_recent">${t('marketplace.sort_recent')}</option>
+                <option value="price_asc" data-i18n="marketplace.sort_price_asc">${t('marketplace.sort_price_asc')}</option>
+                <option value="price_desc" data-i18n="marketplace.sort_price_desc">${t('marketplace.sort_price_desc')}</option>
               </select>
             </div>
           </div>
@@ -818,8 +576,8 @@
         return `
           <div class="empty-state" style="grid-column: 1 / -1;">
             <div class="empty-state-icon">📦</div>
-            <h3>Aucun produit</h3>
-            <p>Cette boutique n'a pas encore de produits.</p>
+            <h3 data-i18n="product.no_products">${t('product.no_products')}</h3>
+            <p data-i18n="product.no_products_p">${t('product.no_products_p')}</p>
           </div>
         `;
       }
@@ -828,7 +586,7 @@
         <a href="/shop.html?product=${p.id}" class="product-card">
           <div class="product-image">
             ${p.photo_url ? `<img src="${imageUrl(p.photo_url)}" alt="${escapeHtml(p.name)}" loading="lazy">` : '📦'}
-            ${p.sales_count > 0 ? `<div class="product-badge-sales">${p.sales_count} vente${p.sales_count > 1 ? 's' : ''}</div>` : ''}
+            ${p.sales_count > 0 ? `<div class="product-badge-sales">${p.sales_count} ${p.sales_count > 1 ? 'ventes' : 'vente'}</div>` : ''}
           </div>
           <div class="product-info">
             <div class="product-name">${escapeHtml(p.name)}</div>
@@ -907,7 +665,7 @@
                 <div class="product-detail-meta">
                   ${product.category ? `<span class="badge badge-blue" style="text-transform:capitalize;">${product.category}</span>` : ''}
                   ${product.color ? `<span class="badge badge-blue"><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:${colorHex};margin-right:4px;vertical-align:middle;"></span>${product.color}</span>` : ''}
-                  ${!product.in_stock ? `<span class="badge badge-danger">Rupture de stock</span>` : ''}
+                  ${!product.in_stock ? `<span class="badge badge-danger" data-i18n="product.out_of_stock">${t('product.out_of_stock')}</span>` : ''}
                 </div>
                 
                 <div class="product-detail-price">${formatPrice(product.price)}</div>
@@ -915,33 +673,33 @@
                 <div class="product-detail-stats">
                   <div class="stat-box">
                     <div class="stat-value">${product.sales_count}</div>
-                    <div class="stat-label">Ventes</div>
+                    <div class="stat-label" data-i18n="product.sales">${t('product.sales')}</div>
                   </div>
                   <div class="stat-box">
                     <div class="stat-value">${product.views_count}</div>
-                    <div class="stat-label">Vues</div>
+                    <div class="stat-label" data-i18n="product.views">${t('product.views')}</div>
                   </div>
                   <div class="stat-box">
                     <div class="stat-value">${product.in_stock ? '✅' : '❌'}</div>
-                    <div class="stat-label">Stock</div>
+                    <div class="stat-label" data-i18n="product.stock">${t('product.stock')}</div>
                   </div>
                 </div>
                 
                 <div class="product-detail-desc">
-                  ${escapeHtml(product.description || 'Aucune description fournie.')}
+                  ${escapeHtml(product.description || '—')}
                 </div>
                 
                 <div class="product-seller">
                   <div class="product-seller-avatar">${shop.name.substring(0, 2).toUpperCase()}</div>
                   <div class="product-seller-info">
-                    <div class="product-seller-label">Vendu par</div>
+                    <div class="product-seller-label" data-i18n="product.sold_by">${t('product.sold_by')}</div>
                     <div class="product-seller-name">${escapeHtml(shop.name)}</div>
                   </div>
-                  <a href="/shop.html?id=${shop.id}" class="btn btn-ghost btn-sm">Voir →</a>
+                  <a href="/shop.html?id=${shop.id}" class="btn btn-ghost btn-sm" data-i18n="product.see_shop">${t('product.see_shop')}</a>
                 </div>
                 
                 <div class="qty-selector">
-                  <label>Quantité :</label>
+                  <label data-i18n="product.quantity">${t('product.quantity')}</label>
                   <div class="qty-controls">
                     <button class="qty-btn" onclick="changeQty(-1)">−</button>
                     <span class="qty-value" id="qty-value">1</span>
@@ -955,7 +713,7 @@
                   onclick="openOrderModal()"
                   ${!product.in_stock ? 'disabled' : ''}
                 >
-                  ${product.in_stock ? '🛒 Commander maintenant' : 'Produit indisponible'}
+                  ${product.in_stock ? '🛒 ' + t('product.order_now').replace('🛒 ', '') : t('product.out_of_stock')}
                 </button>
               </div>
               
@@ -963,13 +721,13 @@
             
             ${similar.length > 0 ? `
               <div class="similar-section">
-                <h2>📦 Vous aimerez aussi</h2>
+                <h2 data-i18n="product.similar">${t('product.similar')}</h2>
                 <div class="products-grid">
                   ${similar.map(p => `
                     <a href="/shop.html?product=${p.id}" class="product-card">
                       <div class="product-image">
                         ${p.photo_url ? `<img src="${imageUrl(p.photo_url)}" alt="${escapeHtml(p.name)}" loading="lazy">` : '📦'}
-                        ${p.sales_count > 0 ? `<div class="product-badge-sales">${p.sales_count} vente${p.sales_count > 1 ? 's' : ''}</div>` : ''}
+                        ${p.sales_count > 0 ? `<div class="product-badge-sales">${p.sales_count} ${p.sales_count > 1 ? 'ventes' : 'vente'}</div>` : ''}
                       </div>
                       <div class="product-info">
                         <div class="product-name">${escapeHtml(p.name)}</div>
@@ -1005,7 +763,7 @@
     
     function openOrderModal() {
       if (!Auth.isAuthenticated()) {
-        showToast('Connectez-vous pour commander.', 'warning');
+        showToast(t('login.title'), 'warning');
         setTimeout(() => {
           window.location.href = '/login.html?redirect=' + encodeURIComponent(window.location.pathname + window.location.search);
         }, 1000);
@@ -1015,7 +773,7 @@
       const user = Auth.getUser();
       
       if (user.id === currentShop.owner_id) {
-        showToast('Vous ne pouvez pas commander votre propre produit.', 'error');
+        showToast('—', 'error');
         return;
       }
       
@@ -1026,7 +784,7 @@
         <div class="modal-overlay" onclick="closeOrderModal(event)">
           <div class="modal" onclick="event.stopPropagation()">
             <div class="modal-header">
-              <h3>Confirmer la commande</h3>
+              <h3 data-i18n="product.confirm_order">${t('product.confirm_order')}</h3>
               <button class="modal-close" onclick="closeOrderModal()">✕</button>
             </div>
             
@@ -1035,48 +793,50 @@
               
               <div class="order-summary">
                 <div class="order-summary-row">
-                  <span>Produit</span>
+                  <span data-i18n="seller.product">${t('seller.product')}</span>
                   <strong>${escapeHtml(currentProduct.name)}</strong>
                 </div>
                 <div class="order-summary-row">
-                  <span>Prix unitaire</span>
+                  <span data-i18n="product.price_unit">${t('product.price_unit')}</span>
                   <strong>${formatPrice(currentProduct.price)}</strong>
                 </div>
                 <div class="order-summary-row">
-                  <span>Quantité</span>
+                  <span data-i18n="product.quantity">${t('product.quantity')}</span>
                   <strong>${quantity}</strong>
                 </div>
                 <div class="order-summary-row total">
-                  <span>Total</span>
+                  <span data-i18n="product.total">${t('product.total')}</span>
                   <span>${formatPrice(total)}</span>
                 </div>
               </div>
               
               <div class="form-group">
-                <label class="form-label">Note pour le vendeur (optionnel)</label>
+                <label class="form-label" data-i18n="product.note">${t('product.note')}</label>
                 <textarea 
                   class="form-textarea" 
                   id="order-note"
-                  placeholder="Ex: Livraison à Cotonou, quartier Fidjrossè. Merci de m'appeler avant."
+                  placeholder="${t('product.note_placeholder')}"
+                  data-i18n="product.note_placeholder"
+                  data-i18n-attr="placeholder"
                   maxlength="500"
                 ></textarea>
               </div>
               
               <div class="alert alert-info" style="margin-bottom: 0;">
-                <strong>💡 Comment ça marche ?</strong><br>
-                Le vendeur reçoit votre commande instantanément. 
-                Il vous contactera au <strong>${user.phone}</strong> pour organiser la livraison.
+                <strong data-i18n="product.how_it_works">${t('product.how_it_works')}</strong><br>
+                ${t('product.how_it_works_p')} <strong>${user.phone}</strong>
               </div>
             </div>
             
             <div class="modal-footer">
-              <button class="btn btn-ghost" onclick="closeOrderModal()">Annuler</button>
+              <button class="btn btn-ghost" onclick="closeOrderModal()" data-i18n="product.cancel">${t('product.cancel')}</button>
               <button 
                 class="btn btn-orange" 
                 id="confirm-order-btn"
                 onclick="confirmOrder()"
+                data-i18n="product.confirm"
               >
-                Confirmer la commande
+                ${t('product.confirm')}
               </button>
             </div>
           </div>
@@ -1097,7 +857,7 @@
       
       errorDiv.classList.add('hidden');
       btn.disabled = true;
-      btn.innerHTML = '<span class="spinner"></span> Envoi...';
+      btn.innerHTML = '<span class="spinner"></span>';
       
       try {
         await OrdersAPI.create({
@@ -1106,7 +866,7 @@
           note: note || null,
         });
         
-        showToast('✅ Commande envoyée ! Le vendeur a été notifié.', 'success', 5000);
+        showToast('✅', 'success', 5000);
         closeOrderModal();
         
         setTimeout(() => {
@@ -1117,7 +877,7 @@
         errorDiv.textContent = error.message;
         errorDiv.classList.remove('hidden');
         btn.disabled = false;
-        btn.textContent = 'Confirmer la commande';
+        btn.textContent = t('product.confirm');
       }
     }
     
@@ -1137,9 +897,9 @@
         <div class="container" style="padding: 80px 24px;">
           <div class="empty-state">
             <div class="empty-state-icon">⚠️</div>
-            <h3>Erreur</h3>
+            <h3>⚠️</h3>
             <p>${escapeHtml(message)}</p>
-            <a href="/marketplace.html" class="btn btn-primary mt-16">Retour à la marketplace</a>
+            <a href="/marketplace.html" class="btn btn-primary mt-16">${t('marketplace.reset_filters')}</a>
           </div>
         </div>
       `;

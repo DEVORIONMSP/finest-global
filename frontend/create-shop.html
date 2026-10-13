@@ -116,9 +116,6 @@
       margin: 0 auto;
     }
     
-    /* ============================================================
-       RESPONSIVE — TÉLÉPHONE ANDROID
-       ============================================================ */
     @media (max-width: 640px) {
       .create-shop-page {
         padding: 24px 14px 40px;
@@ -130,53 +127,18 @@
         border-radius: var(--radius);
       }
       
-      .create-shop-header {
-        margin-bottom: 26px;
-      }
+      .create-shop-header { margin-bottom: 26px; }
+      .create-shop-icon { font-size: 2.75rem; margin-bottom: 12px; }
+      .create-shop-header h1 { font-size: 1.35rem; margin-bottom: 10px; }
+      .create-shop-header p { font-size: 0.88rem; line-height: 1.5; }
       
-      .create-shop-icon {
-        font-size: 2.75rem;
-        margin-bottom: 12px;
-      }
+      .benefits { padding: 18px; margin-bottom: 24px; }
+      .benefits h3 { font-size: 0.92rem; margin-bottom: 12px; }
+      .benefits ul { gap: 8px; }
+      .benefits li { font-size: 0.82rem; gap: 8px; }
+      .benefits li::before { width: 20px; height: 20px; font-size: 0.65rem; }
       
-      .create-shop-header h1 {
-        font-size: 1.35rem;
-        margin-bottom: 10px;
-      }
-      
-      .create-shop-header p {
-        font-size: 0.88rem;
-        line-height: 1.5;
-      }
-      
-      .benefits {
-        padding: 18px;
-        margin-bottom: 24px;
-      }
-      
-      .benefits h3 {
-        font-size: 0.92rem;
-        margin-bottom: 12px;
-      }
-      
-      .benefits ul {
-        gap: 8px;
-      }
-      
-      .benefits li {
-        font-size: 0.82rem;
-        gap: 8px;
-      }
-      
-      .benefits li::before {
-        width: 20px;
-        height: 20px;
-        font-size: 0.65rem;
-      }
-      
-      .form-label {
-        font-size: 0.85rem;
-      }
+      .form-label { font-size: 0.85rem; }
       
       .form-input,
       .form-textarea {
@@ -184,49 +146,21 @@
         font-size: 0.92rem;
       }
       
-      .form-hint {
-        font-size: 0.78rem;
-      }
+      .form-hint { font-size: 0.78rem; }
       
-      .image-upload {
-        padding: 22px 16px;
-      }
+      .image-upload { padding: 22px 16px; }
       
-      .image-preview {
-        max-width: 150px;
-        max-height: 150px;
-      }
+      .image-preview { max-width: 150px; max-height: 150px; }
       
-      .btn-lg {
-        padding: 13px 20px;
-        font-size: 0.92rem;
-      }
+      .btn-lg { padding: 13px 20px; font-size: 0.92rem; }
     }
     
-    /* ============================================================
-       RESPONSIVE — TRÈS PETIT TÉLÉPHONE
-       ============================================================ */
     @media (max-width: 380px) {
-      .create-shop-card {
-        padding: 22px 16px;
-      }
-      
-      .create-shop-header h1 {
-        font-size: 1.2rem;
-      }
-      
-      .create-shop-icon {
-        font-size: 2.35rem;
-      }
-      
-      .image-upload {
-        padding: 18px 12px;
-      }
-      
-      .image-preview {
-        max-width: 120px;
-        max-height: 120px;
-      }
+      .create-shop-card { padding: 22px 16px; }
+      .create-shop-header h1 { font-size: 1.2rem; }
+      .create-shop-icon { font-size: 2.35rem; }
+      .image-upload { padding: 18px 12px; }
+      .image-preview { max-width: 120px; max-height: 120px; }
     }
   </style>
 </head>
@@ -241,17 +175,17 @@
         
         <div class="create-shop-header">
           <div class="create-shop-icon">🏪</div>
-          <h1>Créez votre boutique</h1>
-          <p>C'est la dernière étape avant de pouvoir vendre. Donnez un nom à votre boutique et commencez à ajouter des produits.</p>
+          <h1 data-i18n="shop.create_title">Créez votre boutique</h1>
+          <p data-i18n="shop.create_p">C'est la dernière étape avant de pouvoir vendre. Donnez un nom à votre boutique et commencez à ajouter des produits.</p>
         </div>
         
         <div class="benefits">
-          <h3>Ce que vous obtenez :</h3>
+          <h3 data-i18n="shop.benefits">Ce que vous obtenez :</h3>
           <ul>
-            <li>Vitrine en ligne gratuite et personnalisable</li>
-            <li>Notifications en temps réel des commandes</li>
-            <li>Tableau de bord avec statistiques</li>
-            <li>Visible par des milliers d'acheteurs</li>
+            <li data-i18n="shop.benefit_1">Vitrine en ligne gratuite et personnalisable</li>
+            <li data-i18n="shop.benefit_2">Notifications en temps réel des commandes</li>
+            <li data-i18n="shop.benefit_3">Tableau de bord avec statistiques</li>
+            <li data-i18n="shop.benefit_4">Visible par des milliers d'acheteurs</li>
           </ul>
         </div>
         
@@ -259,7 +193,7 @@
           <div id="shop-error" class="alert alert-error hidden"></div>
           
           <div class="form-group">
-            <label class="form-label required">Nom de la boutique</label>
+            <label class="form-label required" data-i18n="shop.name">Nom de la boutique</label>
             <input 
               type="text" 
               class="form-input" 
@@ -268,36 +202,38 @@
               maxlength="100"
               required
             >
-            <div class="form-hint">
+            <div class="form-hint" data-i18n="shop.name_hint">
               Choisissez un nom court et mémorable.
             </div>
           </div>
           
           <div class="form-group">
-            <label class="form-label">Description (optionnel)</label>
+            <label class="form-label" data-i18n="shop.description">Description (optionnel)</label>
             <textarea 
               class="form-textarea" 
               id="shop-desc"
               placeholder="Décrivez votre boutique en quelques mots..."
+              data-i18n="shop.description_placeholder"
+              data-i18n-attr="placeholder"
               maxlength="1000"
             ></textarea>
           </div>
           
           <div class="form-group">
-            <label class="form-label">Photo de la boutique (optionnel)</label>
+            <label class="form-label" data-i18n="shop.photo">Photo de la boutique (optionnel)</label>
             <div class="image-upload" onclick="document.getElementById('shop-image').click()">
               <input type="file" id="shop-image" accept="image/jpeg,image/png,image/webp" onchange="handleImage(event)">
               <div id="image-preview">
                 <div style="color: var(--gray-500);">
                   <div style="font-size: 2rem; margin-bottom: 8px;">📸</div>
-                  <div>Cliquez pour ajouter une photo</div>
-                  <div style="font-size: 0.8rem; margin-top: 4px;">JPEG, PNG ou WEBP, max 5 MB</div>
+                  <div data-i18n="shop.photo_click">Cliquez pour ajouter une photo</div>
+                  <div style="font-size: 0.8rem; margin-top: 4px;">JPEG, PNG, WEBP — max 5 MB</div>
                 </div>
               </div>
             </div>
           </div>
           
-          <button type="submit" class="btn btn-primary btn-block btn-lg" id="btn-create-shop">
+          <button type="submit" class="btn btn-primary btn-block btn-lg" id="btn-create-shop" data-i18n="shop.create_btn">
             Créer ma boutique →
           </button>
         </form>
@@ -309,6 +245,7 @@
 
   <script src="/js/api.js"></script>
   <script src="/js/auth.js"></script>
+  <script src="/js/i18n.js"></script>
   <script src="/js/navbar.js"></script>
   <script>
     let imageFile = null;
@@ -334,7 +271,7 @@
       if (!file) return;
       
       if (file.size > 5 * 1024 * 1024) {
-        showToast('Image trop volumineuse (max 5 MB)', 'error');
+        showToast('max 5 MB', 'error');
         return;
       }
       
@@ -360,13 +297,13 @@
       const description = document.getElementById('shop-desc').value.trim() || null;
       
       if (!name) {
-        errorDiv.textContent = 'Le nom est obligatoire.';
+        errorDiv.textContent = t('shop.name');
         errorDiv.classList.remove('hidden');
         return;
       }
       
       btn.disabled = true;
-      btn.innerHTML = '<span class="spinner"></span> Création...';
+      btn.innerHTML = '<span class="spinner"></span>';
       
       try {
         const shop = await ShopsAPI.create({ name, description });
@@ -375,7 +312,7 @@
           await ShopsAPI.uploadPhoto(imageFile);
         }
         
-        showToast('✅ Boutique créée avec succès !', 'success');
+        showToast('✅', 'success');
         
         setTimeout(() => {
           window.location.href = '/dashboard-seller.html';
@@ -385,7 +322,7 @@
         errorDiv.textContent = error.message;
         errorDiv.classList.remove('hidden');
         btn.disabled = false;
-        btn.textContent = 'Créer ma boutique →';
+        btn.textContent = t('shop.create_btn');
       }
     }
   </script>

@@ -59,9 +59,7 @@
       background: var(--white);
     }
     
-    .role-card:hover {
-      border-color: var(--blue-500);
-    }
+    .role-card:hover { border-color: var(--blue-500); }
     
     .role-card.active {
       border-color: var(--blue-700);
@@ -85,13 +83,8 @@
       color: var(--gray-500);
     }
     
-    .auth-form {
-      display: none;
-    }
-    
-    .auth-form.active {
-      display: block;
-    }
+    .auth-form { display: none; }
+    .auth-form.active { display: block; }
     
     .auth-footer {
       text-align: center;
@@ -111,9 +104,6 @@
       gap: 16px;
     }
     
-    /* ============================================================
-       RESPONSIVE — TÉLÉPHONE ANDROID
-       ============================================================ */
     @media (max-width: 640px) {
       .auth-page {
         padding: 24px 14px;
@@ -125,48 +115,26 @@
         border-radius: var(--radius);
       }
       
-      .auth-header {
-        margin-bottom: 24px;
-      }
-      
-      .auth-header h1 {
-        font-size: 1.4rem;
-      }
-      
-      .auth-header p {
-        font-size: 0.88rem;
-      }
+      .auth-header { margin-bottom: 24px; }
+      .auth-header h1 { font-size: 1.4rem; }
+      .auth-header p { font-size: 0.88rem; }
       
       .role-selector {
         gap: 10px;
         margin-bottom: 22px;
       }
       
-      .role-card {
-        padding: 16px 10px;
-      }
-      
-      .role-icon {
-        font-size: 1.5rem;
-        margin-bottom: 6px;
-      }
-      
-      .role-title {
-        font-size: 0.88rem;
-      }
-      
-      .role-desc {
-        font-size: 0.75rem;
-      }
+      .role-card { padding: 16px 10px; }
+      .role-icon { font-size: 1.5rem; margin-bottom: 6px; }
+      .role-title { font-size: 0.88rem; }
+      .role-desc { font-size: 0.75rem; }
       
       .form-row {
         grid-template-columns: 1fr;
         gap: 0;
       }
       
-      .form-label {
-        font-size: 0.85rem;
-      }
+      .form-label { font-size: 0.85rem; }
       
       .form-input {
         padding: 11px 14px;
@@ -178,9 +146,7 @@
         font-size: 0.92rem;
       }
       
-      .form-hint {
-        font-size: 0.78rem;
-      }
+      .form-hint { font-size: 0.78rem; }
       
       .auth-footer {
         margin-top: 20px;
@@ -188,33 +154,13 @@
       }
     }
     
-    /* ============================================================
-       RESPONSIVE — TRÈS PETIT TÉLÉPHONE
-       ============================================================ */
     @media (max-width: 380px) {
-      .auth-card {
-        padding: 24px 16px;
-      }
-      
-      .auth-header h1 {
-        font-size: 1.25rem;
-      }
-      
-      .role-card {
-        padding: 14px 8px;
-      }
-      
-      .role-icon {
-        font-size: 1.35rem;
-      }
-      
-      .role-title {
-        font-size: 0.82rem;
-      }
-      
-      .role-desc {
-        font-size: 0.7rem;
-      }
+      .auth-card { padding: 24px 16px; }
+      .auth-header h1 { font-size: 1.25rem; }
+      .role-card { padding: 14px 8px; }
+      .role-icon { font-size: 1.35rem; }
+      .role-title { font-size: 0.82rem; }
+      .role-desc { font-size: 0.7rem; }
     }
   </style>
 </head>
@@ -226,31 +172,31 @@
     <div class="auth-card">
       
       <div class="auth-header">
-        <h1>Créer un compte</h1>
-        <p>Rejoignez Finest Global en quelques secondes</p>
+        <h1 data-i18n="register.title">Créer un compte</h1>
+        <p data-i18n="register.subtitle">Rejoignez Finest Global en quelques secondes</p>
       </div>
       
       <!-- Choix du rôle -->
       <div class="role-selector">
         <div class="role-card active" onclick="selectRole('client')" id="role-client">
           <div class="role-icon">🛒</div>
-          <div class="role-title">Client</div>
-          <div class="role-desc">Acheter</div>
+          <div class="role-title" data-i18n="register.client">Client</div>
+          <div class="role-desc" data-i18n="register.client_desc">Acheter</div>
         </div>
         <div class="role-card" onclick="selectRole('seller')" id="role-seller">
           <div class="role-icon">🏪</div>
-          <div class="role-title">Vendeur</div>
-          <div class="role-desc">Vendre</div>
+          <div class="role-title" data-i18n="register.seller">Vendeur</div>
+          <div class="role-desc" data-i18n="register.seller_desc">Vendre</div>
         </div>
       </div>
       
-      <!-- FORMULAIRE CLIENT (nom + téléphone + password) -->
+      <!-- FORMULAIRE CLIENT -->
       <form class="auth-form active" id="form-client" onsubmit="registerClient(event)">
         <div id="client-error" class="alert alert-error hidden"></div>
         
         <div class="form-row">
           <div class="form-group">
-            <label class="form-label required">Prénom</label>
+            <label class="form-label required" data-i18n="register.firstname">Prénom</label>
             <input 
               type="text" 
               class="form-input" 
@@ -260,7 +206,7 @@
             >
           </div>
           <div class="form-group">
-            <label class="form-label required">Nom</label>
+            <label class="form-label required" data-i18n="register.lastname">Nom</label>
             <input 
               type="text" 
               class="form-input" 
@@ -272,7 +218,7 @@
         </div>
         
         <div class="form-group">
-          <label class="form-label required">Numéro de téléphone</label>
+          <label class="form-label required" data-i18n="register.phone">Numéro de téléphone</label>
           <input 
             type="tel" 
             class="form-input" 
@@ -281,13 +227,13 @@
             maxlength="10"
             required
           >
-          <div class="form-hint">
+          <div class="form-hint" data-i18n="register.phone_hint">
             Format : 01 + 8 chiffres.
           </div>
         </div>
         
         <div class="form-group">
-          <label class="form-label required">Mot de passe</label>
+          <label class="form-label required" data-i18n="register.password">Mot de passe</label>
           <input 
             type="password" 
             class="form-input" 
@@ -296,12 +242,12 @@
             minlength="6"
             required
           >
-          <div class="form-hint">
+          <div class="form-hint" data-i18n="register.password_hint">
             Au moins 6 caractères.
           </div>
         </div>
         
-        <button type="submit" class="btn btn-primary btn-block btn-lg" id="btn-register-client">
+        <button type="submit" class="btn btn-primary btn-block btn-lg" id="btn-register-client" data-i18n="register.submit_client">
           Créer mon compte client
         </button>
       </form>
@@ -312,7 +258,7 @@
         
         <div class="form-row">
           <div class="form-group">
-            <label class="form-label required">Prénom</label>
+            <label class="form-label required" data-i18n="register.firstname">Prénom</label>
             <input 
               type="text" 
               class="form-input" 
@@ -322,7 +268,7 @@
             >
           </div>
           <div class="form-group">
-            <label class="form-label required">Nom</label>
+            <label class="form-label required" data-i18n="register.lastname">Nom</label>
             <input 
               type="text" 
               class="form-input" 
@@ -334,7 +280,7 @@
         </div>
         
         <div class="form-group">
-          <label class="form-label required">Numéro de téléphone</label>
+          <label class="form-label required" data-i18n="register.phone">Numéro de téléphone</label>
           <input 
             type="tel" 
             class="form-input" 
@@ -346,7 +292,7 @@
         </div>
         
         <div class="form-group">
-          <label class="form-label required">Email</label>
+          <label class="form-label required" data-i18n="register.email">Email</label>
           <input 
             type="email" 
             class="form-input" 
@@ -357,7 +303,7 @@
         </div>
         
         <div class="form-group">
-          <label class="form-label required">Mot de passe</label>
+          <label class="form-label required" data-i18n="register.password">Mot de passe</label>
           <input 
             type="password" 
             class="form-input" 
@@ -366,19 +312,19 @@
             minlength="6"
             required
           >
-          <div class="form-hint">
+          <div class="form-hint" data-i18n="register.password_hint">
             Au moins 6 caractères.
           </div>
         </div>
         
-        <button type="submit" class="btn btn-primary btn-block btn-lg" id="btn-register-seller">
+        <button type="submit" class="btn btn-primary btn-block btn-lg" id="btn-register-seller" data-i18n="register.submit_seller">
           Créer mon compte vendeur
         </button>
       </form>
       
       <div class="auth-footer">
-        Déjà un compte ? 
-        <a href="/login.html">Se connecter</a>
+        <span data-i18n="register.has_account">Déjà un compte ?</span>
+        <a href="/login.html" data-i18n="register.login_link">Se connecter</a>
       </div>
       
     </div>
@@ -386,6 +332,7 @@
 
   <script src="/js/api.js"></script>
   <script src="/js/auth.js"></script>
+  <script src="/js/i18n.js"></script>
   <script src="/js/navbar.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
@@ -405,7 +352,7 @@
     }
     
     // ============================================================
-    // INSCRIPTION CLIENT (nom + téléphone + password)
+    // INSCRIPTION CLIENT
     // ============================================================
     
     async function registerClient(event) {
@@ -425,30 +372,30 @@
       
       // Validations
       if (!data.first_name || !data.last_name) {
-        errorDiv.textContent = 'Le prénom et le nom sont obligatoires.';
+        errorDiv.textContent = t('register.firstname') + ' / ' + t('register.lastname');
         errorDiv.classList.remove('hidden');
         return;
       }
       
       if (data.phone.length !== 10 || !data.phone.startsWith('01')) {
-        errorDiv.textContent = 'Le numéro doit être à 10 chiffres et commencer par 01.';
+        errorDiv.textContent = t('register.phone_hint');
         errorDiv.classList.remove('hidden');
         return;
       }
       
       if (data.password.length < 6) {
-        errorDiv.textContent = 'Le mot de passe doit contenir au moins 6 caractères.';
+        errorDiv.textContent = t('register.password_hint');
         errorDiv.classList.remove('hidden');
         return;
       }
       
       btn.disabled = true;
-      btn.innerHTML = '<span class="spinner"></span> Création...';
+      btn.innerHTML = '<span class="spinner"></span>';
       
       try {
         const result = await UsersAPI.registerClient(data);
         Auth.setSession(result.access_token, result.user);
-        showToast('Compte client créé !', 'success');
+        showToast('✅', 'success');
         setTimeout(() => {
           window.location.href = '/index.html';
         }, 800);
@@ -456,7 +403,7 @@
         errorDiv.textContent = error.message;
         errorDiv.classList.remove('hidden');
         btn.disabled = false;
-        btn.textContent = 'Créer mon compte client';
+        btn.textContent = t('register.submit_client');
       }
     }
     
@@ -481,24 +428,24 @@
       };
       
       if (data.phone.length !== 10 || !data.phone.startsWith('01')) {
-        errorDiv.textContent = 'Le numéro doit être à 10 chiffres et commencer par 01.';
+        errorDiv.textContent = t('register.phone_hint');
         errorDiv.classList.remove('hidden');
         return;
       }
       
       if (data.password.length < 6) {
-        errorDiv.textContent = 'Le mot de passe doit contenir au moins 6 caractères.';
+        errorDiv.textContent = t('register.password_hint');
         errorDiv.classList.remove('hidden');
         return;
       }
       
       btn.disabled = true;
-      btn.innerHTML = '<span class="spinner"></span> Création...';
+      btn.innerHTML = '<span class="spinner"></span>';
       
       try {
         const result = await UsersAPI.registerSeller(data);
         Auth.setSession(result.access_token, result.user);
-        showToast('Compte vendeur créé !', 'success');
+        showToast('✅', 'success');
         setTimeout(() => {
           window.location.href = '/dashboard-seller.html';
         }, 800);
@@ -506,7 +453,7 @@
         errorDiv.textContent = error.message;
         errorDiv.classList.remove('hidden');
         btn.disabled = false;
-        btn.textContent = 'Créer mon compte vendeur';
+        btn.textContent = t('register.submit_seller');
       }
     }
   </script>
