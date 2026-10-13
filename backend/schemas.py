@@ -14,7 +14,6 @@ from models import UserRole, OrderStatus
 # VALIDATION DES NUMÉROS BÉNINOIS
 # ============================================================
 
-# Préfixes valides au Bénin (après le "01" initial)
 MTN_PREFIXES = {"42", "46", "50", "51", "52", "53", "54", "56", "57", "59",
                 "61", "62", "66", "67", "69", "90", "91", "96", "97"}
 MOOV_PREFIXES = {"45", "55", "58", "60", "63", "64", "65", "68", "94", "95", "98", "99"}
@@ -24,10 +23,7 @@ VALID_PREFIXES = MTN_PREFIXES | MOOV_PREFIXES | CELTIIS_PREFIXES
 
 
 def detect_operator(phone: str) -> str:
-    """
-    Détecte l'opérateur à partir du numéro béninois.
-    Retourne 'MTN', 'Moov', 'Celtiis' ou 'Inconnu'.
-    """
+    """Détecte l'opérateur à partir du numéro béninois."""
     if len(phone) != 10 or not phone.startswith("01"):
         return "Inconnu"
     
@@ -43,13 +39,7 @@ def detect_operator(phone: str) -> str:
 
 
 def validate_benin_phone(phone: str) -> str:
-    """
-    Valide un numéro de téléphone béninois.
-    Règles :
-    - 10 chiffres
-    - commence par "01"
-    - préfixe opérateur valide
-    """
+    """Valide un numéro de téléphone béninois."""
     phone = re.sub(r"[\s\-\(\)]", "", phone)
     if phone.startswith("+229"):
         phone = "0" + phone[4:]
@@ -84,9 +74,7 @@ class UserBase(BaseModel):
 
 
 class UserRegisterClient(UserBase):
-    """
-    Inscription d'un CLIENT : prénom + nom + téléphone + password.
-    """
+    """Inscription d'un CLIENT : prénom + nom + téléphone + password."""
     first_name: str = Field(..., min_length=2, max_length=50)
     last_name: str = Field(..., min_length=2, max_length=50)
     password: str = Field(..., min_length=6, max_length=100)
@@ -98,9 +86,7 @@ class UserRegisterClient(UserBase):
 
 
 class UserRegisterSeller(UserBase):
-    """
-    Inscription d'un VENDEUR : téléphone + infos supplémentaires.
-    """
+    """Inscription d'un VENDEUR : téléphone + infos supplémentaires."""
     first_name: str = Field(..., min_length=2, max_length=50)
     last_name: str = Field(..., min_length=2, max_length=50)
     email: EmailStr
@@ -113,10 +99,7 @@ class UserRegisterSeller(UserBase):
 
 
 class UserLogin(BaseModel):
-    """
-    Connexion : téléphone + mot de passe.
-    Fonctionne pour les clients, vendeurs et admins.
-    """
+    """Connexion : téléphone + mot de passe."""
     phone: str
     password: str = Field(..., min_length=1)
     
@@ -127,10 +110,7 @@ class UserLogin(BaseModel):
 
 
 class UserUpgradeToSeller(BaseModel):
-    """
-    Un CLIENT existant qui veut devenir VENDEUR.
-    Ajoute les infos manquantes.
-    """
+    """Un CLIENT existant qui veut devenir VENDEUR."""
     first_name: str = Field(..., min_length=2, max_length=50)
     last_name: str = Field(..., min_length=2, max_length=50)
     email: EmailStr
@@ -160,31 +140,53 @@ class Token(BaseModel):
 
 
 # ============================================================
-# OTP — SUPPRIMÉ
-# Plus besoin de vérification par SMS.
-# ============================================================
-
-
-# ============================================================
 # BOUTIQUES
 # ============================================================
 
 class ShopCreate(BaseModel):
+    """Création d'une boutique avec géolocalisation."""
     name: str = Field(..., min_length=2, max_length=100)
     description: Optional[str] = Field(None, max_length=1000)
+    
+    # 🆕 Géolocalisation
+    latitude: Optional[float] = Field(None, ge=-90, le=90)
+    longitude: Optional[float] = Field(None, ge=-180, le=180)
+    locality: Optional[str] = Field(None, max_length=100)
+    market: Optional[str] = Field(None, max_length=100)
 
 
 class ShopUpdate(BaseModel):
+    """Mise à jour d'une boutique."""
     name: Optional[str] = Field(None, min_length=2, max_length=100)
     description: Optional[str] = Field(None, max_length=1000)
+    
+    # 🆕 Géolocalisation modifiable
+    latitude: Optional[float] = Field(None, ge=-90, le=90)
+    longitude: Optional[float] = Field(None, ge=-180, le=180)
+    locality: Optional[str] = Field(None, max_length=100)
+    market: Optional[str] = Field(None, max_length=100)
 
 
 class ShopOut(BaseModel):
+    """Ce que l'API renvoie pour une boutique."""
     id: int
     owner_id: int
     name: str
     description: Optional[str]
     photo_url: Optional[str]
+    
+    # 🆕 Géolocalisation
+    latitude: Optional[float]
+    longitude: Optional[float]
+    locality: Optional[str]
+    market: Optional[str]
+    
+    # 🆕 Code unique FG-0001
+    code: Optional[str]
+    
+    # 🆕 Statut
+    is_active: bool
+    
     views_count: int
     created_at: datetime
     
@@ -197,23 +199,50 @@ class ShopOut(BaseModel):
 # ============================================================
 
 class ProductCreate(BaseModel):
+    """Création d'un produit avec disponibilité."""
     name: str = Field(..., min_length=2, max_length=150)
     description: Optional[str] = Field(None, max_length=2000)
     price: float = Field(..., gt=0)
     category: Optional[str] = Field(None, max_length=50)
     color: Optional[str] = Field(None, max_length=30)
+    
+    # 🆕 Disponibilité
+    availability: Optional[str] = Field("in_stock", max_length=20)
+    
+    @field_validator("availability")
+    @classmethod
+    def validate_availability(cls, v):
+        allowed = {"in_stock", "out_of_stock", "to_confirm"}
+        if v not in allowed:
+            raise ValueError(f"Disponibilité invalide. Valeurs acceptées : {allowed}")
+        return v
 
 
 class ProductUpdate(BaseModel):
+    """Mise à jour d'un produit."""
     name: Optional[str] = Field(None, min_length=2, max_length=150)
     description: Optional[str] = None
     price: Optional[float] = Field(None, gt=0)
     category: Optional[str] = None
     color: Optional[str] = None
     in_stock: Optional[bool] = None
+    
+    # 🆕 Disponibilité
+    availability: Optional[str] = Field(None, max_length=20)
+    
+    @field_validator("availability")
+    @classmethod
+    def validate_availability(cls, v):
+        if v is None:
+            return v
+        allowed = {"in_stock", "out_of_stock", "to_confirm"}
+        if v not in allowed:
+            raise ValueError(f"Disponibilité invalide. Valeurs acceptées : {allowed}")
+        return v
 
 
 class ProductOut(BaseModel):
+    """Ce que l'API renvoie pour un produit."""
     id: int
     shop_id: int
     name: str
@@ -222,13 +251,29 @@ class ProductOut(BaseModel):
     photo_url: Optional[str]
     category: Optional[str]
     color: Optional[str]
+    
+    # 🆕 Disponibilité
+    availability: str
+    
+    # Ancien champ (compatibilité)
+    in_stock: bool
+    
     views_count: int
     sales_count: int
-    in_stock: bool
     created_at: datetime
     
     class Config:
         from_attributes = True
+
+
+class ProductWithShopOut(ProductOut):
+    """Produit enrichi avec les infos de sa boutique (pour la recherche par distance)."""
+    shop_name: Optional[str] = None
+    shop_code: Optional[str] = None
+    shop_latitude: Optional[float] = None
+    shop_longitude: Optional[float] = None
+    shop_locality: Optional[str] = None
+    shop_market: Optional[str] = None
 
 
 # ============================================================
@@ -271,6 +316,17 @@ class SearchResult(BaseModel):
 
 
 # ============================================================
+# GÉOLOCALISATION — RECHERCHE
+# ============================================================
+
+class LocationSearchParams(BaseModel):
+    """Paramètres de recherche par proximité."""
+    latitude: float = Field(..., ge=-90, le=90)
+    longitude: float = Field(..., ge=-180, le=180)
+    radius_km: float = Field(10.0, gt=0, le=100)
+
+
+# ============================================================
 # ADMIN — STATISTIQUES
 # ============================================================
 
@@ -289,7 +345,7 @@ class StatsOverview(BaseModel):
 
 
 class VisitorsStats(BaseModel):
-    period: str  # "day" | "week" | "month"
+    period: str
     total_visits: int
     unique_visitors: int
     data: List[dict]

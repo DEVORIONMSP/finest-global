@@ -39,8 +39,8 @@ class OrderStatus(str, enum.Enum):
 class User(Base):
     """
     Table des utilisateurs.
-    - Un CLIENT s'inscrit juste avec son téléphone.
-    - Un SELLER ajoute nom, prénom, email.
+    - Un CLIENT s'inscrit avec nom + téléphone + password.
+    - Un SELLER ajoute email.
     - Un ADMIN est créé manuellement en base.
     """
     __tablename__ = "users"
@@ -48,23 +48,17 @@ class User(Base):
     id = Column(Integer, primary_key=True, index=True)
     phone = Column(String(10), unique=True, index=True, nullable=False)
     
-    # Champs vendeur (nullables pour les clients)
     first_name = Column(String(50), nullable=True)
     last_name = Column(String(50), nullable=True)
     email = Column(String(120), unique=True, nullable=True, index=True)
     password_hash = Column(String(255), nullable=True)
     
-    # Rôle
     role = Column(Enum(UserRole), default=UserRole.CLIENT, nullable=False)
-    
-    # Vérification téléphone (OTP simulé en dev)
     is_verified = Column(Boolean, default=False, nullable=False)
     
-    # Timestamps
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), onupdate=func.now())
     
-    # Relations
     shop = relationship("Shop", back_populates="owner", uselist=False)
     orders = relationship("Order", back_populates="buyer", foreign_keys="Order.buyer_id")
     
@@ -89,6 +83,24 @@ class Shop(Base):
     name = Column(String(100), nullable=False)
     description = Column(Text, nullable=True)
     photo_url = Column(String(255), nullable=True)
+    
+    # ============================================
+    # GÉOLOCALISATION
+    # ============================================
+    latitude = Column(Float, nullable=True)
+    longitude = Column(Float, nullable=True)
+    locality = Column(String(100), nullable=True, index=True)
+    market = Column(String(100), nullable=True, index=True)
+    
+    # ============================================
+    # CODE UNIQUE (FG-0001)
+    # ============================================
+    code = Column(String(20), unique=True, nullable=True, index=True)
+    
+    # ============================================
+    # ACTIF (pour bannir sans supprimer)
+    # ============================================
+    is_active = Column(Boolean, default=True, nullable=False)
     
     # Statistiques
     views_count = Column(Integer, default=0, nullable=False)
@@ -123,16 +135,26 @@ class Product(Base):
     price = Column(Float, nullable=False)
     photo_url = Column(String(255), nullable=True)
     
-    # Catégorisation (pour la recherche)
+    # Catégorisation
     category = Column(String(50), nullable=True, index=True)
     color = Column(String(30), nullable=True, index=True)
+    
+    # ============================================
+    # DISPONIBILITÉ (in_stock | out_of_stock | to_confirm)
+    # Utilise String au lieu d'Enum pour éviter les conflits
+    # ============================================
+    availability = Column(
+        String(20),
+        default="in_stock",
+        nullable=False
+    )
+    
+    # Ancien champ conservé pour compatibilité
+    in_stock = Column(Boolean, default=True, nullable=False)
     
     # Statistiques
     views_count = Column(Integer, default=0, nullable=False)
     sales_count = Column(Integer, default=0, nullable=False)
-    
-    # Stock
-    in_stock = Column(Boolean, default=True, nullable=False)
     
     # Timestamps
     created_at = Column(DateTime(timezone=True), server_default=func.now())
@@ -167,15 +189,11 @@ class Order(Base):
     total_price = Column(Float, nullable=False)
     
     status = Column(Enum(OrderStatus), default=OrderStatus.PENDING, nullable=False)
-    
-    # Note du client (optionnel)
     note = Column(Text, nullable=True)
     
-    # Timestamps
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), onupdate=func.now())
     
-    # Relations
     product = relationship("Product", back_populates="orders")
     buyer = relationship("User", back_populates="orders", foreign_keys=[buyer_id])
     seller = relationship("User", foreign_keys=[seller_id])
@@ -191,8 +209,6 @@ class Order(Base):
 class PageView(Base):
     """
     Enregistre chaque visite de page pour les statistiques.
-    Utilisé par le dashboard admin (visiteurs/jour/semaine/mois)
-    et le dashboard vendeur (visiteurs de la boutique).
     """
     __tablename__ = "page_views"
 
@@ -206,9 +222,6 @@ class PageView(Base):
     ip_address = Column(String(45), nullable=True)
     
     created_at = Column(DateTime(timezone=True), server_default=func.now(), index=True)
-
-
-
 
 
 # ============================================================
@@ -225,12 +238,9 @@ class Category(Base):
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String(50), unique=True, nullable=False, index=True)
     description = Column(String(255), nullable=True)
-    emoji = Column(String(10), nullable=True)  # 🏷️, 👗, 👟...
+    emoji = Column(String(10), nullable=True)
     
-    # Ordre d'affichage (permet de mettre les catégories populaires en premier)
     display_order = Column(Integer, default=0, nullable=False)
-    
-    # Une catégorie peut être désactivée sans être supprimée
     is_active = Column(Boolean, default=True, nullable=False)
     
     created_at = Column(DateTime(timezone=True), server_default=func.now())

@@ -7,6 +7,7 @@ from fastapi import APIRouter, Depends, Query
 from sqlalchemy.orm import Session
 from sqlalchemy import desc, func, or_, and_
 from typing import List, Optional
+import math
 
 from database import get_db
 from models import Product, Shop, User
@@ -17,7 +18,32 @@ router = APIRouter(prefix="/api/search", tags=["Recherche"])
 
 
 # ============================================================
-# 1. RECHERCHE MULTI-CRITÈRES
+# HELPER : Calculer la distance entre 2 points GPS (Haversine)
+# ============================================================
+
+def haversine_distance(lat1: float, lon1: float, lat2: float, lon2: float) -> float:
+    """
+    Calcule la distance en km entre 2 points GPS.
+    Formule de Haversine.
+    """
+    R = 6371  # Rayon de la Terre en km
+    
+    dlat = math.radians(lat2 - lat1)
+    dlon = math.radians(lon2 - lon1)
+    
+    a = (
+        math.sin(dlat / 2) ** 2 +
+        math.cos(math.radians(lat1)) * math.cos(math.radians(lat2)) *
+        math.sin(dlon / 2) ** 2
+    )
+    
+    c = 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a))
+    
+    return R * c
+
+
+# ============================================================
+# 1. RECHERCHE MULTI-CRITÈRES (avec filtres géographiques)
 # ============================================================
 
 @router.get("/")
@@ -26,23 +52,40 @@ def search_products(
     category: Optional[str] = Query(None, description="Catégorie exacte"),
     color: Optional[str] = Query(None, description="Couleur exacte"),
     shop_id: Optional[int] = Query(None, description="Filtrer par boutique"),
+    
+    # 🆕 Filtres géographiques
+    locality: Optional[str] = Query(None, description="Filtrer par localité (Cotonou, Akpakpa...)"),
+    market: Optional[str] = Query(None, description="Filtrer par marché (Dantokpa, PK3...)"),
+    
+    # 🆕 Coordonnées du client pour tri par distance
+    latitude: Optional[float] = Query(None, ge=-90, le=90, description="Latitude du client"),
+    longitude: Optional[float] = Query(None, ge=-180, le=180, description="Longitude du client"),
+    radius_km: Optional[float] = Query(None, gt=0, le=100, description="Rayon de recherche en km"),
+    
     min_price: Optional[float] = Query(None, ge=0),
     max_price: Optional[float] = Query(None, ge=0),
-    in_stock: Optional[bool] = Query(None),
+    availability: Optional[str] = Query(None, description="in_stock | out_of_stock | to_confirm"),
+    
     sort_by: str = Query(
         "sales",
-        description="sales (popularité) | recent | price_asc | price_desc | views"
+        description="sales | recent | price_asc | price_desc | views | distance"
     ),
     skip: int = 0,
     limit: int = 40,
     db: Session = Depends(get_db),
 ):
     """
-    Recherche multi-critères avec tri par défaut sur le nombre de ventes.
+    Recherche multi-critères avec :
+    - Filtres par localité et marché
+    - Tri par distance (si lat/lng fournis)
+    - Filtres prix et disponibilité
     """
-    query = db.query(Product)
+    # Joindre Shop pour accéder aux filtres géographiques
+    query = db.query(Product).join(Shop, Product.shop_id == Shop.id)
     
-    # Recherche textuelle (nom ou description)
+    # ============================================
+    # Recherche textuelle
+    # ============================================
     if q:
         search_term = f"%{q.lower()}%"
         query = query.filter(
@@ -54,39 +97,133 @@ def search_products(
             )
         )
     
+    # ============================================
     # Filtres exacts
+    # ============================================
     if category:
         query = query.filter(func.lower(Product.category) == category.lower())
     if color:
         query = query.filter(func.lower(Product.color) == color.lower())
     if shop_id:
         query = query.filter(Product.shop_id == shop_id)
+    
+    # 🆕 Filtres géographiques
+    if locality:
+        query = query.filter(func.lower(Shop.locality) == locality.lower())
+    if market:
+        query = query.filter(func.lower(Shop.market) == market.lower())
+    
+    # Prix
     if min_price is not None:
         query = query.filter(Product.price >= min_price)
     if max_price is not None:
         query = query.filter(Product.price <= max_price)
-    if in_stock is not None:
-        query = query.filter(Product.in_stock == in_stock)
     
+    # 🆕 Disponibilité
+    if availability:
+        query = query.filter(Product.availability == availability)
+    
+    # Filtrer sur boutiques actives
+    query = query.filter(Shop.is_active == True)
+    
+    # ============================================
+    # Récupérer TOUS les résultats (avant tri par distance)
+    # ============================================
+    all_products = query.all()
+    
+    # ============================================
+    # Tri par distance (si lat/lng fournis)
+    # ============================================
+    products_with_distance = []
+    
+    for product in all_products:
+        shop = product.shop
+        distance = None
+        
+        if latitude is not None and longitude is not None:
+            if shop.latitude and shop.longitude:
+                distance = haversine_distance(
+                    latitude, longitude,
+                    shop.latitude, shop.longitude
+                )
+        
+        # Filtrer par radius si demandé
+        if radius_km is not None and distance is not None:
+            if distance > radius_km:
+                continue
+        
+        products_with_distance.append({
+            "product": product,
+            "distance": distance,
+        })
+    
+    # ============================================
     # Tri
-    if sort_by == "sales":
-        query = query.order_by(desc(Product.sales_count), desc(Product.created_at))
+    # ============================================
+    if sort_by == "distance" and latitude is not None:
+        # Trier par distance (les None à la fin)
+        products_with_distance.sort(
+            key=lambda x: x["distance"] if x["distance"] is not None else float('inf')
+        )
+    elif sort_by == "sales":
+        products_with_distance.sort(
+            key=lambda x: (x["product"].sales_count, x["product"].created_at),
+            reverse=True
+        )
     elif sort_by == "views":
-        query = query.order_by(desc(Product.views_count))
+        products_with_distance.sort(
+            key=lambda x: x["product"].views_count,
+            reverse=True
+        )
     elif sort_by == "recent":
-        query = query.order_by(desc(Product.created_at))
+        products_with_distance.sort(
+            key=lambda x: x["product"].created_at,
+            reverse=True
+        )
     elif sort_by == "price_asc":
-        query = query.order_by(Product.price.asc())
+        products_with_distance.sort(key=lambda x: x["product"].price)
     elif sort_by == "price_desc":
-        query = query.order_by(Product.price.desc())
+        products_with_distance.sort(
+            key=lambda x: x["product"].price,
+            reverse=True
+        )
     else:
-        query = query.order_by(desc(Product.sales_count))
+        products_with_distance.sort(
+            key=lambda x: x["product"].sales_count,
+            reverse=True
+        )
     
-    # Compter le total avant pagination
-    total = query.count()
+    # ============================================
+    # Total avant pagination
+    # ============================================
+    total = len(products_with_distance)
     
+    # ============================================
     # Pagination
-    products = query.offset(skip).limit(limit).all()
+    # ============================================
+    paginated = products_with_distance[skip:skip + limit]
+    
+    # ============================================
+    # Construire la réponse
+    # ============================================
+    results = []
+    for item in paginated:
+        product = item["product"]
+        product_dict = ProductOut.model_validate(product).model_dump()
+        
+        # Ajouter les infos de la boutique
+        product_dict["shop_name"] = product.shop.name if product.shop else None
+        product_dict["shop_code"] = product.shop.code if product.shop else None
+        product_dict["shop_latitude"] = product.shop.latitude if product.shop else None
+        product_dict["shop_longitude"] = product.shop.longitude if product.shop else None
+        product_dict["shop_locality"] = product.shop.locality if product.shop else None
+        product_dict["shop_market"] = product.shop.market if product.shop else None
+        
+        # Ajouter la distance si calculée
+        if item["distance"] is not None:
+            product_dict["distance_km"] = round(item["distance"], 2)
+        
+        results.append(product_dict)
     
     return {
         "total": total,
@@ -97,12 +234,17 @@ def search_products(
             "category": category,
             "color": color,
             "shop_id": shop_id,
+            "locality": locality,
+            "market": market,
+            "latitude": latitude,
+            "longitude": longitude,
+            "radius_km": radius_km,
             "min_price": min_price,
             "max_price": max_price,
-            "in_stock": in_stock,
+            "availability": availability,
             "sort_by": sort_by,
         },
-        "results": [ProductOut.model_validate(p) for p in products],
+        "results": results,
     }
 
 
@@ -118,13 +260,11 @@ def suggest(
 ):
     """
     Autocomplétion : renvoie des suggestions basées sur les noms de produits,
-    catégories et couleurs existants.
-    
-    Exemple : q=ch → ["chemise", "chaussure", "chemise en wax"]
+    catégories, couleurs, localités et boutiques existantes.
     """
     search_term = f"%{q.lower()}%"
     
-    # Récupérer les noms de produits qui matchent
+    # Noms de produits
     product_names = (
         db.query(Product.name)
         .filter(func.lower(Product.name).like(search_term))
@@ -133,7 +273,7 @@ def suggest(
         .all()
     )
     
-    # Récupérer les catégories qui matchent
+    # Catégories
     categories = (
         db.query(Product.category)
         .filter(
@@ -145,7 +285,7 @@ def suggest(
         .all()
     )
     
-    # Récupérer les couleurs qui matchent
+    # Couleurs
     colors = (
         db.query(Product.color)
         .filter(
@@ -157,7 +297,7 @@ def suggest(
         .all()
     )
     
-    # Récupérer les noms de boutiques
+    # Boutiques
     shop_names = (
         db.query(Shop.name)
         .filter(func.lower(Shop.name).like(search_term))
@@ -166,7 +306,31 @@ def suggest(
         .all()
     )
     
-    # Construire la réponse avec type
+    # 🆕 Localités
+    localities = (
+        db.query(Shop.locality)
+        .filter(
+            Shop.locality.isnot(None),
+            func.lower(Shop.locality).like(search_term)
+        )
+        .distinct()
+        .limit(limit)
+        .all()
+    )
+    
+    # 🆕 Marchés
+    markets = (
+        db.query(Shop.market)
+        .filter(
+            Shop.market.isnot(None),
+            func.lower(Shop.market).like(search_term)
+        )
+        .distinct()
+        .limit(limit)
+        .all()
+    )
+    
+    # Construire
     suggestions = []
     
     for (name,) in product_names:
@@ -177,8 +341,12 @@ def suggest(
         suggestions.append({"text": col, "type": "color"})
     for (shop,) in shop_names:
         suggestions.append({"text": shop, "type": "shop"})
+    for (loc,) in localities:
+        suggestions.append({"text": loc, "type": "locality"})
+    for (mk,) in markets:
+        suggestions.append({"text": mk, "type": "market"})
     
-    # Dédupliquer par texte
+    # Dédupliquer
     seen = set()
     unique_suggestions = []
     for s in suggestions:
@@ -202,22 +370,24 @@ def get_trending(
     limit: int = 12,
     db: Session = Depends(get_db),
 ):
-    """
-    Renvoie les produits les plus vendus.
-    Utilisé pour la page d'accueil de la marketplace.
-    """
+    """Renvoie les produits les plus vendus."""
     products = (
         db.query(Product)
-        .filter(Product.sales_count > 0)
+        .join(Shop, Product.shop_id == Shop.id)
+        .filter(
+            Product.sales_count > 0,
+            Shop.is_active == True
+        )
         .order_by(desc(Product.sales_count), desc(Product.views_count))
         .limit(limit)
         .all()
     )
     
-    # Si pas encore de ventes, renvoyer les plus vus
     if not products:
         products = (
             db.query(Product)
+            .join(Shop, Product.shop_id == Shop.id)
+            .filter(Shop.is_active == True)
             .order_by(desc(Product.views_count), desc(Product.created_at))
             .limit(limit)
             .all()
@@ -235,16 +405,18 @@ def get_trending(
 
 @router.get("/categories")
 def get_categories(db: Session = Depends(get_db)):
-    """
-    Renvoie toutes les catégories avec leur nombre de produits.
-    """
+    """Renvoie toutes les catégories avec leur nombre de produits."""
     categories = (
         db.query(
             Product.category,
             func.count(Product.id).label("count"),
             func.sum(Product.sales_count).label("total_sales"),
         )
-        .filter(Product.category.isnot(None))
+        .join(Shop, Product.shop_id == Shop.id)
+        .filter(
+            Product.category.isnot(None),
+            Shop.is_active == True
+        )
         .group_by(Product.category)
         .order_by(desc("count"))
         .all()
@@ -268,15 +440,17 @@ def get_categories(db: Session = Depends(get_db)):
 
 @router.get("/colors")
 def get_colors(db: Session = Depends(get_db)):
-    """
-    Renvoie toutes les couleurs disponibles avec leur nombre de produits.
-    """
+    """Renvoie toutes les couleurs disponibles."""
     colors = (
         db.query(
             Product.color,
             func.count(Product.id).label("count"),
         )
-        .filter(Product.color.isnot(None))
+        .join(Shop, Product.shop_id == Shop.id)
+        .filter(
+            Product.color.isnot(None),
+            Shop.is_active == True
+        )
         .group_by(Product.color)
         .order_by(desc("count"))
         .all()
@@ -299,11 +473,7 @@ def get_popular_searches(
     limit: int = 10,
     db: Session = Depends(get_db),
 ):
-    """
-    Renvoie les catégories et produits les plus populaires.
-    Utilisé pour suggérer des recherches à l'utilisateur.
-    """
-    # Catégories les plus populaires
+    """Renvoie les catégories et produits les plus populaires."""
     top_categories = (
         db.query(
             Product.category,
@@ -316,7 +486,6 @@ def get_popular_searches(
         .all()
     )
     
-    # Produits les plus vus
     top_products = (
         db.query(Product.name)
         .order_by(desc(Product.views_count))
@@ -330,4 +499,4 @@ def get_popular_searches(
             for cat, sales in top_categories
         ],
         "popular_products": [name for (name,) in top_products],
-    }
+    }   

@@ -7,7 +7,7 @@ from fastapi import (
     APIRouter, Depends, HTTPException, status, UploadFile, File, Query
 )
 from sqlalchemy.orm import Session
-from sqlalchemy import desc
+from sqlalchemy import desc, func
 from typing import List, Optional
 
 from database import get_db
@@ -74,6 +74,12 @@ def create_product(
             detail="Vous devez d'abord créer votre boutique.",
         )
     
+    # Déterminer l'availability
+    availability = payload.availability or "in_stock"
+    
+    # Synchroniser in_stock avec availability
+    in_stock = (availability == "in_stock")
+    
     product = Product(
         shop_id=shop.id,
         name=payload.name,
@@ -81,6 +87,8 @@ def create_product(
         price=payload.price,
         category=payload.category,
         color=payload.color,
+        availability=availability,
+        in_stock=in_stock,
     )
     db.add(product)
     db.commit()
@@ -152,6 +160,7 @@ def get_products_by_shop(
     shop_id: int,
     category: Optional[str] = Query(None, description="Filtrer par catégorie"),
     color: Optional[str] = Query(None, description="Filtrer par couleur"),
+    availability: Optional[str] = Query(None, description="in_stock | out_of_stock | to_confirm"),
     min_price: Optional[float] = Query(None, ge=0, description="Prix minimum"),
     max_price: Optional[float] = Query(None, ge=0, description="Prix maximum"),
     sort_by: Optional[str] = Query("recent", description="recent | sales | price_asc | price_desc"),
@@ -175,9 +184,11 @@ def get_products_by_shop(
     
     # Filtres
     if category:
-        query = query.filter(Product.category == category)
+        query = query.filter(func.lower(Product.category) == category.lower())
     if color:
-        query = query.filter(Product.color == color)
+        query = query.filter(func.lower(Product.color) == color.lower())
+    if availability:
+        query = query.filter(Product.availability == availability)
     if min_price is not None:
         query = query.filter(Product.price >= min_price)
     if max_price is not None:
@@ -246,6 +257,11 @@ def update_product(
     product = _get_owned_product(product_id, current_user, db)
     
     update_data = payload.model_dump(exclude_unset=True)
+    
+    # Si availability change, synchroniser in_stock
+    if "availability" in update_data:
+        update_data["in_stock"] = (update_data["availability"] == "in_stock")
+    
     for field, value in update_data.items():
         setattr(product, field, value)
     
