@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -71,7 +70,7 @@
       margin-bottom: 12px;
     }
     
-    /* Code boutique */
+    /* 🆕 Code boutique */
     .shop-code-badge {
       display: inline-flex;
       align-items: center;
@@ -201,6 +200,7 @@
       font-weight: 700;
     }
     
+    /* 🆕 Badge availability sur les cartes */
     .product-badge-availability {
       position: absolute;
       top: 12px;
@@ -550,6 +550,10 @@
       }
     }
     
+    // ============================================================
+    // HELPER : label availability
+    // ============================================================
+    
     function getAvailabilityLabel(availability) {
       const labels = {
         'in_stock': t('product.in_stock'),
@@ -567,6 +571,10 @@
       };
       return classes[availability] || 'availability-in_stock';
     }
+    
+    // ============================================================
+    // MODE BOUTIQUE
+    // ============================================================
     
     async function loadShop(shopId) {
       try {
@@ -590,6 +598,7 @@
     function renderShopPage(shop, products) {
       const initials = shop.name.substring(0, 2).toUpperCase();
       
+      // 🆕 Badges localité/marché/code
       const codeBadge = shop.code 
         ? `<div class="shop-code-badge" onclick="copyCode('${escapeHtml(shop.code)}')">
              🔖 ${t('product.shop_code')} : <span class="code">${escapeHtml(shop.code)}</span>
@@ -696,6 +705,10 @@
       }
     }
     
+    // ============================================================
+    // MODE PRODUIT
+    // ============================================================
+    
     async function loadProductDetail(productId) {
       try {
         const product = await ProductsAPI.getById(productId);
@@ -736,12 +749,14 @@
       const availabilityLabel = getAvailabilityLabel(availability);
       const availabilityClass = getAvailabilityClass(availability);
       
+      // Emoji pour l'affichage stock
       const stockEmoji = {
         'in_stock': '✅',
         'out_of_stock': '❌',
         'to_confirm': '⏳',
       }[availability] || '✅';
       
+      // Badges boutique (code, localité, marché)
       const shopBadges = [];
       if (shop.code) {
         shopBadges.push(`<span class="badge badge-orange" style="cursor:pointer;" onclick="copyCode('${escapeHtml(shop.code)}')">🔖 ${escapeHtml(shop.code)}</span>`);
@@ -860,10 +875,18 @@
       `;
     }
     
+    // ============================================================
+    // QUANTITÉ
+    // ============================================================
+    
     function changeQty(delta) {
       quantity = Math.max(1, quantity + delta);
       document.getElementById('qty-value').textContent = quantity;
     }
+    
+    // ============================================================
+    // MODAL DE COMMANDE
+    // ============================================================
     
     function openOrderModal() {
       if (!Auth.isAuthenticated()) {
@@ -882,85 +905,131 @@
       }
       
       const total = currentProduct.price * quantity;
+      
       const modal = document.getElementById('order-modal');
       modal.innerHTML = `
-        <div class="modal-overlay" onclick="closeOrderModal(event)" style="position:fixed;inset:0;z-index:1000;background:rgba(15,23,42,.6);display:flex;align-items:center;justify-content:center;padding:16px;">
-          <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="order-modal-title" onclick="event.stopPropagation()" style="background:var(--white);width:100%;max-width:520px;max-height:90vh;overflow:auto;border-radius:var(--radius-lg);padding:24px;box-shadow:var(--shadow-lg);">
-            <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:20px;">
-              <h2 id="order-modal-title" style="margin:0;color:var(--blue-900);">${t('product.order_now')}</h2>
-              <button type="button" class="btn btn-ghost btn-sm" onclick="closeOrderModal()" aria-label="Fermer">✕</button>
+        <div class="modal-overlay" onclick="closeOrderModal(event)">
+          <div class="modal" onclick="event.stopPropagation()">
+            <div class="modal-header">
+              <h3 data-i18n="product.confirm_order">${t('product.confirm_order')}</h3>
+              <button class="modal-close" onclick="closeOrderModal()">✕</button>
             </div>
-            <div class="order-summary">
-              <div class="order-summary-row"><span>${t('product.product') || 'Produit'}</span><strong>${escapeHtml(currentProduct.name)}</strong></div>
-              <div class="order-summary-row"><span>${t('product.quantity')}</span><strong>${quantity}</strong></div>
-              <div class="order-summary-row"><span>${t('product.price') || 'Prix unitaire'}</span><strong>${formatPrice(currentProduct.price)}</strong></div>
-              <div class="order-summary-row total"><span>${t('product.total') || 'Total estimé'}</span><strong>${formatPrice(total)}</strong></div>
+            
+            <div class="modal-body">
+              <div id="order-error" class="alert alert-error hidden"></div>
+              
+              <div class="order-summary">
+                <div class="order-summary-row">
+                  <span data-i18n="seller.product">${t('seller.product')}</span>
+                  <strong>${escapeHtml(currentProduct.name)}</strong>
+                </div>
+                <div class="order-summary-row">
+                  <span data-i18n="product.price_unit">${t('product.price_unit')}</span>
+                  <strong>${formatPrice(currentProduct.price)}</strong>
+                </div>
+                <div class="order-summary-row">
+                  <span data-i18n="product.quantity">${t('product.quantity')}</span>
+                  <strong>${quantity}</strong>
+                </div>
+                <div class="order-summary-row total">
+                  <span data-i18n="product.total">${t('product.total')}</span>
+                  <span>${formatPrice(total)}</span>
+                </div>
+              </div>
+              
+              <div class="form-group">
+                <label class="form-label" data-i18n="product.note">${t('product.note')}</label>
+                <textarea 
+                  class="form-textarea" 
+                  id="order-note"
+                  placeholder="${t('product.note_placeholder')}"
+                  data-i18n="product.note_placeholder"
+                  data-i18n-attr="placeholder"
+                  maxlength="500"
+                ></textarea>
+              </div>
+              
+              <div class="alert alert-info" style="margin-bottom: 0;">
+                <strong data-i18n="product.how_it_works">${t('product.how_it_works')}</strong><br>
+                ${t('product.how_it_works_p')} <strong>${user.phone}</strong>
+              </div>
             </div>
-            <p style="font-size:.9rem;color:var(--gray-600);line-height:1.5;margin-bottom:16px;">${t('product.order_note_help') || 'Ajoutez une précision pour le vendeur si nécessaire. La commande sera envoyée au vendeur pour confirmation.'}</p>
-            <label for="order-note" style="display:block;font-weight:600;margin-bottom:8px;color:var(--gray-700);">${t('product.note') || 'Note (facultatif)'}</label>
-            <textarea id="order-note" rows="3" maxlength="1000" placeholder="${t('product.note_placeholder') || 'Précisez la couleur, la taille ou toute autre demande…'}" style="box-sizing:border-box;width:100%;padding:12px;border:1px solid var(--gray-300);border-radius:var(--radius);font:inherit;resize:vertical;margin-bottom:12px;"></textarea>
-            <p style="font-size:.85rem;color:var(--gray-600);margin:0 0 16px;">${t('product.phone') || 'Téléphone'} : ${escapeHtml(user.phone || user.phone_number || 'Les coordonnées associées à votre compte pourront être utilisées pour vous contacter.')}</p>
-            <div id="order-error" class="hidden" role="alert" style="background:#FEE2E2;color:#991B1B;padding:10px 12px;border-radius:var(--radius);margin-bottom:12px;"></div>
-            <div style="display:flex;justify-content:flex-end;gap:10px;flex-wrap:wrap;">
-              <button type="button" class="btn btn-ghost" onclick="closeOrderModal()">${t('common.cancel') || 'Annuler'}</button>
-              <button type="button" class="btn btn-orange" id="confirm-order-btn" onclick="confirmOrder()">${t('product.confirm') || 'Confirmer la commande'}</button>
+            
+            <div class="modal-footer">
+              <button class="btn btn-ghost" onclick="closeOrderModal()" data-i18n="product.cancel">${t('product.cancel')}</button>
+              <button 
+                class="btn btn-orange" 
+                id="confirm-order-btn"
+                onclick="confirmOrder()"
+                data-i18n="product.confirm"
+              >
+                ${t('product.confirm')}
+              </button>
             </div>
           </div>
         </div>
       `;
       modal.classList.remove('hidden');
     }
-
+    
     function closeOrderModal(event) {
       if (event && event.target !== event.currentTarget) return;
-      const modal = document.getElementById('order-modal');
-      if (modal) modal.classList.add('hidden');
+      document.getElementById('order-modal').classList.add('hidden');
     }
-
+    
     async function confirmOrder() {
       const btn = document.getElementById('confirm-order-btn');
       const errorDiv = document.getElementById('order-error');
-      const noteField = document.getElementById('order-note');
-      if (!btn || !errorDiv || !noteField || !currentProduct) return;
-      const note = noteField.value.trim();
+      const note = document.getElementById('order-note').value.trim();
+      
       errorDiv.classList.add('hidden');
       btn.disabled = true;
-      btn.textContent = t('product.loading') || 'Envoi en cours…';
+      btn.innerHTML = '<span class="spinner"></span>';
+      
       try {
         await OrdersAPI.create({
           product_id: currentProduct.id,
           quantity: quantity,
           note: note || null,
         });
-        showToast(t('product.order_success') || 'Commande envoyée avec succès.', 'success', 5000);
+        
+        showToast('✅', 'success', 5000);
         closeOrderModal();
-        setTimeout(() => { window.location.href = '/index.html'; }, 1500);
+        
+        setTimeout(() => {
+          window.location.href = '/index.html';
+        }, 2000);
+        
       } catch (error) {
-        errorDiv.textContent = error && error.message ? error.message : (t('common.error') || 'Une erreur est survenue. Réessayez.');
+        errorDiv.textContent = error.message;
         errorDiv.classList.remove('hidden');
         btn.disabled = false;
-        btn.textContent = t('product.confirm') || 'Confirmer la commande';
+        btn.textContent = t('product.confirm');
       }
     }
-
+    
+    // ============================================================
+    // HELPERS
+    // ============================================================
+    
     function showContent() {
       document.getElementById('loading').classList.add('hidden');
       document.getElementById('content').classList.remove('hidden');
     }
-
+    
     function showError(message) {
       document.getElementById('loading').classList.add('hidden');
-      const content = document.getElementById('content');
-      content.classList.remove('hidden');
-      content.innerHTML = `
-        <div class="container" style="padding:80px 24px;">
+      document.getElementById('content').classList.remove('hidden');
+      document.getElementById('content').innerHTML = `
+        <div class="container" style="padding: 80px 24px;">
           <div class="empty-state">
             <div class="empty-state-icon">⚠️</div>
-            <h3>${t('common.error') || 'Une erreur est survenue'}</h3>
-            <p>${escapeHtml(message || 'Impossible de charger cette page.')}</p>
-            <a href="/marketplace.html" class="btn btn-primary mt-16">${t('marketplace.reset_filters') || 'Retour au catalogue'}</a>
+            <h3>⚠️</h3>
+            <p>${escapeHtml(message)}</p>
+            <a href="/marketplace.html" class="btn btn-primary mt-16">${t('marketplace.reset_filters')}</a>
           </div>
-        </div>`;
+        </div>
+      `;
     }
   </script>
 </body>
