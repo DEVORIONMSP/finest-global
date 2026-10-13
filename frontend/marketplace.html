@@ -123,6 +123,58 @@
       font-size: 0.85rem;
     }
     
+    /* 🆕 Select localité/marché */
+    .filter-select {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1.5px solid var(--gray-200);
+      border-radius: var(--radius);
+      font-size: 0.9rem;
+      background: var(--white);
+      color: var(--gray-700);
+      cursor: pointer;
+      font-family: inherit;
+    }
+    
+    .filter-select:focus {
+      outline: none;
+      border-color: var(--blue-500);
+    }
+    
+    /* 🆕 Bouton "Autour de moi" */
+    .near-me-btn {
+      width: 100%;
+      padding: 12px 16px;
+      border-radius: var(--radius);
+      background: linear-gradient(135deg, var(--blue-700), var(--blue-500));
+      color: var(--white);
+      border: none;
+      font-weight: 700;
+      font-size: 0.9rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.25s;
+      font-family: inherit;
+    }
+    
+    .near-me-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(10, 77, 140, 0.3);
+    }
+    
+    .near-me-btn.active {
+      background: linear-gradient(135deg, var(--orange-500), var(--orange-600));
+    }
+    
+    .near-me-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+    
     .marketplace-main { min-width: 0; }
     
     .marketplace-header {
@@ -227,6 +279,20 @@
       border-radius: 50%;
       border: 2px solid var(--white);
       box-shadow: var(--shadow-sm);
+    }
+    
+    /* 🆕 Badge distance */
+    .product-badge-distance {
+      position: absolute;
+      bottom: 12px;
+      left: 12px;
+      background: rgba(10, 77, 140, 0.9);
+      color: var(--white);
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      backdrop-filter: blur(4px);
     }
     
     .product-info {
@@ -414,6 +480,13 @@
         right: 8px;
       }
       
+      .product-badge-distance {
+        padding: 3px 8px;
+        font-size: 0.62rem;
+        bottom: 8px;
+        left: 8px;
+      }
+      
       .pagination {
         gap: 6px;
         margin-top: 28px;
@@ -466,6 +539,34 @@
             <button class="filters-reset" onclick="resetFilters()" data-i18n="marketplace.clear_all">Tout effacer</button>
           </div>
           
+          <!-- 🆕 Autour de moi -->
+          <div class="filter-group">
+            <button 
+              class="near-me-btn" 
+              id="near-me-btn"
+              onclick="toggleNearMe()"
+            >
+              📍 <span data-i18n="marketplace.near_me">Autour de moi</span>
+            </button>
+          </div>
+          
+          <!-- 🆕 Localité -->
+          <div class="filter-group">
+            <label class="filter-label" data-i18n="marketplace.locality">Localité</label>
+            <select class="filter-select" id="locality-filter" onchange="changeLocality()">
+              <option value="" data-i18n="marketplace.all_localities">Toutes les localités</option>
+            </select>
+          </div>
+          
+          <!-- 🆕 Marché -->
+          <div class="filter-group">
+            <label class="filter-label" data-i18n="marketplace.market">Marché / Zone</label>
+            <select class="filter-select" id="market-filter" onchange="changeMarket()">
+              <option value="" data-i18n="marketplace.all_markets">Tous les marchés</option>
+            </select>
+          </div>
+          
+          <!-- Catégories -->
           <div class="filter-group">
             <label class="filter-label" data-i18n="marketplace.categories">Catégories</label>
             <div class="filter-options" id="categories-filter">
@@ -475,6 +576,7 @@
             </div>
           </div>
           
+          <!-- Couleurs -->
           <div class="filter-group">
             <label class="filter-label" data-i18n="marketplace.colors">Couleurs</label>
             <div class="filter-options" id="colors-filter">
@@ -483,6 +585,7 @@
             </div>
           </div>
           
+          <!-- Prix -->
           <div class="filter-group">
             <label class="filter-label" data-i18n="marketplace.price">Prix (FCFA)</label>
             <div class="price-range">
@@ -524,6 +627,7 @@
               <option value="views" data-i18n="marketplace.sort_views">👁️ Plus vus</option>
               <option value="price_asc" data-i18n="marketplace.sort_price_asc">💰 Prix croissant</option>
               <option value="price_desc" data-i18n="marketplace.sort_price_desc">💎 Prix décroissant</option>
+              <option value="distance" data-i18n="marketplace.sort_distance">📍 Plus proches</option>
             </select>
           </div>
           
@@ -553,6 +657,7 @@
   <script src="/js/api.js"></script>
   <script src="/js/auth.js"></script>
   <script src="/js/i18n.js"></script>
+  <script src="/js/geo.js"></script>
   <script src="/js/navbar.js"></script>
   <script>
     const ITEMS_PER_PAGE = 12;
@@ -561,12 +666,20 @@
       q: '',
       category: '',
       color: '',
+      locality: '',
+      market: '',
       min_price: '',
       max_price: '',
       sort_by: 'sales',
       skip: 0,
       total: 0,
+      // 🆕 Géolocalisation
+      latitude: null,
+      longitude: null,
+      near_me: false,
     };
+    
+    let clientLocation = null;
     
     const COLOR_HEX = {
       'rouge': '#EF4444',
@@ -589,6 +702,7 @@
       renderNavbar();
       readUrlParams();
       loadFilters();
+      loadLocalitiesAndMarkets();
       loadProducts();
       trackPageview();
     });
@@ -599,6 +713,8 @@
       if (params.get('q')) state.q = params.get('q');
       if (params.get('category')) state.category = params.get('category');
       if (params.get('color')) state.color = params.get('color');
+      if (params.get('locality')) state.locality = params.get('locality');
+      if (params.get('market')) state.market = params.get('market');
       if (params.get('min_price')) state.min_price = params.get('min_price');
       if (params.get('max_price')) state.max_price = params.get('max_price');
       if (params.get('sort_by')) state.sort_by = params.get('sort_by');
@@ -609,6 +725,103 @@
       
       if (state.min_price) document.getElementById('min-price').value = state.min_price;
       if (state.max_price) document.getElementById('max-price').value = state.max_price;
+    }
+    
+    // 🆕 Charger localités et marchés
+    async function loadLocalitiesAndMarkets() {
+      try {
+        const [locData, mkData] = await Promise.all([
+          ShopsAPI.listLocalities(),
+          ShopsAPI.listMarkets(),
+        ]);
+        
+        const locSelect = document.getElementById('locality-filter');
+        if (locData.localities.length > 0) {
+          locData.localities.forEach(loc => {
+            const opt = document.createElement('option');
+            opt.value = loc.name;
+            opt.textContent = `${loc.name} (${loc.shop_count})`;
+            if (state.locality === loc.name) opt.selected = true;
+            locSelect.appendChild(opt);
+          });
+        }
+        
+        const mkSelect = document.getElementById('market-filter');
+        if (mkData.markets.length > 0) {
+          mkData.markets.forEach(mk => {
+            const opt = document.createElement('option');
+            opt.value = mk.name;
+            opt.textContent = `${mk.name} (${mk.shop_count})`;
+            if (state.market === mk.name) opt.selected = true;
+            mkSelect.appendChild(opt);
+          });
+        }
+      } catch (error) {
+        console.error('Erreur chargement localités/marchés:', error);
+      }
+    }
+    
+    // 🆕 Toggle "Autour de moi"
+    async function toggleNearMe() {
+      const btn = document.getElementById('near-me-btn');
+      
+      if (state.near_me) {
+        // Désactiver
+        state.near_me = false;
+        state.latitude = null;
+        state.longitude = null;
+        btn.classList.remove('active');
+        state.skip = 0;
+        updateUrl();
+        loadProducts();
+        return;
+      }
+      
+      // Activer
+      btn.disabled = true;
+      btn.innerHTML = `⏳ <span>${t('marketplace.detecting_location')}</span>`;
+      
+      clientLocation = await detectClientLocation();
+      
+      btn.disabled = false;
+      
+      if (!clientLocation) {
+        btn.innerHTML = `📍 <span>${t('marketplace.near_me')}</span>`;
+        showToast(t('home.location_denied'), 'error');
+        return;
+      }
+      
+      state.near_me = true;
+      state.latitude = clientLocation.latitude;
+      state.longitude = clientLocation.longitude;
+      state.sort_by = 'distance';
+      
+      document.getElementById('sort-select').value = 'distance';
+      
+      btn.classList.add('active');
+      btn.innerHTML = `📍 <span>${t('marketplace.location_detected')}</span>`;
+      
+      showToast(`✅ ${t('marketplace.location_detected')}`, 'success');
+      
+      state.skip = 0;
+      updateUrl();
+      loadProducts();
+    }
+    
+    // 🆕 Changement localité
+    function changeLocality() {
+      state.locality = document.getElementById('locality-filter').value;
+      state.skip = 0;
+      updateUrl();
+      loadProducts();
+    }
+    
+    // 🆕 Changement marché
+    function changeMarket() {
+      state.market = document.getElementById('market-filter').value;
+      state.skip = 0;
+      updateUrl();
+      loadProducts();
     }
     
     async function loadFilters() {
@@ -679,16 +892,27 @@
       `).join('');
       
       try {
-        const data = await SearchAPI.search({
+        // Construire les filtres
+        const filters = {
           q: state.q,
           category: state.category,
           color: state.color,
+          locality: state.locality,
+          market: state.market,
           min_price: state.min_price,
           max_price: state.max_price,
           sort_by: state.sort_by,
           skip: state.skip,
           limit: ITEMS_PER_PAGE,
-        });
+        };
+        
+        // 🆕 Ajouter lat/lng si "Autour de moi" est actif
+        if (state.near_me && state.latitude && state.longitude) {
+          filters.latitude = state.latitude;
+          filters.longitude = state.longitude;
+        }
+        
+        const data = await SearchAPI.search(filters);
         
         state.total = data.total;
         
@@ -736,6 +960,11 @@
         ? `<span class="product-color-dot" style="background: ${COLOR_HEX[product.color.toLowerCase()]}"></span>`
         : '';
       
+      // 🆕 Badge distance
+      const distanceBadge = product.distance_km !== undefined
+        ? `<div class="product-badge-distance">📍 ${formatDistance(product.distance_km)}</div>`
+        : '';
+      
       const salesText = product.sales_count > 1 ? 'ventes' : 'vente';
       
       return `
@@ -744,6 +973,7 @@
             ${photo}
             ${product.sales_count > 0 ? `<div class="product-badge-sales">${product.sales_count} ${salesText}</div>` : ''}
             ${colorDot}
+            ${distanceBadge}
           </div>
           <div class="product-info">
             <div class="product-name">${escapeHtml(product.name)}</div>
@@ -820,14 +1050,26 @@
       state.q = '';
       state.category = '';
       state.color = '';
+      state.locality = '';
+      state.market = '';
       state.min_price = '';
       state.max_price = '';
       state.sort_by = 'sales';
       state.skip = 0;
+      state.near_me = false;
+      state.latitude = null;
+      state.longitude = null;
       
       document.getElementById('min-price').value = '';
       document.getElementById('max-price').value = '';
       document.getElementById('sort-select').value = 'sales';
+      document.getElementById('locality-filter').value = '';
+      document.getElementById('market-filter').value = '';
+      
+      // Reset bouton near me
+      const btn = document.getElementById('near-me-btn');
+      btn.classList.remove('active');
+      btn.innerHTML = `📍 <span>${t('marketplace.near_me')}</span>`;
       
       updateUrl();
       loadFilters();
@@ -839,6 +1081,8 @@
       if (state.q) params.set('q', state.q);
       if (state.category) params.set('category', state.category);
       if (state.color) params.set('color', state.color);
+      if (state.locality) params.set('locality', state.locality);
+      if (state.market) params.set('market', state.market);
       if (state.min_price) params.set('min_price', state.min_price);
       if (state.max_price) params.set('max_price', state.max_price);
       if (state.sort_by !== 'sales') params.set('sort_by', state.sort_by);

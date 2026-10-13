@@ -6,6 +6,11 @@
   <title>Dashboard vendeur — Finest Global</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  
+  <!-- Leaflet -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  
   <link rel="stylesheet" href="/css/main.css">
   <link rel="stylesheet" href="/css/components.css">
   <style>
@@ -440,6 +445,58 @@
     
     .badge-stock-yes { background: #D1FAE5; color: #065F46; }
     .badge-stock-no { background: #FEE2E2; color: #991B1B; }
+    .badge-stock-to-confirm { background: #FEF3C7; color: #92400E; }
+    
+    /* 🆕 Carte + code boutique */
+    .map-container {
+      height: 300px;
+      border-radius: var(--radius);
+      border: 1.5px solid var(--gray-200);
+      overflow: hidden;
+      margin-top: 8px;
+    }
+    
+    .shop-code-display {
+      background: linear-gradient(135deg, var(--blue-700), var(--blue-500));
+      color: var(--white);
+      padding: 16px 20px;
+      border-radius: var(--radius);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    
+    .shop-code-display .label {
+      font-size: 0.85rem;
+      opacity: 0.85;
+      margin-bottom: 2px;
+    }
+    
+    .shop-code-display .code {
+      font-size: 1.5rem;
+      font-weight: 900;
+      letter-spacing: 1px;
+    }
+    
+    .shop-code-display button {
+      background: rgba(255,255,255,0.15);
+      color: var(--white);
+      border: none;
+      padding: 8px 16px;
+      border-radius: var(--radius);
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.85rem;
+      transition: background 0.2s;
+      font-family: inherit;
+    }
+    
+    .shop-code-display button:hover {
+      background: rgba(255,255,255,0.25);
+    }
     
     @media (max-width: 900px) {
       .dashboard { grid-template-columns: 1fr; }
@@ -555,6 +612,9 @@
       .form-row { gap: 0; }
       .image-upload { padding: 16px; }
       .image-preview { max-width: 140px; max-height: 140px; }
+      
+      .map-container { height: 220px; }
+      .shop-code-display .code { font-size: 1.15rem; }
     }
     
     @media (max-width: 380px) {
@@ -613,6 +673,8 @@
   <script src="/js/api.js"></script>
   <script src="/js/auth.js"></script>
   <script src="/js/i18n.js"></script>
+  <script src="/js/geo.js"></script>
+  <script src="/js/shop-map.js"></script>
   <script src="/js/navbar.js"></script>
   <script>
     let currentShop = null;
@@ -635,9 +697,9 @@
         document.getElementById('sidebar-shop-name').textContent = currentShop.name;
       } catch (error) {
         if (error.status === 404) {
-            showToast(t('shop.create_title'), 'info');
-            setTimeout(() => window.location.href = '/create-shop.html', 800);
-            return;
+          showToast(t('shop.create_title'), 'info');
+          setTimeout(() => window.location.href = '/create-shop.html', 800);
+          return;
         }
         showToast(error.message, 'error');
         return;
@@ -662,6 +724,11 @@
       document.querySelectorAll('.sidebar-link').forEach(link => {
         link.classList.toggle('active', link.dataset.tab === tabName);
       });
+      
+      // Détruire la carte si on quitte l'onglet shop
+      if (tabName !== 'shop') {
+        destroyShopMap();
+      }
       
       if (tabName === 'overview') renderOverview();
       else if (tabName === 'orders') {
@@ -886,15 +953,35 @@
       `;
     }
     
+    function getAvailabilityBadgeClass(availability) {
+      const classes = {
+        'in_stock': 'badge-stock-yes',
+        'out_of_stock': 'badge-stock-no',
+        'to_confirm': 'badge-stock-to-confirm',
+      };
+      return classes[availability] || 'badge-stock-yes';
+    }
+    
+    function getAvailabilityBadgeLabel(availability) {
+      const labels = {
+        'in_stock': '✓',
+        'out_of_stock': '✗',
+        'to_confirm': '⏳',
+      };
+      return labels[availability] || '✓';
+    }
+    
     function renderAdminProductCard(product) {
+      const availability = product.availability || 'in_stock';
+      
       return `
         <div class="admin-product-card">
           <div class="admin-product-image">
             ${product.photo_url 
               ? `<img src="${imageUrl(product.photo_url)}" alt="${escapeHtml(product.name)}">`
               : '📦'}
-            <span class="product-badge-stock ${product.in_stock ? 'badge-stock-yes' : 'badge-stock-no'}">
-              ${product.in_stock ? '✓' : '✗'}
+            <span class="product-badge-stock ${getAvailabilityBadgeClass(availability)}">
+              ${getAvailabilityBadgeLabel(availability)}
             </span>
           </div>
           <div class="admin-product-body">
@@ -920,6 +1007,7 @@
       
       let product = {
         name: '', description: '', price: '', category: '', color: '',
+        availability: 'in_stock',
       };
       
       if (productId) {
@@ -971,9 +1059,19 @@
                 </div>
               </div>
               
-              <div class="form-group">
-                <label class="form-label">${t('marketplace.colors')}</label>
-                <input type="text" class="form-input" id="p-color" value="${escapeHtml(product.color || '')}" placeholder="...">
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">${t('marketplace.colors')}</label>
+                  <input type="text" class="form-input" id="p-color" value="${escapeHtml(product.color || '')}" placeholder="...">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">${t('product.availability')}</label>
+                  <select class="form-input" id="p-availability">
+                    <option value="in_stock" ${product.availability === 'in_stock' ? 'selected' : ''}>✅ ${t('product.in_stock')}</option>
+                    <option value="out_of_stock" ${product.availability === 'out_of_stock' ? 'selected' : ''}>❌ ${t('product.out_of_stock_label')}</option>
+                    <option value="to_confirm" ${product.availability === 'to_confirm' ? 'selected' : ''}>⏳ ${t('product.to_confirm')}</option>
+                  </select>
+                </div>
               </div>
               
               <div class="form-group">
@@ -990,15 +1088,6 @@
                   </div>
                 </div>
               </div>
-              
-              ${isEdit ? `
-                <div class="form-group">
-                  <label style="display:flex;align-items:center;gap:8px;cursor:pointer;">
-                    <input type="checkbox" id="p-stock" ${product.in_stock ? 'checked' : ''}>
-                    <span>${t('product.stock')}</span>
-                  </label>
-                </div>
-              ` : ''}
             </div>
             
             <div class="modal-footer">
@@ -1114,6 +1203,7 @@
         price: parseFloat(document.getElementById('p-price').value),
         category: document.getElementById('p-category').value.trim() || null,
         color: document.getElementById('p-color').value.trim() || null,
+        availability: document.getElementById('p-availability').value,
       };
       
       if (!data.name) {
@@ -1135,11 +1225,7 @@
         let product;
         
         if (editingProductId) {
-          const updateData = { ...data };
-          const stockCheckbox = document.getElementById('p-stock');
-          if (stockCheckbox) updateData.in_stock = stockCheckbox.checked;
-          
-          product = await ProductsAPI.update(editingProductId, updateData);
+          product = await ProductsAPI.update(editingProductId, data);
           
           if (productImageFile) {
             product = await ProductsAPI.uploadPhoto(editingProductId, productImageFile);
@@ -1191,6 +1277,19 @@
           <p>${t('seller.my_shop_p')}</p>
         </div>
         
+        <!-- Code boutique -->
+        ${currentShop.code ? `
+          <div class="shop-code-display">
+            <div>
+              <div class="label">${t('seller.shop_code')}</div>
+              <div class="code">${escapeHtml(currentShop.code)}</div>
+            </div>
+            <button onclick="copyShopCode('${escapeHtml(currentShop.code)}')">
+              📋 ${t('seller.shop_code')}
+            </button>
+          </div>
+        ` : ''}
+        
         <div class="stat-card" style="max-width:600px;">
           <div id="shop-error" class="alert alert-error hidden"></div>
           <div id="shop-success" class="alert alert-success hidden"></div>
@@ -1224,7 +1323,73 @@
             ${t('seller.my_shop')}
           </button>
         </div>
+        
+        <!-- Carte de localisation -->
+        <div class="stat-card" style="max-width:600px;margin-top:20px;">
+          <h3 style="font-size:1.1rem;margin-bottom:6px;">${t('seller.shop_location')}</h3>
+          <p style="color:var(--gray-500);font-size:0.9rem;margin-bottom:12px;">${t('seller.shop_location_p')}</p>
+          
+          <div id="map" class="map-container"></div>
+          <input type="hidden" id="shop-latitude" value="${currentShop.latitude || ''}">
+          <input type="hidden" id="shop-longitude" value="${currentShop.longitude || ''}">
+          
+          <div class="form-row" style="margin-top:12px;">
+            <div class="form-group">
+              <label class="form-label">${t('shop.locality')}</label>
+              <input type="text" class="form-input" id="shop-locality" value="${escapeHtml(currentShop.locality || '')}">
+            </div>
+            <div class="form-group">
+              <label class="form-label">${t('shop.market')}</label>
+              <input type="text" class="form-input" id="shop-market" value="${escapeHtml(currentShop.market || '')}">
+            </div>
+          </div>
+          
+          <button class="btn btn-primary btn-block" id="save-location-btn" onclick="saveShopLocation()">
+            ${t('seller.save_location')}
+          </button>
+        </div>
       `;
+      
+      // Initialiser la carte
+      setTimeout(() => {
+        initShopMap(
+          6.3654, 2.4183,
+          currentShop.latitude,
+          currentShop.longitude
+        );
+      }, 100);
+    }
+    
+    function copyShopCode(code) {
+      navigator.clipboard.writeText(code);
+      showToast('📋 ' + code, 'success');
+    }
+    
+    async function saveShopLocation() {
+      const btn = document.getElementById('save-location-btn');
+      const lat = parseFloat(document.getElementById('shop-latitude').value) || null;
+      const lng = parseFloat(document.getElementById('shop-longitude').value) || null;
+      const locality = document.getElementById('shop-locality').value.trim() || null;
+      const market = document.getElementById('shop-market').value.trim() || null;
+      
+      btn.disabled = true;
+      btn.innerHTML = '<span class="spinner"></span>';
+      
+      try {
+        currentShop = await ShopsAPI.updateMine({
+          latitude: lat,
+          longitude: lng,
+          locality: locality,
+          market: market,
+        });
+        
+        showToast('✅ ' + t('seller.location_saved'), 'success');
+      } catch (error) {
+        showToast(error.message, 'error');
+      } finally {
+        btn.disabled = false;
+        btn.textContent = t('seller.save_location');
+      }
     }
     
     function handleShopImage(event) {
@@ -1338,10 +1503,6 @@
       const activeTab = document.querySelector('.sidebar-link.active')?.dataset.tab;
       if (activeTab === 'orders') renderOrders();
       else if (activeTab === 'overview') renderOverview();
-    }
-    
-    function handleOrderStatusChanged(message) {
-      console.log('Status changed:', message);
     }
   </script>
 </body>

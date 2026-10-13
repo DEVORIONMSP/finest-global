@@ -78,38 +78,24 @@ async function apiFetch(endpoint, options = {}) {
 // ============================================================
 
 const UsersAPI = {
-  /**
-   * Inscription client : { first_name, last_name, phone, password }
-   * Renvoie { access_token, token_type, user }
-   */
   registerClient: (data) =>
     apiFetch('/api/users/register', {
       method: 'POST',
       body: data,
     }),
   
-  /**
-   * Inscription vendeur : { first_name, last_name, phone, email, password }
-   * Renvoie { access_token, token_type, user }
-   */
   registerSeller: (data) =>
     apiFetch('/api/users/register-seller', {
       method: 'POST',
       body: data,
     }),
   
-  /**
-   * Connexion : téléphone + password (pour TOUS les rôles)
-   */
   login: (phone, password) =>
     apiFetch('/api/users/login', {
       method: 'POST',
       body: { phone, password },
     }),
   
-  /**
-   * Upgrade client → vendeur
-   */
   upgradeToSeller: (data) =>
     apiFetch('/api/users/upgrade-to-seller', {
       method: 'POST',
@@ -124,6 +110,7 @@ const UsersAPI = {
 // ============================================================
 
 const ShopsAPI = {
+  // ---- CRUD ----
   create: (data) =>
     apiFetch('/api/shops/', { method: 'POST', body: data }),
   
@@ -141,10 +128,36 @@ const ShopsAPI = {
     });
   },
   
-  list: (skip = 0, limit = 50) =>
-    apiFetch(`/api/shops/?skip=${skip}&limit=${limit}`),
+  // ---- Liste avec filtres ----
+  list: (filters = {}) => {
+    const params = new URLSearchParams();
+    
+    // Support des anciens arguments (skip, limit)
+    if (typeof filters === 'number') {
+      params.append('skip', filters);
+      if (arguments[1]) params.append('limit', arguments[1]);
+    } else {
+      Object.entries(filters).forEach(([key, value]) => {
+        if (value !== null && value !== undefined && value !== '') {
+          params.append(key, value);
+        }
+      });
+    }
+    
+    const qs = params.toString();
+    return apiFetch(`/api/shops/${qs ? '?' + qs : ''}`);
+  },
   
   getById: (id) => apiFetch(`/api/shops/${id}`),
+  
+  // ---- 🆕 Localités ----
+  listLocalities: () => apiFetch('/api/shops/localities'),
+  
+  // ---- 🆕 Marchés ----
+  listMarkets: () => apiFetch('/api/shops/markets'),
+  
+  // ---- 🆕 Recherche par code ----
+  getByCode: (code) => apiFetch(`/api/shops/by-code/${encodeURIComponent(code)}`),
 };
 
 // ============================================================
@@ -212,6 +225,16 @@ const OrdersAPI = {
 // ============================================================
 
 const SearchAPI = {
+  /**
+   * Recherche multi-critères.
+   * Filtres possibles :
+   * - q, category, color, shop_id
+   * - locality, market
+   * - latitude, longitude, radius_km
+   * - min_price, max_price
+   * - availability
+   * - sort_by : sales | recent | views | price_asc | price_desc | distance
+   */
   search: (filters = {}) => {
     const params = new URLSearchParams();
     Object.entries(filters).forEach(([key, value]) => {
@@ -352,4 +375,39 @@ function showToast(message, type = 'info', duration = 4000) {
     toast.style.transform = 'translateX(120%)';
     setTimeout(() => toast.remove(), 300);
   }, duration);
+}
+
+/**
+ * 🆕 Formate une distance (m ou km).
+ */
+function formatDistance(km) {
+  if (km === null || km === undefined) return '';
+  if (km < 1) {
+    return `${Math.round(km * 1000)} m`;
+  }
+  return `${km.toFixed(1)} km`;
+}
+
+/**
+ * 🆕 Récupère l'availability traduite d'un produit.
+ */
+function getAvailabilityLabel(availability) {
+  const labels = {
+    'in_stock': typeof t === 'function' ? t('product.in_stock') : 'En stock',
+    'out_of_stock': typeof t === 'function' ? t('product.out_of_stock') : 'Rupture',
+    'to_confirm': typeof t === 'function' ? t('product.to_confirm') : 'À confirmer',
+  };
+  return labels[availability] || availability;
+}
+
+/**
+ * 🆕 Récupère la classe CSS de l'availability.
+ */
+function getAvailabilityClass(availability) {
+  const classes = {
+    'in_stock': 'badge-success',
+    'out_of_stock': 'badge-danger',
+    'to_confirm': 'badge-warning',
+  };
+  return classes[availability] || 'badge-blue';
 }

@@ -557,6 +557,136 @@
       gap: 4px;
     }
     
+    /* ============================================================
+       🆕 SECTION PRÈS DE CHEZ VOUS + CODE
+       ============================================================ */
+    .section-near-you {
+      background: linear-gradient(135deg, var(--blue-900) 0%, var(--blue-700) 100%);
+      color: var(--white);
+      padding: 80px 0;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .section-near-you::before {
+      content: "";
+      position: absolute;
+      top: -200px;
+      left: -200px;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(255,138,61,0.15) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+    
+    .section-near-you .container {
+      position: relative;
+      z-index: 1;
+    }
+    
+    .near-you-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+    
+    .near-you-card {
+      background: rgba(255,255,255,0.08);
+      border: 1.5px solid rgba(255,255,255,0.15);
+      border-radius: var(--radius-lg);
+      padding: 36px 28px;
+      text-align: center;
+      transition: all 0.25s;
+    }
+    
+    .near-you-card:hover {
+      background: rgba(255,255,255,0.12);
+      transform: translateY(-4px);
+    }
+    
+    .near-you-card h3 {
+      font-size: 1.35rem;
+      font-weight: 800;
+      margin-bottom: 12px;
+      color: var(--white);
+    }
+    
+    .near-you-card p {
+      color: rgba(255,255,255,0.8);
+      font-size: 0.95rem;
+      margin-bottom: 24px;
+      line-height: 1.6;
+    }
+    
+    .near-you-card button,
+    .near-you-card .btn {
+      width: 100%;
+      padding: 13px 20px;
+      border-radius: var(--radius);
+      background: linear-gradient(135deg, var(--orange-400), var(--orange-600));
+      color: var(--white);
+      border: none;
+      font-weight: 700;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: all 0.25s;
+      font-family: inherit;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    
+    .near-you-card button:hover:not(:disabled),
+    .near-you-card .btn:hover {
+      background: linear-gradient(135deg, var(--orange-500), var(--orange-700));
+      transform: translateY(-2px);
+      box-shadow: 0 12px 28px rgba(255,138,61,0.4);
+    }
+    
+    .near-you-card button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+    
+    .code-input-wrapper {
+      display: flex;
+      gap: 8px;
+    }
+    
+    .code-input-wrapper input {
+      flex: 1;
+      padding: 13px 16px;
+      border-radius: var(--radius);
+      border: 1.5px solid rgba(255,255,255,0.2);
+      background: rgba(255,255,255,0.1);
+      color: var(--white);
+      font-family: inherit;
+      font-size: 0.95rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    
+    .code-input-wrapper input::placeholder {
+      color: rgba(255,255,255,0.5);
+      text-transform: none;
+      letter-spacing: 0;
+      font-weight: 400;
+    }
+    
+    .code-input-wrapper input:focus {
+      outline: none;
+      border-color: var(--orange-400);
+      background: rgba(255,255,255,0.15);
+    }
+    
+    /* ============================================================
+       CTA VENDEUR
+       ============================================================ */
     .cta-seller {
       background: linear-gradient(135deg, var(--blue-800), var(--blue-700));
       color: var(--white);
@@ -771,6 +901,7 @@
       .cta-seller-inner { grid-template-columns: 1fr; gap: 32px; }
       .cta-seller h2 { font-size: 1.75rem; }
       .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
+      .near-you-grid { grid-template-columns: 1fr; gap: 24px; }
     }
     
     @media (max-width: 640px) {
@@ -812,6 +943,10 @@
       .shop-name { font-size: 1rem; }
       .shop-desc { font-size: 0.83rem; }
       .shop-stats { font-size: 0.78rem; }
+      .section-near-you { padding: 48px 0; }
+      .near-you-card { padding: 24px 20px; }
+      .near-you-card h3 { font-size: 1.15rem; }
+      .near-you-card p { font-size: 0.88rem; }
       .cta-seller { padding: 48px 0; }
       .cta-seller h2 { font-size: 1.45rem; letter-spacing: -0.3px; }
       .cta-seller p { font-size: 0.92rem; margin-bottom: 22px; }
@@ -833,6 +968,7 @@
       .carousel { padding: 0 40px; }
       .carousel-nav { width: 30px; height: 30px; font-size: 0.9rem; }
       .btn-lg { font-size: 0.85rem; padding: 12px 18px; }
+      .code-input-wrapper { flex-direction: column; }
     }
   </style>
 </head>
@@ -855,6 +991,54 @@
       <div class="hero-buttons">
         <a href="/marketplace.html" class="btn btn-white btn-lg" data-i18n="home.explore">Explorer la marketplace →</a>
         <a href="/register.html" class="btn btn-outline-white btn-lg" data-i18n="home.become_seller">Devenir vendeur</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 🆕 SECTION PRÈS DE CHEZ VOUS + CODE -->
+  <section class="section-near-you">
+    <div class="container">
+      <div class="section-header-centered" style="margin-bottom: 40px;">
+        <h2 style="color: var(--white);">
+          <span class="accent-bar"></span> 
+          <span data-i18n="home.near_you_title">📍 Près de chez vous</span>
+        </h2>
+        <p style="color: rgba(255,255,255,0.8);" data-i18n="home.near_you_p">
+          Découvrez les boutiques et produits autour de votre position.
+        </p>
+      </div>
+      
+      <div class="near-you-grid">
+        <!-- Carte : Détecter ma position -->
+        <div class="near-you-card">
+          <h3>📍 <span data-i18n="home.near_you_title">Près de chez vous</span></h3>
+          <p data-i18n="home.near_you_p">
+            Découvrez les boutiques et produits autour de votre position.
+          </p>
+          <button id="detect-location-btn" onclick="detectAndRedirect()">
+            <span data-i18n="home.detect_location">Détecter ma position</span>
+          </button>
+        </div>
+        
+        <!-- Carte : Rechercher par code -->
+        <div class="near-you-card">
+          <h3>🔎 <span data-i18n="home.search_by_code">Rechercher par code boutique</span></h3>
+          <p data-i18n="home.enter_code">
+            Entrez le code de la boutique (ex: FG-0001).
+          </p>
+          <div class="code-input-wrapper">
+            <input 
+              type="text" 
+              id="shop-code-input" 
+              placeholder="FG-0001"
+              maxlength="10"
+              onkeydown="if(event.key==='Enter') searchByCode()"
+            >
+            <button type="button" onclick="searchByCode()" style="width: auto; padding: 13px 20px;">
+              <span data-i18n="home.find_shop">Trouver</span>
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -989,6 +1173,7 @@
   <script src="/js/api.js"></script>
   <script src="/js/auth.js"></script>
   <script src="/js/i18n.js"></script>
+  <script src="/js/geo.js"></script>
   <script src="/js/navbar.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
@@ -1039,6 +1224,53 @@
       }
       
       typeSequence();
+    }
+    
+    // 🆕 Détection position + redirection marketplace
+    async function detectAndRedirect() {
+      const btn = document.getElementById('detect-location-btn');
+      btn.disabled = true;
+      btn.innerHTML = `⏳ <span>${t('home.detecting')}</span>`;
+      
+      const location = await detectClientLocation();
+      
+      if (!location) {
+        btn.disabled = false;
+        btn.innerHTML = `<span>${t('home.detect_location')}</span>`;
+        showToast(t('home.location_denied'), 'error');
+        return;
+      }
+      
+      showToast(`✅ ${t('home.location_detected')}`, 'success');
+      
+      // Rediriger vers marketplace avec paramètres
+      setTimeout(() => {
+        window.location.href = `/marketplace.html?near_me=1&lat=${location.latitude}&lng=${location.longitude}&sort_by=distance`;
+      }, 800);
+    }
+    
+    // 🆕 Recherche par code boutique
+    async function searchByCode() {
+      const input = document.getElementById('shop-code-input');
+      const code = input.value.trim().toUpperCase();
+      
+      if (!code) {
+        input.focus();
+        return;
+      }
+      
+      try {
+        const shop = await ShopsAPI.getByCode(code);
+        
+        if (shop) {
+          showToast(`✅ ${shop.name}`, 'success');
+          setTimeout(() => {
+            window.location.href = `/shop.html?id=${shop.id}`;
+          }, 600);
+        }
+      } catch (error) {
+        showToast(t('home.code_not_found'), 'error');
+      }
     }
     
     const carouselState = {
@@ -1179,7 +1411,7 @@
       const track = document.getElementById('shops-track');
       
       try {
-        const shops = await ShopsAPI.list(0, 10);
+        const shops = await ShopsAPI.list({ limit: 10 });
         
         if (!shops || shops.length === 0) {
           track.innerHTML = `
@@ -1213,6 +1445,14 @@
         ? `<img src="${imageUrl(shop.photo_url)}" alt="${escapeHtml(shop.name)}">`
         : '';
       
+      const codeBadge = shop.code 
+        ? `<span style="font-size:0.75rem;color:rgba(255,255,255,0.6);">${escapeHtml(shop.code)}</span>` 
+        : '';
+      
+      const localityBadge = shop.locality 
+        ? `<span>📍 ${escapeHtml(shop.locality)}</span>` 
+        : '';
+      
       return `
         <a href="/shop.html?id=${shop.id}" class="shop-card">
           <div class="shop-banner">
@@ -1223,7 +1463,8 @@
             <div class="shop-name">${escapeHtml(shop.name)}</div>
             <div class="shop-desc">${escapeHtml(shop.description || '—')}</div>
             <div class="shop-stats">
-              <span>👁️ ${shop.views_count}</span>
+              ${localityBadge}
+              ${codeBadge}
             </div>
           </div>
         </a>

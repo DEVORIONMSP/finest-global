@@ -45,6 +45,19 @@ const TRANSLATIONS = {
     "home.cta_4": "Aucune commission au démarrage",
     "home.cta_5": "Support en français",
     
+    // 🆕 Near you (accueil)
+    "home.near_you_title": "📍 Près de chez vous",
+    "home.near_you_p": "Découvrez les boutiques et produits autour de votre position.",
+    "home.detect_location": "Détecter ma position",
+    "home.detecting": "Détection en cours...",
+    "home.location_detected": "Position détectée",
+    "home.location_denied": "Impossible de détecter votre position. Vérifiez vos paramètres.",
+    "home.see_nearby": "Voir les boutiques proches →",
+    "home.search_by_code": "Rechercher par code boutique",
+    "home.enter_code": "Entrez le code (ex: FG-0001)",
+    "home.find_shop": "Trouver la boutique",
+    "home.code_not_found": "Aucune boutique trouvée avec ce code.",
+    
     // Footer
     "footer.tagline": "Le marché physique, rendu visible. Connecter les vendeurs du Bénin à leurs clients, sans remplacer le marché traditionnel.",
     "footer.navigation": "Navigation",
@@ -69,6 +82,7 @@ const TRANSLATIONS = {
     "marketplace.sort_views": "👁️ Plus vus",
     "marketplace.sort_price_asc": "💰 Prix croissant",
     "marketplace.sort_price_desc": "💎 Prix décroissant",
+    "marketplace.sort_distance": "📍 Plus proches",
     "marketplace.products_found": "produit(s) trouvé(s)",
     "marketplace.no_products": "Aucun produit trouvé",
     "marketplace.no_products_p": "Essayez avec d'autres mots-clés ou réinitialisez les filtres.",
@@ -76,6 +90,18 @@ const TRANSLATIONS = {
     "marketplace.previous": "← Précédent",
     "marketplace.next": "Suivant →",
     "marketplace.close_filters": "✕ Fermer les filtres",
+    
+    // 🆕 Filtres géographiques
+    "marketplace.locality": "Localité",
+    "marketplace.market": "Marché / Zone",
+    "marketplace.all_localities": "Toutes les localités",
+    "marketplace.all_markets": "Tous les marchés",
+    "marketplace.near_me": "📍 Autour de moi",
+    "marketplace.radius": "Rayon (km)",
+    "marketplace.detecting_location": "Détection de votre position...",
+    "marketplace.location_detected": "Position détectée",
+    "marketplace.distance": "Distance",
+    "marketplace.no_location": "Position non disponible",
     
     // Produit / Boutique
     "product.order_now": "🛒 Commander maintenant",
@@ -101,6 +127,18 @@ const TRANSLATIONS = {
     "product.similar": "📦 Vous aimerez aussi",
     "product.how_it_works": "💡 Comment ça marche ?",
     "product.how_it_works_p": "Le vendeur reçoit votre commande instantanément. Il vous contactera pour organiser la livraison.",
+    
+    // 🆕 Disponibilité
+    "product.in_stock": "En stock",
+    "product.out_of_stock_label": "Rupture de stock",
+    "product.to_confirm": "Disponibilité à confirmer",
+    "product.availability": "Disponibilité",
+    
+    // 🆕 Localisation boutique
+    "product.shop_code": "Code boutique",
+    "product.shop_locality": "Localité",
+    "product.shop_market": "Marché",
+    "product.distance_from_you": "Distance",
     
     // Connexion / Inscription
     "login.title": "Bon retour 👋",
@@ -182,6 +220,20 @@ const TRANSLATIONS = {
     "seller.product": "Produit",
     "seller.edit": "✏️ Éditer",
     
+    // 🆕 Dashboard vendeur - Localisation
+    "seller.shop_location": "Localisation de la boutique",
+    "seller.shop_location_p": "Déplacez le marqueur sur la carte pour changer la position de votre boutique.",
+    "seller.save_location": "Enregistrer la position",
+    "seller.location_saved": "Position mise à jour",
+    "seller.shop_code": "Code boutique",
+    "seller.shop_code_p": "Partagez ce code avec vos clients pour qu'ils trouvent facilement votre boutique.",
+    
+    // 🆕 Dashboard vendeur - Disponibilité
+    "seller.availability": "Disponibilité",
+    "seller.availability_in_stock": "En stock",
+    "seller.availability_out_of_stock": "Rupture de stock",
+    "seller.availability_to_confirm": "Disponibilité à confirmer",
+    
     // Dashboard admin
     "admin.sidebar_title": "👑 Admin",
     "admin.title": "Vue d'ensemble 👑",
@@ -255,6 +307,11 @@ const TRANSLATIONS = {
     "admin.no_products_sold": "Aucun produit vendu pour l'instant.",
     "admin.shop_label": "Boutique",
     
+    // 🆕 Admin - Localités / Marchés / Code
+    "admin.locality": "Localité",
+    "admin.market": "Marché",
+    "admin.shop_code": "Code",
+    
     // Boutique (création)
     "shop.create_title": "Créez votre boutique",
     "shop.create_p": "C'est la dernière étape avant de pouvoir vendre. Donnez un nom à votre boutique et commencez à ajouter des produits.",
@@ -270,6 +327,13 @@ const TRANSLATIONS = {
     "shop.photo": "Photo de la boutique (optionnel)",
     "shop.photo_click": "Cliquez pour ajouter une photo",
     "shop.create_btn": "Créer ma boutique →",
+    
+    // 🆕 Localisation boutique
+    "shop.location": "Localisation de la boutique",
+    "shop.location_hint": "Cliquez sur la carte pour placer votre boutique. Vous pouvez aussi déplacer le marqueur.",
+    "shop.locality": "Localité (auto-rempli)",
+    "shop.market": "Marché / zone commerciale (optionnel)",
+    "shop.code_label": "Code boutique",
     
     // Devenir vendeur
     "upgrade.title": "Devenez vendeur",
@@ -358,6 +422,19 @@ const TRANSLATIONS = {
     "home.cta_4": "No commission to start",
     "home.cta_5": "Support in French",
     
+    // Near you
+    "home.near_you_title": "📍 Near you",
+    "home.near_you_p": "Discover shops and products around your location.",
+    "home.detect_location": "Detect my location",
+    "home.detecting": "Detecting...",
+    "home.location_detected": "Location detected",
+    "home.location_denied": "Unable to detect your location. Check your settings.",
+    "home.see_nearby": "See nearby shops →",
+    "home.search_by_code": "Search by shop code",
+    "home.enter_code": "Enter code (ex: FG-0001)",
+    "home.find_shop": "Find shop",
+    "home.code_not_found": "No shop found with this code.",
+    
     // Footer
     "footer.tagline": "The physical market, made visible. Connecting sellers in Benin with their customers, without replacing the traditional market.",
     "footer.navigation": "Navigation",
@@ -382,6 +459,7 @@ const TRANSLATIONS = {
     "marketplace.sort_views": "👁️ Most viewed",
     "marketplace.sort_price_asc": "💰 Price: low to high",
     "marketplace.sort_price_desc": "💎 Price: high to low",
+    "marketplace.sort_distance": "📍 Closest",
     "marketplace.products_found": "product(s) found",
     "marketplace.no_products": "No product found",
     "marketplace.no_products_p": "Try other keywords or reset the filters.",
@@ -389,6 +467,18 @@ const TRANSLATIONS = {
     "marketplace.previous": "← Previous",
     "marketplace.next": "Next →",
     "marketplace.close_filters": "✕ Close filters",
+    
+    // Géographic filters
+    "marketplace.locality": "Locality",
+    "marketplace.market": "Market / Area",
+    "marketplace.all_localities": "All localities",
+    "marketplace.all_markets": "All markets",
+    "marketplace.near_me": "📍 Near me",
+    "marketplace.radius": "Radius (km)",
+    "marketplace.detecting_location": "Detecting your location...",
+    "marketplace.location_detected": "Location detected",
+    "marketplace.distance": "Distance",
+    "marketplace.no_location": "Location unavailable",
     
     // Product / Shop
     "product.order_now": "🛒 Order now",
@@ -414,6 +504,18 @@ const TRANSLATIONS = {
     "product.similar": "📦 You may also like",
     "product.how_it_works": "💡 How does it work?",
     "product.how_it_works_p": "The seller receives your order instantly. They will contact you to organize the delivery.",
+    
+    // Availability
+    "product.in_stock": "In stock",
+    "product.out_of_stock_label": "Out of stock",
+    "product.to_confirm": "Availability to confirm",
+    "product.availability": "Availability",
+    
+    // Shop location
+    "product.shop_code": "Shop code",
+    "product.shop_locality": "Locality",
+    "product.shop_market": "Market",
+    "product.distance_from_you": "Distance",
     
     // Login / Register
     "login.title": "Welcome back 👋",
@@ -495,6 +597,20 @@ const TRANSLATIONS = {
     "seller.product": "Product",
     "seller.edit": "✏️ Edit",
     
+    // Seller location
+    "seller.shop_location": "Shop location",
+    "seller.shop_location_p": "Move the marker on the map to change your shop position.",
+    "seller.save_location": "Save location",
+    "seller.location_saved": "Location updated",
+    "seller.shop_code": "Shop code",
+    "seller.shop_code_p": "Share this code with your customers so they can easily find your shop.",
+    
+    // Seller availability
+    "seller.availability": "Availability",
+    "seller.availability_in_stock": "In stock",
+    "seller.availability_out_of_stock": "Out of stock",
+    "seller.availability_to_confirm": "Availability to confirm",
+    
     // Admin dashboard
     "admin.sidebar_title": "👑 Admin",
     "admin.title": "Overview 👑",
@@ -568,6 +684,11 @@ const TRANSLATIONS = {
     "admin.no_products_sold": "No product sold yet.",
     "admin.shop_label": "Shop",
     
+    // Admin locality/market/code
+    "admin.locality": "Locality",
+    "admin.market": "Market",
+    "admin.shop_code": "Code",
+    
     // Shop (creation)
     "shop.create_title": "Create your shop",
     "shop.create_p": "This is the last step before you can sell. Give your shop a name and start adding products.",
@@ -583,6 +704,13 @@ const TRANSLATIONS = {
     "shop.photo": "Shop photo (optional)",
     "shop.photo_click": "Click to add a photo",
     "shop.create_btn": "Create my shop →",
+    
+    // Shop location
+    "shop.location": "Shop location",
+    "shop.location_hint": "Click on the map to place your shop. You can also drag the marker.",
+    "shop.locality": "Locality (auto-filled)",
+    "shop.market": "Market / commercial area (optional)",
+    "shop.code_label": "Shop code",
     
     // Become seller
     "upgrade.title": "Become a seller",
@@ -637,50 +765,34 @@ const TRANSLATIONS = {
 
 const LANG_KEY = 'fg_language';
 
-/**
- * Récupère la langue actuelle.
- * Priorité : localStorage > langue du navigateur > 'fr'
- */
 function getCurrentLanguage() {
   const stored = localStorage.getItem(LANG_KEY);
   if (stored && (stored === 'fr' || stored === 'en')) {
     return stored;
   }
   
-  // Détecter la langue du navigateur
   const browserLang = (navigator.language || 'fr').toLowerCase();
   if (browserLang.startsWith('en')) return 'en';
   return 'fr';
 }
 
-/**
- * Change la langue et recharge la page.
- */
 function setLanguage(lang) {
   if (lang !== 'fr' && lang !== 'en') return;
   localStorage.setItem(LANG_KEY, lang);
   window.location.reload();
 }
 
-/**
- * Fonction de traduction.
- * Usage : t('nav.home') → "Accueil" ou "Home"
- */
 function t(key) {
   const lang = getCurrentLanguage();
   const dict = TRANSLATIONS[lang] || TRANSLATIONS.fr;
   return dict[key] || TRANSLATIONS.fr[key] || key;
 }
 
-/**
- * Applique les traductions sur tous les éléments avec data-i18n.
- */
 function applyTranslations() {
   document.querySelectorAll('[data-i18n]').forEach(el => {
     const key = el.getAttribute('data-i18n');
     const translation = t(key);
     
-    // Si l'élément a un attribut data-i18n-attr, on traduit un attribut
     const attr = el.getAttribute('data-i18n-attr');
     if (attr) {
       el.setAttribute(attr, translation);
@@ -689,11 +801,9 @@ function applyTranslations() {
     }
   });
   
-  // Mettre à jour l'attribut lang de <html>
   document.documentElement.setAttribute('lang', getCurrentLanguage());
 }
 
-// Appliquer les traductions au chargement
 document.addEventListener('DOMContentLoaded', () => {
   applyTranslations();
 });

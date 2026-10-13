@@ -6,6 +6,11 @@
   <title>Créer ma boutique — Finest Global</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  
+  <!-- Leaflet pour la carte interactive -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  
   <link rel="stylesheet" href="/css/main.css">
   <link rel="stylesheet" href="/css/components.css">
   <style>
@@ -116,6 +121,25 @@
       margin: 0 auto;
     }
     
+    /* 🆕 Carte */
+    .map-container {
+      height: 300px;
+      border-radius: var(--radius);
+      border: 1.5px solid var(--gray-200);
+      overflow: hidden;
+      margin-top: 8px;
+    }
+    
+    .map-hint {
+      font-size: 0.8rem;
+      color: var(--gray-500);
+      margin-top: 6px;
+    }
+    
+    .locality-input {
+      margin-top: 12px;
+    }
+    
     @media (max-width: 640px) {
       .create-shop-page {
         padding: 24px 14px 40px;
@@ -153,6 +177,8 @@
       .image-preview { max-width: 150px; max-height: 150px; }
       
       .btn-lg { padding: 13px 20px; font-size: 0.92rem; }
+      
+      .map-container { height: 220px; }
     }
     
     @media (max-width: 380px) {
@@ -161,6 +187,7 @@
       .create-shop-icon { font-size: 2.35rem; }
       .image-upload { padding: 18px 12px; }
       .image-preview { max-width: 120px; max-height: 120px; }
+      .map-container { height: 200px; }
     }
   </style>
 </head>
@@ -219,6 +246,37 @@
             ></textarea>
           </div>
           
+          <!-- 🆕 LOCALISATION -->
+          <div class="form-group">
+            <label class="form-label required" data-i18n="shop.location">Localisation de la boutique</label>
+            <p class="map-hint" data-i18n="shop.location_hint">
+              Cliquez sur la carte pour placer votre boutique. Vous pouvez aussi déplacer le marqueur.
+            </p>
+            <div id="map" class="map-container"></div>
+            <input type="hidden" id="shop-latitude">
+            <input type="hidden" id="shop-longitude">
+            <div class="locality-input">
+              <input 
+                type="text" 
+                class="form-input" 
+                id="shop-locality"
+                placeholder="Localité (auto-rempli)"
+                data-i18n="shop.locality"
+                data-i18n-attr="placeholder"
+              >
+            </div>
+            <div class="locality-input">
+              <input 
+                type="text" 
+                class="form-input" 
+                id="shop-market"
+                placeholder="Marché / zone commerciale (optionnel)"
+                data-i18n="shop.market"
+                data-i18n-attr="placeholder"
+              >
+            </div>
+          </div>
+          
           <div class="form-group">
             <label class="form-label" data-i18n="shop.photo">Photo de la boutique (optionnel)</label>
             <div class="image-upload" onclick="document.getElementById('shop-image').click()">
@@ -246,6 +304,8 @@
   <script src="/js/api.js"></script>
   <script src="/js/auth.js"></script>
   <script src="/js/i18n.js"></script>
+  <script src="/js/geo.js"></script>
+  <script src="/js/shop-map.js"></script>
   <script src="/js/navbar.js"></script>
   <script>
     let imageFile = null;
@@ -255,6 +315,7 @@
       
       if (!Auth.requireSeller()) return;
       
+      // Si le vendeur a déjà une boutique → dashboard
       try {
         await ShopsAPI.getMine();
         window.location.href = '/dashboard-seller.html';
@@ -264,6 +325,9 @@
           console.error(error);
         }
       }
+      
+      // Initialiser la carte
+      initShopMap();
     });
     
     function handleImage(event) {
@@ -295,6 +359,10 @@
       
       const name = document.getElementById('shop-name').value.trim();
       const description = document.getElementById('shop-desc').value.trim() || null;
+      const latitude = parseFloat(document.getElementById('shop-latitude').value) || null;
+      const longitude = parseFloat(document.getElementById('shop-longitude').value) || null;
+      const locality = document.getElementById('shop-locality').value.trim() || null;
+      const market = document.getElementById('shop-market').value.trim() || null;
       
       if (!name) {
         errorDiv.textContent = t('shop.name');
@@ -306,7 +374,14 @@
       btn.innerHTML = '<span class="spinner"></span>';
       
       try {
-        const shop = await ShopsAPI.create({ name, description });
+        const shop = await ShopsAPI.create({
+          name,
+          description,
+          latitude,
+          longitude,
+          locality,
+          market,
+        });
         
         if (imageFile) {
           await ShopsAPI.uploadPhoto(imageFile);

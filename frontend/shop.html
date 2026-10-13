@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -70,10 +71,38 @@
       margin-bottom: 12px;
     }
     
+    /* Code boutique */
+    .shop-code-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255,255,255,0.15);
+      border: 1.5px solid rgba(255,255,255,0.25);
+      color: var(--white);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+      backdrop-filter: blur(6px);
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    
+    .shop-code-badge:hover {
+      background: rgba(255,255,255,0.25);
+    }
+    
+    .shop-code-badge .code {
+      color: var(--orange-400);
+      letter-spacing: 1px;
+    }
+    
     .shop-hero-stats {
       display: flex;
       gap: 20px;
       font-size: 0.9rem;
+      flex-wrap: wrap;
     }
     
     .shop-hero-stats span {
@@ -171,6 +200,22 @@
       font-size: 0.75rem;
       font-weight: 700;
     }
+    
+    .product-badge-availability {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+    
+    .availability-in_stock { background: #D1FAE5; color: #065F46; }
+    .availability-out_of_stock { background: #FEE2E2; color: #991B1B; }
+    .availability-to_confirm { background: #FEF3C7; color: #92400E; }
     
     .product-info {
       padding: 16px;
@@ -420,6 +465,7 @@
       .product-name { font-size: 0.85rem; min-height: 2.6em; margin-bottom: 6px; }
       .product-price { font-size: 0.9rem; }
       .product-badge-sales { padding: 3px 8px; font-size: 0.65rem; top: 8px; left: 8px; }
+      .product-badge-availability { padding: 3px 8px; font-size: 0.6rem; top: 8px; right: 8px; }
       .product-detail { padding: 20px 0 40px; }
       .product-detail-grid { padding: 16px; gap: 18px; border-radius: var(--radius); }
       .product-detail-image { font-size: 4rem; }
@@ -504,9 +550,23 @@
       }
     }
     
-    // ============================================================
-    // MODE BOUTIQUE
-    // ============================================================
+    function getAvailabilityLabel(availability) {
+      const labels = {
+        'in_stock': t('product.in_stock'),
+        'out_of_stock': t('product.out_of_stock_label'),
+        'to_confirm': t('product.to_confirm'),
+      };
+      return labels[availability] || availability;
+    }
+    
+    function getAvailabilityClass(availability) {
+      const classes = {
+        'in_stock': 'availability-in_stock',
+        'out_of_stock': 'availability-out_of_stock',
+        'to_confirm': 'availability-to_confirm',
+      };
+      return classes[availability] || 'availability-in_stock';
+    }
     
     async function loadShop(shopId) {
       try {
@@ -530,17 +590,33 @@
     function renderShopPage(shop, products) {
       const initials = shop.name.substring(0, 2).toUpperCase();
       
+      const codeBadge = shop.code 
+        ? `<div class="shop-code-badge" onclick="copyCode('${escapeHtml(shop.code)}')">
+             🔖 ${t('product.shop_code')} : <span class="code">${escapeHtml(shop.code)}</span>
+           </div>`
+        : '';
+      
+      const localityStats = [];
+      if (shop.locality) {
+        localityStats.push(`<span>📍 ${escapeHtml(shop.locality)}</span>`);
+      }
+      if (shop.market) {
+        localityStats.push(`<span>🏪 ${escapeHtml(shop.market)}</span>`);
+      }
+      localityStats.push(`<span>👁️ ${shop.views_count} ${t('product.views')}</span>`);
+      localityStats.push(`<span>📦 ${products.length} ${t('seller.product')}${products.length > 1 ? 's' : ''}</span>`);
+      
       document.getElementById('content').innerHTML = `
         <div class="shop-hero">
           <div class="container">
             <div class="shop-hero-inner">
               <div class="shop-hero-avatar">${initials}</div>
               <div class="shop-hero-info">
+                ${codeBadge}
                 <h1>${escapeHtml(shop.name)}</h1>
                 <p>${escapeHtml(shop.description || '—')}</p>
                 <div class="shop-hero-stats">
-                  <span>👁️ ${shop.views_count} ${t('product.views')}</span>
-                  <span>📦 ${products.length} ${t('seller.product')}${products.length > 1 ? 's' : ''}</span>
+                  ${localityStats.join('')}
                 </div>
               </div>
             </div>
@@ -571,6 +647,11 @@
       `;
     }
     
+    function copyCode(code) {
+      navigator.clipboard.writeText(code);
+      showToast('📋 ' + code, 'success');
+    }
+    
     function renderProducts(products) {
       if (products.length === 0) {
         return `
@@ -582,20 +663,27 @@
         `;
       }
       
-      return products.map(p => `
-        <a href="/shop.html?product=${p.id}" class="product-card">
-          <div class="product-image">
-            ${p.photo_url ? `<img src="${imageUrl(p.photo_url)}" alt="${escapeHtml(p.name)}" loading="lazy">` : '📦'}
-            ${p.sales_count > 0 ? `<div class="product-badge-sales">${p.sales_count} ${p.sales_count > 1 ? 'ventes' : 'vente'}</div>` : ''}
-          </div>
-          <div class="product-info">
-            <div class="product-name">${escapeHtml(p.name)}</div>
-            <div class="product-footer">
-              <div class="product-price">${formatPrice(p.price)}</div>
+      return products.map(p => {
+        const availability = p.availability || 'in_stock';
+        const availabilityLabel = getAvailabilityLabel(availability);
+        const availabilityClass = getAvailabilityClass(availability);
+        
+        return `
+          <a href="/shop.html?product=${p.id}" class="product-card">
+            <div class="product-image">
+              ${p.photo_url ? `<img src="${imageUrl(p.photo_url)}" alt="${escapeHtml(p.name)}" loading="lazy">` : '📦'}
+              ${p.sales_count > 0 ? `<div class="product-badge-sales">${p.sales_count} ${p.sales_count > 1 ? 'ventes' : 'vente'}</div>` : ''}
+              <span class="product-badge-availability ${availabilityClass}">${availabilityLabel}</span>
             </div>
-          </div>
-        </a>
-      `).join('');
+            <div class="product-info">
+              <div class="product-name">${escapeHtml(p.name)}</div>
+              <div class="product-footer">
+                <div class="product-price">${formatPrice(p.price)}</div>
+              </div>
+            </div>
+          </a>
+        `;
+      }).join('');
     }
     
     async function sortShopProducts(shopId) {
@@ -607,10 +695,6 @@
         showToast(error.message, 'error');
       }
     }
-    
-    // ============================================================
-    // MODE PRODUIT
-    // ============================================================
     
     async function loadProductDetail(productId) {
       try {
@@ -648,6 +732,27 @@
       const colorHex = product.color && COLOR_HEX[product.color.toLowerCase()]
         ? COLOR_HEX[product.color.toLowerCase()] : null;
       
+      const availability = product.availability || 'in_stock';
+      const availabilityLabel = getAvailabilityLabel(availability);
+      const availabilityClass = getAvailabilityClass(availability);
+      
+      const stockEmoji = {
+        'in_stock': '✅',
+        'out_of_stock': '❌',
+        'to_confirm': '⏳',
+      }[availability] || '✅';
+      
+      const shopBadges = [];
+      if (shop.code) {
+        shopBadges.push(`<span class="badge badge-orange" style="cursor:pointer;" onclick="copyCode('${escapeHtml(shop.code)}')">🔖 ${escapeHtml(shop.code)}</span>`);
+      }
+      if (shop.locality) {
+        shopBadges.push(`<span class="badge badge-blue">📍 ${escapeHtml(shop.locality)}</span>`);
+      }
+      if (shop.market) {
+        shopBadges.push(`<span class="badge badge-blue">🏪 ${escapeHtml(shop.market)}</span>`);
+      }
+      
       document.getElementById('content').innerHTML = `
         <div class="product-detail">
           <div class="container">
@@ -657,6 +762,7 @@
                 ${product.photo_url 
                   ? `<img src="${imageUrl(product.photo_url)}" alt="${escapeHtml(product.name)}">` 
                   : '📦'}
+                <span class="product-badge-availability ${availabilityClass}" style="top:16px;right:16px;">${availabilityLabel}</span>
               </div>
               
               <div class="product-detail-info">
@@ -665,7 +771,6 @@
                 <div class="product-detail-meta">
                   ${product.category ? `<span class="badge badge-blue" style="text-transform:capitalize;">${product.category}</span>` : ''}
                   ${product.color ? `<span class="badge badge-blue"><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:${colorHex};margin-right:4px;vertical-align:middle;"></span>${product.color}</span>` : ''}
-                  ${!product.in_stock ? `<span class="badge badge-danger" data-i18n="product.out_of_stock">${t('product.out_of_stock')}</span>` : ''}
                 </div>
                 
                 <div class="product-detail-price">${formatPrice(product.price)}</div>
@@ -680,7 +785,7 @@
                     <div class="stat-label" data-i18n="product.views">${t('product.views')}</div>
                   </div>
                   <div class="stat-box">
-                    <div class="stat-value">${product.in_stock ? '✅' : '❌'}</div>
+                    <div class="stat-value">${stockEmoji}</div>
                     <div class="stat-label" data-i18n="product.stock">${t('product.stock')}</div>
                   </div>
                 </div>
@@ -694,6 +799,7 @@
                   <div class="product-seller-info">
                     <div class="product-seller-label" data-i18n="product.sold_by">${t('product.sold_by')}</div>
                     <div class="product-seller-name">${escapeHtml(shop.name)}</div>
+                    ${shopBadges.length > 0 ? `<div style="margin-top:6px;display:flex;gap:6px;flex-wrap:wrap;">${shopBadges.join('')}</div>` : ''}
                   </div>
                   <a href="/shop.html?id=${shop.id}" class="btn btn-ghost btn-sm" data-i18n="product.see_shop">${t('product.see_shop')}</a>
                 </div>
@@ -711,9 +817,11 @@
                   class="btn btn-orange btn-lg btn-block" 
                   id="order-btn"
                   onclick="openOrderModal()"
-                  ${!product.in_stock ? 'disabled' : ''}
+                  ${availability === 'out_of_stock' ? 'disabled' : ''}
                 >
-                  ${product.in_stock ? '🛒 ' + t('product.order_now').replace('🛒 ', '') : t('product.out_of_stock')}
+                  ${availability === 'out_of_stock' 
+                    ? t('product.out_of_stock') 
+                    : '🛒 ' + t('product.order_now').replace('🛒 ', '')}
                 </button>
               </div>
               
@@ -723,20 +831,24 @@
               <div class="similar-section">
                 <h2 data-i18n="product.similar">${t('product.similar')}</h2>
                 <div class="products-grid">
-                  ${similar.map(p => `
-                    <a href="/shop.html?product=${p.id}" class="product-card">
-                      <div class="product-image">
-                        ${p.photo_url ? `<img src="${imageUrl(p.photo_url)}" alt="${escapeHtml(p.name)}" loading="lazy">` : '📦'}
-                        ${p.sales_count > 0 ? `<div class="product-badge-sales">${p.sales_count} ${p.sales_count > 1 ? 'ventes' : 'vente'}</div>` : ''}
-                      </div>
-                      <div class="product-info">
-                        <div class="product-name">${escapeHtml(p.name)}</div>
-                        <div class="product-footer">
-                          <div class="product-price">${formatPrice(p.price)}</div>
+                  ${similar.map(p => {
+                    const simAvail = p.availability || 'in_stock';
+                    return `
+                      <a href="/shop.html?product=${p.id}" class="product-card">
+                        <div class="product-image">
+                          ${p.photo_url ? `<img src="${imageUrl(p.photo_url)}" alt="${escapeHtml(p.name)}" loading="lazy">` : '📦'}
+                          ${p.sales_count > 0 ? `<div class="product-badge-sales">${p.sales_count} ${p.sales_count > 1 ? 'ventes' : 'vente'}</div>` : ''}
+                          <span class="product-badge-availability ${getAvailabilityClass(simAvail)}">${getAvailabilityLabel(simAvail)}</span>
                         </div>
-                      </div>
-                    </a>
-                  `).join('')}
+                        <div class="product-info">
+                          <div class="product-name">${escapeHtml(p.name)}</div>
+                          <div class="product-footer">
+                            <div class="product-price">${formatPrice(p.price)}</div>
+                          </div>
+                        </div>
+                      </a>
+                    `;
+                  }).join('')}
                 </div>
               </div>
             ` : ''}
@@ -748,18 +860,10 @@
       `;
     }
     
-    // ============================================================
-    // QUANTITÉ
-    // ============================================================
-    
     function changeQty(delta) {
       quantity = Math.max(1, quantity + delta);
       document.getElementById('qty-value').textContent = quantity;
     }
-    
-    // ============================================================
-    // MODAL DE COMMANDE
-    // ============================================================
     
     function openOrderModal() {
       if (!Auth.isAuthenticated()) {
@@ -778,131 +882,85 @@
       }
       
       const total = currentProduct.price * quantity;
-      
       const modal = document.getElementById('order-modal');
       modal.innerHTML = `
-        <div class="modal-overlay" onclick="closeOrderModal(event)">
-          <div class="modal" onclick="event.stopPropagation()">
-            <div class="modal-header">
-              <h3 data-i18n="product.confirm_order">${t('product.confirm_order')}</h3>
-              <button class="modal-close" onclick="closeOrderModal()">✕</button>
+        <div class="modal-overlay" onclick="closeOrderModal(event)" style="position:fixed;inset:0;z-index:1000;background:rgba(15,23,42,.6);display:flex;align-items:center;justify-content:center;padding:16px;">
+          <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="order-modal-title" onclick="event.stopPropagation()" style="background:var(--white);width:100%;max-width:520px;max-height:90vh;overflow:auto;border-radius:var(--radius-lg);padding:24px;box-shadow:var(--shadow-lg);">
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:20px;">
+              <h2 id="order-modal-title" style="margin:0;color:var(--blue-900);">${t('product.order_now')}</h2>
+              <button type="button" class="btn btn-ghost btn-sm" onclick="closeOrderModal()" aria-label="Fermer">✕</button>
             </div>
-            
-            <div class="modal-body">
-              <div id="order-error" class="alert alert-error hidden"></div>
-              
-              <div class="order-summary">
-                <div class="order-summary-row">
-                  <span data-i18n="seller.product">${t('seller.product')}</span>
-                  <strong>${escapeHtml(currentProduct.name)}</strong>
-                </div>
-                <div class="order-summary-row">
-                  <span data-i18n="product.price_unit">${t('product.price_unit')}</span>
-                  <strong>${formatPrice(currentProduct.price)}</strong>
-                </div>
-                <div class="order-summary-row">
-                  <span data-i18n="product.quantity">${t('product.quantity')}</span>
-                  <strong>${quantity}</strong>
-                </div>
-                <div class="order-summary-row total">
-                  <span data-i18n="product.total">${t('product.total')}</span>
-                  <span>${formatPrice(total)}</span>
-                </div>
-              </div>
-              
-              <div class="form-group">
-                <label class="form-label" data-i18n="product.note">${t('product.note')}</label>
-                <textarea 
-                  class="form-textarea" 
-                  id="order-note"
-                  placeholder="${t('product.note_placeholder')}"
-                  data-i18n="product.note_placeholder"
-                  data-i18n-attr="placeholder"
-                  maxlength="500"
-                ></textarea>
-              </div>
-              
-              <div class="alert alert-info" style="margin-bottom: 0;">
-                <strong data-i18n="product.how_it_works">${t('product.how_it_works')}</strong><br>
-                ${t('product.how_it_works_p')} <strong>${user.phone}</strong>
-              </div>
+            <div class="order-summary">
+              <div class="order-summary-row"><span>${t('product.product') || 'Produit'}</span><strong>${escapeHtml(currentProduct.name)}</strong></div>
+              <div class="order-summary-row"><span>${t('product.quantity')}</span><strong>${quantity}</strong></div>
+              <div class="order-summary-row"><span>${t('product.price') || 'Prix unitaire'}</span><strong>${formatPrice(currentProduct.price)}</strong></div>
+              <div class="order-summary-row total"><span>${t('product.total') || 'Total estimé'}</span><strong>${formatPrice(total)}</strong></div>
             </div>
-            
-            <div class="modal-footer">
-              <button class="btn btn-ghost" onclick="closeOrderModal()" data-i18n="product.cancel">${t('product.cancel')}</button>
-              <button 
-                class="btn btn-orange" 
-                id="confirm-order-btn"
-                onclick="confirmOrder()"
-                data-i18n="product.confirm"
-              >
-                ${t('product.confirm')}
-              </button>
+            <p style="font-size:.9rem;color:var(--gray-600);line-height:1.5;margin-bottom:16px;">${t('product.order_note_help') || 'Ajoutez une précision pour le vendeur si nécessaire. La commande sera envoyée au vendeur pour confirmation.'}</p>
+            <label for="order-note" style="display:block;font-weight:600;margin-bottom:8px;color:var(--gray-700);">${t('product.note') || 'Note (facultatif)'}</label>
+            <textarea id="order-note" rows="3" maxlength="1000" placeholder="${t('product.note_placeholder') || 'Précisez la couleur, la taille ou toute autre demande…'}" style="box-sizing:border-box;width:100%;padding:12px;border:1px solid var(--gray-300);border-radius:var(--radius);font:inherit;resize:vertical;margin-bottom:12px;"></textarea>
+            <p style="font-size:.85rem;color:var(--gray-600);margin:0 0 16px;">${t('product.phone') || 'Téléphone'} : ${escapeHtml(user.phone || user.phone_number || 'Les coordonnées associées à votre compte pourront être utilisées pour vous contacter.')}</p>
+            <div id="order-error" class="hidden" role="alert" style="background:#FEE2E2;color:#991B1B;padding:10px 12px;border-radius:var(--radius);margin-bottom:12px;"></div>
+            <div style="display:flex;justify-content:flex-end;gap:10px;flex-wrap:wrap;">
+              <button type="button" class="btn btn-ghost" onclick="closeOrderModal()">${t('common.cancel') || 'Annuler'}</button>
+              <button type="button" class="btn btn-orange" id="confirm-order-btn" onclick="confirmOrder()">${t('product.confirm') || 'Confirmer la commande'}</button>
             </div>
           </div>
         </div>
       `;
       modal.classList.remove('hidden');
     }
-    
+
     function closeOrderModal(event) {
       if (event && event.target !== event.currentTarget) return;
-      document.getElementById('order-modal').classList.add('hidden');
+      const modal = document.getElementById('order-modal');
+      if (modal) modal.classList.add('hidden');
     }
-    
+
     async function confirmOrder() {
       const btn = document.getElementById('confirm-order-btn');
       const errorDiv = document.getElementById('order-error');
-      const note = document.getElementById('order-note').value.trim();
-      
+      const noteField = document.getElementById('order-note');
+      if (!btn || !errorDiv || !noteField || !currentProduct) return;
+      const note = noteField.value.trim();
       errorDiv.classList.add('hidden');
       btn.disabled = true;
-      btn.innerHTML = '<span class="spinner"></span>';
-      
+      btn.textContent = t('product.loading') || 'Envoi en cours…';
       try {
         await OrdersAPI.create({
           product_id: currentProduct.id,
           quantity: quantity,
           note: note || null,
         });
-        
-        showToast('✅', 'success', 5000);
+        showToast(t('product.order_success') || 'Commande envoyée avec succès.', 'success', 5000);
         closeOrderModal();
-        
-        setTimeout(() => {
-          window.location.href = '/index.html';
-        }, 2000);
-        
+        setTimeout(() => { window.location.href = '/index.html'; }, 1500);
       } catch (error) {
-        errorDiv.textContent = error.message;
+        errorDiv.textContent = error && error.message ? error.message : (t('common.error') || 'Une erreur est survenue. Réessayez.');
         errorDiv.classList.remove('hidden');
         btn.disabled = false;
-        btn.textContent = t('product.confirm');
+        btn.textContent = t('product.confirm') || 'Confirmer la commande';
       }
     }
-    
-    // ============================================================
-    // HELPERS
-    // ============================================================
-    
+
     function showContent() {
       document.getElementById('loading').classList.add('hidden');
       document.getElementById('content').classList.remove('hidden');
     }
-    
+
     function showError(message) {
       document.getElementById('loading').classList.add('hidden');
-      document.getElementById('content').classList.remove('hidden');
-      document.getElementById('content').innerHTML = `
-        <div class="container" style="padding: 80px 24px;">
+      const content = document.getElementById('content');
+      content.classList.remove('hidden');
+      content.innerHTML = `
+        <div class="container" style="padding:80px 24px;">
           <div class="empty-state">
             <div class="empty-state-icon">⚠️</div>
-            <h3>⚠️</h3>
-            <p>${escapeHtml(message)}</p>
-            <a href="/marketplace.html" class="btn btn-primary mt-16">${t('marketplace.reset_filters')}</a>
+            <h3>${t('common.error') || 'Une erreur est survenue'}</h3>
+            <p>${escapeHtml(message || 'Impossible de charger cette page.')}</p>
+            <a href="/marketplace.html" class="btn btn-primary mt-16">${t('marketplace.reset_filters') || 'Retour au catalogue'}</a>
           </div>
-        </div>
-      `;
+        </div>`;
     }
   </script>
 </body>
