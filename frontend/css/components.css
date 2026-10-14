@@ -1,6 +1,26 @@
 /* ============================================================
    FINEST GLOBAL — Composants
+   (version corrigée : responsive / anti-débordement horizontal)
    ============================================================ */
+
+/* ============================================================
+   🛡️ ANTI-DÉBORDEMENT GLOBAL (ajouté)
+   ============================================================ */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html, body {
+  max-width: 100%;
+  overflow-x: hidden; /* secours pour les anciennes WebView */
+  overflow-x: clip;   /* prioritaire : ne casse pas position: sticky */
+}
+
+img, video {
+  max-width: 100%;
+  height: auto;
+}
 
 /* ============================================================
    BOUTONS
@@ -98,6 +118,7 @@
 .form-select,
 .form-textarea {
   width: 100%;
+  max-width: 100%;
   padding: 12px 16px;
   border: 1.5px solid var(--gray-200);
   border-radius: var(--radius);
@@ -251,6 +272,7 @@
   max-width: 500px;
   width: 100%;
   max-height: 90vh;
+  max-height: 90dvh;
   overflow-y: auto;
   animation: slideUp 0.3s ease;
 }
@@ -303,6 +325,7 @@
   display: flex;
   flex-direction: column;
   gap: 12px;
+  max-width: calc(100vw - 40px);
 }
 
 .toast {
@@ -312,7 +335,7 @@
   box-shadow: var(--shadow-lg);
   border-left: 4px solid var(--blue-500);
   min-width: 300px;
-  max-width: 400px;
+  max-width: min(400px, calc(100vw - 40px));
   animation: slideInRight 0.3s ease;
 }
 
@@ -369,8 +392,9 @@
 
 /* ============================================================
    NAVBAR — COMPLÈTE SUR DESKTOP, SIMPLIFIÉE SUR MOBILE
-   Desktop : Logo + Recherche + Accueil + Marketplace + À propos + Profil
-   Mobile  : Logo + Marketplace centré + Avatar
+   Desktop : Logo + Recherche + Accueil + Marketplace + À propos
+             + Langue + (Connexion / S'inscrire  ou  Profil)
+   Mobile  : Logo + Marketplace + Langue + (Connexion  ou  Avatar)
    ============================================================ */
 
 .navbar {
@@ -379,9 +403,12 @@
   position: sticky;
   top: 0;
   z-index: 100;
+  width: 100%;
+  max-width: 100%;
 }
 
 .navbar-inner {
+  width: 100%;
   max-width: 1280px;
   margin: 0 auto;
   padding: 12px 24px;
@@ -389,6 +416,9 @@
   align-items: center;
   gap: 20px;
 }
+
+/* Les enfants du flex peuvent rétrécir (évite le débordement) */
+.navbar-inner > * { min-width: 0; }
 
 /* Logo (image) */
 .navbar-logo {
@@ -405,6 +435,7 @@
 .navbar-logo-img {
   height: 44px;
   width: auto;
+  max-width: none;
   object-fit: contain;
   display: block;
 }
@@ -581,7 +612,7 @@
   right: 0;
   left: auto;
   min-width: 240px;
-  max-width: 300px;
+  max-width: min(300px, calc(100vw - 24px));
   background: var(--white);
   border: 1px solid var(--gray-200);
   border-radius: var(--radius);
@@ -650,136 +681,6 @@
 }
 
 /* ============================================================
-   NAVBAR — RESPONSIVE MOBILE UNIQUEMENT
-   À partir de 900px, on cache la recherche et on centre Marketplace
-   ============================================================ */
-
-@media (max-width: 900px) {
-  /* Cacher la barre de recherche */
-  .navbar-search {
-    display: none;
-  }
-  
-  /* Layout simplifié : logo / marketplace / profil */
-  .navbar-inner {
-    padding: 10px 16px;
-    gap: 12px;
-    justify-content: space-between;
-  }
-  
-  .navbar-logo-img {
-    height: 38px;
-  }
-  
-  /* Marketplace centré */
-  .navbar-links {
-    flex: 1;
-    justify-content: center;
-    gap: 0;
-  }
-  
-  .nav-link {
-    font-size: 0.88rem;
-    font-weight: 600;
-    padding: 6px 12px;
-  }
-  
-  /* Cacher le nom dans le bouton profil */
-  .nav-user-name {
-    display: none;
-  }
-  
-  .nav-chevron {
-    display: none;
-  }
-  
-  .nav-user-btn {
-    padding: 3px 6px;
-    gap: 0;
-  }
-  
-  .nav-avatar {
-    width: 34px;
-    height: 34px;
-    font-size: 0.78rem;
-  }
-  
-  /* Dropdown aligné à droite, jamais coupé */
-  .nav-dropdown {
-    right: -8px;
-    min-width: 220px;
-    max-width: calc(100vw - 24px);
-  }
-}
-
-@media (max-width: 380px) {
-  .navbar-inner {
-    padding: 8px 12px;
-    gap: 8px;
-  }
-  
-  .navbar-logo-img {
-    height: 34px;
-  }
-  
-  .nav-link {
-    font-size: 0.82rem;
-    padding: 5px 10px;
-  }
-  
-  .nav-avatar {
-    width: 30px;
-    height: 30px;
-    font-size: 0.72rem;
-  }
-}
-
-/* ============================================================
-   MODALES — RESPONSIVE ANDROID
-   ============================================================ */
-
-@media (max-width: 640px) {
-  .modal-overlay {
-    padding: 12px;
-    align-items: flex-end;
-  }
-  
-  .modal {
-    max-width: 100%;
-    max-height: 92vh;
-    border-radius: 20px 20px 0 0;
-  }
-  
-  .modal-header { padding: 18px 20px; }
-  .modal-header h3 { font-size: 1.1rem; }
-  .modal-body { padding: 18px 20px; }
-  
-  .modal-footer {
-    padding: 14px 20px;
-    flex-direction: column-reverse;
-    gap: 8px;
-  }
-  
-  .modal-footer .btn { width: 100%; }
-  
-  .toast-container {
-    top: 10px;
-    right: 10px;
-    left: 10px;
-  }
-  
-  .toast {
-    min-width: unset;
-    max-width: unset;
-    width: 100%;
-    padding: 14px 16px;
-    font-size: 0.88rem;
-  }
-}
-
-
-
-/* ============================================================
    SÉLECTEUR DE LANGUE
    ============================================================ */
 
@@ -813,20 +714,141 @@
   box-shadow: 0 1px 4px rgba(0,0,0,0.1);
 }
 
+/* ============================================================
+   NAVBAR — RESPONSIVE MOBILE
+   (placé APRÈS le sélecteur de langue pour que ces règles
+    l'emportent sur les règles de base)
+   Non connecté : un seul bouton « Connexion » (S'inscrire masqué)
+   ============================================================ */
+
 @media (max-width: 900px) {
-  .lang-selector {
-    padding: 2px;
+  /* Pas de barre de recherche sur mobile */
+  .navbar-search { display: none; }
+
+  .navbar-inner {
+    padding: 10px 12px;
+    padding-left: max(12px, env(safe-area-inset-left, 0px));
+    padding-right: max(12px, env(safe-area-inset-right, 0px));
+    gap: 8px;
   }
-  
-  .lang-btn {
-    padding: 4px 7px;
-    font-size: 0.9rem;
+
+  .navbar-logo-img { height: 34px; }
+
+  /* Marketplace : prend la place restante, peut rétrécir */
+  .navbar-links {
+    flex: 1 1 auto;
+    min-width: 0;
+    justify-content: center;
+    gap: 0;
+  }
+
+  .nav-link {
+    font-size: 0.85rem;
+    font-weight: 600;
+    padding: 6px 6px;
+  }
+
+  /* Langue */
+  .lang-selector { padding: 2px; gap: 2px; }
+  .lang-btn { padding: 4px 6px; font-size: 0.9rem; }
+
+  /* Auth : un seul bouton « Connexion » */
+  .nav-auth {
+    margin-left: 0;
+    gap: 0;
+  }
+  .nav-auth a[href="/register.html"] { display: none; }
+  .nav-auth a[href="/login.html"] {
+    background: var(--blue-700);
+    color: var(--white);
+    border-color: transparent;
+    padding: 8px 14px;
+    font-size: 0.82rem;
+    font-weight: 700;
+  }
+
+  /* Connecté : avatar seul */
+  .nav-user { margin-left: 0; }
+  .nav-user-name,
+  .nav-chevron { display: none; }
+
+  .nav-user-btn {
+    padding: 3px 6px;
+    gap: 0;
+  }
+
+  .nav-avatar {
+    width: 34px;
+    height: 34px;
+    font-size: 0.78rem;
+  }
+
+  /* Dropdown aligné à droite, jamais coupé */
+  .nav-dropdown {
+    right: 0;
+    min-width: 220px;
+    max-width: calc(100vw - 24px);
   }
 }
 
-@media (max-width: 380px) {
-  .lang-btn {
-    padding: 3px 5px;
-    font-size: 0.8rem;
+@media (max-width: 420px) {
+  .navbar-inner { padding-top: 8px; padding-bottom: 8px; gap: 6px; }
+  .navbar-logo-img { height: 30px; }
+  .nav-link { font-size: 0.8rem; padding: 5px 4px; }
+  .lang-btn { padding: 3px 5px; font-size: 0.82rem; }
+  .nav-auth a[href="/login.html"] { padding: 7px 11px; font-size: 0.78rem; }
+  .nav-avatar { width: 30px; height: 30px; font-size: 0.72rem; }
+}
+
+@media (max-width: 340px) {
+  /* Écrans minuscules : on garde logo + langue + bouton */
+  .navbar-links { display: none; }
+  .navbar-inner { justify-content: space-between; }
+  .nav-auth,
+  .nav-user { margin-left: auto; }
+}
+
+/* ============================================================
+   MODALES / TOASTS — RESPONSIVE ANDROID
+   ============================================================ */
+
+@media (max-width: 640px) {
+  .modal-overlay {
+    padding: 12px;
+    align-items: flex-end;
+  }
+
+  .modal {
+    max-width: 100%;
+    max-height: 92vh;
+    max-height: 92dvh;
+    border-radius: 20px 20px 0 0;
+  }
+
+  .modal-header { padding: 18px 20px; }
+  .modal-header h3 { font-size: 1.1rem; }
+  .modal-body { padding: 18px 20px; }
+
+  .modal-footer {
+    padding: 14px 20px;
+    flex-direction: column-reverse;
+    gap: 8px;
+  }
+
+  .modal-footer .btn { width: 100%; }
+
+  .toast-container {
+    top: 10px;
+    right: 10px;
+    left: 10px;
+    max-width: none;
+  }
+
+  .toast {
+    min-width: 0;
+    max-width: none;
+    width: 100%;
+    padding: 14px 16px;
+    font-size: 0.88rem;
   }
 }
