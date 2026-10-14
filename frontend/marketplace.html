@@ -17,7 +17,7 @@
     
     .marketplace-layout {
       display: grid;
-      grid-template-columns: 260px 1fr;
+      grid-template-columns: 260px minmax(0, 1fr);
       gap: 28px;
       align-items: start;
     }
@@ -111,12 +111,13 @@
     
     .price-range {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
       gap: 8px;
     }
     
     .price-range input {
       width: 100%;
+      min-width: 0;
       padding: 8px 10px;
       border: 1.5px solid var(--gray-200);
       border-radius: var(--radius-sm);
@@ -232,6 +233,7 @@
       display: flex;
       flex-direction: column;
       text-decoration: none;
+      min-width: 0;
     }
     
     .product-card:hover {
@@ -311,6 +313,7 @@
       -webkit-line-clamp: 2;
       -webkit-box-orient: vertical;
       overflow: hidden;
+      overflow-wrap: anywhere;
       min-height: 2.4em;
     }
     
@@ -398,8 +401,9 @@
       font-size: 0.95rem;
     }
     
+    /* ---------- Tablette et téléphone (≤ 900px) ---------- */
     @media (max-width: 900px) {
-      .marketplace-layout { grid-template-columns: 1fr; }
+      .marketplace-layout { grid-template-columns: minmax(0, 1fr); }
       
       .filters-sidebar {
         position: fixed;
@@ -420,19 +424,25 @@
       .mobile-filter-btn { display: inline-flex; }
       
       .products-grid {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 12px;
       }
     }
     
+    /* ---------- Téléphone (≤ 640px) ---------- */
     @media (max-width: 640px) {
-      .marketplace-page { padding: 16px 0 80px; }
+      .marketplace-page { padding: 16px 0 40px; }
       .container { padding: 0 14px; }
       
+      /* Sur téléphone : plus de filtres ni de tri (la recherche est celle de la navbar) */
+      .filters-sidebar,
+      .mobile-filter-btn,
+      .sort-select { display: none; }
+      
       .marketplace-header {
-        padding: 14px 16px;
+        padding: 10px 14px;
         gap: 10px;
-        margin-bottom: 16px;
+        margin-bottom: 14px;
         flex-direction: column;
         align-items: stretch;
       }
@@ -444,14 +454,8 @@
       
       .results-count strong { font-size: 1rem; }
       
-      .sort-select {
-        width: 100%;
-        padding: 10px 12px;
-        font-size: 0.85rem;
-      }
-      
       .products-grid {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 10px;
       }
       
@@ -461,6 +465,11 @@
         font-size: 0.85rem;
         min-height: 2.6em;
         margin-bottom: 6px;
+      }
+      
+      .product-footer {
+        flex-wrap: wrap;
+        gap: 2px 8px;
       }
       
       .product-price { font-size: 0.9rem; }
@@ -496,17 +505,6 @@
         padding: 7px 11px;
         font-size: 0.82rem;
       }
-      
-      .filters-sidebar { padding: 20px 16px; }
-      .filters-title { font-size: 1rem; margin-bottom: 16px; }
-      .filter-options { max-height: 180px; }
-      
-      .mobile-filter-btn {
-        bottom: 16px;
-        right: 16px;
-        padding: 12px 18px;
-        font-size: 0.88rem;
-      }
     }
     
     @media (max-width: 380px) {
@@ -522,7 +520,7 @@
     }
   </style>
 </head>
-<body>
+<body class="page-marketplace">
 
   <div id="navbar"></div>
 

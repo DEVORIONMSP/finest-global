@@ -809,6 +809,30 @@ img, video {
 }
 
 /* ============================================================
+   NAVBAR — PAGE MARKETPLACE (mobile / tablette)
+   La barre de recherche existante de la navbar s'affiche sur
+   une 2e ligne, à la place des filtres masqués.
+   ============================================================ */
+
+@media (max-width: 900px) {
+  body.page-marketplace .navbar-inner {
+    flex-wrap: wrap;
+  }
+
+  body.page-marketplace .navbar-search {
+    display: block;
+    order: 10;
+    flex: 1 1 100%;
+    max-width: 100%;
+    width: 100%;
+  }
+
+  body.page-marketplace .navbar-search input {
+    font-size: 16px; /* évite le zoom automatique sur mobile */
+  }
+}
+
+/* ============================================================
    MODALES / TOASTS — RESPONSIVE ANDROID
    ============================================================ */
 
