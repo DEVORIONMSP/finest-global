@@ -2,7 +2,6 @@
 Gestion des connexions WebSocket pour les notifications en temps réel.
 Un vendeur se connecte à /ws/notifications avec son token JWT.
 """
-
 from fastapi import WebSocket, WebSocketDisconnect, status
 from typing import Dict, Set
 from jose import JWTError, jwt
