@@ -11,10 +11,10 @@
   <link rel="stylesheet" href="/css/components.css">
   <style>
     /* ============================================================
-       HERO
+       HERO (Ginger Main Color)
        ============================================================ */
     .hero {
-      background: linear-gradient(135deg, var(--silver-900) 0%, var(--silver-800) 55%, var(--ginger-600) 100%);
+      background: linear-gradient(135deg, var(--ginger-600) 0%, var(--ginger-500) 60%, var(--ginger-400) 100%);
       color: var(--cream-50);
       padding: 100px 0 120px;
       position: relative;
@@ -28,7 +28,7 @@
       right: -200px;
       width: 700px;
       height: 700px;
-      background: radial-gradient(circle, rgba(217,98,43,0.28) 0%, transparent 70%);
+      background: radial-gradient(circle, rgba(250,246,239,0.15) 0%, transparent 70%);
       border-radius: 50%;
       animation: float-slow 12s ease-in-out infinite;
     }
@@ -40,7 +40,7 @@
       left: -150px;
       width: 600px;
       height: 600px;
-      background: radial-gradient(circle, rgba(232,224,210,0.12) 0%, transparent 70%);
+      background: radial-gradient(circle, rgba(28,31,36,0.12) 0%, transparent 70%);
       border-radius: 50%;
       animation: float-slow 15s ease-in-out infinite reverse;
     }
@@ -72,28 +72,29 @@
     .hero h1 .line { display: block; }
     
     .hero h1 .line-2 {
-      color: var(--ginger-400);
-      text-shadow: 0 0 30px rgba(232,130,63,0.45);
+      color: var(--silver-900);
+      text-shadow: 0 0 30px rgba(28,31,36,0.2);
     }
     
     .typed-text {
       display: inline-block;
-      border-right: 5px solid var(--ginger-400);
+      border-right: 5px solid var(--silver-900);
       padding-right: 8px;
       animation: blink 0.8s infinite;
     }
     
     @keyframes blink {
-      0%, 50% { border-color: var(--ginger-400); }
+      0%, 50% { border-color: var(--silver-900); }
       51%, 100% { border-color: transparent; }
     }
     
     .hero p {
       font-size: 1.2rem;
-      color: rgba(250,246,239,0.88);
+      color: rgba(250,246,239,0.95);
       max-width: 680px;
       margin: 0 auto 44px;
       line-height: 1.7;
+      font-weight: 500;
     }
     
     .hero-buttons {
@@ -105,27 +106,28 @@
     
     .btn-white {
       background: var(--cream-50);
-      color: var(--silver-900);
+      color: var(--ginger-600);
+      font-weight: 700;
     }
     .btn-white:hover {
-      background: var(--ginger-500);
-      color: var(--white);
+      background: var(--silver-900);
+      color: var(--cream-50);
       transform: translateY(-2px);
     }
     
     .btn-outline-white {
       background: transparent;
       color: var(--cream-50);
-      border: 2px solid rgba(250,246,239,0.5);
+      border: 2px solid rgba(250,246,239,0.6);
     }
     .btn-outline-white:hover {
       background: var(--cream-50);
-      color: var(--silver-900);
+      color: var(--ginger-600);
       border-color: var(--cream-50);
     }
     
     /* ============================================================
-       SECTIONS CARROUSEL
+       SECTIONS CARROUSEL (Warm Cream Background)
        ============================================================ */
     .section-carousel {
       padding: 90px 0;
@@ -153,7 +155,7 @@
       left: -200px;
       width: 500px;
       height: 500px;
-      background: radial-gradient(circle, rgba(28,31,36,0.04) 0%, transparent 70%);
+      background: radial-gradient(circle, rgba(28,31,36,0.03) 0%, transparent 70%);
       border-radius: 50%;
       pointer-events: none;
     }
@@ -189,7 +191,7 @@
       font-weight: 900;
       letter-spacing: -1px;
       margin-bottom: 14px;
-      color: var(--silver-900);
+      color: var(--ginger-600);
       display: inline-flex;
       align-items: center;
       gap: 14px;
@@ -205,7 +207,7 @@
     }
     
     .section-header-centered p {
-      color: var(--silver-500);
+      color: var(--silver-600);
       font-size: 1.05rem;
       line-height: 1.6;
     }
@@ -245,7 +247,7 @@
       width: 56px;
       height: 56px;
       border-radius: 50%;
-      background: var(--silver-800);
+      background: var(--ginger-500);
       border: none;
       display: flex;
       align-items: center;
@@ -253,7 +255,7 @@
       cursor: pointer;
       font-size: 1.6rem;
       color: var(--cream-50);
-      box-shadow: 0 8px 24px rgba(28, 31, 36, 0.25);
+      box-shadow: 0 8px 24px rgba(217, 98, 43, 0.3);
       transition: all 0.25s ease;
       z-index: 10;
       font-weight: 800;
@@ -261,7 +263,7 @@
     }
     
     .carousel-nav:hover:not(:disabled) {
-      background: linear-gradient(135deg, var(--ginger-400), var(--ginger-600));
+      background: var(--ginger-600);
       transform: translateY(-50%) scale(1.1);
       box-shadow: 0 12px 32px rgba(217,98,43,0.45);
     }
@@ -282,9 +284,10 @@
       min-width: 280px;
     }
     
+    /* Category Card (Cream bg, Silver text, Ginger accents) */
     .category-card {
-      background: linear-gradient(135deg, var(--silver-900), var(--silver-800));
-      border: 1.5px solid rgba(217,98,43,0.2);
+      background: var(--white);
+      border: 1.5px solid var(--cream-300);
       border-radius: var(--radius-lg);
       padding: 40px 24px;
       text-align: center;
@@ -298,6 +301,7 @@
       position: relative;
       overflow: hidden;
       min-height: 260px;
+      box-shadow: var(--shadow-sm);
     }
     
     .category-card::before {
@@ -315,8 +319,8 @@
     
     .category-card:hover {
       transform: translateY(-8px);
-      box-shadow: 0 24px 48px rgba(28, 31, 36, 0.35);
-      border-color: var(--ginger-400);
+      box-shadow: var(--shadow-md);
+      border-color: var(--ginger-300);
     }
     
     .category-card:hover::before {
@@ -326,7 +330,7 @@
     .category-emoji {
       font-size: 3.5rem;
       transition: transform 0.3s ease;
-      filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));
+      filter: drop-shadow(0 4px 8px rgba(217, 98, 43, 0.15));
     }
     
     .category-card:hover .category-emoji {
@@ -335,7 +339,7 @@
     
     .category-name {
       font-weight: 800;
-      color: var(--ginger-400);
+      color: var(--silver-900);
       font-size: 1.2rem;
       text-transform: capitalize;
       letter-spacing: -0.3px;
@@ -343,16 +347,17 @@
     
     .category-count {
       font-size: 0.9rem;
-      color: rgba(250,246,239,0.75);
-      background: rgba(250,246,239,0.1);
+      color: var(--ginger-600);
+      background: var(--ginger-50);
       padding: 6px 16px;
       border-radius: 20px;
-      font-weight: 600;
+      font-weight: 700;
     }
     
+    /* Product Card (Cream bg, Silver text, Ginger price/buttons) */
     .product-card {
-      background: linear-gradient(135deg, var(--silver-900), var(--silver-800));
-      border: 1.5px solid rgba(217,98,43,0.2);
+      background: var(--white);
+      border: 1.5px solid var(--cream-300);
       border-radius: var(--radius-lg);
       overflow: hidden;
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -361,24 +366,25 @@
       flex-direction: column;
       height: 100%;
       min-height: 380px;
+      box-shadow: var(--shadow-sm);
     }
     
     .product-card:hover {
       transform: translateY(-8px);
-      box-shadow: 0 24px 48px rgba(28, 31, 36, 0.35);
-      border-color: var(--ginger-400);
+      box-shadow: var(--shadow-md);
+      border-color: var(--ginger-300);
     }
     
     .product-image {
       aspect-ratio: 1;
-      background: linear-gradient(135deg, rgba(250,246,239,0.08), rgba(250,246,239,0.03));
+      background: var(--cream-100);
       position: relative;
       overflow: hidden;
       display: flex;
       align-items: center;
       justify-content: center;
       font-size: 4rem;
-      color: rgba(250,246,239,0.3);
+      color: var(--silver-400);
     }
     
     .product-image img {
@@ -396,13 +402,13 @@
       position: absolute;
       top: 14px;
       left: 14px;
-      background: linear-gradient(135deg, var(--ginger-400), var(--ginger-600));
+      background: var(--ginger-500);
       color: var(--white);
       padding: 6px 14px;
       border-radius: 24px;
       font-size: 0.8rem;
       font-weight: 800;
-      box-shadow: 0 6px 16px rgba(217,98,43,0.5);
+      box-shadow: 0 6px 16px rgba(217,98,43,0.4);
       z-index: 1;
       display: flex;
       align-items: center;
@@ -418,7 +424,7 @@
     
     .product-name {
       font-weight: 700;
-      color: var(--cream-50);
+      color: var(--silver-900);
       font-size: 1.1rem;
       margin-bottom: 14px;
       display: -webkit-box;
@@ -435,30 +441,31 @@
       justify-content: space-between;
       margin-top: auto;
       padding-top: 14px;
-      border-top: 1px solid rgba(250,246,239,0.1);
+      border-top: 1px solid var(--cream-200);
     }
     
     .product-price {
       font-weight: 900;
-      color: var(--ginger-400);
+      color: var(--ginger-600);
       font-size: 1.25rem;
       letter-spacing: -0.5px;
     }
     
     .product-stats {
       font-size: 0.85rem;
-      color: rgba(250,246,239,0.7);
+      color: var(--silver-600);
       display: flex;
       align-items: center;
       gap: 4px;
-      background: rgba(250,246,239,0.08);
+      background: var(--cream-100);
       padding: 5px 12px;
       border-radius: 12px;
     }
     
+    /* Shop Card */
     .shop-card {
-      background: linear-gradient(135deg, var(--silver-900), var(--silver-800));
-      border: 1.5px solid rgba(217,98,43,0.2);
+      background: var(--white);
+      border: 1.5px solid var(--cream-300);
       border-radius: var(--radius-lg);
       overflow: hidden;
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -467,17 +474,18 @@
       min-height: 380px;
       display: flex;
       flex-direction: column;
+      box-shadow: var(--shadow-sm);
     }
     
     .shop-card:hover {
       transform: translateY(-8px);
-      box-shadow: 0 24px 48px rgba(28, 31, 36, 0.35);
-      border-color: var(--ginger-400);
+      box-shadow: var(--shadow-md);
+      border-color: var(--ginger-300);
     }
     
     .shop-banner {
       height: 140px;
-      background: linear-gradient(135deg, var(--silver-800), var(--silver-600));
+      background: var(--cream-200);
       position: relative;
       overflow: hidden;
       flex-shrink: 0;
@@ -503,15 +511,15 @@
       width: 72px;
       height: 72px;
       border-radius: 50%;
-      background: var(--cream-50);
-      border: 4px solid var(--silver-900);
+      background: var(--ginger-500);
+      border: 4px solid var(--white);
       display: flex;
       align-items: center;
       justify-content: center;
       font-weight: 900;
       font-size: 1.5rem;
-      color: var(--ginger-600);
-      box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+      color: var(--white);
+      box-shadow: 0 8px 24px rgba(217, 98, 43, 0.3);
     }
     
     .shop-body {
@@ -523,7 +531,7 @@
     
     .shop-name {
       font-weight: 800;
-      color: var(--ginger-400);
+      color: var(--ginger-600);
       margin-bottom: 10px;
       font-size: 1.25rem;
       letter-spacing: -0.3px;
@@ -531,7 +539,7 @@
     
     .shop-desc {
       font-size: 0.95rem;
-      color: rgba(250,246,239,0.8);
+      color: var(--silver-600);
       display: -webkit-box;
       -webkit-line-clamp: 3;
       -webkit-box-orient: vertical;
@@ -545,10 +553,10 @@
       display: flex;
       gap: 16px;
       font-size: 0.9rem;
-      color: rgba(250,246,239,0.7);
+      color: var(--silver-500);
       margin-top: auto;
       padding-top: 14px;
-      border-top: 1px solid rgba(250,246,239,0.1);
+      border-top: 1px solid var(--cream-200);
     }
     
     .shop-stats span {
@@ -561,7 +569,7 @@
        SECTION PRÈS DE CHEZ VOUS + CODE
        ============================================================ */
     .section-near-you {
-      background: linear-gradient(135deg, var(--silver-900) 0%, var(--silver-800) 100%);
+      background: var(--ginger-600);
       color: var(--cream-50);
       padding: 80px 0;
       position: relative;
@@ -575,7 +583,7 @@
       left: -200px;
       width: 600px;
       height: 600px;
-      background: radial-gradient(circle, rgba(217,98,43,0.22) 0%, transparent 70%);
+      background: radial-gradient(circle, rgba(250,246,239,0.1) 0%, transparent 70%);
       border-radius: 50%;
     }
     
@@ -593,8 +601,8 @@
     }
     
     .near-you-card {
-      background: rgba(250,246,239,0.07);
-      border: 1.5px solid rgba(232,224,210,0.18);
+      background: rgba(250,246,239,0.1);
+      border: 1.5px solid rgba(250,246,239,0.2);
       border-radius: var(--radius-lg);
       padding: 36px 28px;
       text-align: center;
@@ -602,8 +610,8 @@
     }
     
     .near-you-card:hover {
-      background: rgba(250,246,239,0.11);
-      border-color: rgba(217,98,43,0.5);
+      background: rgba(250,246,239,0.15);
+      border-color: rgba(250,246,239,0.4);
       transform: translateY(-4px);
     }
     
@@ -615,7 +623,7 @@
     }
     
     .near-you-card p {
-      color: rgba(250,246,239,0.78);
+      color: rgba(250,246,239,0.9);
       font-size: 0.95rem;
       margin-bottom: 24px;
       line-height: 1.6;
@@ -626,8 +634,8 @@
       width: 100%;
       padding: 13px 20px;
       border-radius: var(--radius);
-      background: linear-gradient(135deg, var(--ginger-400), var(--ginger-600));
-      color: var(--white);
+      background: var(--cream-50);
+      color: var(--ginger-600);
       border: none;
       font-weight: 700;
       font-size: 0.95rem;
@@ -642,9 +650,10 @@
     
     .near-you-card button:hover:not(:disabled),
     .near-you-card .btn:hover {
-      background: linear-gradient(135deg, var(--ginger-500), var(--ginger-700));
+      background: var(--silver-900);
+      color: var(--cream-50);
       transform: translateY(-2px);
-      box-shadow: 0 12px 28px rgba(217,98,43,0.45);
+      box-shadow: 0 12px 28px rgba(28,31,36,0.25);
     }
     
     .near-you-card button:disabled {
@@ -662,8 +671,8 @@
       flex: 1;
       padding: 13px 16px;
       border-radius: var(--radius);
-      border: 1.5px solid rgba(232,224,210,0.25);
-      background: rgba(250,246,239,0.08);
+      border: 1.5px solid rgba(250,246,239,0.3);
+      background: rgba(250,246,239,0.1);
       color: var(--cream-50);
       font-family: inherit;
       font-size: 0.95rem;
@@ -673,7 +682,7 @@
     }
     
     .code-input-wrapper input::placeholder {
-      color: rgba(250,246,239,0.45);
+      color: rgba(250,246,239,0.5);
       text-transform: none;
       letter-spacing: 0;
       font-weight: 400;
@@ -681,16 +690,16 @@
     
     .code-input-wrapper input:focus {
       outline: none;
-      border-color: var(--ginger-400);
-      background: rgba(250,246,239,0.14);
+      border-color: var(--cream-50);
+      background: rgba(250,246,239,0.2);
     }
     
     /* ============================================================
-       CTA VENDEUR
+       CTA VENDEUR (Silver Background for contrast)
        ============================================================ */
     .cta-seller {
-      background: linear-gradient(135deg, var(--ginger-600), var(--ginger-500));
-      color: var(--white);
+      background: var(--silver-900);
+      color: var(--cream-50);
       padding: 80px 0;
       position: relative;
       overflow: hidden;
@@ -703,20 +712,9 @@
       right: -150px;
       width: 500px;
       height: 500px;
-      background: radial-gradient(circle, rgba(250,246,239,0.15) 0%, transparent 70%);
+      background: radial-gradient(circle, rgba(217,98,43,0.25) 0%, transparent 70%);
       border-radius: 50%;
       animation: float-slow 10s ease-in-out infinite;
-    }
-    
-    .cta-seller::after {
-      content: "";
-      position: absolute;
-      top: -180px;
-      left: -120px;
-      width: 420px;
-      height: 420px;
-      background: radial-gradient(circle, rgba(28,31,36,0.15) 0%, transparent 70%);
-      border-radius: 50%;
     }
     
     .cta-seller-inner {
@@ -732,27 +730,27 @@
       font-size: 2.25rem;
       font-weight: 900;
       margin-bottom: 16px;
-      color: var(--white);
+      color: var(--cream-50);
       letter-spacing: -0.8px;
     }
     
     .cta-seller p {
       font-size: 1.05rem;
-      opacity: 0.92;
+      color: var(--silver-300);
       margin-bottom: 28px;
       line-height: 1.7;
     }
     
     .btn-orange {
-      background: var(--silver-900);
-      color: var(--cream-50);
+      background: var(--ginger-500);
+      color: var(--white);
       font-weight: 700;
     }
     
     .btn-orange:hover {
-      background: var(--silver-800);
+      background: var(--ginger-400);
       transform: translateY(-2px);
-      box-shadow: 0 12px 28px rgba(28,31,36,0.35);
+      box-shadow: 0 12px 28px rgba(217,98,43,0.4);
     }
     
     .cta-list {
@@ -766,13 +764,13 @@
       align-items: center;
       gap: 12px;
       font-size: 1rem;
-      color: var(--white);
+      color: var(--cream-50);
     }
     
     .cta-list li::before {
       content: "✓";
-      background: var(--cream-50);
-      color: var(--ginger-600);
+      background: var(--ginger-500);
+      color: var(--white);
       width: 26px;
       height: 26px;
       border-radius: 50%;
@@ -782,20 +780,20 @@
       font-size: 0.8rem;
       font-weight: 900;
       flex-shrink: 0;
-      box-shadow: 0 4px 12px rgba(250,246,239,0.3);
+      box-shadow: 0 4px 12px rgba(217,98,43,0.4);
     }
     
     .skeleton-card {
       border-radius: var(--radius-lg);
       overflow: hidden;
-      background: linear-gradient(135deg, var(--silver-900), var(--silver-800));
-      border: 1.5px solid rgba(250,246,239,0.08);
+      background: var(--white);
+      border: 1.5px solid var(--cream-200);
       min-height: 380px;
     }
     
     .skeleton-image {
       aspect-ratio: 1;
-      background: linear-gradient(90deg, rgba(250,246,239,0.05) 25%, rgba(250,246,239,0.12) 50%, rgba(250,246,239,0.05) 75%);
+      background: linear-gradient(90deg, var(--cream-100) 25%, var(--cream-200) 50%, var(--cream-100) 75%);
       background-size: 200% 100%;
       animation: shimmer 1.5s infinite;
     }
@@ -809,7 +807,7 @@
     
     .skeleton-line {
       height: 16px;
-      background: linear-gradient(90deg, rgba(250,246,239,0.05) 25%, rgba(250,246,239,0.12) 50%, rgba(250,246,239,0.05) 75%);
+      background: linear-gradient(90deg, var(--cream-100) 25%, var(--cream-200) 50%, var(--cream-100) 75%);
       background-size: 200% 100%;
       animation: shimmer 1.5s infinite;
       border-radius: 4px;
@@ -823,8 +821,8 @@
       min-width: 280px;
       height: 260px;
       border-radius: var(--radius-lg);
-      background: linear-gradient(135deg, var(--silver-900), var(--silver-800));
-      border: 1.5px solid rgba(250,246,239,0.08);
+      background: var(--white);
+      border: 1.5px solid var(--cream-200);
       position: relative;
       overflow: hidden;
     }
@@ -833,11 +831,12 @@
       content: "";
       position: absolute;
       inset: 0;
-      background: linear-gradient(90deg, transparent 25%, rgba(250,246,239,0.08) 50%, transparent 75%);
+      background: linear-gradient(90deg, transparent 25%, rgba(250,246,239,0.5) 50%, transparent 75%);
       background-size: 200% 100%;
       animation: shimmer 1.5s infinite;
     }
     
+    /* Footer (Silver Background) */
     .footer {
       background: var(--silver-900);
       color: var(--cream-50);
@@ -854,12 +853,12 @@
     .footer h4 {
       font-size: 1rem;
       margin-bottom: 22px;
-      color: var(--cream-50);
+      color: var(--ginger-400);
       font-weight: 700;
     }
     
     .footer p, .footer a {
-      color: var(--cream-300);
+      color: var(--silver-300);
       font-size: 0.95rem;
       line-height: 2;
     }
@@ -875,7 +874,7 @@
       margin-bottom: 16px;
     }
     
-    .footer-brand span { color: var(--ginger-400); }
+    .footer-brand span { color: var(--ginger-500); }
     
     .footer-contact {
       justify-self: end;
@@ -883,10 +882,10 @@
     }
     
     .footer-bottom {
-      border-top: 1px solid rgba(250,246,239,0.1);
+      border-top: 1px solid var(--silver-800);
       padding-top: 28px;
       text-align: center;
-      color: var(--cream-300);
+      color: var(--silver-400);
       font-size: 0.9rem;
     }
     
@@ -1016,7 +1015,7 @@
           <span class="accent-bar"></span> 
           <span data-i18n="home.near_you_title">📍 Près de chez vous</span>
         </h2>
-        <p style="color: rgba(250,246,239,0.8);" data-i18n="home.near_you_p">
+        <p style="color: rgba(250,246,239,0.9);" data-i18n="home.near_you_p">
           Découvrez les boutiques et produits autour de votre position.
         </p>
       </div>
@@ -1109,10 +1108,10 @@
       <button class="carousel-nav prev" onclick="scrollCarousel('shops', -1)" aria-label="Précédent">‹</button>
       <div class="carousel-track-wrapper" id="shops-track-wrapper">
         <div class="carousel-track" id="shops-track">
-          <div class="shop-slide"><div class="skeleton-card"><div style="height:140px;background:rgba(250,246,239,0.08);"></div><div class="skeleton-body"><div class="skeleton-line"></div><div class="skeleton-line short"></div></div></div></div>
-          <div class="shop-slide"><div class="skeleton-card"><div style="height:140px;background:rgba(250,246,239,0.08);"></div><div class="skeleton-body"><div class="skeleton-line"></div><div class="skeleton-line short"></div></div></div></div>
-          <div class="shop-slide"><div class="skeleton-card"><div style="height:140px;background:rgba(250,246,239,0.08);"></div><div class="skeleton-body"><div class="skeleton-line"></div><div class="skeleton-line short"></div></div></div></div>
-          <div class="shop-slide"><div class="skeleton-card"><div style="height:140px;background:rgba(250,246,239,0.08);"></div><div class="skeleton-body"><div class="skeleton-line"></div><div class="skeleton-line short"></div></div></div></div>
+          <div class="shop-slide"><div class="skeleton-card"><div style="height:140px;background:var(--cream-200);"></div><div class="skeleton-body"><div class="skeleton-line"></div><div class="skeleton-line short"></div></div></div></div>
+          <div class="shop-slide"><div class="skeleton-card"><div style="height:140px;background:var(--cream-200);"></div><div class="skeleton-body"><div class="skeleton-line"></div><div class="skeleton-line short"></div></div></div></div>
+          <div class="shop-slide"><div class="skeleton-card"><div style="height:140px;background:var(--cream-200);"></div><div class="skeleton-body"><div class="skeleton-line"></div><div class="skeleton-line short"></div></div></div></div>
+          <div class="shop-slide"><div class="skeleton-card"><div style="height:140px;background:var(--cream-200);"></div><div class="skeleton-body"><div class="skeleton-line"></div><div class="skeleton-line short"></div></div></div></div>
         </div>
       </div>
       <button class="carousel-nav next" onclick="scrollCarousel('shops', 1)" aria-label="Suivant">›</button>
@@ -1456,7 +1455,7 @@
         : '';
       
       const codeBadge = shop.code 
-        ? `<span style="font-size:0.75rem;color:rgba(250,246,239,0.6);">${escapeHtml(shop.code)}</span>` 
+        ? `<span style="font-size:0.75rem;color:var(--silver-500);">${escapeHtml(shop.code)}</span>` 
         : '';
       
       const localityBadge = shop.locality 

@@ -1,6 +1,6 @@
 /* ============================================================
    FINEST GLOBAL — Composants
-   Palette : Ginger / Metallic Silver / Warm Cream
+   Palette : Ginger (Principal) / Warm Cream (Secondaire) / Metallic Silver (Accent)
    ============================================================ */
 
 /* ============================================================
@@ -46,13 +46,13 @@ img, video {
 }
 
 .btn-primary {
-  background: var(--silver-800);
-  color: var(--cream-50);
+  background: var(--ginger-500);
+  color: var(--white);
 }
 .btn-primary:hover:not(:disabled) {
-  background: var(--silver-900);
+  background: var(--ginger-600);
   transform: translateY(-1px);
-  box-shadow: 0 8px 20px rgba(28, 31, 36, 0.25);
+  box-shadow: 0 8px 20px rgba(217, 98, 43, 0.35);
 }
 
 .btn-orange {
@@ -66,13 +66,13 @@ img, video {
 }
 
 .btn-secondary {
-  background: var(--white);
+  background: var(--cream-50);
   color: var(--ginger-600);
   border-color: var(--ginger-500);
 }
 .btn-secondary:hover:not(:disabled) {
   background: var(--ginger-500);
-  color: var(--white);
+  color: var(--cream-50);
 }
 
 .btn-ghost {
@@ -80,7 +80,7 @@ img, video {
   color: var(--silver-700);
 }
 .btn-ghost:hover:not(:disabled) {
-  background: var(--cream-100);
+  background: var(--cream-200);
 }
 
 .btn-danger {
@@ -120,7 +120,7 @@ img, video {
   width: 100%;
   max-width: 100%;
   padding: 12px 16px;
-  border: 1.5px solid var(--cream-200);
+  border: 1.5px solid var(--cream-300);
   border-radius: var(--radius);
   font-size: 0.95rem;
   background: var(--white);
@@ -168,7 +168,7 @@ img, video {
   transition: all var(--transition);
 }
 .card:hover {
-  border-color: var(--cream-300);
+  border-color: var(--ginger-300);
   box-shadow: var(--shadow-md);
 }
 .card-body { padding: 24px; }
@@ -257,7 +257,7 @@ img, video {
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(28, 31, 36, 0.55);
+  background: rgba(28, 31, 36, 0.6);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -284,7 +284,7 @@ img, video {
   align-items: center;
   justify-content: space-between;
 }
-.modal-header h3 { font-size: 1.25rem; color: var(--silver-900); }
+.modal-header h3 { font-size: 1.25rem; color: var(--ginger-600); }
 
 .modal-body { padding: 24px; }
 
@@ -396,7 +396,7 @@ img, video {
    ============================================================ */
 
 .navbar {
-  background: var(--white);
+  background: var(--cream-50);
   border-bottom: 1px solid var(--cream-200);
   position: sticky;
   top: 0;
@@ -445,10 +445,10 @@ img, video {
 .navbar-search input {
   width: 100%;
   padding: 10px 16px 10px 42px;
-  border: 1.5px solid var(--cream-200);
+  border: 1.5px solid var(--cream-300);
   border-radius: var(--radius);
   font-size: 0.9rem;
-  background: var(--cream-50);
+  background: var(--white);
   transition: all var(--transition);
   color: var(--silver-900);
 }
@@ -511,7 +511,7 @@ img, video {
 }
 
 .nav-link {
-  font-weight: 500;
+  font-weight: 600;
   font-size: 0.95rem;
   color: var(--silver-700);
   transition: color var(--transition);
@@ -564,14 +564,14 @@ img, video {
 }
 
 .nav-user-btn:hover {
-  background: var(--cream-100);
+  background: var(--cream-200);
 }
 
 .nav-avatar {
   width: 38px;
   height: 38px;
   border-radius: 50%;
-  background: linear-gradient(135deg, var(--ginger-500), var(--ginger-600));
+  background: linear-gradient(135deg, var(--ginger-400), var(--ginger-600));
   color: var(--white);
   display: flex;
   align-items: center;
@@ -679,7 +679,7 @@ img, video {
 .lang-selector {
   display: flex;
   gap: 4px;
-  background: var(--cream-100);
+  background: var(--cream-200);
   border-radius: 20px;
   padding: 3px;
   flex-shrink: 0;
@@ -695,15 +695,17 @@ img, video {
   transition: all 0.2s;
   line-height: 1;
   font-family: inherit;
+  color: var(--silver-700);
 }
 
 .lang-btn:hover {
-  background: var(--cream-200);
+  background: var(--cream-300);
 }
 
 .lang-btn.active {
   background: var(--white);
   box-shadow: 0 1px 4px rgba(58, 51, 43, 0.12);
+  color: var(--ginger-600);
 }
 
 /* ============================================================

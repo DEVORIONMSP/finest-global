@@ -1,10 +1,10 @@
 /* ============================================================
    FINEST GLOBAL — Styles globaux
-   Palette : Ginger / Metallic Silver / Warm Cream
+   Palette : Ginger (Principal) / Warm Cream (Secondaire) / Metallic Silver (Accent)
    ============================================================ */
 
 :root {
-  /* Ginger / Warm Orange */
+  /* Ginger / Warm Orange (Main Color) */
   --ginger-700: #A63D0A;
   --ginger-600: #C24A12;
   --ginger-500: #D9622B;
@@ -13,7 +13,7 @@
   --ginger-100: #FBE4D4;
   --ginger-50:  #FDF2EA;
 
-  /* Metallic Silver */
+  /* Metallic Silver (Third Color / Text & Details) */
   --silver-900: #1C1F24;
   --silver-800: #2B3038;
   --silver-700: #3D434D;
@@ -25,7 +25,7 @@
   --silver-100: #ECEEF1;
   --silver-50:  #F4F5F7;
 
-  /* Warm Cream / Off-White */
+  /* Warm Cream / Off-White (Secondary Color / Backgrounds) */
   --cream-900: #3A332B;
   --cream-700: #6B5E4F;
   --cream-500: #9A8B78;
@@ -35,11 +35,11 @@
   --cream-50:  #FAF6EF;
   --white:     #FFFDF8;
 
-  /* Sémantique (adaptés à la palette chaude) */
+  /* Sémantique */
   --success: #5E8C4E;
   --warning: #D9992B;
   --danger:  #C0453A;
-  --info:    #6B8299;
+  --info:    var(--silver-500);
 
   /* Design */
   --radius-sm: 6px;
@@ -139,13 +139,13 @@ ul, ol {
 .section-title h2 {
   font-size: 2.25rem;
   font-weight: 800;
-  color: var(--silver-900);
+  color: var(--ginger-600);
   margin-bottom: 12px;
   letter-spacing: -0.5px;
 }
 
 .section-title p {
-  color: var(--silver-500);
+  color: var(--silver-600);
   font-size: 1.05rem;
   max-width: 620px;
   margin: 0 auto;
@@ -162,8 +162,8 @@ h1, h2, h3, h4 {
 }
 
 h1 { font-size: 2.5rem; font-weight: 800; letter-spacing: -1px; }
-h2 { font-size: 2rem; font-weight: 800; letter-spacing: -0.5px; }
-h3 { font-size: 1.5rem; }
+h2 { font-size: 2rem; font-weight: 800; letter-spacing: -0.5px; color: var(--ginger-600); }
+h3 { font-size: 1.5rem; color: var(--ginger-500); }
 h4 { font-size: 1.15rem; }
 
 .text-muted { color: var(--silver-500); }
