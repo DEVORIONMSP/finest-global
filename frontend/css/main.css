@@ -1,54 +1,57 @@
 /* ============================================================
    FINEST GLOBAL — Styles globaux
-   Palette : bleu / blanc / orange
+   Palette : Ginger / Metallic Silver / Warm Cream
    ============================================================ */
 
 :root {
-  /* Bleus */
-  --blue-950: #02152B;
-  --blue-900: #041E3D;
-  --blue-800: #062E54;
-  --blue-700: #0A4D8C;
-  --blue-600: #1565C0;
-  --blue-500: #1E88E5;
-  --blue-400: #42A5F5;
-  --blue-100: #BBDEFB;
-  --blue-50:  #E3F2FD;
-  
-  /* Orange */
-  --orange-700: #C2410C;
-  --orange-600: #EA580C;
-  --orange-500: #FF8A3D;
-  --orange-400: #FB923C;
-  --orange-100: #FFEDD5;
-  
-  /* Neutres */
-  --white: #FFFFFF;
-  --gray-900: #0F172A;
-  --gray-700: #334155;
-  --gray-500: #64748B;
-  --gray-300: #CBD5E1;
-  --gray-200: #E2E8F0;
-  --gray-100: #F1F5F9;
-  --gray-50:  #F8FAFC;
-  
-  /* Sémantique */
-  --success: #10B981;
-  --warning: #F59E0B;
-  --danger:  #EF4444;
-  --info:    #3B82F6;
-  
+  /* Ginger / Warm Orange */
+  --ginger-700: #A63D0A;
+  --ginger-600: #C24A12;
+  --ginger-500: #D9622B;
+  --ginger-400: #E8823F;
+  --ginger-300: #F0A66B;
+  --ginger-100: #FBE4D4;
+  --ginger-50:  #FDF2EA;
+
+  /* Metallic Silver */
+  --silver-900: #1C1F24;
+  --silver-800: #2B3038;
+  --silver-700: #3D434D;
+  --silver-600: #555C68;
+  --silver-500: #737A87;
+  --silver-400: #9AA0AB;
+  --silver-300: #BFC4CC;
+  --silver-200: #D9DCE1;
+  --silver-100: #ECEEF1;
+  --silver-50:  #F4F5F7;
+
+  /* Warm Cream / Off-White */
+  --cream-900: #3A332B;
+  --cream-700: #6B5E4F;
+  --cream-500: #9A8B78;
+  --cream-300: #D6CBB8;
+  --cream-200: #E8E0D2;
+  --cream-100: #F3EDE2;
+  --cream-50:  #FAF6EF;
+  --white:     #FFFDF8;
+
+  /* Sémantique (adaptés à la palette chaude) */
+  --success: #5E8C4E;
+  --warning: #D9992B;
+  --danger:  #C0453A;
+  --info:    #6B8299;
+
   /* Design */
   --radius-sm: 6px;
   --radius:    10px;
   --radius-lg: 16px;
   --radius-xl: 24px;
-  
-  --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.05);
-  --shadow:    0 4px 12px rgba(15, 23, 42, 0.08);
-  --shadow-md: 0 8px 24px rgba(15, 23, 42, 0.10);
-  --shadow-lg: 0 20px 40px rgba(15, 23, 42, 0.12);
-  
+
+  --shadow-sm: 0 1px 2px rgba(58, 51, 43, 0.06);
+  --shadow:    0 4px 12px rgba(58, 51, 43, 0.09);
+  --shadow-md: 0 8px 24px rgba(58, 51, 43, 0.11);
+  --shadow-lg: 0 20px 40px rgba(58, 51, 43, 0.13);
+
   --transition: 0.2s ease;
 }
 
@@ -71,8 +74,8 @@ body {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   font-size: 16px;
   line-height: 1.6;
-  color: var(--gray-900);
-  background: var(--white);
+  color: var(--silver-900);
+  background: var(--cream-50);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -136,13 +139,13 @@ ul, ol {
 .section-title h2 {
   font-size: 2.25rem;
   font-weight: 800;
-  color: var(--blue-900);
+  color: var(--silver-900);
   margin-bottom: 12px;
   letter-spacing: -0.5px;
 }
 
 .section-title p {
-  color: var(--gray-500);
+  color: var(--silver-500);
   font-size: 1.05rem;
   max-width: 620px;
   margin: 0 auto;
@@ -153,7 +156,7 @@ ul, ol {
    ============================================================ */
 
 h1, h2, h3, h4 {
-  color: var(--blue-900);
+  color: var(--silver-900);
   font-weight: 700;
   line-height: 1.2;
 }
@@ -163,9 +166,9 @@ h2 { font-size: 2rem; font-weight: 800; letter-spacing: -0.5px; }
 h3 { font-size: 1.5rem; }
 h4 { font-size: 1.15rem; }
 
-.text-muted { color: var(--gray-500); }
-.text-orange { color: var(--orange-500); }
-.text-blue { color: var(--blue-700); }
+.text-muted { color: var(--silver-500); }
+.text-orange { color: var(--ginger-500); }
+.text-blue { color: var(--silver-800); }
 
 /* ============================================================
    UTILITAIRES

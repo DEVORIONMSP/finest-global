@@ -1,10 +1,10 @@
 /* ============================================================
    FINEST GLOBAL — Composants
-   (version corrigée : responsive / anti-débordement horizontal)
+   Palette : Ginger / Metallic Silver / Warm Cream
    ============================================================ */
 
 /* ============================================================
-   🛡️ ANTI-DÉBORDEMENT GLOBAL (ajouté)
+   🛡️ ANTI-DÉBORDEMENT GLOBAL
    ============================================================ */
 
 *, *::before, *::after {
@@ -13,8 +13,8 @@
 
 html, body {
   max-width: 100%;
-  overflow-x: hidden; /* secours pour les anciennes WebView */
-  overflow-x: clip;   /* prioritaire : ne casse pas position: sticky */
+  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 img, video {
@@ -46,41 +46,41 @@ img, video {
 }
 
 .btn-primary {
-  background: var(--blue-700);
-  color: var(--white);
+  background: var(--silver-800);
+  color: var(--cream-50);
 }
 .btn-primary:hover:not(:disabled) {
-  background: var(--blue-800);
+  background: var(--silver-900);
   transform: translateY(-1px);
-  box-shadow: 0 8px 20px rgba(10, 77, 140, 0.25);
+  box-shadow: 0 8px 20px rgba(28, 31, 36, 0.25);
 }
 
 .btn-orange {
-  background: var(--orange-500);
+  background: var(--ginger-500);
   color: var(--white);
 }
 .btn-orange:hover:not(:disabled) {
-  background: var(--orange-600);
+  background: var(--ginger-600);
   transform: translateY(-1px);
-  box-shadow: 0 8px 20px rgba(255, 138, 61, 0.3);
+  box-shadow: 0 8px 20px rgba(217, 98, 43, 0.35);
 }
 
 .btn-secondary {
   background: var(--white);
-  color: var(--blue-700);
-  border-color: var(--blue-700);
+  color: var(--ginger-600);
+  border-color: var(--ginger-500);
 }
 .btn-secondary:hover:not(:disabled) {
-  background: var(--blue-700);
+  background: var(--ginger-500);
   color: var(--white);
 }
 
 .btn-ghost {
   background: transparent;
-  color: var(--gray-700);
+  color: var(--silver-700);
 }
 .btn-ghost:hover:not(:disabled) {
-  background: var(--gray-100);
+  background: var(--cream-100);
 }
 
 .btn-danger {
@@ -88,7 +88,7 @@ img, video {
   color: var(--white);
 }
 .btn-danger:hover:not(:disabled) {
-  background: #DC2626;
+  background: #A63A30;
 }
 
 .btn-sm { padding: 8px 16px; font-size: 0.85rem; }
@@ -105,7 +105,7 @@ img, video {
   display: block;
   font-weight: 600;
   font-size: 0.9rem;
-  color: var(--gray-700);
+  color: var(--silver-700);
   margin-bottom: 8px;
 }
 
@@ -120,11 +120,11 @@ img, video {
   width: 100%;
   max-width: 100%;
   padding: 12px 16px;
-  border: 1.5px solid var(--gray-200);
+  border: 1.5px solid var(--cream-200);
   border-radius: var(--radius);
   font-size: 0.95rem;
   background: var(--white);
-  color: var(--gray-900);
+  color: var(--silver-900);
   transition: all var(--transition);
 }
 
@@ -132,12 +132,12 @@ img, video {
 .form-select:focus,
 .form-textarea:focus {
   outline: none;
-  border-color: var(--blue-500);
-  box-shadow: 0 0 0 4px rgba(30, 136, 229, 0.1);
+  border-color: var(--ginger-500);
+  box-shadow: 0 0 0 4px rgba(217, 98, 43, 0.12);
 }
 
 .form-input::placeholder,
-.form-textarea::placeholder { color: var(--gray-500); }
+.form-textarea::placeholder { color: var(--silver-400); }
 
 .form-textarea {
   resize: vertical;
@@ -151,7 +151,7 @@ img, video {
 }
 
 .form-hint {
-  color: var(--gray-500);
+  color: var(--silver-500);
   font-size: 0.85rem;
   margin-top: 6px;
 }
@@ -162,19 +162,19 @@ img, video {
 
 .card {
   background: var(--white);
-  border: 1.5px solid var(--gray-200);
+  border: 1.5px solid var(--cream-200);
   border-radius: var(--radius-lg);
   padding: 24px;
   transition: all var(--transition);
 }
 .card:hover {
-  border-color: var(--blue-100);
+  border-color: var(--cream-300);
   box-shadow: var(--shadow-md);
 }
 .card-body { padding: 24px; }
 .card-header {
   padding: 20px 24px;
-  border-bottom: 1px solid var(--gray-200);
+  border-bottom: 1px solid var(--cream-200);
 }
 
 /* ============================================================
@@ -191,11 +191,11 @@ img, video {
   letter-spacing: 0.3px;
 }
 
-.badge-blue { background: var(--blue-50); color: var(--blue-700); }
-.badge-orange { background: var(--orange-100); color: var(--orange-700); }
-.badge-success { background: #D1FAE5; color: #065F46; }
-.badge-warning { background: #FEF3C7; color: #92400E; }
-.badge-danger { background: #FEE2E2; color: #991B1B; }
+.badge-blue { background: var(--silver-100); color: var(--silver-800); }
+.badge-orange { background: var(--ginger-100); color: var(--ginger-700); }
+.badge-success { background: #E4EFD9; color: #3E5E32; }
+.badge-warning { background: #F7E7C6; color: #8A5A14; }
+.badge-danger { background: #F6DDD9; color: #8E2E24; }
 
 /* ============================================================
    ALERTES
@@ -209,19 +209,19 @@ img, video {
   margin-bottom: 16px;
 }
 .alert-success {
-  background: #ECFDF5;
+  background: #EDF4E6;
   border-color: var(--success);
-  color: #065F46;
+  color: #3E5E32;
 }
 .alert-error {
-  background: #FEF2F2;
+  background: #FBEAE7;
   border-color: var(--danger);
-  color: #991B1B;
+  color: #8E2E24;
 }
 .alert-info {
-  background: var(--blue-50);
-  border-color: var(--blue-500);
-  color: var(--blue-800);
+  background: var(--cream-100);
+  border-color: var(--ginger-400);
+  color: var(--silver-800);
 }
 
 /* ============================================================
@@ -232,14 +232,14 @@ img, video {
   display: inline-block;
   width: 20px;
   height: 20px;
-  border: 3px solid rgba(255, 255, 255, 0.3);
+  border: 3px solid rgba(255, 253, 248, 0.3);
   border-radius: 50%;
   border-top-color: var(--white);
   animation: spin 0.7s linear infinite;
 }
 .spinner-blue {
-  border-color: var(--blue-100);
-  border-top-color: var(--blue-700);
+  border-color: var(--cream-200);
+  border-top-color: var(--ginger-500);
 }
 @keyframes spin { to { transform: rotate(360deg); } }
 
@@ -257,7 +257,7 @@ img, video {
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(15, 23, 42, 0.6);
+  background: rgba(28, 31, 36, 0.55);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -279,18 +279,18 @@ img, video {
 
 .modal-header {
   padding: 24px;
-  border-bottom: 1px solid var(--gray-200);
+  border-bottom: 1px solid var(--cream-200);
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
-.modal-header h3 { font-size: 1.25rem; }
+.modal-header h3 { font-size: 1.25rem; color: var(--silver-900); }
 
 .modal-body { padding: 24px; }
 
 .modal-footer {
   padding: 16px 24px;
-  border-top: 1px solid var(--gray-200);
+  border-top: 1px solid var(--cream-200);
   display: flex;
   gap: 12px;
   justify-content: flex-end;
@@ -298,11 +298,11 @@ img, video {
 
 .modal-close {
   font-size: 1.5rem;
-  color: var(--gray-500);
+  color: var(--silver-500);
   line-height: 1;
   padding: 4px;
 }
-.modal-close:hover { color: var(--gray-900); }
+.modal-close:hover { color: var(--silver-900); }
 
 @keyframes fadeIn {
   from { opacity: 0; }
@@ -333,16 +333,17 @@ img, video {
   border-radius: var(--radius);
   padding: 16px 20px;
   box-shadow: var(--shadow-lg);
-  border-left: 4px solid var(--blue-500);
+  border-left: 4px solid var(--ginger-500);
   min-width: 300px;
   max-width: min(400px, calc(100vw - 40px));
   animation: slideInRight 0.3s ease;
+  color: var(--silver-900);
 }
 
 .toast-success { border-color: var(--success); }
 .toast-error   { border-color: var(--danger); }
 .toast-warning { border-color: var(--warning); }
-.toast-orange  { border-color: var(--orange-500); }
+.toast-orange  { border-color: var(--ginger-500); }
 
 @keyframes slideInRight {
   from { transform: translateX(120%); }
@@ -356,9 +357,9 @@ img, video {
 .skeleton {
   background: linear-gradient(
     90deg,
-    var(--gray-100) 25%,
-    var(--gray-200) 50%,
-    var(--gray-100) 75%
+    var(--cream-100) 25%,
+    var(--cream-200) 50%,
+    var(--cream-100) 75%
   );
   background-size: 200% 100%;
   animation: shimmer 1.5s infinite;
@@ -382,24 +383,21 @@ img, video {
   margin-bottom: 16px;
 }
 .empty-state h3 {
-  color: var(--gray-700);
+  color: var(--silver-700);
   margin-bottom: 8px;
 }
 .empty-state p {
-  color: var(--gray-500);
+  color: var(--silver-500);
   margin-bottom: 24px;
 }
 
 /* ============================================================
-   NAVBAR — COMPLÈTE SUR DESKTOP, SIMPLIFIÉE SUR MOBILE
-   Desktop : Logo + Recherche + Accueil + Marketplace + À propos
-             + Langue + (Connexion / S'inscrire  ou  Profil)
-   Mobile  : Logo + Marketplace + Langue + (Connexion  ou  Avatar)
+   NAVBAR
    ============================================================ */
 
 .navbar {
   background: var(--white);
-  border-bottom: 1px solid var(--gray-200);
+  border-bottom: 1px solid var(--cream-200);
   position: sticky;
   top: 0;
   z-index: 100;
@@ -417,10 +415,8 @@ img, video {
   gap: 20px;
 }
 
-/* Les enfants du flex peuvent rétrécir (évite le débordement) */
 .navbar-inner > * { min-width: 0; }
 
-/* Logo (image) */
 .navbar-logo {
   display: flex;
   align-items: center;
@@ -440,7 +436,6 @@ img, video {
   display: block;
 }
 
-/* Barre de recherche (desktop) */
 .navbar-search {
   flex: 1;
   max-width: 480px;
@@ -450,18 +445,19 @@ img, video {
 .navbar-search input {
   width: 100%;
   padding: 10px 16px 10px 42px;
-  border: 1.5px solid var(--gray-200);
+  border: 1.5px solid var(--cream-200);
   border-radius: var(--radius);
   font-size: 0.9rem;
-  background: var(--gray-50);
+  background: var(--cream-50);
   transition: all var(--transition);
+  color: var(--silver-900);
 }
 
 .navbar-search input:focus {
   outline: none;
-  border-color: var(--blue-500);
+  border-color: var(--ginger-500);
   background: var(--white);
-  box-shadow: 0 0 0 4px rgba(30, 136, 229, 0.1);
+  box-shadow: 0 0 0 4px rgba(217, 98, 43, 0.12);
 }
 
 .navbar-search::before {
@@ -481,7 +477,7 @@ img, video {
   right: 0;
   margin-top: 8px;
   background: var(--white);
-  border: 1px solid var(--gray-200);
+  border: 1px solid var(--cream-200);
   border-radius: var(--radius);
   box-shadow: var(--shadow-lg);
   max-height: 320px;
@@ -502,12 +498,11 @@ img, video {
 }
 
 .suggestion-item:hover {
-  background: var(--blue-50);
+  background: var(--ginger-50);
 }
 
 .suggestion-type { font-size: 1rem; }
 
-/* Liens de navigation */
 .navbar-links {
   display: flex;
   align-items: center;
@@ -518,7 +513,7 @@ img, video {
 .nav-link {
   font-weight: 500;
   font-size: 0.95rem;
-  color: var(--gray-700);
+  color: var(--silver-700);
   transition: color var(--transition);
   white-space: nowrap;
   padding: 6px 0;
@@ -533,14 +528,13 @@ img, video {
   transform: translateX(-50%);
   width: 0;
   height: 2px;
-  background: var(--orange-500);
+  background: var(--ginger-500);
   transition: width 0.25s ease;
 }
 
-.nav-link:hover { color: var(--blue-700); }
+.nav-link:hover { color: var(--ginger-600); }
 .nav-link:hover::after { width: 100%; }
 
-/* Auth (non connecté) */
 .nav-auth {
   display: flex;
   align-items: center;
@@ -550,7 +544,6 @@ img, video {
   margin-left: auto;
 }
 
-/* Menu utilisateur (connecté) */
 .nav-user {
   position: relative;
   flex-shrink: 0;
@@ -571,14 +564,14 @@ img, video {
 }
 
 .nav-user-btn:hover {
-  background: var(--gray-100);
+  background: var(--cream-100);
 }
 
 .nav-avatar {
   width: 38px;
   height: 38px;
   border-radius: 50%;
-  background: linear-gradient(135deg, var(--blue-700), var(--blue-500));
+  background: linear-gradient(135deg, var(--ginger-500), var(--ginger-600));
   color: var(--white);
   display: flex;
   align-items: center;
@@ -586,18 +579,18 @@ img, video {
   font-weight: 700;
   font-size: 0.85rem;
   flex-shrink: 0;
-  box-shadow: 0 2px 8px rgba(10, 77, 140, 0.2);
+  box-shadow: 0 2px 8px rgba(217, 98, 43, 0.3);
 }
 
 .nav-user-name {
   font-weight: 600;
   font-size: 0.9rem;
-  color: var(--gray-900);
+  color: var(--silver-900);
 }
 
 .nav-chevron {
   font-size: 0.65rem;
-  color: var(--gray-500);
+  color: var(--silver-500);
   transition: transform 0.2s;
 }
 
@@ -605,7 +598,6 @@ img, video {
   transform: translateY(2px);
 }
 
-/* Dropdown */
 .nav-dropdown {
   position: absolute;
   top: calc(100% + 10px);
@@ -614,9 +606,9 @@ img, video {
   min-width: 240px;
   max-width: min(300px, calc(100vw - 24px));
   background: var(--white);
-  border: 1px solid var(--gray-200);
+  border: 1px solid var(--cream-200);
   border-radius: var(--radius);
-  box-shadow: 0 12px 32px rgba(15, 23, 42, 0.15);
+  box-shadow: 0 12px 32px rgba(58, 51, 43, 0.15);
   display: none;
   z-index: 200;
   overflow: hidden;
@@ -632,25 +624,25 @@ img, video {
 
 .dropdown-header {
   padding: 16px;
-  background: linear-gradient(135deg, var(--blue-50), var(--white));
+  background: linear-gradient(135deg, var(--ginger-50), var(--white));
 }
 
 .dropdown-name {
   font-weight: 700;
-  color: var(--gray-900);
+  color: var(--silver-900);
   margin-bottom: 2px;
   font-size: 0.95rem;
 }
 
 .dropdown-phone {
   font-size: 0.8rem;
-  color: var(--gray-500);
+  color: var(--silver-500);
   margin-bottom: 8px;
 }
 
 .dropdown-divider {
   height: 1px;
-  background: var(--gray-200);
+  background: var(--cream-200);
 }
 
 .dropdown-item {
@@ -659,7 +651,7 @@ img, video {
   padding: 12px 16px;
   text-align: left;
   font-size: 0.9rem;
-  color: var(--gray-700);
+  color: var(--silver-700);
   transition: all var(--transition);
   border: none;
   background: none;
@@ -670,13 +662,13 @@ img, video {
 }
 
 .dropdown-item:hover {
-  background: var(--blue-50);
-  color: var(--blue-700);
+  background: var(--ginger-50);
+  color: var(--ginger-600);
   padding-left: 20px;
 }
 
 .dropdown-item-danger:hover {
-  background: #FEF2F2;
+  background: #FBEAE7;
   color: var(--danger);
 }
 
@@ -687,7 +679,7 @@ img, video {
 .lang-selector {
   display: flex;
   gap: 4px;
-  background: var(--gray-100);
+  background: var(--cream-100);
   border-radius: 20px;
   padding: 3px;
   flex-shrink: 0;
@@ -706,23 +698,19 @@ img, video {
 }
 
 .lang-btn:hover {
-  background: var(--gray-200);
+  background: var(--cream-200);
 }
 
 .lang-btn.active {
   background: var(--white);
-  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+  box-shadow: 0 1px 4px rgba(58, 51, 43, 0.12);
 }
 
 /* ============================================================
    NAVBAR — RESPONSIVE MOBILE
-   (placé APRÈS le sélecteur de langue pour que ces règles
-    l'emportent sur les règles de base)
-   Non connecté : un seul bouton « Connexion » (S'inscrire masqué)
    ============================================================ */
 
 @media (max-width: 900px) {
-  /* Pas de barre de recherche sur mobile */
   .navbar-search { display: none; }
 
   .navbar-inner {
@@ -734,7 +722,6 @@ img, video {
 
   .navbar-logo-img { height: 34px; }
 
-  /* Marketplace : prend la place restante, peut rétrécir */
   .navbar-links {
     flex: 1 1 auto;
     min-width: 0;
@@ -748,18 +735,16 @@ img, video {
     padding: 6px 6px;
   }
 
-  /* Langue */
   .lang-selector { padding: 2px; gap: 2px; }
   .lang-btn { padding: 4px 6px; font-size: 0.9rem; }
 
-  /* Auth : un seul bouton « Connexion » */
   .nav-auth {
     margin-left: 0;
     gap: 0;
   }
   .nav-auth a[href="/register.html"] { display: none; }
   .nav-auth a[href="/login.html"] {
-    background: var(--blue-700);
+    background: var(--ginger-500);
     color: var(--white);
     border-color: transparent;
     padding: 8px 14px;
@@ -767,7 +752,6 @@ img, video {
     font-weight: 700;
   }
 
-  /* Connecté : avatar seul */
   .nav-user { margin-left: 0; }
   .nav-user-name,
   .nav-chevron { display: none; }
@@ -783,7 +767,6 @@ img, video {
     font-size: 0.78rem;
   }
 
-  /* Dropdown aligné à droite, jamais coupé */
   .nav-dropdown {
     right: 0;
     min-width: 220px;
@@ -801,7 +784,6 @@ img, video {
 }
 
 @media (max-width: 340px) {
-  /* Écrans minuscules : on garde logo + langue + bouton */
   .navbar-links { display: none; }
   .navbar-inner { justify-content: space-between; }
   .nav-auth,
@@ -810,8 +792,6 @@ img, video {
 
 /* ============================================================
    NAVBAR — PAGE MARKETPLACE (mobile / tablette)
-   La barre de recherche existante de la navbar s'affiche sur
-   une 2e ligne, à la place des filtres masqués.
    ============================================================ */
 
 @media (max-width: 900px) {
@@ -828,7 +808,7 @@ img, video {
   }
 
   body.page-marketplace .navbar-search input {
-    font-size: 16px; /* évite le zoom automatique sur mobile */
+    font-size: 16px;
   }
 }
 
