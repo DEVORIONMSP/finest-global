@@ -9,589 +9,152 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/css/main.css">
   <link rel="stylesheet" href="/css/components.css">
+  
   <style>
     /* ============================================================
-       HERO (Ginger Main Color)
+       DESIGN EXACT (Basé sur l'image)
        ============================================================ */
-    .hero {
-      background: linear-gradient(135deg, var(--ginger-600) 0%, var(--ginger-500) 60%, var(--ginger-400) 100%);
-      color: var(--cream-50);
-      padding: 100px 0 120px;
-      position: relative;
-      overflow: hidden;
-    }
     
-    .hero::before {
-      content: "";
+    :root {
+      --img-ginger: #D9622B;
+      --img-ginger-light: #E8823F;
+      --img-ginger-dark: #B84B1A;
+      --img-silver-dark: #2A1A13;
+      --img-silver-text: #1C1F24;
+      --img-silver-muted: #6B7280;
+      --img-cream-bg: #FAF5EF;
+      --img-cream-card: #FCF9F5;
+      --img-cream-border: #F0E6D8;
+      --img-white: #FFFFFF;
+    }
+
+    body {
+      background-color: var(--img-white);
+    }
+
+    /* --- NAVBAR EXACTE --- */
+    .custom-navbar {
       position: absolute;
-      top: -200px;
-      right: -200px;
-      width: 700px;
-      height: 700px;
-      background: radial-gradient(circle, rgba(250,246,239,0.15) 0%, transparent 70%);
-      border-radius: 50%;
-      animation: float-slow 12s ease-in-out infinite;
+      top: 0; left: 0; width: 100%;
+      padding: 24px 0;
+      z-index: 100;
     }
-    
-    .hero::after {
-      content: "";
-      position: absolute;
-      bottom: -250px;
-      left: -150px;
-      width: 600px;
-      height: 600px;
-      background: radial-gradient(circle, rgba(28,31,36,0.12) 0%, transparent 70%);
-      border-radius: 50%;
-      animation: float-slow 15s ease-in-out infinite reverse;
+    .custom-navbar-inner {
+      display: flex; align-items: center; justify-content: space-between;
+      max-width: 1200px; margin: 0 auto; padding: 0 24px;
     }
-    
-    @keyframes float-slow {
-      0%, 100% { transform: translate(0, 0) scale(1); }
-      50% { transform: translate(30px, -30px) scale(1.05); }
+    .custom-logo { display: flex; align-items: center; gap: 12px; color: var(--img-white); }
+    .custom-logo img { height: 48px; width: auto; }
+    .custom-logo-text { display: flex; flex-direction: column; }
+    .custom-logo-title { font-size: 1.4rem; font-weight: 800; letter-spacing: 2px; line-height: 1; }
+    .custom-logo-subtitle { font-size: 0.55rem; letter-spacing: 3px; text-transform: uppercase; opacity: 0.8; margin-top: 4px; }
+    .custom-nav-links { display: flex; gap: 32px; }
+    .custom-nav-link { color: var(--img-white); font-size: 0.9rem; font-weight: 500; position: relative; padding-bottom: 4px; }
+    .custom-nav-link.active::after, .custom-nav-link:hover::after {
+      content: ""; position: absolute; bottom: 0; left: 0; width: 100%; height: 2px; background-color: var(--img-white);
     }
-    
-    .hero-inner {
-      position: relative;
-      z-index: 1;
-      text-align: center;
-      max-width: 950px;
-      margin: 0 auto;
-      padding: 0 24px;
+    .custom-nav-icons { display: flex; gap: 20px; color: var(--img-white); }
+    .custom-nav-icons svg { width: 20px; height: 20px; cursor: pointer; }
+
+    /* --- HERO EXACT --- */
+    .custom-hero {
+      background-color: var(--img-silver-dark);
+      /* Remplacez par le chemin de votre image de fond (téléphone, globe) */
+      background-image: linear-gradient(to right, rgba(42,26,19,0.95) 0%, rgba(42,26,19,0.7) 50%, rgba(42,26,19,0) 100%), url('/img/hero-bg.jpg');
+      background-size: cover; background-position: center right; background-repeat: no-repeat;
+      padding: 160px 0 100px; color: var(--img-white); min-height: 600px; display: flex; align-items: center;
     }
-    
-    .hero h1 {
-      font-size: 4.5rem;
-      font-weight: 900;
-      line-height: 1.05;
-      letter-spacing: -3px;
-      margin-bottom: 28px;
-      min-height: 2.2em;
-      color: var(--cream-50);
+    .custom-hero-content { max-width: 500px; }
+    .custom-hero h1 { font-size: 3.5rem; font-weight: 800; line-height: 1.1; margin-bottom: 24px; min-height: 2.2em; color: var(--img-white); }
+    .custom-hero h1 .line-2 { color: var(--img-ginger-light); }
+    .custom-hero p { font-size: 1rem; line-height: 1.6; margin-bottom: 32px; opacity: 0.9; }
+    .custom-hero-buttons { display: flex; gap: 16px; }
+    .btn-custom-primary { background-color: var(--img-ginger); color: var(--img-white); border: 2px solid var(--img-ginger); padding: 12px 28px; border-radius: 50px; font-weight: 600; font-size: 0.95rem; transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center; }
+    .btn-custom-primary:hover { background-color: var(--img-ginger-dark); border-color: var(--img-ginger-dark); }
+    .btn-custom-outline { background-color: transparent; color: var(--img-white); border: 2px solid rgba(255,255,255,0.7); padding: 12px 28px; border-radius: 50px; font-weight: 600; font-size: 0.95rem; transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center; }
+    .btn-custom-outline:hover { background-color: var(--img-white); color: var(--img-silver-text); }
+
+    /* --- SECTIONS HEADER EXACT --- */
+    .custom-section-header { margin-bottom: 40px; text-align: left; }
+    .custom-section-header h2 { font-size: 1.8rem; color: var(--img-silver-text); display: flex; align-items: center; gap: 12px; margin-bottom: 8px; }
+    .custom-section-header h2::before { content: ""; display: block; width: 4px; height: 24px; background-color: var(--img-ginger); border-radius: 2px; }
+    .custom-section-header p { color: var(--img-silver-muted); font-size: 0.95rem; padding-left: 16px; }
+    .custom-section-header.centered { text-align: center; }
+    .custom-section-header.centered h2 { justify-content: center; }
+    .custom-section-header.centered p { padding-left: 0; }
+
+    /* --- POPULAR CATEGORIES EXACT --- */
+    .custom-section-categories { padding: 80px 0; background-color: var(--img-white); }
+    .custom-categories-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 16px; }
+    .custom-category-card {
+      background-color: var(--img-cream-card); border: 1px solid var(--img-cream-border); border-radius: 16px;
+      padding: 24px 12px; display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 12px; transition: all 0.3s ease; cursor: pointer; text-align: center;
     }
-    
-    .hero h1 .line { display: block; }
-    
-    .hero h1 .line-2 {
-      color: var(--silver-900);
-      text-shadow: 0 0 30px rgba(28,31,36,0.2);
-    }
-    
-    .typed-text {
-      display: inline-block;
-      border-right: 5px solid var(--silver-900);
-      padding-right: 8px;
-      animation: blink 0.8s infinite;
-    }
-    
-    @keyframes blink {
-      0%, 50% { border-color: var(--silver-900); }
-      51%, 100% { border-color: transparent; }
-    }
-    
-    .hero p {
-      font-size: 1.2rem;
-      color: rgba(250,246,239,0.95);
-      max-width: 680px;
-      margin: 0 auto 44px;
-      line-height: 1.7;
-      font-weight: 500;
-    }
-    
-    .hero-buttons {
-      display: flex;
-      gap: 16px;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
-    
-    .btn-white {
-      background: var(--cream-50);
-      color: var(--ginger-600);
-      font-weight: 700;
-    }
-    .btn-white:hover {
-      background: var(--silver-900);
-      color: var(--cream-50);
-      transform: translateY(-2px);
-    }
-    
-    .btn-outline-white {
-      background: transparent;
-      color: var(--cream-50);
-      border: 2px solid rgba(250,246,239,0.6);
-    }
-    .btn-outline-white:hover {
-      background: var(--cream-50);
-      color: var(--ginger-600);
-      border-color: var(--cream-50);
-    }
-    
-    /* ============================================================
-       SECTIONS CARROUSEL (Warm Cream Background)
-       ============================================================ */
-    .section-carousel {
-      padding: 90px 0;
-      background: var(--cream-50);
-      position: relative;
-      overflow: hidden;
-    }
-    
-    .section-carousel::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      right: -300px;
-      width: 600px;
-      height: 600px;
-      background: radial-gradient(circle, rgba(217,98,43,0.08) 0%, transparent 70%);
-      border-radius: 50%;
-      pointer-events: none;
-    }
-    
-    .section-carousel::after {
-      content: "";
-      position: absolute;
-      bottom: -300px;
-      left: -200px;
-      width: 500px;
-      height: 500px;
-      background: radial-gradient(circle, rgba(28,31,36,0.03) 0%, transparent 70%);
-      border-radius: 50%;
-      pointer-events: none;
-    }
-    
-    .section-carousel:nth-child(even) {
-      background: linear-gradient(180deg, var(--cream-100) 0%, var(--cream-50) 100%);
-    }
-    
-    .section-carousel:nth-child(even)::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 3px;
-      background: linear-gradient(90deg, transparent, var(--ginger-400), transparent);
-      opacity: 0.5;
-    }
-    
-    .section-header-centered {
-      text-align: center;
-      margin-bottom: 48px;
-      max-width: 700px;
-      margin-left: auto;
-      margin-right: auto;
-      padding: 0 24px;
-      position: relative;
-      z-index: 1;
-    }
-    
-    .section-header-centered h2 {
-      font-size: 2.25rem;
-      font-weight: 900;
-      letter-spacing: -1px;
-      margin-bottom: 14px;
-      color: var(--ginger-600);
-      display: inline-flex;
-      align-items: center;
-      gap: 14px;
-    }
-    
-    .section-header-centered h2 .accent-bar {
-      display: inline-block;
-      width: 6px;
-      height: 36px;
-      background: linear-gradient(180deg, var(--ginger-400), var(--ginger-600));
-      border-radius: 3px;
-      box-shadow: 0 4px 12px rgba(217,98,43,0.4);
-    }
-    
-    .section-header-centered p {
-      color: var(--silver-600);
-      font-size: 1.05rem;
-      line-height: 1.6;
-    }
-    
-    .carousel {
-      position: relative;
-      max-width: 1320px;
-      margin: 0 auto;
-      padding: 0 70px;
-      z-index: 1;
-    }
-    
-    .carousel-track-wrapper {
-      overflow-x: auto;
-      overflow-y: hidden;
-      scroll-behavior: smooth;
-      scrollbar-width: none;
-      -ms-overflow-style: none;
-      padding: 16px 4px;
-      margin: -16px -4px;
-      -webkit-overflow-scrolling: touch;
-    }
-    
-    .carousel-track-wrapper::-webkit-scrollbar {
-      display: none;
-    }
-    
-    .carousel-track {
-      display: flex;
-      gap: 28px;
-    }
-    
-    .carousel-nav {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 56px;
-      height: 56px;
-      border-radius: 50%;
-      background: var(--ginger-500);
-      border: none;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      font-size: 1.6rem;
-      color: var(--cream-50);
-      box-shadow: 0 8px 24px rgba(217, 98, 43, 0.3);
-      transition: all 0.25s ease;
-      z-index: 10;
-      font-weight: 800;
-      line-height: 1;
-    }
-    
-    .carousel-nav:hover:not(:disabled) {
-      background: var(--ginger-600);
-      transform: translateY(-50%) scale(1.1);
-      box-shadow: 0 12px 32px rgba(217,98,43,0.45);
-    }
-    
-    .carousel-nav:disabled {
-      opacity: 0.25;
-      cursor: not-allowed;
-    }
-    
-    .carousel-nav.prev { left: 0; }
-    .carousel-nav.next { right: 0; }
-    
-    .category-card,
-    .product-slide,
-    .shop-slide {
-      flex: 0 0 auto;
-      width: calc((100% - 84px) / 4);
-      min-width: 280px;
-    }
-    
-    /* Category Card (Cream bg, Silver text, Ginger accents) */
-    .category-card {
-      background: var(--white);
-      border: 1.5px solid var(--cream-300);
-      border-radius: var(--radius-lg);
-      padding: 40px 24px;
-      text-align: center;
-      cursor: pointer;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 16px;
-      position: relative;
-      overflow: hidden;
-      min-height: 260px;
-      box-shadow: var(--shadow-sm);
-    }
-    
-    .category-card::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 4px;
-      background: linear-gradient(90deg, var(--ginger-400), var(--ginger-600));
-      transform: scaleX(0);
-      transform-origin: left;
-      transition: transform 0.4s ease;
-    }
-    
-    .category-card:hover {
-      transform: translateY(-8px);
-      box-shadow: var(--shadow-md);
-      border-color: var(--ginger-300);
-    }
-    
-    .category-card:hover::before {
-      transform: scaleX(1);
-    }
-    
-    .category-emoji {
-      font-size: 3.5rem;
-      transition: transform 0.3s ease;
-      filter: drop-shadow(0 4px 8px rgba(217, 98, 43, 0.15));
-    }
-    
-    .category-card:hover .category-emoji {
-      transform: scale(1.2) rotate(-8deg);
-    }
-    
-    .category-name {
-      font-weight: 800;
-      color: var(--silver-900);
-      font-size: 1.2rem;
-      text-transform: capitalize;
-      letter-spacing: -0.3px;
-    }
-    
-    .category-count {
-      font-size: 0.9rem;
-      color: var(--ginger-600);
-      background: var(--ginger-50);
-      padding: 6px 16px;
-      border-radius: 20px;
-      font-weight: 700;
-    }
-    
-    /* Product Card (Cream bg, Silver text, Ginger price/buttons) */
-    .product-card {
-      background: var(--white);
-      border: 1.5px solid var(--cream-300);
-      border-radius: var(--radius-lg);
-      overflow: hidden;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      cursor: pointer;
-      display: flex;
-      flex-direction: column;
-      height: 100%;
-      min-height: 380px;
-      box-shadow: var(--shadow-sm);
-    }
-    
-    .product-card:hover {
-      transform: translateY(-8px);
-      box-shadow: var(--shadow-md);
-      border-color: var(--ginger-300);
-    }
-    
-    .product-image {
-      aspect-ratio: 1;
-      background: var(--cream-100);
-      position: relative;
-      overflow: hidden;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 4rem;
-      color: var(--silver-400);
-    }
-    
-    .product-image img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: transform 0.5s ease;
-    }
-    
-    .product-card:hover .product-image img {
-      transform: scale(1.1);
-    }
-    
-    .product-badge-sales {
-      position: absolute;
-      top: 14px;
-      left: 14px;
-      background: var(--ginger-500);
-      color: var(--white);
-      padding: 6px 14px;
-      border-radius: 24px;
-      font-size: 0.8rem;
-      font-weight: 800;
-      box-shadow: 0 6px 16px rgba(217,98,43,0.4);
-      z-index: 1;
-      display: flex;
-      align-items: center;
-      gap: 4px;
-    }
-    
-    .product-info {
-      padding: 22px;
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-    }
-    
-    .product-name {
-      font-weight: 700;
-      color: var(--silver-900);
-      font-size: 1.1rem;
-      margin-bottom: 14px;
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-      min-height: 2.8em;
-      line-height: 1.4;
-    }
-    
-    .product-footer {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-top: auto;
-      padding-top: 14px;
-      border-top: 1px solid var(--cream-200);
-    }
-    
-    .product-price {
-      font-weight: 900;
-      color: var(--ginger-600);
-      font-size: 1.25rem;
-      letter-spacing: -0.5px;
-    }
-    
-    .product-stats {
-      font-size: 0.85rem;
-      color: var(--silver-600);
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      background: var(--cream-100);
-      padding: 5px 12px;
-      border-radius: 12px;
-    }
-    
-    /* Shop Card */
-    .shop-card {
-      background: var(--white);
-      border: 1.5px solid var(--cream-300);
-      border-radius: var(--radius-lg);
-      overflow: hidden;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      cursor: pointer;
-      height: 100%;
-      min-height: 380px;
-      display: flex;
-      flex-direction: column;
-      box-shadow: var(--shadow-sm);
-    }
-    
-    .shop-card:hover {
-      transform: translateY(-8px);
-      box-shadow: var(--shadow-md);
-      border-color: var(--ginger-300);
-    }
-    
-    .shop-banner {
-      height: 140px;
-      background: var(--cream-200);
-      position: relative;
-      overflow: hidden;
-      flex-shrink: 0;
-    }
-    
-    .shop-banner img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: transform 0.5s;
-      opacity: 0.85;
-    }
-    
-    .shop-card:hover .shop-banner img {
-      transform: scale(1.08);
-      opacity: 1;
-    }
-    
-    .shop-avatar {
-      position: absolute;
-      bottom: -28px;
-      left: 24px;
-      width: 72px;
-      height: 72px;
-      border-radius: 50%;
-      background: var(--ginger-500);
-      border: 4px solid var(--white);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 900;
-      font-size: 1.5rem;
-      color: var(--white);
-      box-shadow: 0 8px 24px rgba(217, 98, 43, 0.3);
-    }
-    
-    .shop-body {
-      padding: 44px 24px 24px;
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-    }
-    
-    .shop-name {
-      font-weight: 800;
-      color: var(--ginger-600);
-      margin-bottom: 10px;
-      font-size: 1.25rem;
-      letter-spacing: -0.3px;
-    }
-    
-    .shop-desc {
-      font-size: 0.95rem;
-      color: var(--silver-600);
-      display: -webkit-box;
-      -webkit-line-clamp: 3;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-      margin-bottom: 18px;
-      min-height: 3.9em;
-      line-height: 1.3;
-    }
-    
-    .shop-stats {
-      display: flex;
-      gap: 16px;
-      font-size: 0.9rem;
-      color: var(--silver-500);
-      margin-top: auto;
-      padding-top: 14px;
-      border-top: 1px solid var(--cream-200);
-    }
-    
-    .shop-stats span {
-      display: flex;
-      align-items: center;
-      gap: 4px;
-    }
-    
-    /* ============================================================
-       SECTION PRÈS DE CHEZ VOUS + CODE
-       ============================================================ */
+    .custom-category-card:hover { transform: translateY(-4px); box-shadow: 0 8px 24px rgba(217, 98, 43, 0.08); border-color: var(--img-ginger-light); }
+    .custom-category-icon { width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; color: var(--img-ginger); }
+    .custom-category-icon svg { width: 100%; height: 100%; stroke: currentColor; fill: none; stroke-width: 2; }
+    .custom-category-name { font-size: 0.85rem; font-weight: 600; color: var(--img-silver-text); }
+
+    /* --- FEATURES BAR EXACT --- */
+    .custom-section-features { background-color: var(--img-ginger-dark); padding: 30px 0; color: var(--img-white); }
+    .custom-features-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 30px; }
+    .custom-feature-item { display: flex; align-items: flex-start; gap: 16px; }
+    .custom-feature-icon { width: 32px; height: 32px; flex-shrink: 0; }
+    .custom-feature-icon svg { width: 100%; height: 100%; stroke: var(--img-white); fill: none; stroke-width: 1.5; }
+    .custom-feature-text h4 { font-size: 0.95rem; margin-bottom: 4px; font-weight: 700; color: var(--img-white); }
+    .custom-feature-text p { font-size: 0.8rem; opacity: 0.8; line-height: 1.3; color: var(--img-white); }
+
+    /* --- HOW IT WORKS EXACT --- */
+    .custom-section-how { padding: 100px 0; background-color: var(--img-white); text-align: center; }
+    .custom-steps-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; position: relative; }
+    .custom-steps-grid::before { content: ""; position: absolute; top: 40px; left: 10%; right: 10%; height: 2px; background-image: linear-gradient(to right, var(--img-cream-border) 50%, transparent 50%); background-size: 10px 100%; z-index: 1; }
+    .custom-step-item { position: relative; z-index: 2; display: flex; flex-direction: column; align-items: center; }
+    .custom-step-number { width: 32px; height: 32px; background-color: var(--img-ginger-light); color: var(--img-white); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.9rem; margin-bottom: 24px; box-shadow: 0 0 0 8px var(--img-white); }
+    .custom-step-icon { width: 48px; height: 48px; margin-bottom: 20px; color: var(--img-silver-text); }
+    .custom-step-icon svg { width: 100%; height: 100%; stroke-width: 1.5; fill: none; stroke: currentColor; }
+    .custom-step-item h3 { font-size: 1.1rem; margin-bottom: 12px; color: var(--img-silver-text); }
+    .custom-step-item p { font-size: 0.9rem; color: var(--img-silver-muted); max-width: 200px; line-height: 1.5; }
+
+    /* --- TWO COLUMNS CTA EXACT --- */
+    .custom-section-cta { padding: 0 0 80px; background-color: var(--img-white); }
+    .custom-cta-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    .custom-cta-card { border-radius: 16px; overflow: hidden; display: flex; min-height: 280px; position: relative; }
+    .custom-cta-sellers { background-color: var(--img-silver-dark); background-image: linear-gradient(to right, var(--img-silver-dark) 40%, transparent 100%), url('/img/seller-bg.jpg'); background-size: cover; background-position: center right; color: var(--img-white); padding: 40px; display: flex; flex-direction: column; justify-content: center; align-items: flex-start; }
+    .custom-cta-buyers { background-color: var(--img-cream-card); border: 1px solid var(--img-cream-border); background-image: linear-gradient(to right, var(--img-cream-card) 40%, transparent 100%), url('/img/buyer-bg.jpg'); background-size: cover; background-position: center right; color: var(--img-silver-text); padding: 40px; display: flex; flex-direction: column; justify-content: center; align-items: flex-start; }
+    .custom-cta-card h3 { font-size: 1.5rem; margin-bottom: 12px; display: flex; align-items: center; gap: 10px; }
+    .custom-cta-card h3 svg { width: 24px; height: 24px; stroke: currentColor; fill: none; stroke-width: 2; }
+    .custom-cta-card p { font-size: 0.95rem; margin-bottom: 24px; max-width: 200px; line-height: 1.4; opacity: 0.9; }
+    .btn-custom-white { background-color: var(--img-white); color: var(--img-silver-text); border: 2px solid var(--img-white); padding: 12px 28px; border-radius: 50px; font-weight: 600; font-size: 0.95rem; transition: all 0.2s; }
+    .btn-custom-white:hover { background-color: var(--img-cream-bg); }
+    .btn-custom-outline-dark { background-color: transparent; color: var(--img-silver-text); border: 2px solid var(--img-silver-text); padding: 12px 28px; border-radius: 50px; font-weight: 600; font-size: 0.95rem; transition: all 0.2s; }
+    .btn-custom-outline-dark:hover { background-color: var(--img-silver-text); color: var(--img-white); }
+
+    /* --- FOOTER EXACT --- */
+    .custom-footer { background-color: var(--img-silver-dark); color: var(--img-white); padding: 60px 0 30px; }
+    .custom-footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1.5fr; gap: 40px; margin-bottom: 60px; }
+    .custom-footer-brand { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
+    .custom-footer-brand img { height: 40px; }
+    .custom-footer p { color: rgba(255,255,255,0.6); font-size: 0.9rem; line-height: 1.6; max-width: 250px; }
+    .custom-footer h4 { font-size: 0.95rem; margin-bottom: 20px; font-weight: 600; color: var(--img-white); }
+    .custom-footer-links { display: flex; flex-direction: column; gap: 12px; }
+    .custom-footer-links a { color: rgba(255,255,255,0.6); font-size: 0.9rem; transition: color 0.2s; }
+    .custom-footer-links a:hover { color: var(--img-ginger-light); }
+    .custom-footer-social { display: flex; gap: 16px; margin-bottom: 20px; }
+    .custom-footer-social a { color: rgba(255,255,255,0.8); }
+    .custom-footer-social svg { width: 20px; height: 20px; }
+    .custom-footer-lang { display: flex; gap: 16px; font-size: 0.85rem; color: rgba(255,255,255,0.6); }
+    .custom-footer-lang span { display: flex; align-items: center; gap: 6px; cursor: pointer; }
+    .custom-footer-lang span:hover { color: var(--img-white); }
+    .custom-footer-bottom { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 24px; display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; color: rgba(255,255,255,0.4); }
+    .custom-footer-bottom-links { display: flex; gap: 20px; }
+
+    /* --- SECTION NEAR YOU (Repositionnée pour le design) --- */
     .section-near-you {
-      background: var(--ginger-600);
-      color: var(--cream-50);
+      background: var(--cream-50);
       padding: 80px 0;
-      position: relative;
-      overflow: hidden;
+      border-top: 1px solid var(--cream-200);
     }
-    
-    .section-near-you::before {
-      content: "";
-      position: absolute;
-      top: -200px;
-      left: -200px;
-      width: 600px;
-      height: 600px;
-      background: radial-gradient(circle, rgba(250,246,239,0.1) 0%, transparent 70%);
-      border-radius: 50%;
-    }
-    
-    .section-near-you .container {
-      position: relative;
-      z-index: 1;
-    }
-    
     .near-you-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -599,434 +162,257 @@
       max-width: 1000px;
       margin: 0 auto;
     }
-    
     .near-you-card {
-      background: rgba(250,246,239,0.1);
-      border: 1.5px solid rgba(250,246,239,0.2);
-      border-radius: var(--radius-lg);
+      background: var(--white);
       padding: 36px 28px;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--cream-200);
       text-align: center;
       transition: all 0.25s;
     }
-    
-    .near-you-card:hover {
-      background: rgba(250,246,239,0.15);
-      border-color: rgba(250,246,239,0.4);
-      transform: translateY(-4px);
-    }
-    
-    .near-you-card h3 {
-      font-size: 1.35rem;
-      font-weight: 800;
-      margin-bottom: 12px;
-      color: var(--cream-50);
-    }
-    
-    .near-you-card p {
-      color: rgba(250,246,239,0.9);
-      font-size: 0.95rem;
-      margin-bottom: 24px;
-      line-height: 1.6;
-    }
-    
-    .near-you-card button,
-    .near-you-card .btn {
-      width: 100%;
-      padding: 13px 20px;
-      border-radius: var(--radius);
-      background: var(--cream-50);
-      color: var(--ginger-600);
-      border: none;
-      font-weight: 700;
-      font-size: 0.95rem;
-      cursor: pointer;
-      transition: all 0.25s;
-      font-family: inherit;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-    }
-    
-    .near-you-card button:hover:not(:disabled),
-    .near-you-card .btn:hover {
-      background: var(--silver-900);
-      color: var(--cream-50);
-      transform: translateY(-2px);
-      box-shadow: 0 12px 28px rgba(28,31,36,0.25);
-    }
-    
-    .near-you-card button:disabled {
-      opacity: 0.6;
-      cursor: not-allowed;
-      transform: none;
-    }
-    
-    .code-input-wrapper {
-      display: flex;
-      gap: 8px;
-    }
-    
-    .code-input-wrapper input {
-      flex: 1;
-      padding: 13px 16px;
-      border-radius: var(--radius);
-      border: 1.5px solid rgba(250,246,239,0.3);
-      background: rgba(250,246,239,0.1);
-      color: var(--cream-50);
-      font-family: inherit;
-      font-size: 0.95rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
-    
-    .code-input-wrapper input::placeholder {
-      color: rgba(250,246,239,0.5);
-      text-transform: none;
-      letter-spacing: 0;
-      font-weight: 400;
-    }
-    
-    .code-input-wrapper input:focus {
-      outline: none;
-      border-color: var(--cream-50);
-      background: rgba(250,246,239,0.2);
-    }
-    
-    /* ============================================================
-       CTA VENDEUR (Silver Background for contrast)
-       ============================================================ */
-    .cta-seller {
-      background: var(--silver-900);
-      color: var(--cream-50);
-      padding: 80px 0;
-      position: relative;
-      overflow: hidden;
-    }
-    
-    .cta-seller::before {
-      content: "";
-      position: absolute;
-      bottom: -150px;
-      right: -150px;
-      width: 500px;
-      height: 500px;
-      background: radial-gradient(circle, rgba(217,98,43,0.25) 0%, transparent 70%);
-      border-radius: 50%;
-      animation: float-slow 10s ease-in-out infinite;
-    }
-    
-    .cta-seller-inner {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 60px;
-      align-items: center;
-      position: relative;
-      z-index: 1;
-    }
-    
-    .cta-seller h2 {
-      font-size: 2.25rem;
-      font-weight: 900;
-      margin-bottom: 16px;
-      color: var(--cream-50);
-      letter-spacing: -0.8px;
-    }
-    
-    .cta-seller p {
-      font-size: 1.05rem;
-      color: var(--silver-300);
-      margin-bottom: 28px;
-      line-height: 1.7;
-    }
-    
-    .btn-orange {
-      background: var(--ginger-500);
-      color: var(--white);
-      font-weight: 700;
-    }
-    
-    .btn-orange:hover {
-      background: var(--ginger-400);
-      transform: translateY(-2px);
-      box-shadow: 0 12px 28px rgba(217,98,43,0.4);
-    }
-    
-    .cta-list {
-      display: grid;
-      gap: 14px;
-      list-style: none;
-    }
-    
-    .cta-list li {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      font-size: 1rem;
-      color: var(--cream-50);
-    }
-    
-    .cta-list li::before {
-      content: "✓";
-      background: var(--ginger-500);
-      color: var(--white);
-      width: 26px;
-      height: 26px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 0.8rem;
-      font-weight: 900;
-      flex-shrink: 0;
-      box-shadow: 0 4px 12px rgba(217,98,43,0.4);
-    }
-    
-    .skeleton-card {
-      border-radius: var(--radius-lg);
-      overflow: hidden;
-      background: var(--white);
-      border: 1.5px solid var(--cream-200);
-      min-height: 380px;
-    }
-    
-    .skeleton-image {
-      aspect-ratio: 1;
-      background: linear-gradient(90deg, var(--cream-100) 25%, var(--cream-200) 50%, var(--cream-100) 75%);
-      background-size: 200% 100%;
-      animation: shimmer 1.5s infinite;
-    }
-    
-    @keyframes shimmer {
-      0% { background-position: 200% 0; }
-      100% { background-position: -200% 0; }
-    }
-    
-    .skeleton-body { padding: 22px; }
-    
-    .skeleton-line {
-      height: 16px;
-      background: linear-gradient(90deg, var(--cream-100) 25%, var(--cream-200) 50%, var(--cream-100) 75%);
-      background-size: 200% 100%;
-      animation: shimmer 1.5s infinite;
-      border-radius: 4px;
-      margin-bottom: 12px;
-    }
-    
-    .skeleton-line.short { width: 60%; }
-    
-    .skeleton-category {
-      width: calc((100% - 84px) / 4);
-      min-width: 280px;
-      height: 260px;
-      border-radius: var(--radius-lg);
-      background: var(--white);
-      border: 1.5px solid var(--cream-200);
-      position: relative;
-      overflow: hidden;
-    }
-    
-    .skeleton-category::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(90deg, transparent 25%, rgba(250,246,239,0.5) 50%, transparent 75%);
-      background-size: 200% 100%;
-      animation: shimmer 1.5s infinite;
-    }
-    
-    /* Footer (Silver Background) */
-    .footer {
-      background: var(--silver-900);
-      color: var(--cream-50);
-      padding: 70px 0 30px;
-    }
-    
-    .footer-grid {
-      display: grid;
-      grid-template-columns: 2fr 1fr 1fr 1.5fr;
-      gap: 40px;
-      margin-bottom: 48px;
-    }
-    
-    .footer h4 {
-      font-size: 1rem;
-      margin-bottom: 22px;
-      color: var(--ginger-400);
-      font-weight: 700;
-    }
-    
-    .footer p, .footer a {
-      color: var(--silver-300);
-      font-size: 0.95rem;
-      line-height: 2;
-    }
-    
-    .footer a:hover { color: var(--ginger-400); }
-    .footer ul { list-style: none; }
-    
-    .footer-brand {
-      font-size: 1.4rem;
-      font-weight: 900;
-      color: var(--cream-50);
-      letter-spacing: -0.5px;
-      margin-bottom: 16px;
-    }
-    
-    .footer-brand span { color: var(--ginger-500); }
-    
-    .footer-contact {
-      justify-self: end;
-      text-align: right;
-    }
-    
-    .footer-bottom {
-      border-top: 1px solid var(--silver-800);
-      padding-top: 28px;
-      text-align: center;
-      color: var(--silver-400);
-      font-size: 0.9rem;
-    }
-    
+    .near-you-card h3 { font-size: 1.35rem; margin-bottom: 12px; color: var(--silver-900); font-weight: 800; }
+    .near-you-card p { color: var(--silver-600); font-size: 0.95rem; margin-bottom: 24px; line-height: 1.6; }
+    .near-you-card button, .near-you-card .btn { width: 100%; padding: 13px 20px; border-radius: var(--radius); background: var(--ginger-500); color: var(--white); border: none; font-weight: 700; font-size: 0.95rem; cursor: pointer; transition: all 0.25s; font-family: inherit; display: inline-flex; align-items: center; justify-content: center; gap: 8px; }
+    .near-you-card button:hover:not(:disabled), .near-you-card .btn:hover { background: var(--ginger-600); transform: translateY(-2px); box-shadow: 0 12px 28px rgba(217,98,43,0.3); }
+    .code-input-wrapper { display: flex; gap: 8px; }
+    .code-input-wrapper input { flex: 1; padding: 13px 16px; border-radius: var(--radius); border: 1px solid var(--cream-300); background: var(--white); color: var(--silver-900); font-family: inherit; font-size: 0.95rem; font-weight: 600; text-transform: uppercase; }
+    .code-input-wrapper input:focus { outline: none; border-color: var(--ginger-500); box-shadow: 0 0 0 4px rgba(217,98,43,0.1); }
+
+    /* --- CAROUSEL OVERRIDES POUR LE JS --- */
+    .carousel { position: relative; padding: 0 50px; max-width: 1320px; margin: 0 auto; }
+    .carousel-track-wrapper { overflow-x: auto; scroll-behavior: smooth; scrollbar-width: none; padding: 16px 4px; }
+    .carousel-track-wrapper::-webkit-scrollbar { display: none; }
+    .carousel-track { display: flex; gap: 20px; }
+    .carousel-nav { position: absolute; top: 50%; transform: translateY(-50%); width: 40px; height: 40px; border-radius: 50%; background: var(--img-white); border: 1px solid var(--img-cream-border); display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 1.2rem; color: var(--img-silver-text); box-shadow: 0 4px 12px rgba(0,0,0,0.1); z-index: 10; }
+    .carousel-nav:hover:not(:disabled) { background: var(--img-ginger); color: var(--img-white); }
+    .carousel-nav:disabled { opacity: 0.3; cursor: not-allowed; }
+    .carousel-nav.prev { left: 0; }
+    .carousel-nav.next { right: 0; }
+    .product-slide, .shop-slide, .category-slide { flex: 0 0 calc((100% - 60px) / 4); min-width: 260px; }
+
+    /* --- RESPONSIVE --- */
     @media (max-width: 1024px) {
-      .category-card, .product-slide, .shop-slide { width: calc((100% - 56px) / 3); }
-      .skeleton-category { width: calc((100% - 56px) / 3); }
-      .footer-grid { grid-template-columns: 2fr 1fr 1fr; }
-      .footer-contact { grid-column: 1 / -1; justify-self: start; text-align: left; margin-top: 20px; }
+      .custom-categories-grid { grid-template-columns: repeat(4, 1fr); }
+      .custom-features-grid { grid-template-columns: repeat(2, 1fr); gap: 20px; }
+      .custom-steps-grid { grid-template-columns: repeat(2, 1fr); gap: 40px; }
+      .custom-steps-grid::before { display: none; }
+      .custom-cta-grid { grid-template-columns: 1fr; }
+      .custom-footer-grid { grid-template-columns: 1fr 1fr; }
+      .product-slide, .shop-slide, .category-slide { flex: 0 0 calc((100% - 40px) / 3); }
     }
-    
-    @media (max-width: 900px) {
-      .hero { padding: 60px 0 80px; }
-      .hero h1 { font-size: 2.5rem; letter-spacing: -1.5px; line-height: 1.1; min-height: 2.5em; }
-      .hero p { font-size: 1rem; }
-      .section-carousel { padding: 56px 0; }
-      .section-header-centered { margin-bottom: 32px; }
-      .section-header-centered h2 { font-size: 1.6rem; }
-      .section-header-centered p { font-size: 0.95rem; }
-      .carousel { padding: 0 50px; }
-      .carousel-track { gap: 18px; }
-      .carousel-nav { width: 42px; height: 42px; font-size: 1.2rem; }
-      .category-card, .product-slide, .shop-slide { width: calc((100% - 36px) / 2); min-width: unset; }
-      .skeleton-category { width: calc((100% - 36px) / 2); }
-      .cta-seller { padding: 60px 0; }
-      .cta-seller-inner { grid-template-columns: 1fr; gap: 32px; }
-      .cta-seller h2 { font-size: 1.75rem; }
-      .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
-      .near-you-grid { grid-template-columns: 1fr; gap: 24px; }
+    @media (max-width: 768px) {
+      .custom-hero { padding: 120px 0 60px; background-position: center; }
+      .custom-hero h1 { font-size: 2.5rem; }
+      .custom-nav-links { display: none; }
+      .custom-categories-grid { grid-template-columns: repeat(3, 1fr); }
+      .custom-steps-grid { grid-template-columns: 1fr; }
+      .custom-footer-grid { grid-template-columns: 1fr; }
+      .custom-footer-bottom { flex-direction: column; gap: 16px; text-align: center; }
+      .product-slide, .shop-slide, .category-slide { flex: 0 0 calc((100% - 20px) / 2); }
+      .near-you-grid { grid-template-columns: 1fr; }
     }
-    
-    @media (max-width: 640px) {
-      .hero { padding: 40px 0 56px; }
-      .hero-inner { padding: 0 18px; }
-      .hero h1 { font-size: 1.75rem; letter-spacing: -0.6px; line-height: 1.15; min-height: 2.9em; margin-bottom: 18px; }
-      .hero p { font-size: 0.92rem; line-height: 1.55; margin-bottom: 28px; padding: 0 4px; }
-      .hero-buttons { flex-direction: column; gap: 10px; width: 100%; }
-      .hero-buttons .btn { width: 100%; justify-content: center; padding: 13px 20px; font-size: 0.92rem; }
-      .btn-lg { padding: 13px 20px; font-size: 0.92rem; }
-      .section-carousel { padding: 40px 0; }
-      .section-header-centered { margin-bottom: 22px; padding: 0 16px; }
-      .section-header-centered h2 { font-size: 1.3rem; gap: 9px; letter-spacing: -0.3px; }
-      .section-header-centered h2 .accent-bar { width: 4px; height: 24px; }
-      .section-header-centered p { font-size: 0.83rem; line-height: 1.5; }
-      .carousel { padding: 0 44px; }
-      .carousel-track { gap: 14px; }
-      .carousel-track-wrapper { padding: 12px 4px; }
-      .carousel-nav { width: 34px; height: 34px; font-size: 1rem; }
-      .carousel-nav.prev { left: 2px; }
-      .carousel-nav.next { right: 2px; }
-      .category-card, .product-slide, .shop-slide { width: calc(100% - 16px); min-width: unset; }
-      .skeleton-category { width: calc(100% - 16px); }
-      .category-card { min-height: 190px; padding: 26px 18px; gap: 12px; }
-      .category-emoji { font-size: 2.4rem; }
-      .category-name { font-size: 0.98rem; }
-      .category-count { font-size: 0.78rem; }
-      .product-card { min-height: 340px; }
-      .product-image { aspect-ratio: 1; }
-      .product-info { padding: 16px; }
-      .product-name { font-size: 0.98rem; }
-      .product-price { font-size: 1.05rem; }
-      .product-stats { font-size: 0.72rem; }
-      .product-badge-sales { padding: 5px 10px; font-size: 0.7rem; top: 10px; left: 10px; }
-      .shop-card { min-height: 340px; }
-      .shop-banner { height: 105px; }
-      .shop-avatar { width: 54px; height: 54px; font-size: 1.1rem; bottom: -22px; left: 20px; }
-      .shop-body { padding: 34px 20px 18px; }
-      .shop-name { font-size: 1rem; }
-      .shop-desc { font-size: 0.83rem; }
-      .shop-stats { font-size: 0.78rem; }
-      .section-near-you { padding: 48px 0; }
-      .near-you-card { padding: 24px 20px; }
-      .near-you-card h3 { font-size: 1.15rem; }
-      .near-you-card p { font-size: 0.88rem; }
-      .cta-seller { padding: 48px 0; }
-      .cta-seller h2 { font-size: 1.45rem; letter-spacing: -0.3px; }
-      .cta-seller p { font-size: 0.92rem; margin-bottom: 22px; }
-      .cta-list li { font-size: 0.88rem; padding: 8px 0; }
-      .cta-list li::before { width: 22px; height: 22px; font-size: 0.7rem; }
-      .footer { padding: 48px 0 24px; }
-      .footer-grid { grid-template-columns: 1fr; gap: 26px; margin-bottom: 32px; }
-      .footer-contact { text-align: left; justify-self: start; }
-      .footer-brand { font-size: 1.2rem; }
-      .footer h4 { margin-bottom: 14px; }
-      .footer p, .footer a { font-size: 0.9rem; line-height: 1.9; }
-    }
-    
-    @media (max-width: 380px) {
-      .hero h1 { font-size: 1.55rem; min-height: 3.1em; }
-      .hero p { font-size: 0.87rem; }
-      .section-header-centered h2 { font-size: 1.15rem; }
-      .section-header-centered p { font-size: 0.78rem; }
-      .carousel { padding: 0 40px; }
-      .carousel-nav { width: 30px; height: 30px; font-size: 0.9rem; }
-      .btn-lg { font-size: 0.85rem; padding: 12px 18px; }
-      .code-input-wrapper { flex-direction: column; }
+    @media (max-width: 480px) {
+      .custom-categories-grid { grid-template-columns: repeat(2, 1fr); }
+      .custom-features-grid { grid-template-columns: 1fr; }
+      .custom-hero-buttons { flex-direction: column; width: 100%; }
+      .custom-hero-buttons .btn-custom-primary, .custom-hero-buttons .btn-custom-outline { width: 100%; }
+      .product-slide, .shop-slide, .category-slide { flex: 0 0 100%; }
     }
   </style>
 </head>
 <body>
 
-  <div id="navbar"></div>
+  <!-- NAVBAR CUSTOM (Design image) -->
+  <header class="custom-navbar">
+    <div class="custom-navbar-inner">
+      <a href="/index.html" class="custom-logo">
+        <img src="/img/logo.png" alt="Finest Global Logo">
+        <div class="custom-logo-text">
+          <span class="custom-logo-title">FINEST GLOBAL</span>
+          <span class="custom-logo-subtitle">Savings • Marketing • Consultation</span>
+        </div>
+      </a>
+      <nav class="custom-nav-links">
+        <a href="/index.html" class="custom-nav-link active">Home</a>
+        <a href="/marketplace.html" class="custom-nav-link">Explore</a>
+        <a href="/about.html" class="custom-nav-link">About</a>
+        <a href="/contact.html" class="custom-nav-link">Contact</a>
+      </nav>
+      <div class="custom-nav-icons">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+      </div>
+    </div>
+  </header>
 
-  <!-- HERO -->
-  <section class="hero">
-    <div class="hero-inner">
-      <h1>
-        <span class="line line-1">
-          <span class="typed-text" id="typed-1"></span>
-        </span>
-        <span class="line line-2">
-          <span class="typed-text" id="typed-2"></span>
-        </span>
-      </h1>
-      <p data-i18n="home.hero_p">Finest Global rend les commerçants du marché visibles, trouvables et connectés à leurs clients. Sans remplacer le marché physique — en le rendant simplement accessible.</p>
-      <div class="hero-buttons">
-        <a href="/marketplace.html" class="btn btn-white btn-lg" data-i18n="home.explore">Explorer la marketplace →</a>
-        <a href="/register.html" class="btn btn-outline-white btn-lg" data-i18n="home.become_seller">Devenir vendeur</a>
+  <!-- HERO CUSTOM -->
+  <section class="custom-hero">
+    <div class="container">
+      <div class="custom-hero-content">
+        <h1>
+          <span class="line line-1" id="typed-1">Be Findable.</span><br>
+          <span class="line line-2" id="typed-2">Become Visible.</span>
+        </h1>
+        <p data-i18n="home.hero_p">Finest Global connects businesses, products and services with the right people — making your world more visible, accessible and sustainable.</p>
+        <div class="custom-hero-buttons">
+          <a href="/register.html" class="btn-custom-primary" data-i18n="home.become_seller">Become a Seller →</a>
+          <a href="/marketplace.html" class="btn-custom-outline" data-i18n="home.explore">Explore Marketplace →</a>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- 🆕 SECTION PRÈS DE CHEZ VOUS + CODE -->
+  <!-- POPULAR CATEGORIES -->
+  <section class="custom-section-categories">
+    <div class="container">
+      <div class="custom-section-header">
+        <h2 data-i18n="home.categories_title">Popular Categories</h2>
+        <p data-i18n="home.categories_p">Discover a wide range of products and services, all in one place.</p>
+      </div>
+      
+      <div class="carousel" style="padding: 0;">
+        <div class="carousel-track-wrapper" id="categories-track-wrapper">
+          <div class="carousel-track" id="categories-track">
+            <!-- Skeleton Loader -->
+            <div class="skeleton-card" style="width: 200px; height: 120px; background: var(--img-cream-card); border-radius: 16px;"></div>
+            <div class="skeleton-card" style="width: 200px; height: 120px; background: var(--img-cream-card); border-radius: 16px;"></div>
+            <div class="skeleton-card" style="width: 200px; height: 120px; background: var(--img-cream-card); border-radius: 16px;"></div>
+            <div class="skeleton-card" style="width: 200px; height: 120px; background: var(--img-cream-card); border-radius: 16px;"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES BAR -->
+  <section class="custom-section-features">
+    <div class="container">
+      <div class="custom-features-grid">
+        <div class="custom-feature-item">
+          <div class="custom-feature-icon">
+            <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
+          </div>
+          <div class="custom-feature-text">
+            <h4>Secure Transactions</h4>
+            <p>Shop and sell with confidence.</p>
+          </div>
+        </div>
+        <div class="custom-feature-item">
+          <div class="custom-feature-icon">
+            <svg viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+          </div>
+          <div class="custom-feature-text">
+            <h4>Wide Reach</h4>
+            <p>Connect with customers beyond your location.</p>
+          </div>
+        </div>
+        <div class="custom-feature-item">
+          <div class="custom-feature-icon">
+            <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          </div>
+          <div class="custom-feature-text">
+            <h4>Trusted Community</h4>
+            <p>Real people. Real businesses.</p>
+          </div>
+        </div>
+        <div class="custom-feature-item">
+          <div class="custom-feature-icon">
+            <svg viewBox="0 0 24 24"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg>
+          </div>
+          <div class="custom-feature-text">
+            <h4>Sustainable Growth</h4>
+            <p>More visibility. More opportunities.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="custom-section-how">
+    <div class="container">
+      <div class="custom-section-header centered">
+        <h2>How It Works</h2>
+        <p>Getting started is simple.</p>
+      </div>
+
+      <div class="custom-steps-grid">
+        <div class="custom-step-item">
+          <div class="custom-step-number">1</div>
+          <div class="custom-step-icon">
+            <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          </div>
+          <h3>Create an Account</h3>
+          <p>Sign up in minutes and set up your profile.</p>
+        </div>
+        <div class="custom-step-item">
+          <div class="custom-step-number">2</div>
+          <div class="custom-step-icon">
+            <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          </div>
+          <h3>List Your Business</h3>
+          <p>Add your products or services with ease.</p>
+        </div>
+        <div class="custom-step-item">
+          <div class="custom-step-number">3</div>
+          <div class="custom-step-icon">
+            <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          </div>
+          <h3>Explore & Connect</h3>
+          <p>Find customers, discover new opportunities.</p>
+        </div>
+        <div class="custom-step-item">
+          <div class="custom-step-number">4</div>
+          <div class="custom-step-icon">
+            <svg viewBox="0 0 24 24"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+          </div>
+          <h3>Grow Together</h3>
+          <p>Build your brand and increase your sales.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TWO COLUMNS CTA -->
+  <section class="custom-section-cta">
+    <div class="container">
+      <div class="custom-cta-grid">
+        <!-- Sellers -->
+        <div class="custom-cta-card custom-cta-sellers">
+          <h3>
+            <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            For Sellers
+          </h3>
+          <p>Showcase your business to a bigger audience.</p>
+          <a href="/register.html" class="btn-custom-white">Become a Seller →</a>
+        </div>
+        
+        <!-- Buyers -->
+        <div class="custom-cta-card custom-cta-buyers">
+          <h3>
+            <svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+            For Buyers
+          </h3>
+          <p>Find what you need, from trusted sellers.</p>
+          <a href="/marketplace.html" class="btn-custom-outline-dark">Explore Marketplace →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION PRÈS DE CHEZ VOUS (Intégration de vos fonctions JS) -->
   <section class="section-near-you">
     <div class="container">
-      <div class="section-header-centered" style="margin-bottom: 40px;">
-        <h2 style="color: var(--cream-50);">
-          <span class="accent-bar"></span> 
-          <span data-i18n="home.near_you_title">📍 Près de chez vous</span>
-        </h2>
-        <p style="color: rgba(250,246,239,0.9);" data-i18n="home.near_you_p">
-          Découvrez les boutiques et produits autour de votre position.
-        </p>
+      <div class="custom-section-header centered">
+        <h2 style="justify-content: center;" data-i18n="home.near_you_title">📍 Près de chez vous</h2>
+        <p data-i18n="home.near_you_p">Découvrez les boutiques et produits autour de votre position.</p>
       </div>
       
       <div class="near-you-grid">
         <!-- Carte : Détecter ma position -->
         <div class="near-you-card">
           <h3>📍 <span data-i18n="home.near_you_title">Près de chez vous</span></h3>
-          <p data-i18n="home.near_you_p">
-            Découvrez les boutiques et produits autour de votre position.
-          </p>
+          <p data-i18n="home.near_you_p">Découvrez les boutiques et produits autour de votre position.</p>
           <button id="detect-location-btn" onclick="detectAndRedirect()">
             <span data-i18n="home.detect_location">Détecter ma position</span>
           </button>
@@ -1035,9 +421,7 @@
         <!-- Carte : Rechercher par code -->
         <div class="near-you-card">
           <h3>🔎 <span data-i18n="home.search_by_code">Rechercher par code boutique</span></h3>
-          <p data-i18n="home.enter_code">
-            Entrez le code de la boutique (ex: FG-0001).
-          </p>
+          <p data-i18n="home.enter_code">Entrez le code de la boutique (ex: FG-0001).</p>
           <div class="code-input-wrapper">
             <input 
               type="text" 
@@ -1055,133 +439,84 @@
     </div>
   </section>
 
-  <!-- CATÉGORIES POPULAIRES -->
-  <section class="section-carousel">
-    <div class="section-header-centered">
-      <h2><span class="accent-bar"></span> <span data-i18n="home.categories_title">Catégories populaires</span></h2>
-      <p data-i18n="home.categories_p">Explorez les produits par catégorie et trouvez ce que vous cherchez rapidement.</p>
-    </div>
-    
-    <div class="carousel">
-      <button class="carousel-nav prev" onclick="scrollCarousel('categories', -1)" aria-label="Précédent">‹</button>
-      <div class="carousel-track-wrapper" id="categories-track-wrapper">
-        <div class="carousel-track" id="categories-track">
-          <div class="skeleton-category"></div>
-          <div class="skeleton-category"></div>
-          <div class="skeleton-category"></div>
-          <div class="skeleton-category"></div>
-        </div>
-      </div>
-      <button class="carousel-nav next" onclick="scrollCarousel('categories', 1)" aria-label="Suivant">›</button>
-    </div>
-  </section>
-
-  <!-- LES PLUS VENDUS -->
-  <section class="section-carousel">
-    <div class="section-header-centered">
-      <h2><span class="accent-bar"></span> <span data-i18n="home.trending_title">Les plus vendus</span></h2>
-      <p data-i18n="home.trending_p">Les produits les plus populaires de la plateforme, choisis par nos clients.</p>
-    </div>
-    
-    <div class="carousel">
-      <button class="carousel-nav prev" onclick="scrollCarousel('trending', -1)" aria-label="Précédent">‹</button>
-      <div class="carousel-track-wrapper" id="trending-track-wrapper">
-        <div class="carousel-track" id="trending-track">
-          <div class="product-slide"><div class="skeleton-card"><div class="skeleton-image"></div><div class="skeleton-body"><div class="skeleton-line"></div><div class="skeleton-line short"></div></div></div></div>
-          <div class="product-slide"><div class="skeleton-card"><div class="skeleton-image"></div><div class="skeleton-body"><div class="skeleton-line"></div><div class="skeleton-line short"></div></div></div></div>
-          <div class="product-slide"><div class="skeleton-card"><div class="skeleton-image"></div><div class="skeleton-body"><div class="skeleton-line"></div><div class="skeleton-line short"></div></div></div></div>
-          <div class="product-slide"><div class="skeleton-card"><div class="skeleton-image"></div><div class="skeleton-body"><div class="skeleton-line"></div><div class="skeleton-line short"></div></div></div></div>
-        </div>
-      </div>
-      <button class="carousel-nav next" onclick="scrollCarousel('trending', 1)" aria-label="Suivant">›</button>
-    </div>
-  </section>
-
-  <!-- BOUTIQUES EN VEDETTE -->
-  <section class="section-carousel">
-    <div class="section-header-centered">
-      <h2><span class="accent-bar"></span> <span data-i18n="home.shops_title">Boutiques en vedette</span></h2>
-      <p data-i18n="home.shops_p">Découvrez les meilleures boutiques de la plateforme et leurs produits.</p>
-    </div>
-    
-    <div class="carousel">
-      <button class="carousel-nav prev" onclick="scrollCarousel('shops', -1)" aria-label="Précédent">‹</button>
-      <div class="carousel-track-wrapper" id="shops-track-wrapper">
-        <div class="carousel-track" id="shops-track">
-          <div class="shop-slide"><div class="skeleton-card"><div style="height:140px;background:var(--cream-200);"></div><div class="skeleton-body"><div class="skeleton-line"></div><div class="skeleton-line short"></div></div></div></div>
-          <div class="shop-slide"><div class="skeleton-card"><div style="height:140px;background:var(--cream-200);"></div><div class="skeleton-body"><div class="skeleton-line"></div><div class="skeleton-line short"></div></div></div></div>
-          <div class="shop-slide"><div class="skeleton-card"><div style="height:140px;background:var(--cream-200);"></div><div class="skeleton-body"><div class="skeleton-line"></div><div class="skeleton-line short"></div></div></div></div>
-          <div class="shop-slide"><div class="skeleton-card"><div style="height:140px;background:var(--cream-200);"></div><div class="skeleton-body"><div class="skeleton-line"></div><div class="skeleton-line short"></div></div></div></div>
-        </div>
-      </div>
-      <button class="carousel-nav next" onclick="scrollCarousel('shops', 1)" aria-label="Suivant">›</button>
-    </div>
-  </section>
-
-  <!-- CTA VENDEUR -->
-  <section class="cta-seller">
+  <!-- SECTION LES PLUS VENDUS (Pour faire fonctionner votre JS loadTrending) -->
+  <section class="custom-section-categories" style="background: var(--img-cream-bg);">
     <div class="container">
-      <div class="cta-seller-inner">
-        <div>
-          <h2 data-i18n="home.cta_title">Vous êtes commerçant ?</h2>
-          <p data-i18n="home.cta_p">Créez votre boutique en ligne gratuitement et recevez vos commandes directement sur votre téléphone.</p>
-          <a href="/register.html" class="btn btn-orange btn-lg" id="cta-button" data-i18n="home.cta_btn">
-            Créer ma boutique →
-          </a>
+      <div class="custom-section-header centered">
+        <h2 style="justify-content: center;" data-i18n="home.trending_title">Les plus vendus</h2>
+        <p data-i18n="home.trending_p">Les produits les plus populaires de la plateforme, choisis par nos clients.</p>
+      </div>
+      
+      <div class="carousel">
+        <button class="carousel-nav prev" onclick="scrollCarousel('trending', -1)" aria-label="Précédent">‹</button>
+        <div class="carousel-track-wrapper" id="trending-track-wrapper">
+          <div class="carousel-track" id="trending-track">
+             <!-- Skeleton cards -->
+             <div class="product-slide"><div class="skeleton-card"><div class="skeleton-image"></div><div class="skeleton-body"><div class="skeleton-line"></div><div class="skeleton-line short"></div></div></div></div>
+             <div class="product-slide"><div class="skeleton-card"><div class="skeleton-image"></div><div class="skeleton-body"><div class="skeleton-line"></div><div class="skeleton-line short"></div></div></div></div>
+             <div class="product-slide"><div class="skeleton-card"><div class="skeleton-image"></div><div class="skeleton-body"><div class="skeleton-line"></div><div class="skeleton-line short"></div></div></div></div>
+             <div class="product-slide"><div class="skeleton-card"><div class="skeleton-image"></div><div class="skeleton-body"><div class="skeleton-line"></div><div class="skeleton-line short"></div></div></div></div>
+          </div>
         </div>
-        <div>
-          <ul class="cta-list">
-            <li data-i18n="home.cta_1">Boutique en ligne gratuite</li>
-            <li data-i18n="home.cta_2">Notifications en temps réel</li>
-            <li data-i18n="home.cta_3">Visible par des milliers d'acheteurs</li>
-            <li data-i18n="home.cta_4">Aucune commission au démarrage</li>
-            <li data-i18n="home.cta_5">Support en français</li>
-          </ul>
-        </div>
+        <button class="carousel-nav next" onclick="scrollCarousel('trending', 1)" aria-label="Suivant">›</button>
       </div>
     </div>
   </section>
 
-  <!-- FOOTER -->
-  <footer class="footer">
+  <!-- FOOTER CUSTOM -->
+  <footer class="custom-footer">
     <div class="container">
-      <div class="footer-grid">
+      <div class="custom-footer-grid">
         <div>
-          <div class="footer-brand">Finest<span>Global</span></div>
-          <p data-i18n="footer.tagline">Le marché physique, rendu visible. Connecter les vendeurs du Bénin à leurs clients, sans remplacer le marché traditionnel.</p>
+          <div class="custom-footer-brand">
+            <img src="/img/logo.png" alt="Logo">
+            <div class="custom-logo-text">
+              <span class="custom-logo-title">FINEST GLOBAL</span>
+              <span class="custom-logo-subtitle">Savings • Marketing • Consultation</span>
+            </div>
+          </div>
+          <p data-i18n="footer.tagline">Be Findable. Become Visible. Connecting people. Empowering businesses. Building a global marketplace.</p>
         </div>
+        
         <div>
           <h4 data-i18n="footer.navigation">Navigation</h4>
-          <ul>
-            <li><a href="/index.html" data-i18n="nav.home">Accueil</a></li>
-            <li><a href="/marketplace.html" data-i18n="nav.marketplace">Marketplace</a></li>
-            <li><a href="/about.html" data-i18n="nav.about">À propos</a></li>
-          </ul>
+          <div class="custom-footer-links">
+            <a href="/index.html" data-i18n="nav.home">Home</a>
+            <a href="/marketplace.html" data-i18n="nav.marketplace">Explore</a>
+            <a href="/about.html" data-i18n="nav.about">About</a>
+            <a href="/contact.html" data-i18n="nav.contact">Contact</a>
+          </div>
         </div>
+
         <div>
-          <h4 data-i18n="footer.sellers">Vendeurs</h4>
-          <ul>
-            <li><a href="/register.html" data-i18n="footer.create_shop">Créer une boutique</a></li>
-            <li><a href="/dashboard-seller.html" data-i18n="footer.my_dashboard">Mon dashboard</a></li>
-            <li><a href="/orders.html" data-i18n="footer.my_orders">Mes commandes</a></li>
-          </ul>
+          <h4 data-i18n="footer.connect">Connect</h4>
+          <div class="custom-footer-social">
+            <a href="#"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+            <a href="#"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></a>
+            <a href="#"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></a>
+          </div>
         </div>
-        <div class="footer-contact">
-          <h4 data-i18n="footer.contact">Contact</h4>
-          <ul>
-            <li><a href="mailto:hello@finestglobal.com">hello@finestglobal.com</a></li>
-            <li><a href="#">WhatsApp</a></li>
-            <li><a href="#">Facebook</a></li>
-            <li><a href="#">Instagram</a></li>
-          </ul>
+
+        <div>
+          <div class="custom-footer-lang">
+            <span>🇫🇷 Français</span>
+            <span>🇬🇧 English</span>
+          </div>
         </div>
       </div>
-      <div class="footer-bottom">
-        © 2026 FinestGlobal — <span data-i18n="footer.rights">Tous droits réservés.</span>
+
+      <div class="custom-footer-bottom">
+        <p>© 2026 FinestGlobal — <span data-i18n="footer.rights">Tous droits réservés.</span></p>
+        <div class="custom-footer-bottom-links">
+          <span>SAVINGS</span>
+          <span>MARKETING</span>
+          <span>CONSULTATION</span>
+        </div>
       </div>
     </div>
   </footer>
 
+  <!-- VOS SCRIPTS ORIGINAUX -->
   <script src="/js/api.js"></script>
   <script src="/js/auth.js"></script>
   <script src="/js/i18n.js"></script>
@@ -1189,12 +524,12 @@
   <script src="/js/navbar.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      renderNavbar();
+      // renderNavbar(); // Désactivé car nous avons un navbar custom dans le HTML pour correspondre à l'image
       startTypingAnimation();
       loadCategories();
       loadTrending();
-      loadShops();
-      adaptCTA();
+      // loadShops(); // Masqué pour correspondre au design de l'image
+      // adaptCTA(); // Masqué pour correspondre au design de l'image
       trackPageview();
       initCarousels();
     });
@@ -1203,8 +538,8 @@
       const typed1 = document.getElementById('typed-1');
       const typed2 = document.getElementById('typed-2');
       
-      const word1 = t('home.hero_1');
-      const word2 = t('home.hero_2');
+      const word1 = t('home.hero_1') || "Be Findable.";
+      const word2 = t('home.hero_2') || "Become Visible.";
       
       function typeSequence() {
         typed1.textContent = "";
@@ -1336,22 +671,18 @@
         
         if (!categories || categories.length === 0) {
           track.innerHTML = `
-            <div class="empty-state" style="width: 100%; padding: 60px 20px;">
-              <div class="empty-state-icon">🏷️</div>
-              <h3 data-i18n="home.no_categories">${t('home.categories_title')}</h3>
-              <p style="color: var(--silver-500);">—</p>
+            <div class="empty-state" style="width: 100%; padding: 20px; text-align: center; color: var(--img-silver-muted);">
+              <p>${t('home.no_categories') || 'Aucune catégorie disponible'}</p>
             </div>
           `;
-          const carousel = track.closest('.carousel');
-          carousel.querySelectorAll('.carousel-nav').forEach(b => b.style.display = 'none');
           return;
         }
         
-        track.innerHTML = categories.map(cat => `
-          <a href="/marketplace.html?category=${encodeURIComponent(cat.name)}" class="category-card">
-            <span class="category-emoji">${cat.emoji || '🏷️'}</span>
-            <span class="category-name">${escapeHtml(cat.name)}</span>
-            <span class="category-count">${cat.product_count} ${cat.product_count > 1 ? 'produits' : 'produit'}</span>
+        // On limite à 7 pour correspondre au design de l'image
+        track.innerHTML = categories.slice(0, 7).map(cat => `
+          <a href="/marketplace.html?category=${encodeURIComponent(cat.name)}" class="custom-category-card" style="min-width: 120px;">
+            <span class="custom-category-icon" style="font-size: 2rem;">${cat.emoji || '🏷️'}</span>
+            <span class="custom-category-name">${escapeHtml(cat.name)}</span>
           </a>
         `).join('');
         
@@ -1370,14 +701,10 @@
         
         if (!data.results || data.results.length === 0) {
           track.innerHTML = `
-            <div class="empty-state" style="width: 100%; padding: 60px 20px;">
-              <div class="empty-state-icon">📦</div>
-              <h3>—</h3>
-              <p style="color: var(--silver-500);">—</p>
+            <div class="empty-state" style="width: 100%; padding: 20px; text-align: center; color: var(--img-silver-muted);">
+              <p>Aucun produit tendance</p>
             </div>
           `;
-          const carousel = track.closest('.carousel');
-          carousel.querySelectorAll('.carousel-nav').forEach(b => b.style.display = 'none');
           return;
         }
         
@@ -1396,84 +723,20 @@
     
     function renderProductCard(product) {
       const photo = product.photo_url 
-        ? `<img src="${imageUrl(product.photo_url)}" alt="${escapeHtml(product.name)}" loading="lazy">`
-        : '📦';
+        ? `<img src="${imageUrl(product.photo_url)}" alt="${escapeHtml(product.name)}" loading="lazy" style="width:100%; height:100%; object-fit:cover;">`
+        : '<span style="font-size:3rem;">📦</span>';
       
       return `
-        <a href="/shop.html?product=${product.id}" class="product-card">
-          <div class="product-image">
+        <a href="/shop.html?product=${product.id}" class="product-card" style="background: var(--img-white); border: 1px solid var(--img-cream-border); border-radius: 16px; overflow: hidden; display: flex; flex-direction: column; text-decoration: none; height: 100%;">
+          <div class="product-image" style="aspect-ratio: 1; background: var(--img-cream-bg); display: flex; align-items: center; justify-content: center; position: relative;">
             ${photo}
-            ${product.sales_count > 0 ? `<div class="product-badge-sales">🔥 ${product.sales_count}</div>` : ''}
+            ${product.sales_count > 0 ? `<div style="position: absolute; top: 10px; left: 10px; background: var(--img-ginger); color: white; padding: 4px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: 700;">🔥 ${product.sales_count}</div>` : ''}
           </div>
-          <div class="product-info">
-            <div class="product-name">${escapeHtml(product.name)}</div>
-            <div class="product-footer">
-              <div class="product-price">${formatPrice(product.price)}</div>
-              <div class="product-stats">👁️ ${product.views_count}</div>
-            </div>
-          </div>
-        </a>
-      `;
-    }
-    
-    async function loadShops() {
-      const track = document.getElementById('shops-track');
-      
-      try {
-        const shops = await ShopsAPI.list({ limit: 10 });
-        
-        if (!shops || shops.length === 0) {
-          track.innerHTML = `
-            <div class="empty-state" style="width: 100%; padding: 60px 20px;">
-              <div class="empty-state-icon">🏪</div>
-              <h3>—</h3>
-              <p style="color: var(--silver-500);">—</p>
-            </div>
-          `;
-          const carousel = track.closest('.carousel');
-          carousel.querySelectorAll('.carousel-nav').forEach(b => b.style.display = 'none');
-          return;
-        }
-        
-        track.innerHTML = shops.map(shop => `
-          <div class="shop-slide">
-            ${renderShopCard(shop)}
-          </div>
-        `).join('');
-        
-        setTimeout(() => updateCarouselButtons('shops'), 100);
-        
-      } catch (error) {
-        console.error('Erreur boutiques:', error);
-      }
-    }
-    
-    function renderShopCard(shop) {
-      const initials = shop.name.substring(0, 2).toUpperCase();
-      const banner = shop.photo_url 
-        ? `<img src="${imageUrl(shop.photo_url)}" alt="${escapeHtml(shop.name)}">`
-        : '';
-      
-      const codeBadge = shop.code 
-        ? `<span style="font-size:0.75rem;color:var(--silver-500);">${escapeHtml(shop.code)}</span>` 
-        : '';
-      
-      const localityBadge = shop.locality 
-        ? `<span>📍 ${escapeHtml(shop.locality)}</span>` 
-        : '';
-      
-      return `
-        <a href="/shop.html?id=${shop.id}" class="shop-card">
-          <div class="shop-banner">
-            ${banner}
-            <div class="shop-avatar">${initials}</div>
-          </div>
-          <div class="shop-body">
-            <div class="shop-name">${escapeHtml(shop.name)}</div>
-            <div class="shop-desc">${escapeHtml(shop.description || '—')}</div>
-            <div class="shop-stats">
-              ${localityBadge}
-              ${codeBadge}
+          <div class="product-info" style="padding: 16px; flex: 1; display: flex; flex-direction: column;">
+            <div class="product-name" style="font-weight: 600; color: var(--img-silver-text); margin-bottom: 8px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">${escapeHtml(product.name)}</div>
+            <div class="product-footer" style="display: flex; justify-content: space-between; align-items: center; margin-top: auto; border-top: 1px solid var(--img-cream-border); padding-top: 10px;">
+              <div class="product-price" style="font-weight: 800; color: var(--img-ginger);">${formatPrice(product.price)}</div>
+              <div class="product-stats" style="font-size: 0.8rem; color: var(--img-silver-muted);">👁️ ${product.views_count}</div>
             </div>
           </div>
         </a>
@@ -1481,16 +744,7 @@
     }
     
     function adaptCTA() {
-      const btn = document.getElementById('cta-button');
-      if (!btn) return;
-      
-      if (Auth.isSeller()) {
-        btn.textContent = t('nav.dashboard') + ' →';
-        btn.href = '/dashboard-seller.html';
-      } else if (Auth.isAuthenticated()) {
-        btn.textContent = t('home.become_seller') + ' →';
-        btn.href = '/become-seller.html';
-      }
+      // Fonction conservée pour compatibilité
     }
     
     function trackPageview() {
