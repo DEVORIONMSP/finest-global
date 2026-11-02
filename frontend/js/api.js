@@ -3,7 +3,7 @@
    Wrapper fetch centralisé pour parler au backend FastAPI
    ============================================================ */
 
-const API_BASE_URL = 'https://finest-global.onrender.com';
+const API_BASE_URL = 'https://finest-global-guh4.onrender.com';
 
 // ============================================================
 // CLASSE D'ERREUR API
