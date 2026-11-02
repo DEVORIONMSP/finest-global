@@ -89,7 +89,7 @@ function renderNavbar() {
   navContainer.innerHTML = `
     <div class="navbar-inner">
       <a href="/index.html" class="navbar-logo" aria-label="Finest Global">
-        <img src="/assets/logo.png" alt="Finest Global" class="navbar-logo-img">
+        <img src="/assets/finest.png" alt="Finest Global" class="navbar-logo-img">
       </a>
       
       <div class="navbar-search">
