@@ -989,7 +989,14 @@
         justify-content: center;
         padding: 96px 0 60px;
         background-size: cover;
-        background-position: center center;
+
+        /* ⭐⭐⭐ LIGNE À MODIFIER POUR DÉCALER L'IMAGE ⭐⭐⭐
+           - center center  → image centrée
+           - 30% center     → image poussée à GAUCHE (décalée vers la gauche)
+           - 20% center     → image encore plus à gauche
+           - 70% center     → image poussée à droite
+           Actuellement : 30% center = légèrement à gauche */
+        background-position: 30% center;
       }
       
       /* Voile sombre uniforme pour la lisibilité sur toute l'image */
