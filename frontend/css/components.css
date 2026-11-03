@@ -716,20 +716,24 @@ img, video {
 
 /* ============================================================
    NAVBAR — RESPONSIVE MOBILE
+   🆕 Structure mobile : LOGO + MARKETPLACE + LANGUE + ICÔNE
    ============================================================ */
 
 @media (max-width: 900px) {
+  /* Recherche masquée sur mobile */
   .navbar-search { display: none; }
 
   .navbar-inner {
     padding: 10px 12px;
     padding-left: max(12px, env(safe-area-inset-left, 0px));
     padding-right: max(12px, env(safe-area-inset-right, 0px));
-    gap: 8px;
+    gap: 10px;
+    justify-content: space-between;
   }
 
   .navbar-logo-img { height: 34px; }
 
+  /* Liens : seulement Marketplace, prennent la place disponible */
   .navbar-links {
     flex: 1 1 auto;
     min-width: 0;
@@ -740,39 +744,67 @@ img, video {
   .nav-link {
     font-size: 0.85rem;
     font-weight: 600;
-    padding: 6px 6px;
+    padding: 6px 8px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
+  /* Sélecteur de langue */
   .lang-selector { padding: 2px; gap: 2px; }
   .lang-btn { padding: 4px 6px; font-size: 0.9rem; }
 
+  /* 🆕 Sur mobile : on cache complètement les boutons auth classiques */
   .nav-auth {
-    margin-left: 0;
-    gap: 0;
-  }
-  .nav-auth a[href="/register.html"] { display: none; }
-  .nav-auth a[href="/login.html"] {
-    background: var(--ginger-500);
-    color: var(--white);
-    border-color: transparent;
-    padding: 8px 14px;
-    font-size: 0.82rem;
-    font-weight: 700;
+    display: none !important;
   }
 
-  .nav-user { margin-left: 0; }
+  /* 🆕 Icône de connexion (visible sur toutes les pages, mobile) */
+  .nav-user {
+    margin-left: 0;
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+  }
+
   .nav-user-name,
   .nav-chevron { display: none; }
 
   .nav-user-btn {
-    padding: 3px 6px;
+    padding: 4px;
     gap: 0;
+    border-radius: 50%;
+    width: 38px;
+    height: 38px;
+    justify-content: center;
   }
 
+  /* Avatar en mode icône : cercle transparent avec SVG */
   .nav-avatar {
+    width: 22px;
+    height: 22px;
+    background: transparent;
+    box-shadow: none;
+    color: var(--cream-50);
+    border-radius: 0;
+    font-size: 0;
+  }
+
+  .nav-avatar svg {
+    width: 100%;
+    height: 100%;
+    stroke: currentColor;
+  }
+
+  /* Sur mobile : si l'utilisateur est connecté, on garde son avatar avec initiales */
+  .nav-user .nav-avatar:not(:has(svg)) {
     width: 34px;
     height: 34px;
+    background: linear-gradient(135deg, var(--ginger-400), var(--ginger-600));
+    box-shadow: 0 2px 8px rgba(217, 98, 43, 0.3);
+    border-radius: 50%;
     font-size: 0.78rem;
+    color: var(--white);
   }
 
   .nav-dropdown {
@@ -785,16 +817,20 @@ img, video {
 @media (max-width: 420px) {
   .navbar-inner { padding-top: 8px; padding-bottom: 8px; gap: 6px; }
   .navbar-logo-img { height: 30px; }
-  .nav-link { font-size: 0.8rem; padding: 5px 4px; }
+  .nav-link { font-size: 0.8rem; padding: 5px 6px; }
   .lang-btn { padding: 3px 5px; font-size: 0.82rem; }
-  .nav-auth a[href="/login.html"] { padding: 7px 11px; font-size: 0.78rem; }
-  .nav-avatar { width: 30px; height: 30px; font-size: 0.72rem; }
+  .nav-user-btn { width: 34px; height: 34px; }
+  .nav-avatar { width: 20px; height: 20px; }
+  .nav-user .nav-avatar:not(:has(svg)) {
+    width: 30px;
+    height: 30px;
+    font-size: 0.72rem;
+  }
 }
 
 @media (max-width: 340px) {
   .navbar-links { display: none; }
   .navbar-inner { justify-content: space-between; }
-  .nav-auth,
   .nav-user { margin-left: auto; }
 }
 
@@ -848,7 +884,6 @@ body.page-home .navbar {
   border-bottom-color: transparent;
 }
 
-/* Liens */
 body.page-home .nav-link {
   color: var(--cream-50);
 }
@@ -865,7 +900,6 @@ body.page-home .nav-link[aria-current="page"]::after {
   width: 100%;
 }
 
-/* Bouton de connexion / inscription (ghost) */
 body.page-home .nav-auth .btn-ghost {
   color: var(--cream-50);
 }
@@ -873,7 +907,6 @@ body.page-home .nav-auth .btn-ghost:hover:not(:disabled) {
   background: rgba(250, 246, 239, 0.14);
 }
 
-/* Barre de recherche */
 body.page-home .navbar-search input {
   background: rgba(250, 246, 239, 0.12);
   border-color: rgba(250, 246, 239, 0.32);
@@ -888,7 +921,6 @@ body.page-home .navbar-search input:focus {
   box-shadow: 0 0 0 4px rgba(242, 140, 40, 0.2);
 }
 
-/* Menu utilisateur */
 body.page-home .nav-user-name,
 body.page-home .nav-chevron {
   color: var(--cream-50);
@@ -897,7 +929,6 @@ body.page-home .nav-user-btn:hover {
   background: rgba(250, 246, 239, 0.14);
 }
 
-/* Sélecteur de langue */
 body.page-home .lang-selector {
   background: rgba(250, 246, 239, 0.16);
 }
@@ -912,7 +943,6 @@ body.page-home .lang-btn.active {
   color: var(--ginger-600);
 }
 
-/* Logo : léger halo pour rester lisible sur le fond brun */
 body.page-home .navbar-logo-img {
   filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.35));
 }
@@ -964,11 +994,8 @@ body.page-home .navbar-logo-img {
 
 /* ============================================================
    🆕 NAVBAR SUR LA PAGE D'ACCUEIL : LOGO x4 + LOUPE SVG + ICÔNE CONNEXION
-   Ne modifie PAS la hauteur de la navbar.
-   Seuls le logo et la barre de recherche sont affectés.
    ============================================================ */
 
-/* On fige la hauteur de la navbar pour qu'elle ne bouge pas */
 body.page-home:not(.nav-scrolled) .navbar-inner {
   min-height: 70px; 
   padding-top: 8px;
@@ -976,16 +1003,14 @@ body.page-home:not(.nav-scrolled) .navbar-inner {
   align-items: center;
 }
 
-/* Le logo est multiplié par 4 (176px) et sort visuellement de la navbar sans la pousser */
 body.page-home:not(.nav-scrolled) .navbar-logo-img {
-  height: 176px; /* 44px * 4 */
+  height: 176px;
   width: auto;
   position: relative;
   z-index: 10;
   transition: height 0.3s ease;
 }
 
-/* La barre de recherche se transforme en loupe */
 body.page-home:not(.nav-scrolled) .navbar-search {
   flex: 0 0 auto;
   max-width: none;
@@ -1001,7 +1026,7 @@ body.page-home:not(.nav-scrolled) .navbar-search input {
   cursor: pointer;
   background: transparent;
   border-color: transparent;
-  color: transparent; /* Cache le texte */
+  color: transparent;
   font-size: 0;
 }
 
@@ -1009,7 +1034,6 @@ body.page-home:not(.nav-scrolled) .navbar-search input::placeholder {
   color: transparent;
 }
 
-/* Nouvelle icône de loupe fine et élégante */
 body.page-home:not(.nav-scrolled) .navbar-search::before {
   content: "";
   position: absolute;
@@ -1024,7 +1048,6 @@ body.page-home:not(.nav-scrolled) .navbar-search::before {
   pointer-events: none;
 }
 
-/* Au clic (focus), la loupe s'étend en barre de recherche normale */
 body.page-home:not(.nav-scrolled) .navbar-search input:focus {
   width: 300px;
   padding: 10px 16px 10px 42px;
@@ -1040,7 +1063,6 @@ body.page-home:not(.nav-scrolled) .navbar-search input:focus::placeholder {
   color: var(--silver-400);
 }
 
-/* Quand on tape, la loupe redevient une icône normale à gauche */
 body.page-home:not(.nav-scrolled) .navbar-search:focus-within::before {
   left: 14px;
   transform: translateY(-50%);
@@ -1049,12 +1071,10 @@ body.page-home:not(.nav-scrolled) .navbar-search:focus-within::before {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23737A87' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cline x1='21' y1='21' x2='16.65' y2='16.65'/%3E%3C/svg%3E");
 }
 
-/* MASQUER les boutons connexion/inscription sur l'accueil */
 body.page-home:not(.nav-scrolled) .nav-auth {
   display: none;
 }
 
-/* AJOUTER l'icône de connexion sur l'accueil */
 body.page-home:not(.nav-scrolled) .nav-user {
   display: flex;
   align-items: center;
@@ -1099,7 +1119,7 @@ body.page-home:not(.nav-scrolled) .nav-chevron {
   display: none;
 }
 
-/* Sur mobile, on annule le logo géant et la loupe pour garder l'ergonomie */
+/* 🆕 Sur mobile, on annule le logo géant et la loupe */
 @media (max-width: 900px) {
   body.page-home:not(.nav-scrolled) .navbar-inner {
     min-height: 54px;
@@ -1108,29 +1128,38 @@ body.page-home:not(.nav-scrolled) .nav-chevron {
   }
   
   body.page-home:not(.nav-scrolled) .navbar-logo-img {
-    height: 34px; /* Taille mobile normale */
+    height: 34px;
   }
   
   body.page-home:not(.nav-scrolled) .navbar-search {
-    display: none; /* La recherche est déjà cachée sur mobile */
+    display: none;
+  }
+
+  /* Sur mobile page-home : on garde l'icône de connexion visible */
+  body.page-home:not(.nav-scrolled) .nav-user {
+    display: flex;
+    margin-left: 0;
+  }
+  
+  body.page-home:not(.nav-scrolled) .nav-user-btn {
+    width: 38px;
+    height: 38px;
+  }
+  
+  body.page-home:not(.nav-scrolled) .nav-avatar {
+    width: 22px;
+    height: 22px;
   }
 }
 
-/* Transition fluide pour le retour à la taille normale */
 .navbar-inner, .navbar-logo-img, .nav-link {
   transition: all 0.3s ease;
 }
 
 /* ============================================================
-   🆕 NAVBAR — MÊME COULEUR SUR TOUTES LES PAGES, EN PERMANENCE
-   - Accueil : transparente en haut, brune dès qu'on défile (inchangé)
-   - Autres pages : brune en permanence, fixe, ne disparaît jamais
-   Couleur : rgba(58, 22, 6, 0.92)
+   🆕 NAVBAR — POSITION FIXE + FOND BRUN SUR TOUTES LES PAGES
    ============================================================ */
 
-/* Position FIXE + fond brun sur toutes les pages.
-   (position: sticky est cassé par overflow-x: hidden sur html/body
-   dans certains navigateurs / WebView Android → la navbar disparaissait) */
 #navbar {
   position: fixed;
   top: 0;
@@ -1148,7 +1177,6 @@ body.page-home:not(.nav-scrolled) .nav-chevron {
   transition: background 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* Accueil, tout en haut : navbar transparente par-dessus le hero */
 body.page-home:not(.nav-scrolled) #navbar {
   background: transparent;
   box-shadow: none;
@@ -1156,8 +1184,6 @@ body.page-home:not(.nav-scrolled) #navbar {
   backdrop-filter: none;
 }
 
-/* La navbar fixe ne prend plus de place : on décale le contenu
-   (hauteur mesurée par navbar.js dans --navbar-h) */
 body.has-navbar:not(.page-home) {
   padding-top: var(--navbar-h, 68px);
 }
@@ -1168,14 +1194,12 @@ body.has-navbar:not(.page-home) {
   }
 }
 
-/* Les ancres (#section) ne passent pas sous la navbar */
 html {
   scroll-padding-top: var(--navbar-h, 68px);
 }
 
 /* ---------- Textes clairs sur fond brun ---------- */
 
-/* Liens */
 body.nav-scrolled .nav-link,
 body:not(.page-home) .nav-link {
   color: var(--cream-50);
@@ -1199,7 +1223,6 @@ body:not(.page-home) .nav-link[aria-current="page"]::after {
   width: 100%;
 }
 
-/* Bouton de connexion (ghost) */
 body.nav-scrolled .nav-auth .btn-ghost,
 body:not(.page-home) .nav-auth .btn-ghost {
   color: var(--cream-50);
@@ -1209,7 +1232,6 @@ body:not(.page-home) .nav-auth .btn-ghost:hover:not(:disabled) {
   background: rgba(250, 246, 239, 0.14);
 }
 
-/* Barre de recherche */
 body.nav-scrolled .navbar-search input,
 body:not(.page-home) .navbar-search input {
   background: rgba(250, 246, 239, 0.12);
@@ -1227,13 +1249,11 @@ body:not(.page-home) .navbar-search input:focus {
   box-shadow: 0 0 0 4px rgba(242, 140, 40, 0.2);
 }
 
-/* Loupe de recherche en crème (lisible sur fond brun) */
 body.nav-scrolled .navbar-search::before,
 body:not(.page-home) .navbar-search::before {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23FAF6EF' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cline x1='21' y1='21' x2='16.65' y2='16.65'/%3E%3C/svg%3E");
 }
 
-/* Menu utilisateur */
 body.nav-scrolled .nav-user-name,
 body.nav-scrolled .nav-chevron,
 body:not(.page-home) .nav-user-name,
@@ -1245,7 +1265,6 @@ body:not(.page-home) .nav-user-btn:hover {
   background: rgba(250, 246, 239, 0.14);
 }
 
-/* Sélecteur de langue */
 body.nav-scrolled .lang-selector,
 body:not(.page-home) .lang-selector {
   background: rgba(250, 246, 239, 0.16);
@@ -1264,7 +1283,6 @@ body:not(.page-home) .lang-btn.active {
   color: var(--ginger-600);
 }
 
-/* Logo : léger halo pour rester lisible sur le fond brun */
 body.nav-scrolled .navbar-logo-img,
 body:not(.page-home) .navbar-logo-img {
   filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.35));
@@ -1274,60 +1292,34 @@ body:not(.page-home) .navbar-logo-img {
    🆕 GRANDS ÉCRANS — Adaptation des composants (2K, ultra-wide, 4K)
    ============================================================ */
 
-/* ----- 1600px+ ----- */
 @media (min-width: 1600px) {
-  /* Boutons un peu plus généreux */
-  .btn {
-    padding: 13px 28px;
-    font-size: 1rem;
-  }
+  .btn { padding: 13px 28px; font-size: 1rem; }
   .btn-sm { padding: 9px 18px; font-size: 0.9rem; }
   .btn-lg { padding: 18px 36px; font-size: 1.1rem; }
 
-  /* Formulaires */
   .form-input,
   .form-select,
-  .form-textarea {
-    padding: 13px 18px;
-    font-size: 1rem;
-  }
+  .form-textarea { padding: 13px 18px; font-size: 1rem; }
   .form-label { font-size: 0.95rem; }
 
-  /* Cards */
   .card { padding: 28px; }
   .card-body { padding: 28px; }
   .card-header { padding: 24px 28px; }
 
-  /* Badges */
-  .badge {
-    padding: 5px 14px;
-    font-size: 0.8rem;
-  }
+  .badge { padding: 5px 14px; font-size: 0.8rem; }
 
-  /* Modals */
   .modal { max-width: 560px; }
   .modal-header { padding: 28px; }
   .modal-header h3 { font-size: 1.4rem; }
   .modal-body { padding: 28px; }
   .modal-footer { padding: 20px 28px; }
 
-  /* Toasts */
-  .toast {
-    min-width: 340px;
-    max-width: 440px;
-    padding: 18px 24px;
-    font-size: 1rem;
-  }
+  .toast { min-width: 340px; max-width: 440px; padding: 18px 24px; font-size: 1rem; }
 
-  /* Empty state */
   .empty-state { padding: 80px 20px; }
   .empty-state-icon { font-size: 4rem; }
 
-  /* Navbar */
-  .navbar-inner {
-    max-width: 1440px;
-    padding: 14px 40px;
-  }
+  .navbar-inner { max-width: 1440px; padding: 14px 40px; }
   .navbar-logo-img { height: 50px; }
   .nav-link { font-size: 1rem; }
   .navbar-search { max-width: 540px; }
@@ -1335,21 +1327,14 @@ body:not(.page-home) .navbar-logo-img {
   .nav-user-name { font-size: 0.95rem; }
 }
 
-/* ----- 2000px+ (ultra-wide 21:9 / 32:9) ----- */
 @media (min-width: 2000px) {
-  .btn {
-    padding: 15px 32px;
-    font-size: 1.05rem;
-  }
+  .btn { padding: 15px 32px; font-size: 1.05rem; }
   .btn-sm { padding: 10px 20px; font-size: 0.95rem; }
   .btn-lg { padding: 20px 40px; font-size: 1.15rem; }
 
   .form-input,
   .form-select,
-  .form-textarea {
-    padding: 15px 20px;
-    font-size: 1.05rem;
-  }
+  .form-textarea { padding: 15px 20px; font-size: 1.05rem; }
   .form-label { font-size: 1rem; }
 
   .card { padding: 32px; }
@@ -1361,20 +1346,11 @@ body:not(.page-home) .navbar-logo-img {
   .modal-body { padding: 32px; }
   .modal-footer { padding: 24px 32px; }
 
-  .toast {
-    min-width: 380px;
-    max-width: 500px;
-    padding: 20px 28px;
-    font-size: 1.05rem;
-  }
+  .toast { min-width: 380px; max-width: 500px; padding: 20px 28px; font-size: 1.05rem; }
 
   .empty-state-icon { font-size: 4.5rem; }
 
-  .navbar-inner {
-    max-width: 1680px;
-    padding: 16px 60px;
-    gap: 28px;
-  }
+  .navbar-inner { max-width: 1680px; padding: 16px 60px; gap: 28px; }
   .navbar-logo-img { height: 58px; }
   .nav-link { font-size: 1.05rem; }
   .navbar-search { max-width: 640px; }
@@ -1384,20 +1360,13 @@ body:not(.page-home) .navbar-logo-img {
   .dropdown-item { padding: 14px 20px; font-size: 0.95rem; }
 }
 
-/* ----- 3000px+ (4K et plus) ----- */
 @media (min-width: 3000px) {
-  .btn {
-    padding: 17px 36px;
-    font-size: 1.1rem;
-  }
+  .btn { padding: 17px 36px; font-size: 1.1rem; }
   .btn-lg { padding: 22px 44px; font-size: 1.2rem; }
 
   .form-input,
   .form-select,
-  .form-textarea {
-    padding: 17px 22px;
-    font-size: 1.1rem;
-  }
+  .form-textarea { padding: 17px 22px; font-size: 1.1rem; }
 
   .card { padding: 36px; }
   .card-body { padding: 36px; }
@@ -1408,20 +1377,11 @@ body:not(.page-home) .navbar-logo-img {
   .modal-body { padding: 36px; }
   .modal-footer { padding: 28px 36px; }
 
-  .toast {
-    min-width: 420px;
-    max-width: 560px;
-    padding: 22px 32px;
-    font-size: 1.1rem;
-  }
+  .toast { min-width: 420px; max-width: 560px; padding: 22px 32px; font-size: 1.1rem; }
 
   .empty-state-icon { font-size: 5rem; }
 
-  .navbar-inner {
-    max-width: 1920px;
-    padding: 18px 80px;
-    gap: 32px;
-  }
+  .navbar-inner { max-width: 1920px; padding: 18px 80px; gap: 32px; }
   .navbar-logo-img { height: 66px; }
   .nav-link { font-size: 1.1rem; }
   .navbar-search { max-width: 720px; }
@@ -1432,33 +1392,20 @@ body:not(.page-home) .navbar-logo-img {
 }
 
 /* ============================================================
-   🆕 GRANDS ÉCRANS — Ajustements spécifiques page d'accueil
-   (logo géant + loupe gardent leurs proportions relatives)
+   🆕 GRANDS ÉCRANS — Logo géant accueil
    ============================================================ */
 
 @media (min-width: 1600px) {
-  body.page-home:not(.nav-scrolled) .navbar-logo-img {
-    height: 200px; /* logo encore plus grand sur 2K */
-  }
-  body.page-home:not(.nav-scrolled) .navbar-inner {
-    min-height: 80px;
-  }
+  body.page-home:not(.nav-scrolled) .navbar-logo-img { height: 200px; }
+  body.page-home:not(.nav-scrolled) .navbar-inner { min-height: 80px; }
 }
 
 @media (min-width: 2000px) {
-  body.page-home:not(.nav-scrolled) .navbar-logo-img {
-    height: 220px;
-  }
-  body.page-home:not(.nav-scrolled) .navbar-inner {
-    min-height: 90px;
-  }
+  body.page-home:not(.nav-scrolled) .navbar-logo-img { height: 220px; }
+  body.page-home:not(.nav-scrolled) .navbar-inner { min-height: 90px; }
 }
 
 @media (min-width: 3000px) {
-  body.page-home:not(.nav-scrolled) .navbar-logo-img {
-    height: 240px;
-  }
-  body.page-home:not(.nav-scrolled) .navbar-inner {
-    min-height: 100px;
-  }
+  body.page-home:not(.nav-scrolled) .navbar-logo-img { height: 240px; }
+  body.page-home:not(.nav-scrolled) .navbar-inner { min-height: 100px; }
 }
