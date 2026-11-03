@@ -12,6 +12,13 @@
   <link rel="stylesheet" href="/css/components.css">
   <style>
     /* ============================================================
+       COULEUR DOMINANTE DU SITE
+       ============================================================ */
+    :root {
+      --brand-dark: rgba(58, 22, 6, 0.92);
+    }
+
+    /* ============================================================
        HERO — image de fond (back.png) + navbar superposée
        ============================================================ */
     /* Dans index.html, dans la balise <style> */
@@ -113,11 +120,11 @@
 
     .btn-white {
       background: var(--cream-50);
-      color: var(--ginger-600);
+      color: var(--brand-dark);
       font-weight: 700;
     }
     .btn-white:hover {
-      background: var(--silver-900);
+      background: var(--brand-dark);
       color: var(--cream-50);
       transform: translateY(-2px);
     }
@@ -129,7 +136,7 @@
     }
     .btn-outline-white:hover {
       background: var(--cream-50);
-      color: var(--ginger-600);
+      color: var(--brand-dark);
       border-color: var(--cream-50);
     }
 
@@ -198,7 +205,7 @@
       font-weight: 900;
       letter-spacing: -1px;
       margin-bottom: 14px;
-      color: var(--ginger-600);
+      color: var(--brand-dark);
       display: inline-flex;
       align-items: center;
       gap: 14px;
@@ -576,7 +583,7 @@
        SECTION PRÈS DE CHEZ VOUS + CODE
        ============================================================ */
     .section-near-you {
-      background: var(--ginger-600);
+      background: var(--brand-dark);
       color: var(--cream-50);
       padding: 80px 0;
       position: relative;
@@ -642,7 +649,7 @@
       padding: 13px 20px;
       border-radius: var(--radius);
       background: var(--cream-50);
-      color: var(--ginger-600);
+      color: var(--brand-dark);
       border: none;
       font-weight: 700;
       font-size: 0.95rem;
@@ -657,7 +664,7 @@
 
     .near-you-card button:hover:not(:disabled),
     .near-you-card .btn:hover {
-      background: var(--silver-900);
+      background: var(--ginger-500);
       color: var(--cream-50);
       transform: translateY(-2px);
       box-shadow: 0 12px 28px rgba(28,31,36,0.25);
@@ -702,10 +709,10 @@
     }
 
     /* ============================================================
-       CTA VENDEUR (Silver Background for contrast)
+       CTA VENDEUR (couleur dominante)
        ============================================================ */
     .cta-seller {
-      background: var(--silver-900);
+      background: var(--brand-dark);
       color: var(--cream-50);
       padding: 80px 0;
       position: relative;
@@ -843,9 +850,9 @@
       animation: shimmer 1.5s infinite;
     }
 
-    /* Footer (Silver Background) */
+    /* Footer (couleur dominante) */
     .footer {
-      background: var(--silver-900);
+      background: var(--brand-dark);
       color: var(--cream-50);
       padding: 70px 0 30px;
     }
@@ -870,6 +877,12 @@
       line-height: 2;
     }
 
+    .footer li {
+      color: var(--silver-300);
+      font-size: 0.95rem;
+      line-height: 2;
+    }
+
     .footer a:hover { color: var(--ginger-400); }
     .footer ul { list-style: none; }
 
@@ -882,6 +895,14 @@
     }
 
     .footer-brand span { color: var(--ginger-500); }
+
+    .footer .footer-slogan {
+      color: var(--ginger-400);
+      font-weight: 800;
+      font-size: 1rem;
+      letter-spacing: 0.5px;
+      margin-top: 10px;
+    }
 
     .footer-contact {
       justify-self: end;
@@ -1003,7 +1024,7 @@
       .footer-contact { text-align: left; justify-self: start; }
       .footer-brand { font-size: 1.2rem; }
       .footer h4 { margin-bottom: 14px; }
-      .footer p, .footer a { font-size: 0.9rem; line-height: 1.9; }
+      .footer p, .footer a, .footer li { font-size: 0.9rem; line-height: 1.9; }
     }
 
     @media (max-width: 380px) {
@@ -1065,7 +1086,7 @@
       <div class="near-you-grid">
         <!-- Carte : Détecter ma position -->
         <div class="near-you-card">
-          <h3>📍 <span data-i18n="home.near_you_title"> Près de chez vous</span></h3>
+          <h3><span data-i18n="home.near_you_title"> Près de chez vous</span></h3>
           <p data-i18n="home.near_you_p">
             Découvrez les boutiques et produits autour de votre position.
           </p>
@@ -1191,6 +1212,7 @@
         <div>
           <div class="footer-brand">Finest<span>Global</span></div>
           <p data-i18n="footer.tagline">Le marché physique, rendu visible. Connecter les vendeurs du Bénin à leurs clients, sans remplacer le marché traditionnel.</p>
+          <p class="footer-slogan">Be Findable.</p>
         </div>
         <div>
           <h4 data-i18n="footer.navigation">Navigation</h4>
@@ -1211,7 +1233,7 @@
         <div class="footer-contact">
           <h4 data-i18n="footer.contact">Contact</h4>
           <ul>
-            <li><a href="mailto:hello@finestglobal.com">hello@finestglobal.com</a></li>
+            <li>Email: <a href="mailto:contact.finestglobal@gmail.com">contact.finestglobal@gmail.com</a></li>
             <li><a href="#">WhatsApp</a></li>
             <li><a href="#">Facebook</a></li>
             <li><a href="#">Instagram</a></li>
