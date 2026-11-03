@@ -403,7 +403,6 @@ img, video {
   z-index: 100;
   width: 100%;
   max-width: 100%;
-  transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .navbar-inner {
@@ -536,7 +535,7 @@ img, video {
   width: 0;
   height: 2px;
   background: var(--ginger-500);
-  transition: width 0.25s ease, background 0.3s ease;
+  transition: width 0.25s ease;
 }
 
 .nav-link:hover { color: var(--ginger-600); }
@@ -690,7 +689,6 @@ img, video {
   border-radius: 20px;
   padding: 3px;
   flex-shrink: 0;
-  transition: background 0.3s ease;
 }
 
 .lang-btn {
@@ -837,106 +835,85 @@ body.page-home #navbar {
   transition: background 0.3s ease, box-shadow 0.3s ease;
 }
 
+body.page-home.nav-scrolled #navbar {
+  background: rgba(58, 22, 6, 0.92);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.25);
+}
+
 body.page-home .navbar {
   position: relative;
   background: transparent;
   border-bottom-color: transparent;
 }
 
-/* ============================================================
-   🆕 NAVBAR AU DÉFILEMENT — MÊME COULEUR SUR TOUTES LES PAGES
-   Dès que body.nav-scrolled est actif (scroll > 40px), la navbar
-   prend le fond brun translucide de l'accueil, partout.
-   Ce bloc remplace les anciens body.page-home.nav-scrolled
-   et body.nav-scrolled incomplets.
-   ============================================================ */
-
-body.nav-scrolled #navbar {
-  background: rgba(58, 22, 6, 0.92);
-  border-bottom-color: transparent;
-  -webkit-backdrop-filter: blur(10px);
-  backdrop-filter: blur(10px);
-  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.25);
-  transition: background 0.3s ease, box-shadow 0.3s ease;
-}
-
-body.nav-scrolled .navbar {
-  background: transparent;
-  border-bottom-color: transparent;
-}
-
 /* Liens */
-body.nav-scrolled .nav-link {
+body.page-home .nav-link {
   color: var(--cream-50);
 }
-body.nav-scrolled .nav-link::after {
+body.page-home .nav-link::after {
   background: var(--ginger-400);
 }
-body.nav-scrolled .nav-link:hover,
-body.nav-scrolled .nav-link.active,
-body.nav-scrolled .nav-link[aria-current="page"] {
+body.page-home .nav-link:hover,
+body.page-home .nav-link.active,
+body.page-home .nav-link[aria-current="page"] {
   color: var(--ginger-400);
 }
-body.nav-scrolled .nav-link.active::after,
-body.nav-scrolled .nav-link[aria-current="page"]::after {
+body.page-home .nav-link.active::after,
+body.page-home .nav-link[aria-current="page"]::after {
   width: 100%;
 }
 
-/* Bouton de connexion (ghost) */
-body.nav-scrolled .nav-auth .btn-ghost {
+/* Bouton de connexion / inscription (ghost) */
+body.page-home .nav-auth .btn-ghost {
   color: var(--cream-50);
 }
-body.nav-scrolled .nav-auth .btn-ghost:hover:not(:disabled) {
+body.page-home .nav-auth .btn-ghost:hover:not(:disabled) {
   background: rgba(250, 246, 239, 0.14);
 }
 
-/* Bouton inscription (primary) */
-body.nav-scrolled .nav-auth .btn-primary {
-  background: var(--ginger-500);
-  color: var(--white);
-}
-
 /* Barre de recherche */
-body.nav-scrolled .navbar-search input {
+body.page-home .navbar-search input {
   background: rgba(250, 246, 239, 0.12);
   border-color: rgba(250, 246, 239, 0.32);
   color: var(--cream-50);
 }
-body.nav-scrolled .navbar-search input::placeholder {
+body.page-home .navbar-search input::placeholder {
   color: rgba(250, 246, 239, 0.65);
 }
-body.nav-scrolled .navbar-search input:focus {
+body.page-home .navbar-search input:focus {
   background: rgba(250, 246, 239, 0.2);
   border-color: var(--ginger-400);
   box-shadow: 0 0 0 4px rgba(242, 140, 40, 0.2);
 }
 
 /* Menu utilisateur */
-body.nav-scrolled .nav-user-name,
-body.nav-scrolled .nav-chevron {
+body.page-home .nav-user-name,
+body.page-home .nav-chevron {
   color: var(--cream-50);
 }
-body.nav-scrolled .nav-user-btn:hover {
+body.page-home .nav-user-btn:hover {
   background: rgba(250, 246, 239, 0.14);
 }
 
 /* Sélecteur de langue */
-body.nav-scrolled .lang-selector {
+body.page-home .lang-selector {
   background: rgba(250, 246, 239, 0.16);
 }
-body.nav-scrolled .lang-btn {
+body.page-home .lang-btn {
   color: var(--cream-50);
 }
-body.nav-scrolled .lang-btn:hover {
+body.page-home .lang-btn:hover {
   background: rgba(250, 246, 239, 0.18);
 }
-body.nav-scrolled .lang-btn.active {
+body.page-home .lang-btn.active {
   background: var(--cream-50);
   color: var(--ginger-600);
 }
 
 /* Logo : léger halo pour rester lisible sur le fond brun */
-body.nav-scrolled .navbar-logo-img {
+body.page-home .navbar-logo-img {
   filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.35));
 }
 
@@ -1024,7 +1001,7 @@ body.page-home:not(.nav-scrolled) .navbar-search input {
   cursor: pointer;
   background: transparent;
   border-color: transparent;
-  color: transparent;
+  color: transparent; /* Cache le texte */
   font-size: 0;
 }
 
@@ -1142,4 +1119,153 @@ body.page-home:not(.nav-scrolled) .nav-chevron {
 /* Transition fluide pour le retour à la taille normale */
 .navbar-inner, .navbar-logo-img, .nav-link {
   transition: all 0.3s ease;
+}
+
+/* ============================================================
+   🆕 NAVBAR — MÊME COULEUR SUR TOUTES LES PAGES, EN PERMANENCE
+   - Accueil : transparente en haut, brune dès qu'on défile (inchangé)
+   - Autres pages : brune en permanence, fixe, ne disparaît jamais
+   Couleur : rgba(58, 22, 6, 0.92)
+   ============================================================ */
+
+/* Position FIXE + fond brun sur toutes les pages.
+   (position: sticky est cassé par overflow-x: hidden sur html/body
+   dans certains navigateurs / WebView Android → la navbar disparaissait) */
+#navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  max-width: 100%;
+  z-index: 100;
+  padding-top: env(safe-area-inset-top, 0px);
+  background: rgba(58, 22, 6, 0.92);
+  border-bottom: none;
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.25);
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Accueil, tout en haut : navbar transparente par-dessus le hero */
+body.page-home:not(.nav-scrolled) #navbar {
+  background: transparent;
+  box-shadow: none;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+
+/* La navbar fixe ne prend plus de place : on décale le contenu
+   (hauteur mesurée par navbar.js dans --navbar-h) */
+body.has-navbar:not(.page-home) {
+  padding-top: var(--navbar-h, 68px);
+}
+
+@media (max-width: 900px) {
+  body.has-navbar:not(.page-home) {
+    padding-top: var(--navbar-h, 56px);
+  }
+}
+
+/* Les ancres (#section) ne passent pas sous la navbar */
+html {
+  scroll-padding-top: var(--navbar-h, 68px);
+}
+
+/* ---------- Textes clairs sur fond brun ---------- */
+
+/* Liens */
+body.nav-scrolled .nav-link,
+body:not(.page-home) .nav-link {
+  color: var(--cream-50);
+}
+body.nav-scrolled .nav-link::after,
+body:not(.page-home) .nav-link::after {
+  background: var(--ginger-400);
+}
+body.nav-scrolled .nav-link:hover,
+body.nav-scrolled .nav-link.active,
+body.nav-scrolled .nav-link[aria-current="page"],
+body:not(.page-home) .nav-link:hover,
+body:not(.page-home) .nav-link.active,
+body:not(.page-home) .nav-link[aria-current="page"] {
+  color: var(--ginger-400);
+}
+body.nav-scrolled .nav-link.active::after,
+body.nav-scrolled .nav-link[aria-current="page"]::after,
+body:not(.page-home) .nav-link.active::after,
+body:not(.page-home) .nav-link[aria-current="page"]::after {
+  width: 100%;
+}
+
+/* Bouton de connexion (ghost) */
+body.nav-scrolled .nav-auth .btn-ghost,
+body:not(.page-home) .nav-auth .btn-ghost {
+  color: var(--cream-50);
+}
+body.nav-scrolled .nav-auth .btn-ghost:hover:not(:disabled),
+body:not(.page-home) .nav-auth .btn-ghost:hover:not(:disabled) {
+  background: rgba(250, 246, 239, 0.14);
+}
+
+/* Barre de recherche */
+body.nav-scrolled .navbar-search input,
+body:not(.page-home) .navbar-search input {
+  background: rgba(250, 246, 239, 0.12);
+  border-color: rgba(250, 246, 239, 0.32);
+  color: var(--cream-50);
+}
+body.nav-scrolled .navbar-search input::placeholder,
+body:not(.page-home) .navbar-search input::placeholder {
+  color: rgba(250, 246, 239, 0.65);
+}
+body.nav-scrolled .navbar-search input:focus,
+body:not(.page-home) .navbar-search input:focus {
+  background: rgba(250, 246, 239, 0.2);
+  border-color: var(--ginger-400);
+  box-shadow: 0 0 0 4px rgba(242, 140, 40, 0.2);
+}
+
+/* Loupe de recherche en crème (lisible sur fond brun) */
+body.nav-scrolled .navbar-search::before,
+body:not(.page-home) .navbar-search::before {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23FAF6EF' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cline x1='21' y1='21' x2='16.65' y2='16.65'/%3E%3C/svg%3E");
+}
+
+/* Menu utilisateur */
+body.nav-scrolled .nav-user-name,
+body.nav-scrolled .nav-chevron,
+body:not(.page-home) .nav-user-name,
+body:not(.page-home) .nav-chevron {
+  color: var(--cream-50);
+}
+body.nav-scrolled .nav-user-btn:hover,
+body:not(.page-home) .nav-user-btn:hover {
+  background: rgba(250, 246, 239, 0.14);
+}
+
+/* Sélecteur de langue */
+body.nav-scrolled .lang-selector,
+body:not(.page-home) .lang-selector {
+  background: rgba(250, 246, 239, 0.16);
+}
+body.nav-scrolled .lang-btn,
+body:not(.page-home) .lang-btn {
+  color: var(--cream-50);
+}
+body.nav-scrolled .lang-btn:hover,
+body:not(.page-home) .lang-btn:hover {
+  background: rgba(250, 246, 239, 0.18);
+}
+body.nav-scrolled .lang-btn.active,
+body:not(.page-home) .lang-btn.active {
+  background: var(--cream-50);
+  color: var(--ginger-600);
+}
+
+/* Logo : léger halo pour rester lisible sur le fond brun */
+body.nav-scrolled .navbar-logo-img,
+body:not(.page-home) .navbar-logo-img {
+  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.35));
 }

@@ -129,6 +129,33 @@ function renderNavbar() {
   `;
   
   initNavbarSearch();
+  
+  // La navbar est en position fixe : on indique au CSS sa hauteur
+  // pour décaler le contenu des pages (hors accueil)
+  document.body.classList.add('has-navbar');
+  syncNavbarHeight();
+  observeNavbarHeight();
+}
+
+/**
+ * Mesure la hauteur de la navbar et la publie dans la variable CSS --navbar-h.
+ */
+function syncNavbarHeight() {
+  const nav = document.getElementById('navbar');
+  if (!nav) return;
+  document.documentElement.style.setProperty('--navbar-h', nav.offsetHeight + 'px');
+}
+
+/**
+ * Re-mesure automatiquement la navbar si sa taille change
+ * (rotation, barre de recherche sur 2 lignes, chargement du logo...).
+ */
+let _navbarObserver = null;
+function observeNavbarHeight() {
+  const nav = document.getElementById('navbar');
+  if (!nav || _navbarObserver || !('ResizeObserver' in window)) return;
+  _navbarObserver = new ResizeObserver(syncNavbarHeight);
+  _navbarObserver.observe(nav);
 }
 
 /**
@@ -244,8 +271,12 @@ window.addEventListener('resize', () => {
   clearTimeout(_navbarResizeTimer);
   _navbarResizeTimer = setTimeout(() => {
     updateNavLinksForScreenSize();
+    syncNavbarHeight();
   }, 200);
 });
+
+// Re-mesure une fois la page et les images entièrement chargées
+window.addEventListener('load', syncNavbarHeight);
 
 // Fermer le menu au clic ailleurs
 document.addEventListener('click', (e) => {
