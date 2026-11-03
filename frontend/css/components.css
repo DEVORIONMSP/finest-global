@@ -1269,3 +1269,196 @@ body.nav-scrolled .navbar-logo-img,
 body:not(.page-home) .navbar-logo-img {
   filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.35));
 }
+
+/* ============================================================
+   🆕 GRANDS ÉCRANS — Adaptation des composants (2K, ultra-wide, 4K)
+   ============================================================ */
+
+/* ----- 1600px+ ----- */
+@media (min-width: 1600px) {
+  /* Boutons un peu plus généreux */
+  .btn {
+    padding: 13px 28px;
+    font-size: 1rem;
+  }
+  .btn-sm { padding: 9px 18px; font-size: 0.9rem; }
+  .btn-lg { padding: 18px 36px; font-size: 1.1rem; }
+
+  /* Formulaires */
+  .form-input,
+  .form-select,
+  .form-textarea {
+    padding: 13px 18px;
+    font-size: 1rem;
+  }
+  .form-label { font-size: 0.95rem; }
+
+  /* Cards */
+  .card { padding: 28px; }
+  .card-body { padding: 28px; }
+  .card-header { padding: 24px 28px; }
+
+  /* Badges */
+  .badge {
+    padding: 5px 14px;
+    font-size: 0.8rem;
+  }
+
+  /* Modals */
+  .modal { max-width: 560px; }
+  .modal-header { padding: 28px; }
+  .modal-header h3 { font-size: 1.4rem; }
+  .modal-body { padding: 28px; }
+  .modal-footer { padding: 20px 28px; }
+
+  /* Toasts */
+  .toast {
+    min-width: 340px;
+    max-width: 440px;
+    padding: 18px 24px;
+    font-size: 1rem;
+  }
+
+  /* Empty state */
+  .empty-state { padding: 80px 20px; }
+  .empty-state-icon { font-size: 4rem; }
+
+  /* Navbar */
+  .navbar-inner {
+    max-width: 1440px;
+    padding: 14px 40px;
+  }
+  .navbar-logo-img { height: 50px; }
+  .nav-link { font-size: 1rem; }
+  .navbar-search { max-width: 540px; }
+  .nav-avatar { width: 42px; height: 42px; font-size: 0.9rem; }
+  .nav-user-name { font-size: 0.95rem; }
+}
+
+/* ----- 2000px+ (ultra-wide 21:9 / 32:9) ----- */
+@media (min-width: 2000px) {
+  .btn {
+    padding: 15px 32px;
+    font-size: 1.05rem;
+  }
+  .btn-sm { padding: 10px 20px; font-size: 0.95rem; }
+  .btn-lg { padding: 20px 40px; font-size: 1.15rem; }
+
+  .form-input,
+  .form-select,
+  .form-textarea {
+    padding: 15px 20px;
+    font-size: 1.05rem;
+  }
+  .form-label { font-size: 1rem; }
+
+  .card { padding: 32px; }
+  .card-body { padding: 32px; }
+  .card-header { padding: 28px 32px; }
+
+  .modal { max-width: 640px; }
+  .modal-header h3 { font-size: 1.5rem; }
+  .modal-body { padding: 32px; }
+  .modal-footer { padding: 24px 32px; }
+
+  .toast {
+    min-width: 380px;
+    max-width: 500px;
+    padding: 20px 28px;
+    font-size: 1.05rem;
+  }
+
+  .empty-state-icon { font-size: 4.5rem; }
+
+  .navbar-inner {
+    max-width: 1680px;
+    padding: 16px 60px;
+    gap: 28px;
+  }
+  .navbar-logo-img { height: 58px; }
+  .nav-link { font-size: 1.05rem; }
+  .navbar-search { max-width: 640px; }
+  .nav-avatar { width: 46px; height: 46px; font-size: 0.95rem; }
+  .nav-user-name { font-size: 1rem; }
+  .nav-dropdown { min-width: 280px; max-width: 340px; }
+  .dropdown-item { padding: 14px 20px; font-size: 0.95rem; }
+}
+
+/* ----- 3000px+ (4K et plus) ----- */
+@media (min-width: 3000px) {
+  .btn {
+    padding: 17px 36px;
+    font-size: 1.1rem;
+  }
+  .btn-lg { padding: 22px 44px; font-size: 1.2rem; }
+
+  .form-input,
+  .form-select,
+  .form-textarea {
+    padding: 17px 22px;
+    font-size: 1.1rem;
+  }
+
+  .card { padding: 36px; }
+  .card-body { padding: 36px; }
+  .card-header { padding: 32px 36px; }
+
+  .modal { max-width: 720px; }
+  .modal-header h3 { font-size: 1.65rem; }
+  .modal-body { padding: 36px; }
+  .modal-footer { padding: 28px 36px; }
+
+  .toast {
+    min-width: 420px;
+    max-width: 560px;
+    padding: 22px 32px;
+    font-size: 1.1rem;
+  }
+
+  .empty-state-icon { font-size: 5rem; }
+
+  .navbar-inner {
+    max-width: 1920px;
+    padding: 18px 80px;
+    gap: 32px;
+  }
+  .navbar-logo-img { height: 66px; }
+  .nav-link { font-size: 1.1rem; }
+  .navbar-search { max-width: 720px; }
+  .nav-avatar { width: 50px; height: 50px; font-size: 1rem; }
+  .nav-user-name { font-size: 1.05rem; }
+  .nav-dropdown { min-width: 320px; max-width: 380px; }
+  .dropdown-item { padding: 16px 24px; font-size: 1rem; }
+}
+
+/* ============================================================
+   🆕 GRANDS ÉCRANS — Ajustements spécifiques page d'accueil
+   (logo géant + loupe gardent leurs proportions relatives)
+   ============================================================ */
+
+@media (min-width: 1600px) {
+  body.page-home:not(.nav-scrolled) .navbar-logo-img {
+    height: 200px; /* logo encore plus grand sur 2K */
+  }
+  body.page-home:not(.nav-scrolled) .navbar-inner {
+    min-height: 80px;
+  }
+}
+
+@media (min-width: 2000px) {
+  body.page-home:not(.nav-scrolled) .navbar-logo-img {
+    height: 220px;
+  }
+  body.page-home:not(.nav-scrolled) .navbar-inner {
+    min-height: 90px;
+  }
+}
+
+@media (min-width: 3000px) {
+  body.page-home:not(.nav-scrolled) .navbar-logo-img {
+    height: 240px;
+  }
+  body.page-home:not(.nav-scrolled) .navbar-inner {
+    min-height: 100px;
+  }
+}

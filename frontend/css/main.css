@@ -197,7 +197,7 @@ h4 { font-size: 1.15rem; }
 .hidden { display: none !important; }
 
 /* ============================================================
-   RESPONSIVE
+   RESPONSIVE — PETITS ÉCRANS (mobile / tablette)
    ============================================================ */
 
 @media (max-width: 768px) {
@@ -206,4 +206,227 @@ h4 { font-size: 1.15rem; }
   h1 { font-size: 2rem; }
   h2 { font-size: 1.6rem; }
   .container { padding: 0 16px; }
+}
+
+/* ============================================================
+   GRANDS ÉCRANS — Adaptation aux écrans plus larges
+   (2K, ultra-wide 21:9 / 32:9, 4K, TV)
+   ============================================================ */
+
+/* 1600px+ — écrans 2K et plus */
+@media (min-width: 1600px) {
+  .container {
+    max-width: 1440px;
+    padding: 0 40px;
+  }
+  
+  .container-narrow {
+    max-width: 900px;
+    padding: 0 40px;
+  }
+  
+  .section {
+    padding: 100px 0;
+  }
+  
+  .section-sm {
+    padding: 60px 0;
+  }
+  
+  .section-title {
+    margin-bottom: 64px;
+  }
+  
+  .section-title h2 {
+    font-size: clamp(2.25rem, 1.8vw, 2.75rem);
+  }
+  
+  .section-title p {
+    font-size: clamp(1.05rem, 0.85vw, 1.2rem);
+    max-width: 720px;
+  }
+  
+  body {
+    font-size: 17px;
+  }
+  
+  h1 { font-size: clamp(2.5rem, 2.4vw, 3.25rem); }
+  h2 { font-size: clamp(2rem, 1.8vw, 2.5rem); }
+  h3 { font-size: clamp(1.5rem, 1.4vw, 1.85rem); }
+  h4 { font-size: clamp(1.15rem, 1vw, 1.35rem); }
+}
+
+/* 2000px+ — ultra-wide (21:9, 32:9) */
+@media (min-width: 2000px) {
+  .container {
+    max-width: 1680px;
+    padding: 0 60px;
+  }
+  
+  .container-narrow {
+    max-width: 1000px;
+    padding: 0 60px;
+  }
+  
+  .section {
+    padding: 120px 0;
+  }
+  
+  .section-sm {
+    padding: 72px 0;
+  }
+  
+  .section-title {
+    margin-bottom: 72px;
+  }
+  
+  body {
+    font-size: 18px;
+  }
+}
+
+/* 3000px+ — 4K et plus */
+@media (min-width: 3000px) {
+  .container {
+    max-width: 1920px;
+    padding: 0 80px;
+  }
+  
+  .container-narrow {
+    max-width: 1100px;
+    padding: 0 80px;
+  }
+  
+  .section {
+    padding: 140px 0;
+  }
+  
+  .section-sm {
+    padding: 88px 0;
+  }
+  
+  .section-title {
+    margin-bottom: 80px;
+  }
+  
+  body {
+    font-size: 19px;
+  }
+}
+
+/* ============================================================
+   GRANDS ÉCRANS — Ajustements spécifiques par composant
+   ============================================================ */
+
+/* Navbar : conteneur interne plus large sur grand écran */
+@media (min-width: 1600px) {
+  .navbar-inner {
+    max-width: 1440px;
+    padding: 14px 40px;
+  }
+}
+
+@media (min-width: 2000px) {
+  .navbar-inner {
+    max-width: 1680px;
+    padding: 16px 60px;
+  }
+  
+  .navbar-logo-img { height: 52px; }
+  
+  .nav-link { font-size: 1rem; }
+  
+  .navbar-search { max-width: 560px; }
+}
+
+@media (min-width: 3000px) {
+  .navbar-inner {
+    max-width: 1920px;
+    padding: 18px 80px;
+  }
+  
+  .navbar-logo-img { height: 60px; }
+  
+  .nav-link { font-size: 1.05rem; }
+  
+  .navbar-search { max-width: 640px; }
+}
+
+/* Grilles d'administration : sidebar plus généreuse sur grand écran */
+@media (min-width: 1600px) {
+  .dashboard {
+    grid-template-columns: 300px 1fr;
+  }
+}
+
+@media (min-width: 2000px) {
+  .dashboard {
+    grid-template-columns: 340px 1fr;
+  }
+}
+
+@media (min-width: 3000px) {
+  .dashboard {
+    grid-template-columns: 380px 1fr;
+  }
+}
+
+/* Marketplace : sidebar filtres plus large sur grand écran */
+@media (min-width: 1600px) {
+  .marketplace-layout {
+    grid-template-columns: 300px minmax(0, 1fr);
+    gap: 32px;
+  }
+}
+
+@media (min-width: 2000px) {
+  .marketplace-layout {
+    grid-template-columns: 340px minmax(0, 1fr);
+    gap: 40px;
+  }
+}
+
+/* Hero de la page d'accueil : titre et zone de texte plus grands */
+@media (min-width: 1600px) {
+  .hero h1 {
+    font-size: clamp(2.2rem, 4.2vw, 5rem);
+    max-width: 800px;
+  }
+  
+  .hero p {
+    font-size: clamp(1rem, 1.2vw, 1.35rem);
+    max-width: 620px;
+  }
+  
+  .hero-text {
+    max-width: min(50vw, 760px);
+  }
+}
+
+@media (min-width: 2000px) {
+  .hero {
+    min-height: clamp(700px, 56.25vw, 1100px);
+    padding: 160px 0 110px;
+  }
+  
+  .hero-inner {
+    max-width: 1680px;
+    padding: 0 60px;
+  }
+  
+  .hero h1 {
+    font-size: clamp(2.5rem, 4vw, 6rem);
+  }
+}
+
+@media (min-width: 3000px) {
+  .hero {
+    min-height: clamp(800px, 56.25vw, 1300px);
+    padding: 200px 0 140px;
+  }
+  
+  .hero-inner {
+    max-width: 1920px;
+    padding: 0 80px;
+  }
 }
