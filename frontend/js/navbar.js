@@ -34,7 +34,7 @@ function renderNavbar() {
   
   if (!isAuth) {
     if (isHomePage) {
-      // Sur l'accueil, on affiche l'icône de login
+      // Sur l'accueil : icône de login
       rightSection = `
         <div class="nav-user">
           <a href="/login.html" class="nav-user-btn" aria-label="Se connecter">
@@ -48,7 +48,7 @@ function renderNavbar() {
         </div>
       `;
     } else {
-      // Sur les autres pages, on affiche les boutons normaux
+      // Sur les autres pages : boutons classiques
       rightSection = `
         <div class="nav-auth">
           <a href="/login.html" class="btn btn-ghost btn-sm">${t('nav.login')}</a>
@@ -61,7 +61,6 @@ function renderNavbar() {
       (user.first_name?.[0] || '') + (user.last_name?.[0] || '')
     ).toUpperCase() || user.phone.slice(-2);
     
-    // Lien dashboard selon le rôle
     let dashboardLink = '';
     if (user.role === 'admin') {
       dashboardLink = `<a href="/dashboard-admin.html" class="dropdown-item">👑 ${t('nav.dashboard_admin')}</a>`;
@@ -71,7 +70,6 @@ function renderNavbar() {
       dashboardLink = `<a href="/become-seller.html" class="dropdown-item">🚀 ${t('nav.become_seller')}</a>`;
     }
     
-    // Badge rôle
     const roleBadgeClass = user.role === 'admin' ? 'danger' : user.role === 'seller' ? 'orange' : 'blue';
     const roleLabel = t('role.' + user.role);
     
@@ -104,7 +102,6 @@ function renderNavbar() {
   
   navContainer.innerHTML = `
     <div class="navbar-inner">
-      <!-- LOGO -->
       <div class="navbar-logo-wrapper">
         <a href="/index.html" class="navbar-logo" aria-label="Finest Global">
           <img src="/assets/finest.png" alt="Finest Global" class="navbar-logo-img">
@@ -131,7 +128,6 @@ function renderNavbar() {
     </div>
   `;
   
-  // Initialiser l'autocomplétion (uniquement si la barre existe)
   initNavbarSearch();
 }
 
@@ -171,7 +167,7 @@ function toggleUserMenu(event) {
 }
 
 /**
- * Autocomplétion dans la navbar (desktop uniquement).
+ * Autocomplétion dans la navbar.
  */
 function initNavbarSearch() {
   const input = document.getElementById('navbar-search-input');
@@ -266,12 +262,12 @@ document.addEventListener('click', (e) => {
 document.addEventListener('DOMContentLoaded', () => {
   const isHomePage = window.location.pathname === '/' || window.location.pathname.endsWith('/index.html');
   
-  // Classe spécifique à l'accueil (navbar superposée au hero, logo agrandi, etc.)
+  // Classe spécifique à l'accueil (logo géant, icône login, etc.)
   if (isHomePage) {
     document.body.classList.add('page-home');
   }
   
-  // Au défilement, la navbar prend la même couleur sur TOUTES les pages
+  // ✅ Scroll listener actif sur TOUTES les pages
   const applyNavScrolled = () => {
     if (window.scrollY > 40) {
       document.body.classList.add('nav-scrolled');
