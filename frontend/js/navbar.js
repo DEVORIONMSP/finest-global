@@ -240,3 +240,28 @@ document.addEventListener('click', (e) => {
     dropdown.classList.remove('open');
   }
 });
+
+// ============================================================
+// LOGIQUE DE TAILLE DE LA NAVBAR SUR L'ACCUEIL
+// ============================================================
+document.addEventListener('DOMContentLoaded', () => {
+  const isHomePage = window.location.pathname === '/' || window.location.pathname.endsWith('/index.html');
+  
+  if (isHomePage) {
+    document.body.classList.add('page-home');
+    
+    // Vérifier immédiatement si on est déjà défilé (au cas où on recharge la page)
+    if (window.scrollY > 40) {
+      document.body.classList.add('nav-scrolled');
+    }
+    
+    // Ajouter/retirer la classe au défilement
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 40) {
+        document.body.classList.add('nav-scrolled');
+      } else {
+        document.body.classList.remove('nav-scrolled');
+      }
+    }, { passive: true });
+  }
+});
