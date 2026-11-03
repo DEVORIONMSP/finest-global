@@ -460,14 +460,20 @@ img, video {
   box-shadow: 0 0 0 4px rgba(217, 98, 43, 0.12);
 }
 
+/* On utilise un pseudo-élément pour l'icône de loupe SVG */
 .navbar-search::before {
-  content: "🔍";
+  content: "";
   position: absolute;
   left: 14px;
   top: 50%;
   transform: translateY(-50%);
-  font-size: 0.9rem;
+  width: 16px;
+  height: 16px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23737A87' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cline x1='21' y1='21' x2='16.65' y2='16.65'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-size: contain;
   pointer-events: none;
+  z-index: 1;
 }
 
 .navbar-suggestions {
@@ -957,7 +963,7 @@ body.page-home .navbar-logo-img {
 }
 
 /* ============================================================
-   🆕 NAVBAR SUR LA PAGE D'ACCUEIL : LOGO x3 + LOUPE
+   🆕 NAVBAR SUR LA PAGE D'ACCUEIL : LOGO x5 + LOUPE SVG
    Ne modifie PAS la hauteur de la navbar.
    Seuls le logo et la barre de recherche sont affectés.
    ============================================================ */
@@ -970,9 +976,9 @@ body.page-home:not(.nav-scrolled) .navbar-inner {
   align-items: center;
 }
 
-/* Le logo est multiplié par 3 (132px) et sort visuellement de la navbar sans la pousser */
+/* Le logo est multiplié par 5 (220px) et sort visuellement de la navbar sans la pousser */
 body.page-home:not(.nav-scrolled) .navbar-logo-img {
-  height: 132px; /* 44px * 3 */
+  height: 220px; /* 44px * 5 */
   width: auto;
   position: relative;
   z-index: 10;
@@ -1003,12 +1009,19 @@ body.page-home:not(.nav-scrolled) .navbar-search input::placeholder {
   color: transparent;
 }
 
+/* Remplacement de l'icône de loupe par une SVG plus grande et centrée */
 body.page-home:not(.nav-scrolled) .navbar-search::before {
+  content: "";
+  position: absolute;
   left: 50%;
+  top: 50%;
   transform: translate(-50%, -50%);
-  font-size: 1.3rem;
+  width: 22px;
+  height: 22px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23FAF6EF' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cline x1='21' y1='21' x2='16.65' y2='16.65'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-size: contain;
   pointer-events: none;
-  color: var(--cream-50);
 }
 
 /* Au clic (focus), la loupe s'étend en barre de recherche normale */
@@ -1027,9 +1040,13 @@ body.page-home:not(.nav-scrolled) .navbar-search input:focus::placeholder {
   color: var(--silver-400);
 }
 
+/* Quand on tape, la loupe redevient une icône normale à gauche */
 body.page-home:not(.nav-scrolled) .navbar-search:focus-within::before {
   left: 14px;
   transform: translateY(-50%);
+  width: 16px;
+  height: 16px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23737A87' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cline x1='21' y1='21' x2='16.65' y2='16.65'/%3E%3C/svg%3E");
 }
 
 /* Sur mobile, on annule le logo géant et la loupe pour garder l'ergonomie */
