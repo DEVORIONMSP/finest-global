@@ -434,6 +434,7 @@ img, video {
   max-width: none;
   object-fit: contain;
   display: block;
+  transition: height 0.3s ease;
 }
 
 .navbar-search {
@@ -709,6 +710,82 @@ img, video {
 }
 
 /* ============================================================
+   NAVBAR — PAGE D'ACCUEIL (Logo géant + Loupe)
+   ============================================================ */
+
+/* La navbar garde sa hauteur normale pour ne pas décaler les éléments */
+body.page-home:not(.nav-scrolled) .navbar-inner {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  /* On laisse la hauteur naturelle du contenu (le logo géant débordera visuellement sans pousser) */
+}
+
+/* Le logo triple de taille */
+body.page-home:not(.nav-scrolled) .navbar-logo-img {
+  height: 132px; /* 44px x 3 */
+  transform: translateY(10px); /* Centre visuellement le logo qui déborde */
+  transition: height 0.3s ease, transform 0.3s ease;
+}
+
+/* La barre de recherche devient une simple icône loupe sur la page d'accueil */
+body.page-home:not(.nav-scrolled) .navbar-search {
+  flex: 0 0 auto;
+  max-width: none;
+  width: auto;
+}
+
+body.page-home:not(.nav-scrolled) .navbar-search input {
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border-radius: 50%;
+  cursor: pointer;
+  background: transparent;
+  border-color: transparent;
+  color: transparent; /* Cache le texte */
+  font-size: 0; /* Cache le texte */
+}
+
+body.page-home:not(.nav-scrolled) .navbar-search input::placeholder {
+  color: transparent;
+}
+
+body.page-home:not(.nav-scrolled) .navbar-search::before {
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 1.2rem;
+  pointer-events: none;
+}
+
+body.page-home:not(.nav-scrolled) .navbar-search input:focus {
+  width: 300px;
+  padding: 10px 16px 10px 42px;
+  border-radius: var(--radius);
+  background: var(--white);
+  border-color: var(--ginger-500);
+  color: var(--silver-900);
+  font-size: 0.9rem;
+  cursor: text;
+}
+
+body.page-home:not(.nav-scrolled) .navbar-search input:focus::placeholder {
+  color: var(--silver-400);
+}
+
+body.page-home:not(.nav-scrolled) .navbar-search input:focus + .navbar-suggestions {
+  /* Géré par le JS */
+}
+
+/* Effet inverse : le JS de navbar.js doit pouvoir afficher les suggestions */
+body.page-home:not(.nav-scrolled) .navbar-search:focus-within::before {
+  left: 14px;
+  transform: translateY(-50%);
+}
+
+/* Sur la page d'accueil, on cache temporairement la barre classique si on ne l'utilise pas */
+/* Mais on la garde fonctionnelle avec l'effet loupe ci-dessus */
+
+/* ============================================================
    NAVBAR — RESPONSIVE MOBILE
    ============================================================ */
 
@@ -722,7 +799,11 @@ img, video {
     gap: 8px;
   }
 
-  .navbar-logo-img { height: 34px; }
+  /* Sur mobile, le logo géant ne s'applique pas (on garde la taille normale) */
+  body.page-home:not(.nav-scrolled) .navbar-logo-img {
+    height: 34px;
+    transform: none;
+  }
 
   .navbar-links {
     flex: 1 1 auto;
@@ -815,107 +896,6 @@ img, video {
 }
 
 /* ============================================================
-   NAVBAR — SUPERPOSÉE SUR LE HERO (page d'accueil)
-   Activée par <body class="page-home">.
-   La navbar est fixe et transparente au-dessus de l'image de fond ;
-   dès que la page défile (body.nav-scrolled), elle prend un fond
-   brun pour rester lisible sur les sections claires.
-   ============================================================ */
-
-body.page-home #navbar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 100;
-  padding-top: env(safe-area-inset-top, 0px);
-  background: transparent;
-  transition: background 0.3s ease, box-shadow 0.3s ease;
-}
-
-body.page-home.nav-scrolled #navbar {
-  background: rgba(58, 22, 6, 0.92);
-  -webkit-backdrop-filter: blur(10px);
-  backdrop-filter: blur(10px);
-  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.25);
-}
-
-body.page-home .navbar {
-  position: relative;
-  background: transparent;
-  border-bottom-color: transparent;
-}
-
-/* Liens */
-body.page-home .nav-link {
-  color: var(--cream-50);
-}
-body.page-home .nav-link::after {
-  background: var(--ginger-400);
-}
-body.page-home .nav-link:hover,
-body.page-home .nav-link.active,
-body.page-home .nav-link[aria-current="page"] {
-  color: var(--ginger-400);
-}
-body.page-home .nav-link.active::after,
-body.page-home .nav-link[aria-current="page"]::after {
-  width: 100%;
-}
-
-/* Bouton de connexion / inscription (ghost) */
-body.page-home .nav-auth .btn-ghost {
-  color: var(--cream-50);
-}
-body.page-home .nav-auth .btn-ghost:hover:not(:disabled) {
-  background: rgba(250, 246, 239, 0.14);
-}
-
-/* Barre de recherche */
-body.page-home .navbar-search input {
-  background: rgba(250, 246, 239, 0.12);
-  border-color: rgba(250, 246, 239, 0.32);
-  color: var(--cream-50);
-}
-body.page-home .navbar-search input::placeholder {
-  color: rgba(250, 246, 239, 0.65);
-}
-body.page-home .navbar-search input:focus {
-  background: rgba(250, 246, 239, 0.2);
-  border-color: var(--ginger-400);
-  box-shadow: 0 0 0 4px rgba(242, 140, 40, 0.2);
-}
-
-/* Menu utilisateur */
-body.page-home .nav-user-name,
-body.page-home .nav-chevron {
-  color: var(--cream-50);
-}
-body.page-home .nav-user-btn:hover {
-  background: rgba(250, 246, 239, 0.14);
-}
-
-/* Sélecteur de langue */
-body.page-home .lang-selector {
-  background: rgba(250, 246, 239, 0.16);
-}
-body.page-home .lang-btn {
-  color: var(--cream-50);
-}
-body.page-home .lang-btn:hover {
-  background: rgba(250, 246, 239, 0.18);
-}
-body.page-home .lang-btn.active {
-  background: var(--cream-50);
-  color: var(--ginger-600);
-}
-
-/* Logo : léger halo pour rester lisible sur le fond brun */
-body.page-home .navbar-logo-img {
-  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.35));
-}
-
-/* ============================================================
    MODALES / TOASTS — RESPONSIVE ANDROID
    ============================================================ */
 
@@ -958,27 +938,4 @@ body.page-home .navbar-logo-img {
     padding: 14px 16px;
     font-size: 0.88rem;
   }
-}
-
-/* ============================================================
-   NAVBAR SUR LA PAGE D'ACCUEIL (Taille doublée)
-   ============================================================ */
-body.page-home:not(.nav-scrolled) .navbar-inner {
-  padding-top: 24px;
-  padding-bottom: 24px;
-}
-body.page-home:not(.nav-scrolled) .navbar-logo-img {
-  height: 80px; /* Logo plus gros sur l'accueil */
-  transition: height 0.3s ease;
-}
-body.page-home:not(.nav-scrolled) .navbar-links {
-  gap: 32px;
-}
-body.page-home:not(.nav-scrolled) .nav-link {
-  font-size: 1.05rem;
-}
-
-/* Transition fluide pour le retour à la taille normale */
-.navbar-inner, .navbar-logo-img, .nav-link {
-  transition: all 0.3s ease;
 }
