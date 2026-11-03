@@ -15,6 +15,8 @@
       --brand-dark-solid:  #3A1606;
       --brand-dark-deep:   #2A0F03;
       --brand-dark-soft:   rgba(58, 22, 6, 0.75);
+      --brand-card:        rgba(58, 22, 6, 0.08);
+      --brand-card-hover:  rgba(58, 22, 6, 0.15);
       --silver:            rgb(170, 169, 173);
       --silver-light:      rgba(170, 169, 173, 0.45);
       --silver-soft:       rgba(170, 169, 173, 0.2);
@@ -25,7 +27,7 @@
     }
 
     /* ============================
-       HERO — fond brun sombre
+       HERO — brun sombre (n°1)
        ============================ */
     .about-hero {
       background: linear-gradient(135deg, var(--brand-dark-deep) 0%, var(--brand-dark-solid) 55%, var(--brand-dark) 100%);
@@ -109,7 +111,7 @@
     }
     
     /* ============================
-       SECTION PROBLÈME — fond brun dominant
+       PROBLÈME — brun dominant (n°2)
        ============================ */
     .section-problem {
       background: var(--brand-dark);
@@ -138,7 +140,7 @@
     .section-problem .section-title p { color: var(--cream-muted); }
     
     /* ============================
-       GRILLES DE CARTES
+       GRILLE DE CARTES
        ============================ */
     .cards-grid {
       display: grid;
@@ -146,6 +148,7 @@
       gap: 24px;
     }
     
+    /* Carte sur fond brun — cream très léger + silver */
     .card-glass {
       background: rgba(255, 253, 209, 0.05);
       border: 1.5px solid var(--silver-light);
@@ -180,7 +183,7 @@
     }
     
     /* ============================
-       SECTION SOLUTION — 🆕 FOND CREAM LUMINEUX
+       SOLUTION — 🟡 CREAM LUMINEUX (1ère apparition)
        ============================ */
     .section-solution {
       background: var(--cream);
@@ -196,7 +199,7 @@
       right: -150px;
       width: 500px;
       height: 500px;
-      background: radial-gradient(circle, rgba(170,169,173,0.18) 0%, transparent 70%);
+      background: radial-gradient(circle, rgba(170,169,173,0.25) 0%, transparent 70%);
       border-radius: 50%;
     }
     
@@ -216,14 +219,13 @@
       z-index: 1;
     }
     
-    /* Titres sombres sur fond cream lumineux */
     .section-solution .section-title h2 { color: var(--brand-dark-solid); }
     .section-solution .section-title p { color: var(--brand-dark-soft); }
     
-    /* Cartes solution — fond blanc cassé + bordure silver */
+    /* Cartes sur fond cream — BRUN CLAIR transparent, PAS de blanc */
     .card-white {
-      background: #FFFFFF;
-      border: 1.5px solid var(--silver-light);
+      background: rgba(58, 22, 6, 0.06);
+      border: 1.5px solid var(--brand-dark-solid);
       border-radius: var(--radius-lg, 14px);
       padding: 32px 28px;
       transition: all var(--transition, 0.2s);
@@ -231,9 +233,9 @@
     }
     
     .card-white:hover {
-      border-color: var(--brand-dark-solid);
+      background: rgba(58, 22, 6, 0.12);
       transform: translateY(-4px);
-      box-shadow: 0 20px 48px rgba(58, 22, 6, 0.18);
+      box-shadow: 0 20px 48px rgba(58, 22, 6, 0.2);
     }
     
     .card-white-emoji {
@@ -255,7 +257,7 @@
     }
     
     /* ============================
-       SECTION VISION — 🆕 FOND CREAM LUMINEUX
+       VISION — 🟡 CREAM LUMINEUX (2ème apparition)
        ============================ */
     .section-vision {
       background: var(--cream);
@@ -272,7 +274,7 @@
       right: -200px;
       width: 600px;
       height: 600px;
-      background: radial-gradient(circle, rgba(170,169,173,0.18) 0%, transparent 70%);
+      background: radial-gradient(circle, rgba(170,169,173,0.25) 0%, transparent 70%);
       border-radius: 50%;
     }
     
@@ -292,7 +294,6 @@
       z-index: 1;
     }
     
-    /* Titres sombres sur fond cream lumineux */
     .section-vision .section-title h2 { color: var(--brand-dark-solid); }
     
     .vision-text {
@@ -314,12 +315,12 @@
     .vision-highlight {
       color: var(--brand-dark-solid);
       font-weight: 800;
-      background: linear-gradient(transparent 60%, rgba(170,169,173,0.5) 60%);
+      background: linear-gradient(transparent 60%, rgba(170,169,173,0.6) 60%);
       padding: 0 4px;
     }
     
     /* ============================
-       CHIFFRES CLÉS
+       CHIFFRES CLÉS — brun profond (n°3)
        ============================ */
     .stats-band {
       background: var(--brand-dark-deep);
@@ -353,7 +354,7 @@
     }
     
     /* ============================
-       CTA FINAL — fond brun
+       CTA FINAL — brun dominant (n°4)
        ============================ */
     .cta-final {
       background: var(--brand-dark);
@@ -428,7 +429,7 @@
     }
     
     /* ============================
-       FOOTER
+       FOOTER — brun profond (n°5)
        ============================ */
     .footer {
       background: var(--brand-dark-deep);
@@ -507,7 +508,6 @@
        🆕 GRANDS ÉCRANS — 2K / ultra-wide / 4K
        ============================ */
 
-    /* ----- 1600px+ ----- */
     @media (min-width: 1600px) {
       .about-hero { padding: 130px 0; }
       .about-hero-inner { max-width: 1000px; padding: 0 40px; }
@@ -525,7 +525,7 @@
 
       .cards-grid { gap: 32px; }
       .card-glass,
-      .card-white { padding: 40px 34px; border-radius: var(--radius-lg, 14px); }
+      .card-white { padding: 40px 34px; }
       .card-glass-emoji,
       .card-white-emoji { font-size: 2.5rem; margin-bottom: 20px; }
       .card-glass h3,
@@ -533,7 +533,7 @@
       .card-glass p,
       .card-white p { font-size: 1.05rem; line-height: 1.8; }
 
-      .vision-text { font-size: 1.35rem; max-width: 1000px; line-height: 2.1; }
+      .vision-text { font-size: 1.35rem; max-width: 1000px; }
       .vision-text p { margin-bottom: 32px; }
 
       .stats-band { padding: 80px 0; }
@@ -544,13 +544,11 @@
       .cta-final { padding: 110px 0; }
       .cta-final h2 { font-size: 2.75rem; }
       .cta-final p { font-size: 1.25rem; max-width: 780px; }
-      .cta-final-buttons { gap: 20px; }
 
       .footer { padding: 44px 0; }
       .footer p { font-size: 1rem; }
     }
 
-    /* ----- 2000px+ (ultra-wide 21:9 / 32:9) ----- */
     @media (min-width: 2000px) {
       .about-hero { padding: 160px 0; }
       .about-hero-inner { max-width: 1200px; padding: 0 60px; }
@@ -589,7 +587,6 @@
       .cta-final p { font-size: 1.4rem; max-width: 920px; }
     }
 
-    /* ----- 3000px+ (4K et plus) ----- */
     @media (min-width: 3000px) {
       .about-hero { padding: 200px 0; }
       .about-hero-inner { max-width: 1400px; }
@@ -633,7 +630,7 @@
 
   <div id="navbar"></div>
 
-  <!-- HERO -->
+  <!-- 1️⃣ HERO — brun sombre -->
   <section class="about-hero">
     <div class="about-hero-inner">
       <h1>
@@ -644,7 +641,7 @@
     </div>
   </section>
 
-  <!-- CHIFFRES CLÉS -->
+  <!-- 2️⃣ CHIFFRES CLÉS — brun profond -->
   <section class="stats-band">
     <div class="container">
       <div class="stats-band-grid">
@@ -668,7 +665,7 @@
     </div>
   </section>
 
-  <!-- LE PROBLÈME — fond brun -->
+  <!-- 3️⃣ PROBLÈME — brun dominant -->
   <section class="section-problem">
     <div class="container">
       <div class="section-title">
@@ -696,7 +693,7 @@
     </div>
   </section>
 
-  <!-- NOTRE SOLUTION — 🆕 FOND CREAM LUMINEUX -->
+  <!-- 4️⃣ SOLUTION — 🟡 CREAM (1ère apparition) -->
   <section class="section-solution">
     <div class="container">
       <div class="section-title">
@@ -724,7 +721,7 @@
     </div>
   </section>
 
-  <!-- VISION — 🆕 FOND CREAM LUMINEUX -->
+  <!-- 5️⃣ VISION — 🟡 CREAM (2ème apparition) -->
   <section class="section-vision">
     <div class="container">
       <div class="section-title">
@@ -739,7 +736,7 @@
     </div>
   </section>
 
-  <!-- CTA FINAL — fond brun -->
+  <!-- 6️⃣ CTA FINAL — brun dominant -->
   <section class="cta-final">
     <div class="container">
       <h2 data-i18n="about.cta_title">Rejoignez l'aventure</h2>
@@ -752,7 +749,7 @@
     </div>
   </section>
 
-  <!-- FOOTER -->
+  <!-- 7️⃣ FOOTER — brun profond -->
   <footer class="footer">
     <div class="container">
       <p>© 2026 FinestGlobal — <span data-i18n="footer.rights">Tous droits réservés.</span></p>
