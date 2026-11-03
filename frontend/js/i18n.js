@@ -1,6 +1,6 @@
 /* ============================================================
    FINEST GLOBAL — Système de traduction FR / EN
-   Basé sur index.html + register.html (anglais par défaut)
+   Basé sur index.html + register.html + create-shop.html
    ============================================================ */
 
 const TRANSLATIONS = {
@@ -9,7 +9,7 @@ const TRANSLATIONS = {
     "nav.home": "Accueil",
     "nav.marketplace": "Marketplace",
     "nav.about": "À propos",
-    "nav.search_placeholder": "Rechercher un produit, une boutique...",
+    "nav.search_placeholder": "Rechercher un produit, une vitrine...",
     "nav.login": "Se connecter",
     "nav.register": "S'inscrire",
     "nav.dashboard": "Mon dashboard",
@@ -52,16 +52,16 @@ const TRANSLATIONS = {
     "home.cta_5": "Support en français",
     
     "home.near_you_title": "Découvrez Près de Chez Vous",
-    "home.near_you_p": "Trouvez des produits, boutiques et services près de votre position actuelle.",
+    "home.near_you_p": "Trouvez des produits, vitrines et services près de votre position actuelle.",
     "home.detect_location": "Détecter ma position",
     "home.detecting": "Détection en cours...",
     "home.location_detected": "Position détectée",
     "home.location_denied": "Impossible de détecter votre position. Vérifiez vos paramètres.",
-    "home.see_nearby": "Voir les boutiques proches →",
+    "home.see_nearby": "Voir les vitrines proches →",
     "home.search_by_code": "Recherche par code business",
     "home.enter_code": "Vous cherchez une entreprise en particulier ? Entrez son code business Finest Global pour trouver sa vitrine.",
     "home.find_shop": "Trouver",
-    "home.code_not_found": "Aucune boutique trouvée avec ce code.",
+    "home.code_not_found": "Aucune vitrine trouvée avec ce code.",
     
     // Footer
     "footer.tagline": "Une marketplace digitale connectant les personnes, les entreprises, les produits et les services. Découvrez des opportunités, atteignez des clients et créez des connexions au-delà des frontières physiques.",
@@ -110,7 +110,7 @@ const TRANSLATIONS = {
     "marketplace.no_location": "Position non disponible",
     
     // ============================================================
-    // PRODUIT / BOUTIQUE
+    // PRODUIT / VITRINE
     // ============================================================
     "product.order_now": "🛒 Commander maintenant",
     "product.out_of_stock": "Produit indisponible",
@@ -131,7 +131,7 @@ const TRANSLATIONS = {
     "product.confirm": "Confirmer la commande",
     "product.cancel": "Annuler",
     "product.no_products": "Aucun produit",
-    "product.no_products_p": "Cette boutique n'a pas encore de produits.",
+    "product.no_products_p": "Cette vitrine n'a pas encore de produits.",
     "product.similar": "📦 Vous aimerez aussi",
     "product.how_it_works": "💡 Comment ça marche ?",
     "product.how_it_works_p": "Le vendeur reçoit votre commande instantanément. Il vous contactera pour organiser la livraison.",
@@ -141,7 +141,7 @@ const TRANSLATIONS = {
     "product.to_confirm": "Disponibilité à confirmer",
     "product.availability": "Disponibilité",
     
-    "product.shop_code": "Code boutique",
+    "product.shop_code": "Code vitrine",
     "product.shop_locality": "Localité",
     "product.shop_market": "Marché",
     "product.distance_from_you": "Distance",
@@ -203,7 +203,7 @@ const TRANSLATIONS = {
     "orders.cancel": "Annuler",
     "orders.quantity": "Quantité",
     "orders.order_id": "Commande",
-    "orders.shop": "Boutique",
+    "orders.shop": "Vitrine",
     
     // ============================================================
     // DASHBOARD VENDEUR
@@ -212,7 +212,7 @@ const TRANSLATIONS = {
     "seller.overview": "Vue d'ensemble",
     "seller.orders": "Commandes",
     "seller.products": "Mes produits",
-    "seller.shop": "Ma boutique",
+    "seller.shop": "Ma vitrine",
     "seller.revenue": "Chiffre d'affaires",
     "seller.total_sales": "Ventes totales",
     "seller.product_views": "Vues produits",
@@ -227,9 +227,9 @@ const TRANSLATIONS = {
     "seller.orders_received": "📦 Commandes reçues",
     "seller.orders_received_p": "Gérez vos commandes clients en temps réel.",
     "seller.my_products": "🛍️ Mes produits",
-    "seller.my_products_p": "produit(s) dans votre boutique",
-    "seller.my_shop": "🏪 Ma boutique",
-    "seller.my_shop_p": "Personnalisez les informations de votre boutique.",
+    "seller.my_products_p": "produit(s) dans votre vitrine",
+    "seller.my_shop": "🏪 Ma vitrine",
+    "seller.my_shop_p": "Personnalisez les informations de votre vitrine.",
     "seller.confirm": "✅ Confirmer",
     "seller.cancel": "❌ Annuler",
     "seller.deliver": "📦 Marquer livrée",
@@ -238,12 +238,12 @@ const TRANSLATIONS = {
     "seller.product": "Produit",
     "seller.edit": "✏️ Éditer",
     
-    "seller.shop_location": "Localisation de la boutique",
-    "seller.shop_location_p": "Déplacez le marqueur sur la carte pour changer la position de votre boutique.",
+    "seller.shop_location": "Localisation de la vitrine",
+    "seller.shop_location_p": "Déplacez le marqueur sur la carte pour changer la position de votre vitrine.",
     "seller.save_location": "Enregistrer la position",
     "seller.location_saved": "Position mise à jour",
-    "seller.shop_code": "Code boutique",
-    "seller.shop_code_p": "Partagez ce code avec vos clients pour qu'ils trouvent facilement votre boutique.",
+    "seller.shop_code": "Code vitrine",
+    "seller.shop_code_p": "Partagez ce code avec vos clients pour qu'ils trouvent facilement votre vitrine.",
     
     "seller.availability": "Disponibilité",
     "seller.availability_in_stock": "En stock",
@@ -258,7 +258,7 @@ const TRANSLATIONS = {
     "admin.subtitle": "Statistiques globales de la plateforme Finest Global.",
     "admin.overview": "Vue d'ensemble",
     "admin.users": "👥 Utilisateurs",
-    "admin.shops": "🏪 Boutiques",
+    "admin.shops": "🏪 Vitrines",
     "admin.products": "🛍️ Produits",
     "admin.orders": "📦 Commandes",
     "admin.categories": "🏷️ Catégories",
@@ -276,7 +276,7 @@ const TRANSLATIONS = {
     "admin.top_sellers": "🥇 Top vendeurs",
     "admin.top_products": "🔥 Top produits",
     "admin.all_users": "Liste des utilisateurs",
-    "admin.all_shops": "Toutes les boutiques",
+    "admin.all_shops": "Toutes les vitrines",
     "admin.all_orders": "Toutes les commandes",
     "admin.all_roles": "Tous les rôles",
     "admin.all_status": "Tous les statuts",
@@ -285,15 +285,15 @@ const TRANSLATIONS = {
     "admin.no_categories": "Aucune catégorie",
     "admin.no_categories_p": "Créez les catégories de base pour permettre aux vendeurs de classer leurs produits.",
     "admin.no_users": "Aucun utilisateur.",
-    "admin.no_shops": "Aucune boutique.",
+    "admin.no_shops": "Aucune vitrine.",
     "admin.no_orders": "Aucune commande.",
     
     "admin.users_label": "Utilisateurs",
-    "admin.shops_label": "Boutiques",
+    "admin.shops_label": "Vitrines",
     "admin.products_label": "Produits",
     "admin.orders_label": "Commandes",
     "admin.users_count": "utilisateur(s) sur la plateforme",
-    "admin.shops_count": "boutique(s) active(s)",
+    "admin.shops_count": "vitrine(s) active(s)",
     "admin.orders_count": "commande(s) sur la plateforme",
     "admin.categories_count": "catégorie(s) au total",
     "admin.id": "ID",
@@ -322,35 +322,35 @@ const TRANSLATIONS = {
     "admin.rankings_p": "Les meilleurs vendeurs et produits de la plateforme.",
     "admin.no_sales": "Aucune vente pour l'instant.",
     "admin.no_products_sold": "Aucun produit vendu pour l'instant.",
-    "admin.shop_label": "Boutique",
+    "admin.shop_label": "Vitrine",
     
     "admin.locality": "Localité",
     "admin.market": "Marché",
     "admin.shop_code": "Code",
     
     // ============================================================
-    // BOUTIQUE (CRÉATION)
+    // VITRINE (CRÉATION) — create-shop.html
     // ============================================================
-    "shop.create_title": "Créez votre boutique",
-    "shop.create_p": "C'est la dernière étape avant de pouvoir vendre. Donnez un nom à votre boutique et commencez à ajouter des produits.",
+    "shop.create_title": "Créez votre vitrine",
+    "shop.create_p": "C'est la dernière étape avant de pouvoir vendre. Donnez un nom à votre vitrine et commencez à ajouter des produits.",
     "shop.benefits": "Ce que vous obtenez :",
     "shop.benefit_1": "Vitrine en ligne gratuite et personnalisable",
     "shop.benefit_2": "Notifications en temps réel des commandes",
     "shop.benefit_3": "Tableau de bord avec statistiques",
     "shop.benefit_4": "Visible par des milliers d'acheteurs",
-    "shop.name": "Nom de la boutique",
+    "shop.name": "Nom de la vitrine",
     "shop.name_hint": "Choisissez un nom court et mémorable.",
     "shop.description": "Description (optionnel)",
-    "shop.description_placeholder": "Décrivez votre boutique en quelques mots...",
-    "shop.photo": "Photo de la boutique (optionnel)",
+    "shop.description_placeholder": "Décrivez votre vitrine en quelques mots...",
+    "shop.photo": "Photo de la vitrine (optionnel)",
     "shop.photo_click": "Cliquez pour ajouter une photo",
-    "shop.create_btn": "Créer ma boutique →",
+    "shop.create_btn": "Créer ma vitrine →",
     
-    "shop.location": "Localisation de la boutique",
-    "shop.location_hint": "Cliquez sur la carte pour placer votre boutique. Vous pouvez aussi déplacer le marqueur.",
+    "shop.location": "Localisation de la vitrine",
+    "shop.location_hint": "Cliquez sur la carte pour placer votre vitrine. Vous pouvez aussi déplacer le marqueur.",
     "shop.locality": "Localité (auto-rempli)",
     "shop.market": "Marché / zone commerciale (optionnel)",
-    "shop.code_label": "Code boutique",
+    "shop.code_label": "Code vitrine",
     
     // ============================================================
     // DEVENIR VENDEUR
@@ -421,7 +421,7 @@ const TRANSLATIONS = {
     "nav.home": "Home",
     "nav.marketplace": "Marketplace",
     "nav.about": "About",
-    "nav.search_placeholder": "Search for a product, a shop...",
+    "nav.search_placeholder": "Search for a product, a storefront...",
     "nav.login": "Log in",
     "nav.register": "Sign up",
     "nav.dashboard": "My dashboard",
@@ -464,16 +464,16 @@ const TRANSLATIONS = {
     "home.cta_5": "French-Language Support",
     
     "home.near_you_title": "Discover Near You",
-    "home.near_you_p": "Find products, shops and services near your current location.",
+    "home.near_you_p": "Find products, storefronts and services near your current location.",
     "home.detect_location": "Detect my location",
     "home.detecting": "Detecting...",
     "home.location_detected": "Location detected",
     "home.location_denied": "Unable to detect your location. Check your settings.",
-    "home.see_nearby": "See nearby shops →",
+    "home.see_nearby": "See nearby storefronts →",
     "home.search_by_code": "Business-code search",
     "home.enter_code": "Looking for a Specific Business? Enter its Finest Global business code to find its storefront.",
     "home.find_shop": "Find",
-    "home.code_not_found": "No shop found with this code.",
+    "home.code_not_found": "No storefront found with this code.",
     
     // Footer
     "footer.tagline": "A digital marketplace connecting people, businesses, products and services. Discover opportunities, reach customers and make connections beyond physical boundaries.",
@@ -522,7 +522,7 @@ const TRANSLATIONS = {
     "marketplace.no_location": "Location unavailable",
     
     // ============================================================
-    // PRODUCT / SHOP
+    // PRODUCT / STOREFRONT
     // ============================================================
     "product.order_now": "🛒 Order now",
     "product.out_of_stock": "Product unavailable",
@@ -543,7 +543,7 @@ const TRANSLATIONS = {
     "product.confirm": "Confirm order",
     "product.cancel": "Cancel",
     "product.no_products": "No products",
-    "product.no_products_p": "This shop doesn't have any products yet.",
+    "product.no_products_p": "This storefront doesn't have any products yet.",
     "product.similar": "📦 You may also like",
     "product.how_it_works": "💡 How does it work?",
     "product.how_it_works_p": "The seller receives your order instantly. They will contact you to organize the delivery.",
@@ -553,7 +553,7 @@ const TRANSLATIONS = {
     "product.to_confirm": "Availability to confirm",
     "product.availability": "Availability",
     
-    "product.shop_code": "Shop code",
+    "product.shop_code": "Storefront code",
     "product.shop_locality": "Locality",
     "product.shop_market": "Market",
     "product.distance_from_you": "Distance",
@@ -615,7 +615,7 @@ const TRANSLATIONS = {
     "orders.cancel": "Cancel",
     "orders.quantity": "Quantity",
     "orders.order_id": "Order",
-    "orders.shop": "Shop",
+    "orders.shop": "Storefront",
     
     // ============================================================
     // SELLER DASHBOARD
@@ -624,7 +624,7 @@ const TRANSLATIONS = {
     "seller.overview": "Overview",
     "seller.orders": "Orders",
     "seller.products": "My products",
-    "seller.shop": "My shop",
+    "seller.shop": "My storefront",
     "seller.revenue": "Revenue",
     "seller.total_sales": "Total sales",
     "seller.product_views": "Product views",
@@ -639,9 +639,9 @@ const TRANSLATIONS = {
     "seller.orders_received": "📦 Orders received",
     "seller.orders_received_p": "Manage your customer orders in real time.",
     "seller.my_products": "🛍️ My products",
-    "seller.my_products_p": "product(s) in your shop",
-    "seller.my_shop": "🏪 My shop",
-    "seller.my_shop_p": "Customize your shop information.",
+    "seller.my_products_p": "product(s) in your storefront",
+    "seller.my_shop": "🏪 My storefront",
+    "seller.my_shop_p": "Customize your storefront information.",
     "seller.confirm": "✅ Confirm",
     "seller.cancel": "❌ Cancel",
     "seller.deliver": "📦 Mark as delivered",
@@ -650,12 +650,12 @@ const TRANSLATIONS = {
     "seller.product": "Product",
     "seller.edit": "✏️ Edit",
     
-    "seller.shop_location": "Shop location",
-    "seller.shop_location_p": "Move the marker on the map to change your shop position.",
+    "seller.shop_location": "Storefront location",
+    "seller.shop_location_p": "Move the marker on the map to change your storefront position.",
     "seller.save_location": "Save location",
     "seller.location_saved": "Location updated",
-    "seller.shop_code": "Shop code",
-    "seller.shop_code_p": "Share this code with your customers so they can easily find your shop.",
+    "seller.shop_code": "Storefront code",
+    "seller.shop_code_p": "Share this code with your customers so they can easily find your storefront.",
     
     "seller.availability": "Availability",
     "seller.availability_in_stock": "In stock",
@@ -670,7 +670,7 @@ const TRANSLATIONS = {
     "admin.subtitle": "Global statistics of the Finest Global platform.",
     "admin.overview": "Overview",
     "admin.users": "👥 Users",
-    "admin.shops": "🏪 Shops",
+    "admin.shops": "🏪 Storefronts",
     "admin.products": "🛍️ Products",
     "admin.orders": "📦 Orders",
     "admin.categories": "🏷️ Categories",
@@ -688,7 +688,7 @@ const TRANSLATIONS = {
     "admin.top_sellers": "🥇 Top sellers",
     "admin.top_products": "🔥 Top products",
     "admin.all_users": "Users list",
-    "admin.all_shops": "All shops",
+    "admin.all_shops": "All storefronts",
     "admin.all_orders": "All orders",
     "admin.all_roles": "All roles",
     "admin.all_status": "All statuses",
@@ -697,15 +697,15 @@ const TRANSLATIONS = {
     "admin.no_categories": "No categories",
     "admin.no_categories_p": "Create default categories to let sellers classify their products.",
     "admin.no_users": "No users.",
-    "admin.no_shops": "No shops.",
+    "admin.no_shops": "No storefronts.",
     "admin.no_orders": "No orders.",
     
     "admin.users_label": "Users",
-    "admin.shops_label": "Shops",
+    "admin.shops_label": "Storefronts",
     "admin.products_label": "Products",
     "admin.orders_label": "Orders",
     "admin.users_count": "user(s) on the platform",
-    "admin.shops_count": "active shop(s)",
+    "admin.shops_count": "active storefront(s)",
     "admin.orders_count": "order(s) on the platform",
     "admin.categories_count": "categor(ies) total",
     "admin.id": "ID",
@@ -734,35 +734,35 @@ const TRANSLATIONS = {
     "admin.rankings_p": "The best sellers and products on the platform.",
     "admin.no_sales": "No sales yet.",
     "admin.no_products_sold": "No product sold yet.",
-    "admin.shop_label": "Shop",
+    "admin.shop_label": "Storefront",
     
     "admin.locality": "Locality",
     "admin.market": "Market",
     "admin.shop_code": "Code",
     
     // ============================================================
-    // SHOP (CREATION)
+    // STOREFRONT (CREATION) — create-shop.html
     // ============================================================
-    "shop.create_title": "Create your shop",
-    "shop.create_p": "This is the last step before you can sell. Give your shop a name and start adding products.",
+    "shop.create_title": "Create your storefront",
+    "shop.create_p": "This is the last step before you can sell. Give your storefront a name and start adding products.",
     "shop.benefits": "What you get:",
     "shop.benefit_1": "Free and customizable online storefront",
     "shop.benefit_2": "Real-time order notifications",
     "shop.benefit_3": "Dashboard with statistics",
     "shop.benefit_4": "Visible to thousands of buyers",
-    "shop.name": "Shop name",
+    "shop.name": "Storefront name",
     "shop.name_hint": "Choose a short and memorable name.",
     "shop.description": "Description (optional)",
-    "shop.description_placeholder": "Describe your shop in a few words...",
-    "shop.photo": "Shop photo (optional)",
+    "shop.description_placeholder": "Describe your storefront in a few words...",
+    "shop.photo": "Storefront photo (optional)",
     "shop.photo_click": "Click to add a photo",
-    "shop.create_btn": "Create my shop →",
+    "shop.create_btn": "Create my storefront →",
     
-    "shop.location": "Shop location",
-    "shop.location_hint": "Click on the map to place your shop. You can also drag the marker.",
+    "shop.location": "Storefront location",
+    "shop.location_hint": "Click on the map to place your storefront. You can also drag the marker.",
     "shop.locality": "Locality (auto-filled)",
     "shop.market": "Market / commercial area (optional)",
-    "shop.code_label": "Shop code",
+    "shop.code_label": "Storefront code",
     
     // ============================================================
     // BECOME SELLER

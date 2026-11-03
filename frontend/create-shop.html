@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
-  <title>Créer ma boutique — Finest Global</title>
+  <title>Create my storefront — Finest Global</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   
@@ -182,7 +182,6 @@
       margin-top: 12px;
     }
     
-    /* Inputs */
     .form-input, .form-textarea {
       background: rgba(255, 253, 209, 0.85);
       border: 1.5px solid var(--silver);
@@ -216,7 +215,6 @@
       margin-top: 6px;
     }
     
-    /* Bouton primaire */
     .btn-primary {
       background: var(--brand-dark-solid);
       color: var(--cream);
@@ -229,7 +227,6 @@
       color: var(--cream);
     }
     
-    /* Alertes */
     .alert-error {
       background: #FEE2E2;
       color: #991B1B;
@@ -240,7 +237,6 @@
       margin-bottom: 16px;
     }
     
-    /* Spinner */
     .spinner {
       display: inline-block;
       width: 16px;
@@ -314,17 +310,17 @@
         
         <div class="create-shop-header">
           <div class="create-shop-icon">🏪</div>
-          <h1 data-i18n="shop.create_title">Créez votre boutique</h1>
-          <p data-i18n="shop.create_p">C'est la dernière étape avant de pouvoir vendre. Donnez un nom à votre boutique et commencez à ajouter des produits.</p>
+          <h1 data-i18n="shop.create_title">Create your storefront</h1>
+          <p data-i18n="shop.create_p">This is the last step before you can sell. Give your storefront a name and start adding products.</p>
         </div>
         
         <div class="benefits">
-          <h3 data-i18n="shop.benefits">Ce que vous obtenez :</h3>
+          <h3 data-i18n="shop.benefits">What you get:</h3>
           <ul>
-            <li data-i18n="shop.benefit_1">Vitrine en ligne gratuite et personnalisable</li>
-            <li data-i18n="shop.benefit_2">Notifications en temps réel des commandes</li>
-            <li data-i18n="shop.benefit_3">Tableau de bord avec statistiques</li>
-            <li data-i18n="shop.benefit_4">Visible par des milliers d'acheteurs</li>
+            <li data-i18n="shop.benefit_1">Free and customizable online storefront</li>
+            <li data-i18n="shop.benefit_2">Real-time order notifications</li>
+            <li data-i18n="shop.benefit_3">Dashboard with statistics</li>
+            <li data-i18n="shop.benefit_4">Visible to thousands of buyers</li>
           </ul>
         </div>
         
@@ -332,26 +328,26 @@
           <div id="shop-error" class="alert alert-error hidden"></div>
           
           <div class="form-group">
-            <label class="form-label required" data-i18n="shop.name">Nom de la boutique</label>
+            <label class="form-label required" data-i18n="shop.name">Storefront name</label>
             <input 
               type="text" 
               class="form-input" 
               id="shop-name"
-              placeholder="Ex: Boutique Aïcha"
+              placeholder="Ex: Aïcha's Storefront"
               maxlength="100"
               required
             >
             <div class="form-hint" data-i18n="shop.name_hint">
-              Choisissez un nom court et mémorable.
+              Choose a short and memorable name.
             </div>
           </div>
           
           <div class="form-group">
-            <label class="form-label" data-i18n="shop.description">Description (optionnel)</label>
+            <label class="form-label" data-i18n="shop.description">Description (optional)</label>
             <textarea 
               class="form-textarea" 
               id="shop-desc"
-              placeholder="Décrivez votre boutique en quelques mots..."
+              placeholder="Describe your storefront in a few words..."
               data-i18n="shop.description_placeholder"
               data-i18n-attr="placeholder"
               maxlength="1000"
@@ -359,9 +355,9 @@
           </div>
           
           <div class="form-group">
-            <label class="form-label required" data-i18n="shop.location">Localisation de la boutique</label>
+            <label class="form-label required" data-i18n="shop.location">Storefront location</label>
             <p class="map-hint" data-i18n="shop.location_hint">
-              Cliquez sur la carte pour placer votre boutique. Vous pouvez aussi déplacer le marqueur.
+              Click on the map to place your storefront. You can also drag the marker.
             </p>
             <div id="map" class="map-container"></div>
             <input type="hidden" id="shop-latitude">
@@ -371,7 +367,7 @@
                 type="text" 
                 class="form-input" 
                 id="shop-locality"
-                placeholder="Localité (auto-rempli)"
+                placeholder="Locality (auto-filled)"
                 data-i18n="shop.locality"
                 data-i18n-attr="placeholder"
               >
@@ -381,7 +377,7 @@
                 type="text" 
                 class="form-input" 
                 id="shop-market"
-                placeholder="Marché / zone commerciale (optionnel)"
+                placeholder="Market / commercial area (optional)"
                 data-i18n="shop.market"
                 data-i18n-attr="placeholder"
               >
@@ -389,13 +385,13 @@
           </div>
           
           <div class="form-group">
-            <label class="form-label" data-i18n="shop.photo">Photo de la boutique (optionnel)</label>
+            <label class="form-label" data-i18n="shop.photo">Storefront photo (optional)</label>
             <div class="image-upload" onclick="document.getElementById('shop-image').click()">
               <input type="file" id="shop-image" accept="image/jpeg,image/png,image/webp" onchange="handleImage(event)">
               <div id="image-preview">
                 <div style="color: var(--brand-dark-soft);">
                   <div style="font-size: 2rem; margin-bottom: 8px;">📸</div>
-                  <div data-i18n="shop.photo_click">Cliquez pour ajouter une photo</div>
+                  <div data-i18n="shop.photo_click">Click to add a photo</div>
                   <div style="font-size: 0.8rem; margin-top: 4px;">JPEG, PNG, WEBP — max 5 MB</div>
                 </div>
               </div>
@@ -403,7 +399,7 @@
           </div>
           
           <button type="submit" class="btn btn-primary btn-block btn-lg" id="btn-create-shop" data-i18n="shop.create_btn">
-            Créer ma boutique →
+            Create my storefront →
           </button>
         </form>
         
