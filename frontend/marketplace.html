@@ -23,21 +23,58 @@
       --cream-muted:       rgba(255, 253, 209, 0.7);
     }
 
+    /* ============================================
+       FOND DE PAGE — BRUN DOMINANT
+       ============================================ */
     .marketplace-page {
       min-height: calc(100vh - 70px);
-      background: var(--cream);
+      background: var(--brand-dark-solid);
       padding: 32px 0 60px;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .marketplace-page::before {
+      content: "";
+      position: absolute;
+      top: -200px;
+      right: -200px;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(255,253,209,0.08) 0%, transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+    
+    .marketplace-page::after {
+      content: "";
+      position: absolute;
+      bottom: -300px;
+      left: -200px;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(170,169,173,0.10) 0%, transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+    
+    .marketplace-page .container {
+      position: relative;
+      z-index: 1;
     }
     
     .marketplace-layout {
       display: grid;
-      grid-template-columns: 260px minmax(0, 1fr);
+      grid-template-columns: 280px minmax(0, 1fr);
       gap: 28px;
       align-items: start;
     }
     
+    /* ============================================
+       SIDEBAR FILTRES — CREAM LUMINEUX (1ère)
+       ============================================ */
     .filters-sidebar {
-      background: var(--cream-card);
+      background: var(--cream);
       border-radius: var(--radius-lg, 14px);
       padding: 24px;
       border: 1.5px solid var(--silver);
@@ -45,6 +82,7 @@
       top: 90px;
       max-height: calc(100vh - 110px);
       overflow-y: auto;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
     }
     
     .filters-title {
@@ -55,6 +93,8 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
+      padding-bottom: 16px;
+      border-bottom: 1.5px solid var(--silver-light);
     }
     
     .filters-reset {
@@ -109,12 +149,13 @@
       color: var(--brand-dark-solid);
     }
     
-    .filter-option:hover { background: rgba(255, 253, 209, 0.85); }
-    .filter-option input { margin: 0; cursor: pointer; }
+    .filter-option:hover { background: rgba(170, 169, 173, 0.25); }
+    .filter-option input { margin: 0; cursor: pointer; accent-color: var(--brand-dark-solid); }
     .filter-option.active {
-      background: rgba(170, 169, 173, 0.35);
+      background: rgba(58, 22, 6, 0.15);
       color: var(--brand-dark-deep);
       font-weight: 600;
+      border: 1px solid var(--brand-dark-solid);
     }
     
     .filter-count {
@@ -136,7 +177,7 @@
       border: 1.5px solid var(--silver);
       border-radius: var(--radius-sm, 6px);
       font-size: 0.85rem;
-      background: rgba(255, 253, 209, 0.85);
+      background: rgba(255, 255, 255, 0.3);
       color: var(--brand-dark-solid);
       font-family: inherit;
     }
@@ -144,6 +185,7 @@
     .price-range input:focus {
       outline: none;
       border-color: var(--brand-dark-solid);
+      background: var(--cream);
     }
     
     .filter-select {
@@ -152,7 +194,7 @@
       border: 1.5px solid var(--silver);
       border-radius: var(--radius, 10px);
       font-size: 0.9rem;
-      background: rgba(255, 253, 209, 0.85);
+      background: rgba(255, 255, 255, 0.3);
       color: var(--brand-dark-solid);
       cursor: pointer;
       font-family: inherit;
@@ -161,13 +203,14 @@
     .filter-select:focus {
       outline: none;
       border-color: var(--brand-dark-solid);
+      background: var(--cream);
     }
     
     .near-me-btn {
       width: 100%;
       padding: 12px 16px;
       border-radius: var(--radius, 10px);
-      background: linear-gradient(135deg, var(--brand-dark-solid), var(--brand-dark));
+      background: var(--brand-dark-solid);
       color: var(--cream);
       border: 1.5px solid var(--brand-dark-solid);
       font-weight: 700;
@@ -182,14 +225,15 @@
     }
     
     .near-me-btn:hover {
+      background: var(--brand-dark-deep);
       transform: translateY(-2px);
       box-shadow: 0 8px 20px rgba(58, 22, 6, 0.3);
     }
     
     .near-me-btn.active {
-      background: linear-gradient(135deg, var(--silver), var(--brand-dark-soft));
+      background: var(--silver);
       color: var(--brand-dark-deep);
-      border-color: var(--silver);
+      border-color: var(--brand-dark-solid);
     }
     
     .near-me-btn:disabled {
@@ -198,13 +242,23 @@
       transform: none;
     }
     
-    .marketplace-main { min-width: 0; }
+    /* ============================================
+       ZONE PRODUITS — CREAM (2ème)
+       ============================================ */
+    .marketplace-main {
+      min-width: 0;
+      background: var(--cream);
+      border-radius: var(--radius-lg, 14px);
+      padding: 24px;
+      border: 1.5px solid var(--silver);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+    }
     
     .marketplace-header {
-      background: var(--cream-card);
-      border-radius: var(--radius-lg, 14px);
-      padding: 20px 24px;
-      border: 1.5px solid var(--silver);
+      background: rgba(58, 22, 6, 0.06);
+      border-radius: var(--radius, 10px);
+      padding: 16px 20px;
+      border: 1.5px solid var(--brand-dark-solid);
       margin-bottom: 24px;
       display: flex;
       align-items: center;
@@ -225,10 +279,10 @@
     
     .sort-select {
       padding: 10px 14px;
-      border: 1.5px solid var(--silver);
+      border: 1.5px solid var(--brand-dark-solid);
       border-radius: var(--radius, 10px);
       font-size: 0.9rem;
-      background: rgba(255, 253, 209, 0.85);
+      background: var(--cream);
       color: var(--brand-dark-solid);
       font-weight: 600;
       cursor: pointer;
@@ -237,9 +291,10 @@
     
     .sort-select:focus {
       outline: none;
-      border-color: var(--brand-dark-solid);
+      box-shadow: 0 0 0 3px rgba(58, 22, 6, 0.15);
     }
     
+    /* Cartes produits — brun transparent (pas de blanc) */
     .products-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
@@ -247,8 +302,8 @@
     }
     
     .product-card {
-      background: var(--cream-card);
-      border: 1.5px solid var(--silver);
+      background: rgba(58, 22, 6, 0.08);
+      border: 1.5px solid var(--brand-dark-solid);
       border-radius: var(--radius-lg, 14px);
       overflow: hidden;
       transition: all var(--transition, 0.2s);
@@ -260,14 +315,14 @@
     }
     
     .product-card:hover {
-      border-color: var(--brand-dark-solid);
+      background: rgba(58, 22, 6, 0.15);
       transform: translateY(-4px);
-      box-shadow: 0 8px 24px rgba(58, 22, 6, 0.15);
+      box-shadow: 0 12px 32px rgba(58, 22, 6, 0.25);
     }
     
     .product-image {
       aspect-ratio: 1;
-      background: linear-gradient(135deg, rgba(255, 253, 209, 0.9), rgba(170, 169, 173, 0.35));
+      background: linear-gradient(135deg, rgba(170, 169, 173, 0.35), rgba(58, 22, 6, 0.08));
       position: relative;
       overflow: hidden;
       display: flex;
@@ -304,14 +359,14 @@
       height: 20px;
       border-radius: 50%;
       border: 2px solid var(--cream);
-      box-shadow: 0 2px 6px rgba(58, 22, 6, 0.25);
+      box-shadow: 0 2px 6px rgba(58, 22, 6, 0.4);
     }
     
     .product-badge-distance {
       position: absolute;
       bottom: 12px;
       left: 12px;
-      background: rgba(58, 22, 6, 0.92);
+      background: var(--brand-dark-deep);
       color: var(--cream);
       padding: 4px 10px;
       border-radius: 20px;
@@ -352,6 +407,8 @@
       align-items: center;
       justify-content: space-between;
       margin-top: auto;
+      padding-top: 8px;
+      border-top: 1px solid rgba(58, 22, 6, 0.12);
     }
     
     .product-price {
@@ -368,6 +425,7 @@
       gap: 4px;
     }
     
+    /* Pagination */
     .pagination {
       display: flex;
       justify-content: center;
@@ -379,9 +437,9 @@
     
     .pagination button {
       padding: 8px 14px;
-      border: 1.5px solid var(--silver);
+      border: 1.5px solid var(--brand-dark-solid);
       border-radius: var(--radius-sm, 6px);
-      background: rgba(255, 253, 209, 0.85);
+      background: var(--cream);
       color: var(--brand-dark-solid);
       font-weight: 600;
       font-size: 0.9rem;
@@ -391,14 +449,14 @@
     }
     
     .pagination button:hover:not(:disabled) {
-      border-color: var(--brand-dark-solid);
-      background: var(--cream);
+      background: var(--brand-dark-solid);
+      color: var(--cream);
     }
     
     .pagination button.active {
       background: var(--brand-dark-solid);
       color: var(--cream);
-      border-color: var(--brand-dark-solid);
+      border-color: var(--brand-dark-deep);
     }
     
     .pagination button:disabled {
@@ -443,7 +501,7 @@
       border: 1.5px solid var(--silver);
     }
     .btn-ghost:hover {
-      background: rgba(255, 253, 209, 0.85);
+      background: rgba(58, 22, 6, 0.1);
       border-color: var(--brand-dark-solid);
     }
     
@@ -451,8 +509,8 @@
     .empty-state {
       text-align: center;
       padding: 60px 20px;
-      background: var(--cream-card);
-      border: 1.5px dashed var(--silver);
+      background: rgba(58, 22, 6, 0.06);
+      border: 1.5px dashed var(--brand-dark-solid);
       border-radius: var(--radius-lg, 14px);
     }
     .empty-state-icon { font-size: 3rem; margin-bottom: 12px; }
@@ -469,7 +527,7 @@
     
     /* Skeleton */
     .skeleton {
-      background: linear-gradient(90deg, rgba(170, 169, 173, 0.25) 25%, rgba(170, 169, 173, 0.4) 50%, rgba(170, 169, 173, 0.25) 75%);
+      background: linear-gradient(90deg, rgba(170, 169, 173, 0.3) 25%, rgba(170, 169, 173, 0.5) 50%, rgba(170, 169, 173, 0.3) 75%);
       background-size: 200% 100%;
       animation: skeleton-loading 1.4s ease-in-out infinite;
       border-radius: var(--radius-sm, 6px);
@@ -479,8 +537,8 @@
       100% { background-position: -200% 0; }
     }
     .skeleton-card {
-      background: var(--cream-card);
-      border: 1.5px solid var(--silver);
+      background: rgba(58, 22, 6, 0.08);
+      border: 1.5px solid var(--brand-dark-solid);
       border-radius: var(--radius-lg, 14px);
       overflow: hidden;
     }
@@ -522,6 +580,8 @@
       .filters-sidebar,
       .mobile-filter-btn,
       .sort-select { display: none; }
+      
+      .marketplace-main { padding: 14px; }
       
       .marketplace-header {
         padding: 10px 14px;
@@ -602,6 +662,114 @@
         font-size: 0.75rem;
       }
     }
+
+    /* ============================================
+       🆕 GRANDS ÉCRANS — 2K / ultra-wide / 4K
+       ============================================ */
+    @media (min-width: 1600px) {
+      .marketplace-page { padding: 48px 0 90px; }
+      
+      .marketplace-layout {
+        grid-template-columns: 320px minmax(0, 1fr);
+        gap: 36px;
+      }
+      
+      .filters-sidebar { padding: 32px; }
+      .filters-title { font-size: 1.25rem; margin-bottom: 24px; }
+      .filter-label { font-size: 0.95rem; }
+      .filter-option { padding: 10px 14px; font-size: 1rem; }
+      .filter-select,
+      .price-range input { padding: 11px 14px; font-size: 0.95rem; }
+      .near-me-btn { padding: 14px 20px; font-size: 1rem; }
+      
+      .marketplace-main { padding: 32px; }
+      .marketplace-header { padding: 20px 24px; }
+      .results-count { font-size: 1.05rem; }
+      .results-count strong { font-size: 1.25rem; }
+      .sort-select { padding: 12px 18px; font-size: 1rem; }
+      
+      .products-grid {
+        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+        gap: 24px;
+      }
+      .product-info { padding: 20px; }
+      .product-name { font-size: 1.05rem; min-height: 2.6em; }
+      .product-price { font-size: 1.15rem; }
+      .product-shop { font-size: 0.9rem; }
+      .product-stats { font-size: 0.85rem; }
+      
+      .pagination button { padding: 10px 18px; font-size: 1rem; }
+    }
+    
+    @media (min-width: 2000px) {
+      .marketplace-page { padding: 60px 0 110px; }
+      
+      .marketplace-layout {
+        grid-template-columns: 360px minmax(0, 1fr);
+        gap: 44px;
+      }
+      
+      .filters-sidebar { padding: 40px; }
+      .filters-title { font-size: 1.45rem; }
+      .filter-label { font-size: 1.05rem; }
+      .filter-option { padding: 12px 16px; font-size: 1.1rem; }
+      .filter-select,
+      .price-range input { padding: 13px 16px; font-size: 1.05rem; }
+      .near-me-btn { padding: 16px 24px; font-size: 1.1rem; }
+      
+      .marketplace-main { padding: 40px; }
+      .marketplace-header { padding: 24px 28px; }
+      .results-count { font-size: 1.15rem; }
+      .results-count strong { font-size: 1.4rem; }
+      .sort-select { padding: 14px 20px; font-size: 1.1rem; }
+      
+      .products-grid {
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 28px;
+      }
+      .product-info { padding: 24px; }
+      .product-name { font-size: 1.2rem; }
+      .product-price { font-size: 1.35rem; }
+      .product-shop { font-size: 1rem; }
+      .product-stats { font-size: 0.95rem; }
+      
+      .pagination button { padding: 12px 22px; font-size: 1.1rem; }
+    }
+    
+    @media (min-width: 3000px) {
+      .marketplace-page { padding: 80px 0 140px; }
+      
+      .marketplace-layout {
+        grid-template-columns: 400px minmax(0, 1fr);
+        gap: 56px;
+      }
+      
+      .filters-sidebar { padding: 48px; }
+      .filters-title { font-size: 1.65rem; }
+      .filter-label { font-size: 1.15rem; }
+      .filter-option { padding: 14px 20px; font-size: 1.2rem; }
+      .filter-select,
+      .price-range input { padding: 15px 20px; font-size: 1.15rem; }
+      .near-me-btn { padding: 18px 28px; font-size: 1.2rem; }
+      
+      .marketplace-main { padding: 48px; }
+      .marketplace-header { padding: 28px 32px; }
+      .results-count { font-size: 1.25rem; }
+      .results-count strong { font-size: 1.55rem; }
+      .sort-select { padding: 16px 24px; font-size: 1.2rem; }
+      
+      .products-grid {
+        grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+        gap: 32px;
+      }
+      .product-info { padding: 28px; }
+      .product-name { font-size: 1.35rem; }
+      .product-price { font-size: 1.55rem; }
+      .product-shop { font-size: 1.1rem; }
+      .product-stats { font-size: 1.05rem; }
+      
+      .pagination button { padding: 14px 26px; font-size: 1.2rem; }
+    }
   </style>
 </head>
 <body class="page-marketplace">
@@ -613,7 +781,7 @@
       
       <div class="marketplace-layout">
         
-        <!-- SIDEBAR FILTRES -->
+        <!-- SIDEBAR FILTRES — CREAM -->
         <aside class="filters-sidebar" id="filters-sidebar">
           
           <div class="filters-title">
@@ -689,7 +857,7 @@
           
         </aside>
         
-        <!-- MAIN CONTENT -->
+        <!-- MAIN CONTENT — CREAM -->
         <main class="marketplace-main">
           
           <div class="marketplace-header">

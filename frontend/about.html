@@ -15,8 +15,6 @@
       --brand-dark-solid:  #3A1606;
       --brand-dark-deep:   #2A0F03;
       --brand-dark-soft:   rgba(58, 22, 6, 0.75);
-      --brand-card:        rgba(58, 22, 6, 0.08);
-      --brand-card-hover:  rgba(58, 22, 6, 0.15);
       --silver:            rgb(170, 169, 173);
       --silver-light:      rgba(170, 169, 173, 0.45);
       --silver-soft:       rgba(170, 169, 173, 0.2);
@@ -27,7 +25,7 @@
     }
 
     /* ============================
-       HERO — brun sombre (n°1)
+       1. HERO — BRUN (dégradé)
        ============================ */
     .about-hero {
       background: linear-gradient(135deg, var(--brand-dark-deep) 0%, var(--brand-dark-solid) 55%, var(--brand-dark) 100%);
@@ -98,20 +96,70 @@
     .section-title h2 {
       font-size: 2.25rem;
       font-weight: 800;
-      color: var(--cream);
       margin-bottom: 14px;
       letter-spacing: -0.5px;
     }
     
     .section-title p {
-      color: var(--cream-muted);
       font-size: 1.1rem;
       max-width: 620px;
       margin: 0 auto;
     }
     
     /* ============================
-       PROBLÈME — brun dominant (n°2)
+       2. CHIFFRES CLÉS — 🟡 CREAM (1ère apparition)
+       ============================ */
+    .stats-band {
+      background: var(--cream);
+      padding: 60px 0;
+      border-top: 1px solid var(--silver);
+      border-bottom: 1px solid var(--silver);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .stats-band::before {
+      content: "";
+      position: absolute;
+      top: -200px;
+      right: -200px;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(170,169,173,0.25) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+    
+    .stats-band .container {
+      position: relative;
+      z-index: 1;
+    }
+    
+    .stats-band-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 32px;
+      text-align: center;
+    }
+    
+    .stat-band-item .stat-value {
+      font-size: 2.5rem;
+      font-weight: 900;
+      color: var(--brand-dark-solid);
+      letter-spacing: -1.5px;
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+    
+    .stat-band-item .stat-label {
+      color: var(--brand-dark-soft);
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-weight: 600;
+    }
+    
+    /* ============================
+       3. PROBLÈME — BRUN
        ============================ */
     .section-problem {
       background: var(--brand-dark);
@@ -148,7 +196,7 @@
       gap: 24px;
     }
     
-    /* Carte sur fond brun — cream très léger + silver */
+    /* Cartes sur fond brun — cream très léger + bordure silver */
     .card-glass {
       background: rgba(255, 253, 209, 0.05);
       border: 1.5px solid var(--silver-light);
@@ -183,10 +231,10 @@
     }
     
     /* ============================
-       SOLUTION — 🟡 CREAM LUMINEUX (1ère apparition)
+       4. SOLUTION — BRUN PROFOND
        ============================ */
     .section-solution {
-      background: var(--cream);
+      background: var(--brand-dark-deep);
       padding: 90px 0;
       position: relative;
       overflow: hidden;
@@ -199,18 +247,7 @@
       right: -150px;
       width: 500px;
       height: 500px;
-      background: radial-gradient(circle, rgba(170,169,173,0.25) 0%, transparent 70%);
-      border-radius: 50%;
-    }
-    
-    .section-solution::after {
-      content: "";
-      position: absolute;
-      bottom: -150px;
-      left: -150px;
-      width: 400px;
-      height: 400px;
-      background: radial-gradient(circle, rgba(58,22,6,0.06) 0%, transparent 70%);
+      background: radial-gradient(circle, rgba(170,169,173,0.15) 0%, transparent 70%);
       border-radius: 50%;
     }
     
@@ -219,23 +256,23 @@
       z-index: 1;
     }
     
-    .section-solution .section-title h2 { color: var(--brand-dark-solid); }
-    .section-solution .section-title p { color: var(--brand-dark-soft); }
+    .section-solution .section-title h2 { color: var(--cream); }
+    .section-solution .section-title p { color: var(--cream-muted); }
     
-    /* Cartes sur fond cream — BRUN CLAIR transparent, PAS de blanc */
+    /* Cartes solution — cream transparent + bordure silver */
     .card-white {
-      background: rgba(58, 22, 6, 0.06);
-      border: 1.5px solid var(--brand-dark-solid);
+      background: rgba(255, 253, 209, 0.08);
+      border: 1.5px solid var(--silver-light);
       border-radius: var(--radius-lg, 14px);
       padding: 32px 28px;
       transition: all var(--transition, 0.2s);
-      box-shadow: 0 4px 16px rgba(58, 22, 6, 0.08);
     }
     
     .card-white:hover {
-      background: rgba(58, 22, 6, 0.12);
+      background: rgba(255, 253, 209, 0.14);
+      border-color: var(--silver);
       transform: translateY(-4px);
-      box-shadow: 0 20px 48px rgba(58, 22, 6, 0.2);
+      box-shadow: 0 20px 48px rgba(0,0,0,0.35);
     }
     
     .card-white-emoji {
@@ -245,19 +282,19 @@
     }
     
     .card-white h3 {
-      color: var(--brand-dark-solid);
+      color: var(--cream);
       font-size: 1.15rem;
       margin-bottom: 12px;
     }
     
     .card-white p {
-      color: var(--brand-dark-soft);
+      color: var(--cream-soft);
       font-size: 0.95rem;
       line-height: 1.7;
     }
     
     /* ============================
-       VISION — 🟡 CREAM LUMINEUX (2ème apparition)
+       5. VISION — 🟡 CREAM (2ème apparition)
        ============================ */
     .section-vision {
       background: var(--cream);
@@ -320,41 +357,7 @@
     }
     
     /* ============================
-       CHIFFRES CLÉS — brun profond (n°3)
-       ============================ */
-    .stats-band {
-      background: var(--brand-dark-deep);
-      padding: 60px 0;
-      border-top: 1px solid var(--silver-light);
-      border-bottom: 1px solid var(--silver-light);
-    }
-    
-    .stats-band-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 32px;
-      text-align: center;
-    }
-    
-    .stat-band-item .stat-value {
-      font-size: 2.5rem;
-      font-weight: 900;
-      color: var(--cream);
-      letter-spacing: -1.5px;
-      line-height: 1;
-      margin-bottom: 8px;
-    }
-    
-    .stat-band-item .stat-label {
-      color: var(--silver);
-      font-size: 0.9rem;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      font-weight: 600;
-    }
-    
-    /* ============================
-       CTA FINAL — brun dominant (n°4)
+       6. CTA FINAL — BRUN
        ============================ */
     .cta-final {
       background: var(--brand-dark);
@@ -429,7 +432,7 @@
     }
     
     /* ============================
-       FOOTER — brun profond (n°5)
+       7. FOOTER — BRUN PROFOND
        ============================ */
     .footer {
       background: var(--brand-dark-deep);
@@ -518,6 +521,7 @@
       .section-problem,
       .section-solution { padding: 120px 0; }
       .section-vision { padding: 130px 0; }
+      .stats-band { padding: 80px 0; }
 
       .section-title { margin-bottom: 68px; }
       .section-title h2 { font-size: 2.75rem; }
@@ -533,13 +537,12 @@
       .card-glass p,
       .card-white p { font-size: 1.05rem; line-height: 1.8; }
 
-      .vision-text { font-size: 1.35rem; max-width: 1000px; }
-      .vision-text p { margin-bottom: 32px; }
-
-      .stats-band { padding: 80px 0; }
       .stats-band-grid { gap: 48px; }
       .stat-band-item .stat-value { font-size: 3.15rem; }
       .stat-band-item .stat-label { font-size: 1rem; }
+
+      .vision-text { font-size: 1.35rem; max-width: 1000px; }
+      .vision-text p { margin-bottom: 32px; }
 
       .cta-final { padding: 110px 0; }
       .cta-final h2 { font-size: 2.75rem; }
@@ -559,6 +562,7 @@
       .section-problem,
       .section-solution { padding: 150px 0; }
       .section-vision { padding: 160px 0; }
+      .stats-band { padding: 100px 0; }
 
       .section-title { margin-bottom: 80px; }
       .section-title h2 { font-size: 3.25rem; }
@@ -574,13 +578,12 @@
       .card-glass p,
       .card-white p { font-size: 1.2rem; }
 
-      .vision-text { font-size: 1.55rem; max-width: 1200px; }
-      .vision-text p { margin-bottom: 36px; }
-
-      .stats-band { padding: 100px 0; }
       .stats-band-grid { gap: 64px; }
       .stat-band-item .stat-value { font-size: 3.85rem; }
       .stat-band-item .stat-label { font-size: 1.1rem; }
+
+      .vision-text { font-size: 1.55rem; max-width: 1200px; }
+      .vision-text p { margin-bottom: 36px; }
 
       .cta-final { padding: 140px 0; }
       .cta-final h2 { font-size: 3.25rem; }
@@ -597,6 +600,7 @@
       .section-problem,
       .section-solution { padding: 180px 0; }
       .section-vision { padding: 190px 0; }
+      .stats-band { padding: 120px 0; }
 
       .section-title { margin-bottom: 96px; }
       .section-title h2 { font-size: 3.75rem; }
@@ -612,13 +616,12 @@
       .card-glass p,
       .card-white p { font-size: 1.35rem; }
 
-      .vision-text { font-size: 1.75rem; max-width: 1400px; }
-      .vision-text p { margin-bottom: 42px; }
-
-      .stats-band { padding: 120px 0; }
       .stats-band-grid { gap: 80px; }
       .stat-band-item .stat-value { font-size: 4.5rem; }
       .stat-band-item .stat-label { font-size: 1.25rem; }
+
+      .vision-text { font-size: 1.75rem; max-width: 1400px; }
+      .vision-text p { margin-bottom: 42px; }
 
       .cta-final { padding: 170px 0; }
       .cta-final h2 { font-size: 3.75rem; }
@@ -630,7 +633,7 @@
 
   <div id="navbar"></div>
 
-  <!-- 1️⃣ HERO — brun sombre -->
+  <!-- 1. HERO — BRUN -->
   <section class="about-hero">
     <div class="about-hero-inner">
       <h1>
@@ -641,7 +644,7 @@
     </div>
   </section>
 
-  <!-- 2️⃣ CHIFFRES CLÉS — brun profond -->
+  <!-- 2. CHIFFRES CLÉS — 🟡 CREAM (1ère apparition) -->
   <section class="stats-band">
     <div class="container">
       <div class="stats-band-grid">
@@ -665,7 +668,7 @@
     </div>
   </section>
 
-  <!-- 3️⃣ PROBLÈME — brun dominant -->
+  <!-- 3. PROBLÈME — BRUN -->
   <section class="section-problem">
     <div class="container">
       <div class="section-title">
@@ -693,7 +696,7 @@
     </div>
   </section>
 
-  <!-- 4️⃣ SOLUTION — 🟡 CREAM (1ère apparition) -->
+  <!-- 4. SOLUTION — BRUN PROFOND -->
   <section class="section-solution">
     <div class="container">
       <div class="section-title">
@@ -721,7 +724,7 @@
     </div>
   </section>
 
-  <!-- 5️⃣ VISION — 🟡 CREAM (2ème apparition) -->
+  <!-- 5. VISION — 🟡 CREAM (2ème apparition) -->
   <section class="section-vision">
     <div class="container">
       <div class="section-title">
@@ -736,7 +739,7 @@
     </div>
   </section>
 
-  <!-- 6️⃣ CTA FINAL — brun dominant -->
+  <!-- 6. CTA FINAL — BRUN -->
   <section class="cta-final">
     <div class="container">
       <h2 data-i18n="about.cta_title">Rejoignez l'aventure</h2>
@@ -749,7 +752,7 @@
     </div>
   </section>
 
-  <!-- 7️⃣ FOOTER — brun profond -->
+  <!-- 7. FOOTER — BRUN PROFOND -->
   <footer class="footer">
     <div class="container">
       <p>© 2026 FinestGlobal — <span data-i18n="footer.rights">Tous droits réservés.</span></p>
