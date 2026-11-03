@@ -460,7 +460,7 @@ img, video {
   box-shadow: 0 0 0 4px rgba(217, 98, 43, 0.12);
 }
 
-/* On utilise un pseudo-élément pour l'icône de loupe SVG */
+/* Icône Loupe par défaut */
 .navbar-search::before {
   content: "";
   position: absolute;
@@ -963,7 +963,7 @@ body.page-home .navbar-logo-img {
 }
 
 /* ============================================================
-   🆕 NAVBAR SUR LA PAGE D'ACCUEIL : LOGO x5 + LOUPE SVG
+   🆕 NAVBAR SUR LA PAGE D'ACCUEIL : LOGO x4 + LOUPE SVG + ICÔNE CONNEXION
    Ne modifie PAS la hauteur de la navbar.
    Seuls le logo et la barre de recherche sont affectés.
    ============================================================ */
@@ -976,9 +976,9 @@ body.page-home:not(.nav-scrolled) .navbar-inner {
   align-items: center;
 }
 
-/* Le logo est multiplié par 5 (220px) et sort visuellement de la navbar sans la pousser */
+/* Le logo est multiplié par 4 (176px) et sort visuellement de la navbar sans la pousser */
 body.page-home:not(.nav-scrolled) .navbar-logo-img {
-  height: 220px; /* 44px * 5 */
+  height: 176px; /* 44px * 4 */
   width: auto;
   position: relative;
   z-index: 10;
@@ -1009,7 +1009,7 @@ body.page-home:not(.nav-scrolled) .navbar-search input::placeholder {
   color: transparent;
 }
 
-/* Remplacement de l'icône de loupe par une SVG plus grande et centrée */
+/* Nouvelle icône de loupe fine et élégante */
 body.page-home:not(.nav-scrolled) .navbar-search::before {
   content: "";
   position: absolute;
@@ -1018,7 +1018,7 @@ body.page-home:not(.nav-scrolled) .navbar-search::before {
   transform: translate(-50%, -50%);
   width: 22px;
   height: 22px;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23FAF6EF' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cline x1='21' y1='21' x2='16.65' y2='16.65'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23FAF6EF' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cline x1='21' y1='21' x2='16.65' y2='16.65'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-size: contain;
   pointer-events: none;
@@ -1049,6 +1049,72 @@ body.page-home:not(.nav-scrolled) .navbar-search:focus-within::before {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23737A87' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cline x1='21' y1='21' x2='16.65' y2='16.65'/%3E%3C/svg%3E");
 }
 
+/* MASQUER les boutons connexion/inscription sur l'accueil */
+body.page-home:not(.nav-scrolled) .nav-auth {
+  display: none;
+}
+
+/* AJOUTER l'icône de connexion sur l'accueil */
+body.page-home:not(.nav-scrolled) .nav-user {
+  display: flex;
+  align-items: center;
+  margin-left: auto; 
+}
+
+body.page-home:not(.nav-scrolled) .nav-user-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border-radius: 50%;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+body.page-home:not(.nav-scrolled) .nav-user-btn:hover {
+  background: rgba(250, 246, 239, 0.14);
+}
+
+body.page-home:not(.nav-scrolled) .nav-avatar {
+  width: 22px;
+  height: 22px;
+  background: transparent;
+  box-shadow: none;
+  color: var(--cream-50);
+  border-radius: 0;
+}
+
+body.page-home:not(.nav-scrolled) .nav-avatar svg {
+  width: 100%;
+  height: 100%;
+  stroke: currentColor;
+}
+
+body.page-home:not(.nav-scrolled) .nav-user-name,
+body.page-home:not(.nav-scrolled) .nav-chevron {
+  display: none;
+}
+
+/* AJOUTER les 3 boutons (SAVINGS, MARKETING, CONSULTATION) sous le logo */
+body.page-home:not(.nav-scrolled) .navbar-logo::after {
+  content: "SAVINGS   •   MARKETING   •   CONSULTATION";
+  position: absolute;
+  bottom: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.55rem;
+  font-weight: 700;
+  color: var(--cream-50);
+  letter-spacing: 2px;
+  white-space: nowrap;
+  text-align: center;
+  pointer-events: none;
+}
+
 /* Sur mobile, on annule le logo géant et la loupe pour garder l'ergonomie */
 @media (max-width: 900px) {
   body.page-home:not(.nav-scrolled) .navbar-inner {
@@ -1063,6 +1129,10 @@ body.page-home:not(.nav-scrolled) .navbar-search:focus-within::before {
   
   body.page-home:not(.nav-scrolled) .navbar-search {
     display: none; /* La recherche est déjà cachée sur mobile */
+  }
+  
+  body.page-home:not(.nav-scrolled) .navbar-logo::after {
+    display: none; /* On cache les petits boutons sur mobile */
   }
 }
 
