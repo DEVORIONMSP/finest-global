@@ -1,5 +1,6 @@
 /* ============================================================
    FINEST GLOBAL — Système de traduction FR / EN
+   Basé sur index.html (anglais par défaut)
    ============================================================ */
 
 const TRANSLATIONS = {
@@ -23,31 +24,40 @@ const TRANSLATIONS = {
     "role.seller": "Vendeur",
     "role.client": "Client",
     
-    // Accueil
+    // ============================================================
+    // ACCUEIL (index.html)
+    // ============================================================
     "home.hero_1": "Be Findable.",
     "home.hero_2": "Devenez Visible.",
     "home.hero_p": "Finest Global rend les commerçants du marché visibles, trouvables et connectés à leurs clients. Sans remplacer le marché physique — en le rendant simplement accessible.",
     "home.explore": "Explorer la marketplace →",
     "home.become_seller": "Devenir vendeur",
+    
+    // Catégories
     "home.categories_title": "Catégories populaires",
-    "home.categories_p": "Explorez les produits par catégorie et trouvez ce que vous cherchez rapidement.",
-    "home.trending_title": "Les plus vendus",
-    "home.trending_p": "Les produits les plus populaires de la plateforme, choisis par nos clients.",
-    "home.shops_title": "Boutiques en vedette",
-    "home.shops_p": "Découvrez les meilleures boutiques de la plateforme et leurs produits.",
-    "home.view_all": "Voir tout →",
-    "home.cta_title": "Vous êtes commerçant ?",
-    "home.cta_p": "Créez votre boutique en ligne gratuitement et recevez vos commandes directement sur votre téléphone.",
-    "home.cta_btn": "Créer ma boutique →",
-    "home.cta_1": "Boutique en ligne gratuite",
-    "home.cta_2": "Notifications en temps réel",
-    "home.cta_3": "Visible par des milliers d'acheteurs",
-    "home.cta_4": "Aucune commission au démarrage",
+    "home.categories_p": "Explorez les produits et services par catégorie pour trouver ce que vous cherchez.",
+    
+    // Tendances
+    "home.trending_title": "Découvrez Produits & Services",
+    "home.trending_p": "Explorez les produits et services disponibles des entreprises de la marketplace.",
+    
+    // Boutiques
+    "home.shops_title": "Nouveau sur Finest Global",
+    "home.shops_p": "Découvrez les entreprises récemment inscrites et explorez leurs vitrines.",
+    
+    // CTA vendeur
+    "home.cta_title": "Vous avez quelque chose à vendre ou un service à proposer ?",
+    "home.cta_p": "Créez votre vitrine gratuite sur Finest Global et commencez à présenter ce que vous proposez.",
+    "home.cta_btn": "Devenir Vendeur",
+    "home.cta_1": "Vitrine en ligne gratuite",
+    "home.cta_2": "Restez informé de l'activité",
+    "home.cta_3": "Atteignez des clients potentiels",
+    "home.cta_4": "Inscription gratuite",
     "home.cta_5": "Support en français",
     
-    // Near you (accueil)
-    "home.near_you_title": "📍 Près de chez vous",
-    "home.near_you_p": "Découvrez les boutiques et produits autour de votre position.",
+    // Near you
+    "home.near_you_title": "Découvrez Près de Chez Vous",
+    "home.near_you_p": "Trouvez des produits, boutiques et services près de votre position actuelle.",
     "home.detect_location": "Détecter ma position",
     "home.detecting": "Détection en cours...",
     "home.location_detected": "Position détectée",
@@ -59,16 +69,18 @@ const TRANSLATIONS = {
     "home.code_not_found": "Aucune boutique trouvée avec ce code.",
     
     // Footer
-    "footer.tagline": "Le marché physique, rendu visible. Connecter les vendeurs du Bénin à leurs clients, sans remplacer le marché traditionnel.",
+    "footer.tagline": "Une marketplace digitale connectant les personnes, les entreprises, les produits et les services. Découvrez des opportunités, atteignez des clients et créez des connexions au-delà des frontières physiques.",
     "footer.navigation": "Navigation",
     "footer.sellers": "Vendeurs",
-    "footer.contact": "Contact",
-    "footer.create_shop": "Créer une boutique",
+    "footer.contact": "Contactez-nous",
+    "footer.create_shop": "Créer une vitrine",
     "footer.my_dashboard": "Mon dashboard",
     "footer.my_orders": "Mes commandes",
     "footer.rights": "Tous droits réservés.",
     
-    // Marketplace
+    // ============================================================
+    // MARKETPLACE
+    // ============================================================
     "marketplace.filters": "Filtres",
     "marketplace.clear_all": "Tout effacer",
     "marketplace.categories": "Catégories",
@@ -103,7 +115,9 @@ const TRANSLATIONS = {
     "marketplace.distance": "Distance",
     "marketplace.no_location": "Position non disponible",
     
-    // Produit / Boutique
+    // ============================================================
+    // PRODUIT / BOUTIQUE
+    // ============================================================
     "product.order_now": "🛒 Commander maintenant",
     "product.out_of_stock": "Produit indisponible",
     "product.sold_by": "Vendu par",
@@ -140,7 +154,9 @@ const TRANSLATIONS = {
     "product.shop_market": "Marché",
     "product.distance_from_you": "Distance",
     
-    // Connexion / Inscription
+    // ============================================================
+    // CONNEXION / INSCRIPTION
+    // ============================================================
     "login.title": "Bon retour 👋",
     "login.subtitle": "Connectez-vous à votre compte Finest Global",
     "login.phone": "Numéro de téléphone",
@@ -167,7 +183,9 @@ const TRANSLATIONS = {
     "register.phone_hint": "Format : 01 + 8 chiffres.",
     "register.password_hint": "Au moins 6 caractères.",
     
-    // Commandes
+    // ============================================================
+    // COMMANDES
+    // ============================================================
     "orders.title": "📦 Mes commandes",
     "orders.subtitle": "Suivez l'état de vos commandes en temps réel.",
     "orders.all": "Toutes",
@@ -189,7 +207,9 @@ const TRANSLATIONS = {
     "orders.order_id": "Commande",
     "orders.shop": "Boutique",
     
-    // Dashboard vendeur
+    // ============================================================
+    // DASHBOARD VENDEUR
+    // ============================================================
     "seller.hello": "Bonjour",
     "seller.overview": "Vue d'ensemble",
     "seller.orders": "Commandes",
@@ -234,7 +254,9 @@ const TRANSLATIONS = {
     "seller.availability_out_of_stock": "Rupture de stock",
     "seller.availability_to_confirm": "Disponibilité à confirmer",
     
-    // Dashboard admin
+    // ============================================================
+    // DASHBOARD ADMIN
+    // ============================================================
     "admin.sidebar_title": "👑 Admin",
     "admin.title": "Vue d'ensemble 👑",
     "admin.subtitle": "Statistiques globales de la plateforme Finest Global.",
@@ -312,7 +334,9 @@ const TRANSLATIONS = {
     "admin.market": "Marché",
     "admin.shop_code": "Code",
     
-    // Boutique (création)
+    // ============================================================
+    // BOUTIQUE (CRÉATION)
+    // ============================================================
     "shop.create_title": "Créez votre boutique",
     "shop.create_p": "C'est la dernière étape avant de pouvoir vendre. Donnez un nom à votre boutique et commencez à ajouter des produits.",
     "shop.benefits": "Ce que vous obtenez :",
@@ -335,7 +359,9 @@ const TRANSLATIONS = {
     "shop.market": "Marché / zone commerciale (optionnel)",
     "shop.code_label": "Code boutique",
     
-    // Devenir vendeur
+    // ============================================================
+    // DEVENIR VENDEUR
+    // ============================================================
     "upgrade.title": "Devenez vendeur",
     "upgrade.subtitle": "Ajoutez quelques informations et commencez à vendre sur Finest Global.",
     "upgrade.benefits": "Ce que vous obtenez :",
@@ -347,10 +373,8 @@ const TRANSLATIONS = {
     "upgrade.password_hint": "Ce mot de passe vous servira pour les connexions futures.",
     
     // ============================================================
-    // À PROPOS — TRADUCTION FRANÇAISE COMPLÈTE
+    // À PROPOS (about.html)
     // ============================================================
-    
-    // Hero
     "about.hero_title": "Rendre le commerce",
     "about.hero_visible": "plus simple.",
     "about.hero_slogan": "Soyez Trouvable.",
@@ -358,13 +382,11 @@ const TRANSLATIONS = {
     "about.hero_p2": "Notre objectif est de créer davantage d'opportunités économiques, de rendre le commerce plus simple et de faciliter la circulation de l'argent au sein des pays et au-delà des frontières.",
     "about.hero_tagline": "Connecter les Personnes • Valoriser les Entreprises • Créer des Possibilités.",
     
-    // Chiffres clés
     "about.stats_sellers": "Vendeurs actifs",
     "about.stats_products": "Produits en ligne",
     "about.stats_networks": "Réseaux supportés",
     "about.stats_free": "Gratuit pour démarrer",
     
-    // Problème
     "about.problem_title": "Le Problème Que Nous Résolvons",
     "about.problem_subtitle": "Le commerce devrait être plus simple.",
     "about.problem_1_title": "Les entreprises peinent",
@@ -374,7 +396,6 @@ const TRANSLATIONS = {
     "about.problem_3_title": "Combler les écarts",
     "about.problem_3_p": "Finest Global vise à combler ces écarts en rapprochant les activités commerciales.",
     
-    // Solution
     "about.solution_title": "Notre Solution",
     "about.solution_subtitle": "Rassembler le Commerce dans un Seul Écosystème Digital.",
     "about.solution_intro": "Finest Global est une marketplace digitale dédiée au commerce, connectant :",
@@ -385,19 +406,16 @@ const TRANSLATIONS = {
     "about.solution_3_title": "Les prestataires de services",
     "about.solution_3_p": "Connectez-vous aux opportunités commerciales grâce à des services tels que la livraison, le marketing digital, la création de contenu, la consultation et autres supports professionnels.",
     
-    // Après Solution
     "about.after_solution_1": "Nous ne remplaçons pas le marché physique. Nous l'adaptons à la réalité digitale.",
     "about.after_solution_2": "Les marchés continueront d'exister — mais leurs commerçants seront visibles, trouvables et connectés à leurs clients.",
     "about.after_solution_3": "Notre objectif : créer un écosystème fort entre les entreprises, les clients et les créateurs de contenu.",
     
-    // Vision
     "about.vision_title": "Notre Vision",
     "about.vision_subtitle": "Un Marché Digital Connectant les Personnes à Travers les Pays.",
     "about.vision_1": "Notre vision est de construire un marché digital qui puisse servir de pont commercial entre les personnes, les entreprises et les opportunités à travers les pays.",
     "about.vision_2": "Notre mission est de connecter les personnes, les entreprises, les produits, les services et les opportunités à travers des solutions digitales qui créent de la valeur et facilitent des connexions significatives.",
     "about.vision_3": "Nous visons à rendre le commerce plus accessible, à soutenir la croissance des entreprises et à aider à créer des opportunités économiques à travers un écosystème digital plus connecté.",
     
-    // CTA
     "about.cta_title": "Rejoignez l'Écosystème Finest Global",
     "about.cta_tagline": "Il Y a une Place Pour Vous sur Finest Global.",
     "about.cta_p": "Que vous souhaitiez découvrir des produits et services, présenter votre entreprise ou proposer des services professionnels, Finest Global est conçu pour connecter les personnes à ce dont elles ont besoin et aux opportunités qu'elles recherchent.",
@@ -425,19 +443,28 @@ const TRANSLATIONS = {
     "role.seller": "Seller",
     "role.client": "Customer",
     
-    // Home
+    // ============================================================
+    // HOME (index.html)
+    // ============================================================
     "home.hero_1": "Be Findable.",
     "home.hero_2": "Become Visible.",
     "home.hero_p": "Finest Global makes market vendors visible, findable and connected to their customers. Without replacing the physical market — simply making it accessible.",
     "home.explore": "Explore marketplace →",
     "home.become_seller": "Become a seller",
+    
+    // Categories
     "home.categories_title": "Explore Categories",
     "home.categories_p": "Browse products and services by category to find what you're looking for.",
+    
+    // Trending
     "home.trending_title": "Discover Products & Services",
     "home.trending_p": "Explore available products and services from businesses across the marketplace.",
+    
+    // Shops
     "home.shops_title": "New on Finest Global",
     "home.shops_p": "Discover newly registered businesses and explore their storefronts.",
-    "home.view_all": "View all →",
+    
+    // CTA seller
     "home.cta_title": "Have something to sell or a service to offer?",
     "home.cta_p": "Create your free storefront on Finest Global and start showcasing what you offer.",
     "home.cta_btn": "Become a Seller",
@@ -470,7 +497,9 @@ const TRANSLATIONS = {
     "footer.my_orders": "My orders",
     "footer.rights": "All rights reserved.",
     
-    // Marketplace
+    // ============================================================
+    // MARKETPLACE
+    // ============================================================
     "marketplace.filters": "Filters",
     "marketplace.clear_all": "Clear all",
     "marketplace.categories": "Categories",
@@ -505,7 +534,9 @@ const TRANSLATIONS = {
     "marketplace.distance": "Distance",
     "marketplace.no_location": "Location unavailable",
     
-    // Product / Shop
+    // ============================================================
+    // PRODUCT / SHOP
+    // ============================================================
     "product.order_now": "🛒 Order now",
     "product.out_of_stock": "Product unavailable",
     "product.sold_by": "Sold by",
@@ -542,7 +573,9 @@ const TRANSLATIONS = {
     "product.shop_market": "Market",
     "product.distance_from_you": "Distance",
     
-    // Login / Register
+    // ============================================================
+    // LOGIN / REGISTER
+    // ============================================================
     "login.title": "Welcome back 👋",
     "login.subtitle": "Log in to your Finest Global account",
     "login.phone": "Phone number",
@@ -569,7 +602,9 @@ const TRANSLATIONS = {
     "register.phone_hint": "Format: 01 + 8 digits.",
     "register.password_hint": "At least 6 characters.",
     
-    // Orders
+    // ============================================================
+    // ORDERS
+    // ============================================================
     "orders.title": "📦 My orders",
     "orders.subtitle": "Track your orders in real time.",
     "orders.all": "All",
@@ -591,7 +626,9 @@ const TRANSLATIONS = {
     "orders.order_id": "Order",
     "orders.shop": "Shop",
     
-    // Seller dashboard
+    // ============================================================
+    // SELLER DASHBOARD
+    // ============================================================
     "seller.hello": "Hello",
     "seller.overview": "Overview",
     "seller.orders": "Orders",
@@ -636,7 +673,9 @@ const TRANSLATIONS = {
     "seller.availability_out_of_stock": "Out of stock",
     "seller.availability_to_confirm": "Availability to confirm",
     
-    // Admin dashboard
+    // ============================================================
+    // ADMIN DASHBOARD
+    // ============================================================
     "admin.sidebar_title": "👑 Admin",
     "admin.title": "Overview 👑",
     "admin.subtitle": "Global statistics of the Finest Global platform.",
@@ -714,7 +753,9 @@ const TRANSLATIONS = {
     "admin.market": "Market",
     "admin.shop_code": "Code",
     
-    // Shop (creation)
+    // ============================================================
+    // SHOP (CREATION)
+    // ============================================================
     "shop.create_title": "Create your shop",
     "shop.create_p": "This is the last step before you can sell. Give your shop a name and start adding products.",
     "shop.benefits": "What you get:",
@@ -737,7 +778,9 @@ const TRANSLATIONS = {
     "shop.market": "Market / commercial area (optional)",
     "shop.code_label": "Shop code",
     
-    // Become seller
+    // ============================================================
+    // BECOME SELLER
+    // ============================================================
     "upgrade.title": "Become a seller",
     "upgrade.subtitle": "Add a few information and start selling on Finest Global.",
     "upgrade.benefits": "What you get:",
@@ -749,10 +792,8 @@ const TRANSLATIONS = {
     "upgrade.password_hint": "This password will be used for future logins.",
     
     // ============================================================
-    // ABOUT — FULL ENGLISH (SOURCE)
+    // ABOUT (about.html)
     // ============================================================
-    
-    // Hero
     "about.hero_title": "Making commerce",
     "about.hero_visible": "easier.",
     "about.hero_slogan": "Be Findable.",
@@ -760,13 +801,11 @@ const TRANSLATIONS = {
     "about.hero_p2": "Our goal is to create more economic opportunities, make commerce easier and facilitate the circulation of money within countries and across borders.",
     "about.hero_tagline": "Connecting People • Empowering Businesses • Creating Possibilities.",
     
-    // Stats
     "about.stats_sellers": "Active sellers",
     "about.stats_products": "Online products",
     "about.stats_networks": "Supported networks",
     "about.stats_free": "Free to get started",
     
-    // Problem
     "about.problem_title": "The Problem We Solve",
     "about.problem_subtitle": "Commerce Should Be Easier.",
     "about.problem_1_title": "Businesses struggle",
@@ -776,7 +815,6 @@ const TRANSLATIONS = {
     "about.problem_3_title": "Bridging the gaps",
     "about.problem_3_p": "Finest Global aims to bridge these gaps by bringing commercial activities closer together.",
     
-    // Solution
     "about.solution_title": "Our Solution",
     "about.solution_subtitle": "Bringing Commerce Together in One Digital Ecosystem.",
     "about.solution_intro": "Finest Global is a digital marketplace dedicated to commerce, connecting:",
@@ -787,19 +825,16 @@ const TRANSLATIONS = {
     "about.solution_3_title": "Service Providers",
     "about.solution_3_p": "Connect with commercial opportunities through services such as delivery, digital marketing, content creation, consultation and other professional support.",
     
-    // After Solution
     "about.after_solution_1": "We don't replace the physical market. We adapt it to digital reality.",
     "about.after_solution_2": "Markets will continue to exist — but their merchants will be visible, findable and connected to their customers.",
     "about.after_solution_3": "Our goal: create a strong ecosystem between businesses, customers and content creators.",
     
-    // Vision
     "about.vision_title": "Our Vision",
     "about.vision_subtitle": "A Digital Market Connecting People Across Countries.",
     "about.vision_1": "Our vision is to build a digital market that can serve as a commercial bridge between people, businesses and opportunities across countries.",
     "about.vision_2": "Our mission is to connect people, businesses, products, services and opportunities through digital solutions that create value and facilitate meaningful connections.",
     "about.vision_3": "We aim to make commerce more accessible, support business growth and help create economic opportunities through a more connected digital ecosystem.",
     
-    // CTA
     "about.cta_title": "Join the Finest Global Ecosystem",
     "about.cta_tagline": "There Is a Place for You on Finest Global.",
     "about.cta_p": "Whether you want to discover products and services, showcase your business or offer professional services, Finest Global is being built to connect people with what they need and the opportunities they seek.",
