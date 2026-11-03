@@ -20,9 +20,10 @@
       --brand-dark-deep:   #2A0F03;
       --brand-dark-soft:   rgba(58, 22, 6, 0.75);
       --silver:            rgb(170, 169, 173);
-      --silver-light:      rgba(170, 169, 173, 0.35);
-      --silver-soft:       rgba(170, 169, 173, 0.15);
+      --silver-light:      rgba(170, 169, 173, 0.45);
+      --silver-soft:       rgba(170, 169, 173, 0.2);
       --cream:             rgb(255, 253, 209);
+      --cream-card:        rgba(255, 253, 209, 0.55);
       --cream-soft:        rgba(255, 253, 209, 0.88);
       --cream-muted:       rgba(255, 253, 209, 0.7);
       --danger:            #DC2626;
@@ -113,7 +114,7 @@
     }
     
     .sidebar-link.active {
-      background: var(--brand-dark-solid);
+      background: var(--brand-dark-deep);
       color: var(--cream);
       box-shadow: inset 3px 0 0 var(--silver);
     }
@@ -123,7 +124,7 @@
     .sidebar-badge {
       margin-left: auto;
       background: var(--silver);
-      color: var(--brand-dark-solid);
+      color: var(--brand-dark-deep);
       font-size: 0.7rem;
       font-weight: 700;
       padding: 2px 8px;
@@ -160,8 +161,8 @@
     }
     
     .stat-card {
-      background: #FFFFFF;
-      border: 1.5px solid var(--silver-light);
+      background: var(--cream-card);
+      border: 1.5px solid var(--silver);
       border-radius: var(--radius-lg, 14px);
       padding: 20px;
       transition: all var(--transition, 0.2s);
@@ -169,7 +170,7 @@
     
     .stat-card:hover {
       border-color: var(--brand-dark-solid);
-      box-shadow: 0 8px 24px rgba(58, 22, 6, 0.12);
+      box-shadow: 0 8px 24px rgba(58, 22, 6, 0.15);
     }
     
     .stat-card-icon {
@@ -187,14 +188,14 @@
     
     .stat-card-label {
       font-size: 0.85rem;
-      color: var(--silver);
+      color: var(--brand-dark-soft);
       text-transform: uppercase;
       letter-spacing: 0.5px;
     }
     
     .stat-card.pending {
       border-color: var(--brand-dark-solid);
-      background: linear-gradient(135deg, rgba(255, 253, 209, 0.9), #FFFFFF);
+      background: linear-gradient(135deg, rgba(255, 253, 209, 0.85), rgba(255, 253, 209, 0.55));
     }
     
     .orders-list {
@@ -203,8 +204,8 @@
     }
     
     .order-card {
-      background: #FFFFFF;
-      border: 1.5px solid var(--silver-light);
+      background: var(--cream-card);
+      border: 1.5px solid var(--silver);
       border-radius: var(--radius-lg, 14px);
       padding: 20px;
       display: grid;
@@ -222,12 +223,12 @@
     
     .order-card:hover {
       border-color: var(--brand-dark-solid);
-      box-shadow: 0 8px 24px rgba(58, 22, 6, 0.12);
+      box-shadow: 0 8px 24px rgba(58, 22, 6, 0.15);
     }
     
     .order-card.new {
       border-color: var(--brand-dark-solid);
-      background: linear-gradient(135deg, rgba(255, 253, 209, 0.95), #FFFFFF);
+      background: linear-gradient(135deg, rgba(255, 253, 209, 0.9), rgba(255, 253, 209, 0.55));
       animation: pulse-border 2s infinite;
     }
     
@@ -247,7 +248,7 @@
       width: 48px;
       height: 48px;
       border-radius: var(--radius, 10px);
-      background: rgba(58, 22, 6, 0.08);
+      background: rgba(58, 22, 6, 0.1);
       color: var(--brand-dark-solid);
       display: flex;
       align-items: center;
@@ -293,8 +294,8 @@
     }
     
     .admin-product-card {
-      background: #FFFFFF;
-      border: 1.5px solid var(--silver-light);
+      background: var(--cream-card);
+      border: 1.5px solid var(--silver);
       border-radius: var(--radius-lg, 14px);
       overflow: hidden;
       transition: all var(--transition, 0.2s);
@@ -302,19 +303,19 @@
     
     .admin-product-card:hover {
       border-color: var(--brand-dark-solid);
-      box-shadow: 0 8px 24px rgba(58, 22, 6, 0.12);
+      box-shadow: 0 8px 24px rgba(58, 22, 6, 0.15);
     }
     
     .admin-product-image {
       aspect-ratio: 1;
-      background: linear-gradient(135deg, rgba(255, 253, 209, 0.9), rgba(170, 169, 173, 0.25));
+      background: linear-gradient(135deg, rgba(255, 253, 209, 0.9), rgba(170, 169, 173, 0.35));
       position: relative;
       overflow: hidden;
       display: flex;
       align-items: center;
       justify-content: center;
       font-size: 3rem;
-      color: var(--silver);
+      color: var(--brand-dark-soft);
     }
     
     .admin-product-image img {
@@ -336,7 +337,7 @@
       display: inline-block;
       font-size: 0.75rem;
       color: var(--brand-dark-solid);
-      background: rgba(170, 169, 173, 0.25);
+      background: rgba(170, 169, 173, 0.35);
       padding: 2px 8px;
       border-radius: 10px;
       margin-bottom: 6px;
@@ -353,7 +354,7 @@
       display: flex;
       gap: 12px;
       font-size: 0.8rem;
-      color: var(--silver);
+      color: var(--brand-dark-soft);
       margin-bottom: 12px;
     }
     
@@ -375,7 +376,7 @@
       text-align: center;
       cursor: pointer;
       transition: all var(--transition, 0.2s);
-      background: var(--cream);
+      background: rgba(255, 253, 209, 0.85);
     }
     
     .image-upload:hover {
@@ -400,10 +401,10 @@
       left: 0;
       right: 0;
       margin-top: 4px;
-      background: #FFFFFF;
-      border: 1.5px solid var(--silver-light);
+      background: var(--cream);
+      border: 1.5px solid var(--silver);
       border-radius: var(--radius, 10px);
-      box-shadow: 0 8px 24px rgba(58, 22, 6, 0.15);
+      box-shadow: 0 8px 24px rgba(58, 22, 6, 0.2);
       max-height: 240px;
       overflow-y: auto;
       z-index: 100;
@@ -423,7 +424,7 @@
     
     .category-suggestion-item:hover,
     .category-suggestion-item.active {
-      background: var(--cream);
+      background: rgba(170, 169, 173, 0.3);
     }
     
     .category-suggestion-emoji { font-size: 1.2rem; }
@@ -439,12 +440,12 @@
     
     .category-suggestion-desc {
       font-size: 0.75rem;
-      color: var(--silver);
+      color: var(--brand-dark-soft);
     }
     
     .category-suggestions-empty {
       padding: 12px 16px;
-      color: var(--silver);
+      color: var(--brand-dark-soft);
       font-size: 0.85rem;
       text-align: center;
     }
@@ -462,19 +463,19 @@
     
     .badge-stock-yes { background: #D1FAE5; color: #065F46; }
     .badge-stock-no { background: #FEE2E2; color: #991B1B; }
-    .badge-stock-to-confirm { background: var(--cream); color: var(--brand-dark-solid); }
+    .badge-stock-to-confirm { background: var(--cream); color: var(--brand-dark-solid); border: 1px solid var(--brand-dark-solid); }
     
     /* Carte + code boutique */
     .map-container {
       height: 300px;
       border-radius: var(--radius, 10px);
-      border: 1.5px solid var(--silver-light);
+      border: 1.5px solid var(--silver);
       overflow: hidden;
       margin-top: 8px;
     }
     
     .shop-code-display {
-      background: linear-gradient(135deg, var(--brand-dark-solid), var(--brand-dark));
+      background: linear-gradient(135deg, var(--brand-dark-solid), var(--brand-dark-deep));
       color: var(--cream);
       padding: 16px 20px;
       border-radius: var(--radius, 10px);
@@ -533,17 +534,17 @@
     .btn-ghost {
       background: transparent;
       color: var(--brand-dark-solid);
-      border: 1.5px solid var(--silver-light);
+      border: 1.5px solid var(--silver);
     }
     
     .btn-ghost:hover {
-      background: var(--cream);
+      background: rgba(255, 253, 209, 0.85);
       border-color: var(--brand-dark-solid);
     }
     
     .btn-danger {
       background: var(--danger);
-      color: #FFFFFF;
+      color: var(--cream);
       border: 1.5px solid var(--danger);
     }
     
@@ -559,7 +560,7 @@
       border: 1px solid var(--brand-dark-solid);
     }
     .badge-blue {
-      background: rgba(170, 169, 173, 0.3);
+      background: rgba(170, 169, 173, 0.4);
       color: var(--brand-dark-solid);
       border: 1px solid var(--silver);
     }
@@ -574,8 +575,8 @@
     
     /* Inputs */
     .form-input, .form-textarea {
-      background: #FFFFFF;
-      border: 1.5px solid var(--silver-light);
+      background: rgba(255, 253, 209, 0.85);
+      border: 1.5px solid var(--silver);
       color: var(--brand-dark-solid);
       border-radius: var(--radius, 10px);
       padding: 10px 14px;
@@ -588,7 +589,8 @@
     .form-input:focus, .form-textarea:focus {
       outline: none;
       border-color: var(--brand-dark-solid);
-      box-shadow: 0 0 0 3px rgba(58, 22, 6, 0.12);
+      background: var(--cream);
+      box-shadow: 0 0 0 3px rgba(58, 22, 6, 0.15);
     }
     
     .form-label {
@@ -603,7 +605,7 @@
     .modal-overlay {
       position: fixed;
       inset: 0;
-      background: rgba(42, 15, 3, 0.7);
+      background: rgba(42, 15, 3, 0.75);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -613,27 +615,27 @@
     }
     
     .modal {
-      background: #FFFFFF;
+      background: var(--cream);
       border-radius: var(--radius-lg, 14px);
       max-width: 600px;
       width: 100%;
       max-height: 90vh;
       overflow-y: auto;
-      border: 1.5px solid var(--silver-light);
-      box-shadow: 0 24px 64px rgba(42, 15, 3, 0.35);
+      border: 1.5px solid var(--silver);
+      box-shadow: 0 24px 64px rgba(42, 15, 3, 0.4);
     }
     
     .modal-header {
       padding: 20px 24px;
-      border-bottom: 1.5px solid var(--silver-light);
+      border-bottom: 1.5px solid var(--silver);
       display: flex;
       justify-content: space-between;
       align-items: center;
-      background: var(--cream);
+      background: var(--brand-dark);
     }
     
     .modal-header h3 {
-      color: var(--brand-dark-solid);
+      color: var(--cream);
       font-size: 1.1rem;
       margin: 0;
     }
@@ -642,23 +644,23 @@
       background: transparent;
       border: none;
       font-size: 1.2rem;
-      color: var(--brand-dark-solid);
+      color: var(--cream);
       cursor: pointer;
       padding: 4px 8px;
       border-radius: 6px;
     }
     
-    .modal-close:hover { background: rgba(58, 22, 6, 0.08); }
+    .modal-close:hover { background: rgba(255, 253, 209, 0.15); }
     
     .modal-body { padding: 24px; }
     
     .modal-footer {
       padding: 16px 24px;
-      border-top: 1.5px solid var(--silver-light);
+      border-top: 1.5px solid var(--silver);
       display: flex;
       justify-content: flex-end;
       gap: 12px;
-      background: var(--cream);
+      background: rgba(255, 253, 209, 0.6);
     }
     
     /* Alertes */
@@ -705,7 +707,7 @@
     .empty-state {
       text-align: center;
       padding: 60px 20px;
-      background: #FFFFFF;
+      background: var(--cream-card);
       border: 1.5px dashed var(--silver);
       border-radius: var(--radius-lg, 14px);
     }
@@ -754,7 +756,7 @@
         position: sticky;
         top: 0;
         z-index: 50;
-        box-shadow: 0 2px 8px rgba(58, 22, 6, 0.2);
+        box-shadow: 0 2px 8px rgba(58, 22, 6, 0.25);
         height: auto;
       }
       
@@ -1007,13 +1009,13 @@
           <div class="stat-card">
             <h3 style="font-size:1.1rem;margin-bottom:12px;color:var(--brand-dark-solid);">${t('seller.top_products')}</h3>
             ${topProducts.length === 0 
-              ? `<p style="color:var(--silver);font-size:0.9rem;">${t('seller.no_products')}</p>`
+              ? `<p style="color:var(--brand-dark-soft);font-size:0.9rem;">${t('seller.no_products')}</p>`
               : topProducts.map((p, i) => `
                 <div style="display:flex;align-items:center;gap:12px;padding:8px 0;border-bottom:1px solid var(--silver-soft);">
-                  <span style="font-weight:800;color:var(--silver);">#${i+1}</span>
+                  <span style="font-weight:800;color:var(--brand-dark-soft);">#${i+1}</span>
                   <div style="flex:1;min-width:0;">
                     <div style="font-weight:600;font-size:0.9rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--brand-dark-solid);">${escapeHtml(p.name)}</div>
-                    <div style="font-size:0.75rem;color:var(--silver);">${p.sales_count} ${t('product.sales').toLowerCase()}</div>
+                    <div style="font-size:0.75rem;color:var(--brand-dark-soft);">${p.sales_count} ${t('product.sales').toLowerCase()}</div>
                   </div>
                   <div style="font-weight:700;color:var(--brand-dark-solid);font-size:0.85rem;">${formatPrice(p.price * p.sales_count)}</div>
                 </div>
@@ -1095,7 +1097,7 @@
                 <span>📞 ${escapeHtml(order.buyer?.phone || '—')}</span>
                 ${order.buyer?.first_name ? `<span>👤 ${escapeHtml(order.buyer.first_name)}</span>` : ''}
               </div>
-              ${order.note ? `<div style="margin-top:8px;font-size:0.85rem;color:var(--brand-dark-soft);padding:8px;background:var(--cream);border-radius:6px;border:1px solid var(--silver-soft);">💬 ${escapeHtml(order.note)}</div>` : ''}
+              ${order.note ? `<div style="margin-top:8px;font-size:0.85rem;color:var(--brand-dark-soft);padding:8px;background:rgba(255, 253, 209, 0.85);border-radius:6px;border:1px solid var(--silver-soft);">💬 ${escapeHtml(order.note)}</div>` : ''}
             </div>
           </div>
           <div class="order-actions">
@@ -1303,7 +1305,7 @@
                   <div id="p-image-preview">
                     ${product.photo_url 
                       ? `<img src="${imageUrl(product.photo_url)}" class="image-preview" alt="Preview">`
-                      : `<div style="color:var(--silver);">
+                      : `<div style="color:var(--brand-dark-soft);">
                           <div style="font-size:2rem;margin-bottom:8px;">📸</div>
                           <div>JPEG, PNG, WEBP — max 5 MB</div>
                         </div>`}
@@ -1532,7 +1534,7 @@
               <div id="s-image-preview">
                 ${currentShop.photo_url 
                   ? `<img src="${imageUrl(currentShop.photo_url)}" class="image-preview" alt="Preview">`
-                  : `<div style="color:var(--silver);">
+                  : `<div style="color:var(--brand-dark-soft);">
                       <div style="font-size:2rem;margin-bottom:8px;">📸</div>
                       <div>${t('shop.photo_click')}</div>
                     </div>`}
@@ -1547,7 +1549,7 @@
         
         <div class="stat-card" style="max-width:600px;margin-top:20px;">
           <h3 style="font-size:1.1rem;margin-bottom:6px;color:var(--brand-dark-solid);">${t('seller.shop_location')}</h3>
-          <p style="color:var(--silver);font-size:0.9rem;margin-bottom:12px;">${t('seller.shop_location_p')}</p>
+          <p style="color:var(--brand-dark-soft);font-size:0.9rem;margin-bottom:12px;">${t('seller.shop_location_p')}</p>
           
           <div id="map" class="map-container"></div>
           <input type="hidden" id="shop-latitude" value="${currentShop.latitude || ''}">
