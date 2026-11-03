@@ -26,7 +26,6 @@
       --cream-card:        rgba(255, 253, 209, 0.55);
       --cream-soft:        rgba(255, 253, 209, 0.88);
       --cream-muted:       rgba(255, 253, 209, 0.7);
-      /* Alias pour compatibilité avec les vars d'origine */
       --cream-50:          var(--cream);
       --cream-100:         rgba(255, 253, 209, 0.85);
       --cream-200:         rgba(255, 253, 209, 0.65);
@@ -45,7 +44,7 @@
     }
 
     /* ============================================================
-       HERO — image de fond (back.png) + navbar superposée
+       HERO
        ============================================================ */
     .hero {
       position: relative;
@@ -163,7 +162,7 @@
     }
 
     /* ============================================================
-       SECTIONS CARROUSEL (Warm Cream Background)
+       SECTIONS CARROUSEL
        ============================================================ */
     .section-carousel {
       padding: 90px 0;
@@ -607,7 +606,7 @@
     }
 
     /* ============================================================
-       SECTION PRÈS DE CHEZ VOUS + CODE
+       SECTION PRÈS DE CHEZ VOUS
        ============================================================ */
     .section-near-you {
       background: var(--brand-dark);
@@ -950,7 +949,7 @@
     }
 
     /* ============================================================
-       RESPONSIVE
+       RESPONSIVE — PETITS ÉCRANS
        ============================================================ */
     @media (max-width: 1024px) {
       .category-card, .product-slide, .shop-slide { width: calc((100% - 56px) / 3); }
@@ -1072,11 +1071,224 @@
       .typed-text,
       .cta-seller::before { animation: none; }
     }
+
+    /* ============================================================
+       🆕 GRANDS ÉCRANS — Adaptation 2K / ultra-wide / 4K
+       ============================================================ */
+
+    /* ----- 1600px+ ----- */
+    @media (min-width: 1600px) {
+      .hero {
+        min-height: clamp(700px, 56.25vw, 1000px);
+        padding: 160px 0 110px;
+      }
+      .hero-inner {
+        max-width: 1440px;
+        padding: 0 60px;
+      }
+      .hero-text {
+        max-width: min(48vw, 720px);
+        border-left-width: 5px;
+        padding-left: 28px;
+      }
+      .hero h1 {
+        font-size: clamp(2.5rem, 4vw, 5rem);
+      }
+      .hero p {
+        font-size: 1.2rem;
+        max-width: 620px;
+      }
+
+      .section-carousel { padding: 110px 0; }
+      .section-header-centered {
+        max-width: 840px;
+        margin-bottom: 56px;
+      }
+      .section-header-centered h2 { font-size: 2.75rem; }
+      .section-header-centered p { font-size: 1.2rem; }
+
+      .carousel { max-width: 1440px; padding: 0 90px; }
+      .carousel-track { gap: 32px; }
+      .carousel-nav { width: 64px; height: 64px; font-size: 1.8rem; }
+      .category-card, .product-slide, .shop-slide { width: calc((100% - 128px) / 4); }
+      .skeleton-category { width: calc((100% - 128px) / 4); }
+
+      .category-card { padding: 48px 28px; min-height: 300px; }
+      .category-emoji { font-size: 4rem; }
+      .category-name { font-size: 1.35rem; }
+
+      .product-card { min-height: 440px; }
+      .product-info { padding: 26px; }
+      .product-name { font-size: 1.2rem; }
+      .product-price { font-size: 1.4rem; }
+
+      .shop-card { min-height: 440px; }
+      .shop-banner { height: 180px; }
+      .shop-avatar { width: 88px; height: 88px; font-size: 1.85rem; bottom: -32px; left: 28px; }
+      .shop-body { padding: 52px 28px 28px; }
+      .shop-name { font-size: 1.4rem; }
+      .shop-desc { font-size: 1.05rem; }
+
+      .section-near-you { padding: 110px 0; }
+      .near-you-grid { max-width: 1200px; gap: 48px; }
+      .near-you-card { padding: 48px 36px; }
+      .near-you-card h3 { font-size: 1.6rem; }
+      .near-you-card p { font-size: 1.05rem; }
+
+      .cta-seller { padding: 110px 0; }
+      .cta-seller-inner { gap: 80px; }
+      .cta-seller h2 { font-size: 2.75rem; }
+      .cta-seller p { font-size: 1.15rem; }
+      .cta-list li { font-size: 1.1rem; }
+
+      .footer { padding: 90px 0 40px; }
+      .footer-grid { gap: 56px; margin-bottom: 64px; }
+      .footer h4 { font-size: 1.1rem; }
+      .footer p, .footer a, .footer li { font-size: 1.05rem; }
+      .footer-brand { font-size: 1.65rem; }
+    }
+
+    /* ----- 2000px+ (ultra-wide 21:9 / 32:9) ----- */
+    @media (min-width: 2000px) {
+      .hero {
+        min-height: clamp(800px, 56.25vw, 1200px);
+        padding: 200px 0 140px;
+      }
+      .hero-inner {
+        max-width: 1680px;
+        padding: 0 80px;
+      }
+      .hero-text {
+        max-width: min(50vw, 880px);
+        padding-left: 32px;
+      }
+      .hero h1 {
+        font-size: clamp(2.8rem, 4vw, 6rem);
+      }
+      .hero p {
+        font-size: 1.35rem;
+        max-width: 720px;
+      }
+
+      .section-carousel { padding: 140px 0; }
+      .section-header-centered { max-width: 960px; margin-bottom: 68px; }
+      .section-header-centered h2 { font-size: 3.15rem; }
+      .section-header-centered p { font-size: 1.35rem; }
+
+      .carousel { max-width: 1680px; padding: 0 110px; }
+      .carousel-track { gap: 36px; }
+      .carousel-nav { width: 72px; height: 72px; font-size: 2rem; }
+      .category-card, .product-slide, .shop-slide { width: calc((100% - 144px) / 4); }
+      .skeleton-category { width: calc((100% - 144px) / 4); }
+
+      .category-card { padding: 56px 32px; min-height: 340px; }
+      .category-emoji { font-size: 4.75rem; }
+      .category-name { font-size: 1.55rem; }
+      .category-count { font-size: 1rem; padding: 8px 20px; }
+
+      .product-card { min-height: 500px; }
+      .product-info { padding: 30px; }
+      .product-name { font-size: 1.35rem; }
+      .product-price { font-size: 1.6rem; }
+
+      .shop-card { min-height: 500px; }
+      .shop-banner { height: 200px; }
+      .shop-avatar { width: 96px; height: 96px; font-size: 2rem; bottom: -34px; left: 30px; }
+      .shop-body { padding: 58px 30px 30px; }
+      .shop-name { font-size: 1.55rem; }
+      .shop-desc { font-size: 1.15rem; }
+
+      .section-near-you { padding: 140px 0; }
+      .near-you-grid { max-width: 1400px; gap: 56px; }
+      .near-you-card { padding: 56px 44px; }
+      .near-you-card h3 { font-size: 1.85rem; }
+      .near-you-card p { font-size: 1.15rem; }
+
+      .cta-seller { padding: 140px 0; }
+      .cta-seller-inner { gap: 100px; }
+      .cta-seller h2 { font-size: 3.25rem; }
+      .cta-seller p { font-size: 1.25rem; }
+      .cta-list li { font-size: 1.2rem; }
+
+      .footer { padding: 110px 0 50px; }
+      .footer-grid { gap: 72px; margin-bottom: 80px; }
+      .footer h4 { font-size: 1.2rem; }
+      .footer p, .footer a, .footer li { font-size: 1.15rem; }
+      .footer-brand { font-size: 1.9rem; }
+    }
+
+    /* ----- 3000px+ (4K et plus) ----- */
+    @media (min-width: 3000px) {
+      .hero {
+        min-height: clamp(900px, 56.25vw, 1400px);
+        padding: 240px 0 160px;
+      }
+      .hero-inner {
+        max-width: 1920px;
+        padding: 0 100px;
+      }
+      .hero-text {
+        max-width: min(50vw, 1000px);
+        padding-left: 40px;
+      }
+      .hero h1 {
+        font-size: clamp(3rem, 3.8vw, 7rem);
+      }
+      .hero p {
+        font-size: 1.55rem;
+        max-width: 840px;
+      }
+
+      .section-carousel { padding: 170px 0; }
+      .section-header-centered { max-width: 1100px; margin-bottom: 80px; }
+      .section-header-centered h2 { font-size: 3.75rem; }
+      .section-header-centered p { font-size: 1.55rem; }
+
+      .carousel { max-width: 1920px; padding: 0 130px; }
+      .carousel-track { gap: 40px; }
+      .carousel-nav { width: 80px; height: 80px; font-size: 2.2rem; }
+      .category-card, .product-slide, .shop-slide { width: calc((100% - 160px) / 4); }
+      .skeleton-category { width: calc((100% - 160px) / 4); }
+
+      .category-card { padding: 64px 36px; min-height: 380px; }
+      .category-emoji { font-size: 5.5rem; }
+      .category-name { font-size: 1.75rem; }
+
+      .product-card { min-height: 560px; }
+      .product-info { padding: 34px; }
+      .product-name { font-size: 1.5rem; }
+      .product-price { font-size: 1.85rem; }
+
+      .shop-card { min-height: 560px; }
+      .shop-banner { height: 220px; }
+      .shop-avatar { width: 110px; height: 110px; font-size: 2.25rem; bottom: -38px; left: 34px; }
+      .shop-body { padding: 66px 34px 34px; }
+      .shop-name { font-size: 1.75rem; }
+      .shop-desc { font-size: 1.3rem; }
+
+      .section-near-you { padding: 170px 0; }
+      .near-you-grid { max-width: 1600px; gap: 64px; }
+      .near-you-card { padding: 64px 48px; }
+      .near-you-card h3 { font-size: 2.1rem; }
+      .near-you-card p { font-size: 1.3rem; }
+
+      .cta-seller { padding: 170px 0; }
+      .cta-seller-inner { gap: 120px; }
+      .cta-seller h2 { font-size: 3.85rem; }
+      .cta-seller p { font-size: 1.45rem; }
+      .cta-list li { font-size: 1.35rem; }
+
+      .footer { padding: 130px 0 60px; }
+      .footer-grid { gap: 88px; margin-bottom: 96px; }
+      .footer h4 { font-size: 1.35rem; }
+      .footer p, .footer a, .footer li { font-size: 1.3rem; }
+      .footer-brand { font-size: 2.2rem; }
+    }
   </style>
 </head>
 <body class="page-home">
 
-  <!-- NAVBAR (superposée sur le hero, voir components.css) -->
+  <!-- NAVBAR -->
   <div id="navbar"></div>
 
   <!-- HERO -->
