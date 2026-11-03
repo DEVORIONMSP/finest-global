@@ -45,7 +45,7 @@ const TRANSLATIONS = {
     "home.cta_4": "Aucune commission au démarrage",
     "home.cta_5": "Support en français",
     
-    // 🆕 Near you (accueil)
+    // Near you (accueil)
     "home.near_you_title": "📍 Près de chez vous",
     "home.near_you_p": "Découvrez les boutiques et produits autour de votre position.",
     "home.detect_location": "Détecter ma position",
@@ -91,7 +91,7 @@ const TRANSLATIONS = {
     "marketplace.next": "Suivant →",
     "marketplace.close_filters": "✕ Fermer les filtres",
     
-    // 🆕 Filtres géographiques
+    // Filtres géographiques
     "marketplace.locality": "Localité",
     "marketplace.market": "Marché / Zone",
     "marketplace.all_localities": "Toutes les localités",
@@ -128,13 +128,13 @@ const TRANSLATIONS = {
     "product.how_it_works": "💡 Comment ça marche ?",
     "product.how_it_works_p": "Le vendeur reçoit votre commande instantanément. Il vous contactera pour organiser la livraison.",
     
-    // 🆕 Disponibilité
+    // Disponibilité
     "product.in_stock": "En stock",
     "product.out_of_stock_label": "Rupture de stock",
     "product.to_confirm": "Disponibilité à confirmer",
     "product.availability": "Disponibilité",
     
-    // 🆕 Localisation boutique
+    // Localisation boutique
     "product.shop_code": "Code boutique",
     "product.shop_locality": "Localité",
     "product.shop_market": "Marché",
@@ -220,7 +220,7 @@ const TRANSLATIONS = {
     "seller.product": "Produit",
     "seller.edit": "✏️ Éditer",
     
-    // 🆕 Dashboard vendeur - Localisation
+    // Dashboard vendeur - Localisation
     "seller.shop_location": "Localisation de la boutique",
     "seller.shop_location_p": "Déplacez le marqueur sur la carte pour changer la position de votre boutique.",
     "seller.save_location": "Enregistrer la position",
@@ -228,7 +228,7 @@ const TRANSLATIONS = {
     "seller.shop_code": "Code boutique",
     "seller.shop_code_p": "Partagez ce code avec vos clients pour qu'ils trouvent facilement votre boutique.",
     
-    // 🆕 Dashboard vendeur - Disponibilité
+    // Dashboard vendeur - Disponibilité
     "seller.availability": "Disponibilité",
     "seller.availability_in_stock": "En stock",
     "seller.availability_out_of_stock": "Rupture de stock",
@@ -307,7 +307,7 @@ const TRANSLATIONS = {
     "admin.no_products_sold": "Aucun produit vendu pour l'instant.",
     "admin.shop_label": "Boutique",
     
-    // 🆕 Admin - Localités / Marchés / Code
+    // Admin - Localités / Marchés / Code
     "admin.locality": "Localité",
     "admin.market": "Marché",
     "admin.shop_code": "Code",
@@ -328,7 +328,7 @@ const TRANSLATIONS = {
     "shop.photo_click": "Cliquez pour ajouter une photo",
     "shop.create_btn": "Créer ma boutique →",
     
-    // 🆕 Localisation boutique
+    // Localisation boutique
     "shop.location": "Localisation de la boutique",
     "shop.location_hint": "Cliquez sur la carte pour placer votre boutique. Vous pouvez aussi déplacer le marqueur.",
     "shop.locality": "Localité (auto-rempli)",
@@ -346,36 +346,61 @@ const TRANSLATIONS = {
     "upgrade.password": "Mot de passe",
     "upgrade.password_hint": "Ce mot de passe vous servira pour les connexions futures.",
     
-    // À propos
-    "about.hero_title": "Rendre le commerce ",
-    "about.hero_visible": "visible.",
-    "about.hero_p": "Finest Global connecte les commerçants du marché physique à leurs clients — sans remplacer la tradition, en la rendant simplement accessible au monde digital.",
+    // ============================================================
+    // 🆕 À PROPOS — TRADUCTION FRANÇAISE COMPLÈTE
+    // ============================================================
+    
+    // Hero
+    "about.hero_title": "Rendre le commerce",
+    "about.hero_visible": "plus simple.",
+    "about.hero_slogan": "Soyez Trouvable.",
+    "about.hero_p1": "Finest Global est une marketplace digitale qui connecte les personnes, les entreprises, les produits, les services et les opportunités commerciales dans un écosystème connecté.",
+    "about.hero_p2": "Notre objectif est de créer davantage d'opportunités économiques, de rendre le commerce plus simple et de faciliter la circulation de l'argent au sein des pays et au-delà des frontières.",
+    "about.hero_tagline": "Connecter les Personnes • Valoriser les Entreprises • Créer des Possibilités.",
+    
+    // Chiffres clés
     "about.stats_sellers": "Vendeurs actifs",
     "about.stats_products": "Produits en ligne",
     "about.stats_networks": "Réseaux supportés",
     "about.stats_free": "Gratuit pour démarrer",
-    "about.problem_title": "Le problème que nous résolvons",
-    "about.problem_p": "Des milliers de commerçants ont un produit à vendre et un emplacement physique — mais restent invisibles.",
-    "about.problem_1_title": "Les business sont introuvables",
-    "about.problem_1_p": "Un vendeur a un stand, mais aucun moyen pour un client de savoir qu'il existe ni ce qu'il propose.",
-    "about.problem_2_title": "Les clients cherchent sans trouver",
-    "about.problem_2_p": "Un acheteur veut un produit précis, mais ne sait pas quel commerçant le propose, ni où le trouver.",
-    "about.problem_3_title": "Le digital reste une barrière",
-    "about.problem_3_p": "Beaucoup de commerçants ne sont pas orientés vers les outils numériques.",
-    "about.solution_title": "Notre solution",
-    "about.solution_p": "Un écosystème à trois faces qui connecte tout le monde.",
-    "about.solution_1_title": "Les business",
-    "about.solution_1_p": "Rendus findables pour ce qu'ils vendent déjà. Une vitrine en ligne, sans quitter leur stand physique.",
+    
+    // Problème
+    "about.problem_title": "Le Problème Que Nous Résolvons",
+    "about.problem_subtitle": "Le commerce devrait être plus simple.",
+    "about.problem_1_title": "Les entreprises peinent",
+    "about.problem_1_p": "Les entreprises ont du mal à atteindre les clients qui ont besoin de leurs produits et services. Les clients ont du mal à trouver ce dont ils ont besoin, tandis que les prestataires de services font face à des difficultés pour connecter leurs compétences aux opportunités commerciales.",
+    "about.problem_2_title": "Des plateformes dispersées",
+    "about.problem_2_p": "Avec la découverte d'entreprises, la communication et les services de support souvent dispersés sur différentes plateformes, connecter les bonnes personnes peut être inutilement difficile.",
+    "about.problem_3_title": "Combler les écarts",
+    "about.problem_3_p": "Finest Global vise à combler ces écarts en rapprochant les activités commerciales.",
+    
+    // Solution
+    "about.solution_title": "Notre Solution",
+    "about.solution_subtitle": "Rassembler le Commerce dans un Seul Écosystème Digital.",
+    "about.solution_intro": "Finest Global est une marketplace digitale dédiée au commerce, connectant :",
+    "about.solution_1_title": "Les entreprises",
+    "about.solution_1_p": "Présentez vos produits et services et devenez plus facile à découvrir.",
     "about.solution_2_title": "Les clients",
-    "about.solution_2_p": "Trouvent le bon produit, au bon endroit, au bon moment. Commandent directement.",
-    "about.solution_3_title": "Les talents du digital",
-    "about.solution_3_p": "Photographes, vidéastes et community managers deviennent les ponts entre vendeurs et acheteurs.",
-    "about.vision_title": "Notre vision",
-    "about.vision_1": "Nous ne remplaçons pas le marché physique. Nous l'adaptons à la réalité digitale.",
-    "about.vision_2": "Les marchés continueront d'exister — mais leurs commerçants seront visibles, trouvables et connectés à leurs clients.",
-    "about.vision_3": "Notre objectif : créer un écosystème fort entre business, clients et créateurs de contenu.",
-    "about.cta_title": "Rejoignez l'aventure",
-    "about.cta_p": "Que vous soyez vendeur, acheteur ou créateur de contenu, il y a une place pour vous sur Finest Global.",
+    "about.solution_2_p": "Trouvez les produits, services et entreprises qui répondent à vos besoins.",
+    "about.solution_3_title": "Les prestataires de services",
+    "about.solution_3_p": "Connectez-vous aux opportunités commerciales grâce à des services tels que la livraison, le marketing digital, la création de contenu, la consultation et autres supports professionnels.",
+    
+    // Après Solution
+    "about.after_solution_1": "Nous ne remplaçons pas le marché physique. Nous l'adaptons à la réalité digitale.",
+    "about.after_solution_2": "Les marchés continueront d'exister — mais leurs commerçants seront visibles, trouvables et connectés à leurs clients.",
+    "about.after_solution_3": "Notre objectif : créer un écosystème fort entre les entreprises, les clients et les créateurs de contenu.",
+    
+    // Vision
+    "about.vision_title": "Notre Vision",
+    "about.vision_subtitle": "Un Marché Digital Connectant les Personnes à Travers les Pays.",
+    "about.vision_1": "Notre vision est de construire un marché digital qui puisse servir de pont commercial entre les personnes, les entreprises et les opportunités à travers les pays.",
+    "about.vision_2": "Notre mission est de connecter les personnes, les entreprises, les produits, les services et les opportunités à travers des solutions digitales qui créent de la valeur et facilitent des connexions significatives.",
+    "about.vision_3": "Nous visons à rendre le commerce plus accessible, à soutenir la croissance des entreprises et à aider à créer des opportunités économiques à travers un écosystème digital plus connecté.",
+    
+    // CTA
+    "about.cta_title": "Rejoignez l'Écosystème Finest Global",
+    "about.cta_tagline": "Il Y a une Place Pour Vous sur Finest Global.",
+    "about.cta_p": "Que vous souhaitiez découvrir des produits et services, présenter votre entreprise ou proposer des services professionnels, Finest Global est conçu pour connecter les personnes à ce dont elles ont besoin et aux opportunités qu'elles recherchent.",
     "about.explore": "Explorer la marketplace →",
     "about.become_seller": "Devenir vendeur",
   },
@@ -407,7 +432,7 @@ const TRANSLATIONS = {
     "home.explore": "Explore marketplace →",
     "home.become_seller": "Become a seller",
     "home.categories_title": "Explore Categories",
-    "home.categories_p": "Browse products and services by category to find what you’re looking for.",
+    "home.categories_p": "Browse products and services by category to find what you're looking for.",
     "home.trending_title": "Discover Products & Services",
     "home.trending_p": "Explore available products and services from businesses across the marketplace.",
     "home.shops_title": "New on Finest Global",
@@ -468,7 +493,7 @@ const TRANSLATIONS = {
     "marketplace.next": "Next →",
     "marketplace.close_filters": "✕ Close filters",
     
-    // Géographic filters
+    // Geographic filters
     "marketplace.locality": "Locality",
     "marketplace.market": "Market / Area",
     "marketplace.all_localities": "All localities",
@@ -723,37 +748,62 @@ const TRANSLATIONS = {
     "upgrade.password": "Password",
     "upgrade.password_hint": "This password will be used for future logins.",
     
-    // About
-    "about.hero_title": "Making commerce ",
-    "about.hero_visible": "visible.",
-    "about.hero_p": "Finest Global connects physical market vendors with their customers — without replacing tradition, simply making it accessible to the digital world.",
+    // ============================================================
+    // 🆕 ABOUT — FULL ENGLISH (SOURCE)
+    // ============================================================
+    
+    // Hero
+    "about.hero_title": "Making commerce",
+    "about.hero_visible": "easier.",
+    "about.hero_slogan": "Be Findable.",
+    "about.hero_p1": "Finest Global is a digital marketplace connecting people, businesses, products, services and commercial opportunities in one connected ecosystem.",
+    "about.hero_p2": "Our goal is to create more economic opportunities, make commerce easier and facilitate the circulation of money within countries and across borders.",
+    "about.hero_tagline": "Connecting People • Empowering Businesses • Creating Possibilities.",
+    
+    // Stats
     "about.stats_sellers": "Active sellers",
-    "about.stats_products": "Products online",
+    "about.stats_products": "Online products",
     "about.stats_networks": "Supported networks",
-    "about.stats_free": "Free to start",
-    "about.problem_title": "The problem we solve",
-    "about.problem_p": "Thousands of merchants have a product to sell and a physical location — but remain invisible.",
-    "about.problem_1_title": "Businesses are unfindable",
-    "about.problem_1_p": "A seller has a stand, but no way for a customer to know they exist or what they offer.",
-    "about.problem_2_title": "Customers search without finding",
-    "about.problem_2_p": "A buyer wants a specific product, but doesn't know which merchant offers it, or where to find it.",
-    "about.problem_3_title": "Digital remains a barrier",
-    "about.problem_3_p": "Many merchants are not oriented towards digital tools.",
-    "about.solution_title": "Our solution",
-    "about.solution_p": "A three-sided ecosystem that connects everyone.",
+    "about.stats_free": "Free to get started",
+    
+    // Problem
+    "about.problem_title": "The Problem We Solve",
+    "about.problem_subtitle": "Commerce Should Be Easier.",
+    "about.problem_1_title": "Businesses struggle",
+    "about.problem_1_p": "Businesses struggle to reach the customers who need their products and services. Customers struggle to find what they need, while service providers face challenges connecting their skills with commercial opportunities.",
+    "about.problem_2_title": "Scattered platforms",
+    "about.problem_2_p": "With business discovery, communication and supporting services often scattered across different platforms, connecting the right people can be unnecessarily difficult.",
+    "about.problem_3_title": "Bridging the gaps",
+    "about.problem_3_p": "Finest Global aims to bridge these gaps by bringing commercial activities closer together.",
+    
+    // Solution
+    "about.solution_title": "Our Solution",
+    "about.solution_subtitle": "Bringing Commerce Together in One Digital Ecosystem.",
+    "about.solution_intro": "Finest Global is a digital marketplace dedicated to commerce, connecting:",
     "about.solution_1_title": "Businesses",
-    "about.solution_1_p": "Made findable for what they already sell. An online storefront, without leaving their physical stand.",
+    "about.solution_1_p": "Showcase products and services and become easier to discover.",
     "about.solution_2_title": "Customers",
-    "about.solution_2_p": "Find the right product, at the right place, at the right time. Order directly.",
-    "about.solution_3_title": "Digital talents",
-    "about.solution_3_p": "Photographers, videographers and community managers become the bridges between sellers and buyers.",
-    "about.vision_title": "Our vision",
-    "about.vision_1": "We don't replace the physical market. We adapt it to digital reality.",
-    "about.vision_2": "Markets will continue to exist — but their merchants will be visible, findable and connected to their customers.",
-    "about.vision_3": "Our goal: create a strong ecosystem between businesses, customers and content creators.",
-    "about.cta_title": "Join the adventure",
-    "about.cta_p": "Whether you're a seller, a buyer or a content creator, there's a place for you on Finest Global.",
-    "about.explore": "Explore marketplace →",
+    "about.solution_2_p": "Find products, services and businesses that meet their needs.",
+    "about.solution_3_title": "Service Providers",
+    "about.solution_3_p": "Connect with commercial opportunities through services such as delivery, digital marketing, content creation, consultation and other professional support.",
+    
+    // After Solution
+    "about.after_solution_1": "We don't replace the physical market. We adapt it to digital reality.",
+    "about.after_solution_2": "Markets will continue to exist — but their merchants will be visible, findable and connected to their customers.",
+    "about.after_solution_3": "Our goal: create a strong ecosystem between businesses, customers and content creators.",
+    
+    // Vision
+    "about.vision_title": "Our Vision",
+    "about.vision_subtitle": "A Digital Market Connecting People Across Countries.",
+    "about.vision_1": "Our vision is to build a digital market that can serve as a commercial bridge between people, businesses and opportunities across countries.",
+    "about.vision_2": "Our mission is to connect people, businesses, products, services and opportunities through digital solutions that create value and facilitate meaningful connections.",
+    "about.vision_3": "We aim to make commerce more accessible, support business growth and help create economic opportunities through a more connected digital ecosystem.",
+    
+    // CTA
+    "about.cta_title": "Join the Finest Global Ecosystem",
+    "about.cta_tagline": "There Is a Place for You on Finest Global.",
+    "about.cta_p": "Whether you want to discover products and services, showcase your business or offer professional services, Finest Global is being built to connect people with what they need and the opportunities they seek.",
+    "about.explore": "Explore the marketplace →",
     "about.become_seller": "Become a seller",
   }
 };
