@@ -1,6 +1,6 @@
 /* ============================================================
    FINEST GLOBAL — Système de traduction FR / EN
-   Basé sur index.html (anglais par défaut)
+   Basé sur index.html + register.html (anglais par défaut)
    ============================================================ */
 
 const TRANSLATIONS = {
@@ -33,19 +33,15 @@ const TRANSLATIONS = {
     "home.explore": "Explorer la marketplace →",
     "home.become_seller": "Devenir vendeur",
     
-    // Catégories
     "home.categories_title": "Catégories populaires",
     "home.categories_p": "Explorez les produits et services par catégorie pour trouver ce que vous cherchez.",
     
-    // Tendances
     "home.trending_title": "Découvrez Produits & Services",
     "home.trending_p": "Explorez les produits et services disponibles des entreprises de la marketplace.",
     
-    // Boutiques
     "home.shops_title": "Nouveau sur Finest Global",
     "home.shops_p": "Découvrez les entreprises récemment inscrites et explorez leurs vitrines.",
     
-    // CTA vendeur
     "home.cta_title": "Vous avez quelque chose à vendre ou un service à proposer ?",
     "home.cta_p": "Créez votre vitrine gratuite sur Finest Global et commencez à présenter ce que vous proposez.",
     "home.cta_btn": "Devenir Vendeur",
@@ -55,7 +51,6 @@ const TRANSLATIONS = {
     "home.cta_4": "Inscription gratuite",
     "home.cta_5": "Support en français",
     
-    // Near you
     "home.near_you_title": "Découvrez Près de Chez Vous",
     "home.near_you_p": "Trouvez des produits, boutiques et services près de votre position actuelle.",
     "home.detect_location": "Détecter ma position",
@@ -103,7 +98,6 @@ const TRANSLATIONS = {
     "marketplace.next": "Suivant →",
     "marketplace.close_filters": "✕ Fermer les filtres",
     
-    // Filtres géographiques
     "marketplace.locality": "Localité",
     "marketplace.market": "Marché / Zone",
     "marketplace.all_localities": "Toutes les localités",
@@ -142,20 +136,18 @@ const TRANSLATIONS = {
     "product.how_it_works": "💡 Comment ça marche ?",
     "product.how_it_works_p": "Le vendeur reçoit votre commande instantanément. Il vous contactera pour organiser la livraison.",
     
-    // Disponibilité
     "product.in_stock": "En stock",
     "product.out_of_stock_label": "Rupture de stock",
     "product.to_confirm": "Disponibilité à confirmer",
     "product.availability": "Disponibilité",
     
-    // Localisation boutique
     "product.shop_code": "Code boutique",
     "product.shop_locality": "Localité",
     "product.shop_market": "Marché",
     "product.distance_from_you": "Distance",
     
     // ============================================================
-    // CONNEXION / INSCRIPTION
+    // CONNEXION
     // ============================================================
     "login.title": "Bon retour 👋",
     "login.subtitle": "Connectez-vous à votre compte Finest Global",
@@ -165,8 +157,14 @@ const TRANSLATIONS = {
     "login.no_account": "Pas encore de compte ?",
     "login.signup_link": "S'inscrire",
     
-    "register.title": "Créer un compte",
-    "register.subtitle": "Rejoignez Finest Global en quelques secondes",
+    // ============================================================
+    // INSCRIPTION (register.html)
+    // ============================================================
+    "register.title": "Créez votre compte Finest Global",
+    "register.subtitle": "Rejoignez le marché du commerce en ligne pour découvrir des produits, des services et des opportunités d'affaires.",
+    "register.question": "Comment souhaitez-vous utiliser Finest Global ?",
+    "register.option_buy": "Je suis ici pour acheter — Découvrir des produits, des services et des entreprises.",
+    "register.option_sell": "Je suis ici pour vendre — Créer une vitrine et présenter mes offres.",
     "register.client": "Client",
     "register.client_desc": "Acheter",
     "register.seller": "Vendeur",
@@ -240,7 +238,6 @@ const TRANSLATIONS = {
     "seller.product": "Produit",
     "seller.edit": "✏️ Éditer",
     
-    // Dashboard vendeur - Localisation
     "seller.shop_location": "Localisation de la boutique",
     "seller.shop_location_p": "Déplacez le marqueur sur la carte pour changer la position de votre boutique.",
     "seller.save_location": "Enregistrer la position",
@@ -248,7 +245,6 @@ const TRANSLATIONS = {
     "seller.shop_code": "Code boutique",
     "seller.shop_code_p": "Partagez ce code avec vos clients pour qu'ils trouvent facilement votre boutique.",
     
-    // Dashboard vendeur - Disponibilité
     "seller.availability": "Disponibilité",
     "seller.availability_in_stock": "En stock",
     "seller.availability_out_of_stock": "Rupture de stock",
@@ -292,7 +288,6 @@ const TRANSLATIONS = {
     "admin.no_shops": "Aucune boutique.",
     "admin.no_orders": "Aucune commande.",
     
-    // Admin - Nouvelles clés
     "admin.users_label": "Utilisateurs",
     "admin.shops_label": "Boutiques",
     "admin.products_label": "Produits",
@@ -329,7 +324,6 @@ const TRANSLATIONS = {
     "admin.no_products_sold": "Aucun produit vendu pour l'instant.",
     "admin.shop_label": "Boutique",
     
-    // Admin - Localités / Marchés / Code
     "admin.locality": "Localité",
     "admin.market": "Marché",
     "admin.shop_code": "Code",
@@ -352,7 +346,6 @@ const TRANSLATIONS = {
     "shop.photo_click": "Cliquez pour ajouter une photo",
     "shop.create_btn": "Créer ma boutique →",
     
-    // Localisation boutique
     "shop.location": "Localisation de la boutique",
     "shop.location_hint": "Cliquez sur la carte pour placer votre boutique. Vous pouvez aussi déplacer le marqueur.",
     "shop.locality": "Localité (auto-rempli)",
@@ -452,19 +445,15 @@ const TRANSLATIONS = {
     "home.explore": "Explore marketplace →",
     "home.become_seller": "Become a seller",
     
-    // Categories
     "home.categories_title": "Explore Categories",
     "home.categories_p": "Browse products and services by category to find what you're looking for.",
     
-    // Trending
     "home.trending_title": "Discover Products & Services",
     "home.trending_p": "Explore available products and services from businesses across the marketplace.",
     
-    // Shops
     "home.shops_title": "New on Finest Global",
     "home.shops_p": "Discover newly registered businesses and explore their storefronts.",
     
-    // CTA seller
     "home.cta_title": "Have something to sell or a service to offer?",
     "home.cta_p": "Create your free storefront on Finest Global and start showcasing what you offer.",
     "home.cta_btn": "Become a Seller",
@@ -474,7 +463,6 @@ const TRANSLATIONS = {
     "home.cta_4": "Free to Join",
     "home.cta_5": "French-Language Support",
     
-    // Near you
     "home.near_you_title": "Discover Near You",
     "home.near_you_p": "Find products, shops and services near your current location.",
     "home.detect_location": "Detect my location",
@@ -522,7 +510,6 @@ const TRANSLATIONS = {
     "marketplace.next": "Next →",
     "marketplace.close_filters": "✕ Close filters",
     
-    // Geographic filters
     "marketplace.locality": "Locality",
     "marketplace.market": "Market / Area",
     "marketplace.all_localities": "All localities",
@@ -561,20 +548,18 @@ const TRANSLATIONS = {
     "product.how_it_works": "💡 How does it work?",
     "product.how_it_works_p": "The seller receives your order instantly. They will contact you to organize the delivery.",
     
-    // Availability
     "product.in_stock": "In stock",
     "product.out_of_stock_label": "Out of stock",
     "product.to_confirm": "Availability to confirm",
     "product.availability": "Availability",
     
-    // Shop location
     "product.shop_code": "Shop code",
     "product.shop_locality": "Locality",
     "product.shop_market": "Market",
     "product.distance_from_you": "Distance",
     
     // ============================================================
-    // LOGIN / REGISTER
+    // LOGIN
     // ============================================================
     "login.title": "Welcome back 👋",
     "login.subtitle": "Log in to your Finest Global account",
@@ -584,8 +569,14 @@ const TRANSLATIONS = {
     "login.no_account": "Don't have an account yet?",
     "login.signup_link": "Sign up",
     
-    "register.title": "Create an account",
-    "register.subtitle": "Join Finest Global in a few seconds",
+    // ============================================================
+    // REGISTER (register.html)
+    // ============================================================
+    "register.title": "Create your Finest Global account",
+    "register.subtitle": "Join the online commerce market to discover products, services and business opportunities.",
+    "register.question": "How do you want to use Finest Global?",
+    "register.option_buy": "I'm here to buy — Discover products, services and businesses.",
+    "register.option_sell": "I'm here to sell — Create a storefront and showcase your offers.",
     "register.client": "Customer",
     "register.client_desc": "Buy",
     "register.seller": "Seller",
@@ -659,7 +650,6 @@ const TRANSLATIONS = {
     "seller.product": "Product",
     "seller.edit": "✏️ Edit",
     
-    // Seller location
     "seller.shop_location": "Shop location",
     "seller.shop_location_p": "Move the marker on the map to change your shop position.",
     "seller.save_location": "Save location",
@@ -667,7 +657,6 @@ const TRANSLATIONS = {
     "seller.shop_code": "Shop code",
     "seller.shop_code_p": "Share this code with your customers so they can easily find your shop.",
     
-    // Seller availability
     "seller.availability": "Availability",
     "seller.availability_in_stock": "In stock",
     "seller.availability_out_of_stock": "Out of stock",
@@ -711,7 +700,6 @@ const TRANSLATIONS = {
     "admin.no_shops": "No shops.",
     "admin.no_orders": "No orders.",
     
-    // Admin - New keys
     "admin.users_label": "Users",
     "admin.shops_label": "Shops",
     "admin.products_label": "Products",
@@ -748,7 +736,6 @@ const TRANSLATIONS = {
     "admin.no_products_sold": "No product sold yet.",
     "admin.shop_label": "Shop",
     
-    // Admin locality/market/code
     "admin.locality": "Locality",
     "admin.market": "Market",
     "admin.shop_code": "Code",
@@ -771,7 +758,6 @@ const TRANSLATIONS = {
     "shop.photo_click": "Click to add a photo",
     "shop.create_btn": "Create my shop →",
     
-    // Shop location
     "shop.location": "Shop location",
     "shop.location_hint": "Click on the map to place your shop. You can also drag the marker.",
     "shop.locality": "Locality (auto-filled)",

@@ -58,7 +58,7 @@
     
     .auth-card {
       width: 100%;
-      max-width: 480px;
+      max-width: 520px;
       background: var(--cream);
       border-radius: var(--radius-lg, 14px);
       box-shadow: 0 24px 64px rgba(42, 15, 3, 0.4);
@@ -75,13 +75,60 @@
     
     .auth-header h1 {
       font-size: 1.75rem;
-      margin-bottom: 8px;
+      margin-bottom: 14px;
       color: var(--brand-dark-solid);
     }
     
     .auth-header p {
       color: var(--brand-dark-soft);
       font-size: 0.95rem;
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+    
+    .auth-question {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--brand-dark-solid);
+      margin: 20px 0 12px;
+      text-align: center;
+    }
+    
+    .auth-options {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 24px;
+      display: grid;
+      gap: 10px;
+      max-width: 460px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    
+    .auth-options li {
+      position: relative;
+      padding: 12px 16px 12px 44px;
+      background: rgba(170, 169, 173, 0.2);
+      border: 1.5px solid var(--silver-light);
+      border-radius: var(--radius, 10px);
+      font-size: 0.9rem;
+      color: var(--brand-dark-soft);
+      line-height: 1.5;
+    }
+    
+    .auth-options li::before {
+      content: "•";
+      position: absolute;
+      left: 18px;
+      top: 10px;
+      color: var(--brand-dark-solid);
+      font-weight: 900;
+      font-size: 1.2rem;
+    }
+    
+    .auth-options li strong {
+      color: var(--brand-dark-solid);
+      font-weight: 800;
     }
     
     .role-selector {
@@ -156,7 +203,6 @@
       gap: 16px;
     }
     
-    /* Inputs */
     .form-input {
       background: rgba(255, 253, 209, 0.85);
       border: 1.5px solid var(--silver);
@@ -190,7 +236,6 @@
       margin-top: 6px;
     }
     
-    /* Bouton primaire */
     .btn-primary {
       background: var(--brand-dark-solid);
       color: var(--cream);
@@ -203,7 +248,6 @@
       color: var(--cream);
     }
     
-    /* Alertes */
     .alert-error {
       background: #FEE2E2;
       color: #991B1B;
@@ -214,7 +258,6 @@
       margin-bottom: 16px;
     }
     
-    /* Spinner */
     .spinner {
       display: inline-block;
       width: 16px;
@@ -240,6 +283,13 @@
       .auth-header { margin-bottom: 24px; }
       .auth-header h1 { font-size: 1.4rem; }
       .auth-header p { font-size: 0.88rem; }
+      
+      .auth-question { font-size: 0.92rem; margin: 16px 0 10px; }
+      
+      .auth-options li {
+        padding: 10px 14px 10px 38px;
+        font-size: 0.83rem;
+      }
       
       .role-selector {
         gap: 10px;
@@ -294,8 +344,15 @@
     <div class="auth-card">
       
       <div class="auth-header">
-        <h1 data-i18n="register.title">Créer un compte</h1>
-        <p data-i18n="register.subtitle">Rejoignez Finest Global en quelques secondes</p>
+        <h1 data-i18n="register.title">Créez votre compte Finest Global</h1>
+        <p data-i18n="register.subtitle">Rejoignez le marché du commerce en ligne pour découvrir des produits, des services et des opportunités d'affaires.</p>
+        
+        <div class="auth-question" data-i18n="register.question">Comment souhaitez-vous utiliser Finest Global ?</div>
+        
+        <ul class="auth-options">
+          <li data-i18n="register.option_buy"><strong>Je suis ici pour acheter</strong> — Découvrir des produits, des services et des entreprises.</li>
+          <li data-i18n="register.option_sell"><strong>Je suis ici pour vendre</strong> — Créer une vitrine et présenter mes offres.</li>
+        </ul>
       </div>
       
       <!-- Choix du rôle -->
@@ -473,10 +530,6 @@
       document.getElementById(`form-${role}`).classList.add('active');
     }
     
-    // ============================================================
-    // INSCRIPTION CLIENT
-    // ============================================================
-    
     async function registerClient(event) {
       event.preventDefault();
       
@@ -527,10 +580,6 @@
         btn.textContent = t('register.submit_client');
       }
     }
-    
-    // ============================================================
-    // INSCRIPTION VENDEUR
-    // ============================================================
     
     async function registerSeller(event) {
       event.preventDefault();
