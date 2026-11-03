@@ -14,16 +14,31 @@
   <link rel="stylesheet" href="/css/main.css">
   <link rel="stylesheet" href="/css/components.css">
   <style>
+    :root {
+      --brand-dark:        rgba(58, 22, 6, 0.92);
+      --brand-dark-solid:  #3A1606;
+      --brand-dark-deep:   #2A0F03;
+      --brand-dark-soft:   rgba(58, 22, 6, 0.75);
+      --silver:            rgb(170, 169, 173);
+      --silver-light:      rgba(170, 169, 173, 0.35);
+      --silver-soft:       rgba(170, 169, 173, 0.15);
+      --cream:             rgb(255, 253, 209);
+      --cream-soft:        rgba(255, 253, 209, 0.88);
+      --cream-muted:       rgba(255, 253, 209, 0.7);
+      --danger:            #DC2626;
+      --success:           #10B981;
+    }
+
     .dashboard {
       display: grid;
       grid-template-columns: 260px 1fr;
       min-height: calc(100vh - 70px);
-      background: var(--gray-50);
+      background: var(--cream);
     }
     
     .sidebar {
-      background: var(--blue-900);
-      color: var(--white);
+      background: var(--brand-dark);
+      color: var(--cream);
       padding: 24px 0;
       position: sticky;
       top: 0;
@@ -33,7 +48,7 @@
     
     .sidebar-header {
       padding: 0 24px 24px;
-      border-bottom: 1px solid rgba(255,255,255,0.1);
+      border-bottom: 1px solid var(--silver-light);
       margin-bottom: 16px;
     }
     
@@ -41,12 +56,12 @@
       font-size: 1.1rem;
       font-weight: 800;
       margin-bottom: 4px;
-      color: var(--white);
+      color: var(--cream);
     }
     
     .sidebar-shop-status {
       font-size: 0.8rem;
-      color: rgba(255,255,255,0.6);
+      color: var(--silver);
       display: flex;
       align-items: center;
       gap: 6px;
@@ -56,7 +71,7 @@
       width: 8px;
       height: 8px;
       border-radius: 50%;
-      background: #10B981;
+      background: var(--success);
       box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4);
       animation: pulse 2s infinite;
     }
@@ -79,11 +94,11 @@
       align-items: center;
       gap: 12px;
       padding: 12px 16px;
-      border-radius: var(--radius);
-      color: rgba(255,255,255,0.75);
+      border-radius: var(--radius, 10px);
+      color: var(--silver);
       font-weight: 500;
       font-size: 0.9rem;
-      transition: all var(--transition);
+      transition: all var(--transition, 0.2s);
       cursor: pointer;
       border: none;
       background: none;
@@ -93,21 +108,22 @@
     }
     
     .sidebar-link:hover {
-      background: rgba(255,255,255,0.08);
-      color: var(--white);
+      background: rgba(255, 253, 209, 0.08);
+      color: var(--cream);
     }
     
     .sidebar-link.active {
-      background: var(--blue-700);
-      color: var(--white);
+      background: var(--brand-dark-solid);
+      color: var(--cream);
+      box-shadow: inset 3px 0 0 var(--silver);
     }
     
     .sidebar-link-icon { font-size: 1.1rem; }
     
     .sidebar-badge {
       margin-left: auto;
-      background: var(--orange-500);
-      color: var(--white);
+      background: var(--silver);
+      color: var(--brand-dark-solid);
       font-size: 0.7rem;
       font-weight: 700;
       padding: 2px 8px;
@@ -117,6 +133,7 @@
     .dashboard-main {
       padding: 32px;
       min-width: 0;
+      background: var(--cream);
     }
     
     .dashboard-header {
@@ -125,13 +142,13 @@
     
     .dashboard-header h1 {
       font-size: 1.75rem;
-      color: var(--blue-900);
+      color: var(--brand-dark-solid);
       margin-bottom: 6px;
       letter-spacing: -0.5px;
     }
     
     .dashboard-header p {
-      color: var(--gray-500);
+      color: var(--brand-dark-soft);
       font-size: 0.95rem;
     }
     
@@ -143,16 +160,16 @@
     }
     
     .stat-card {
-      background: var(--white);
-      border: 1.5px solid var(--gray-200);
-      border-radius: var(--radius-lg);
+      background: #FFFFFF;
+      border: 1.5px solid var(--silver-light);
+      border-radius: var(--radius-lg, 14px);
       padding: 20px;
-      transition: all var(--transition);
+      transition: all var(--transition, 0.2s);
     }
     
     .stat-card:hover {
-      border-color: var(--blue-500);
-      box-shadow: var(--shadow-md);
+      border-color: var(--brand-dark-solid);
+      box-shadow: 0 8px 24px rgba(58, 22, 6, 0.12);
     }
     
     .stat-card-icon {
@@ -163,21 +180,21 @@
     .stat-card-value {
       font-size: 1.75rem;
       font-weight: 900;
-      color: var(--blue-900);
+      color: var(--brand-dark-solid);
       letter-spacing: -1px;
       margin-bottom: 4px;
     }
     
     .stat-card-label {
       font-size: 0.85rem;
-      color: var(--gray-500);
+      color: var(--silver);
       text-transform: uppercase;
       letter-spacing: 0.5px;
     }
     
     .stat-card.pending {
-      border-color: var(--orange-500);
-      background: linear-gradient(135deg, var(--orange-100), var(--white));
+      border-color: var(--brand-dark-solid);
+      background: linear-gradient(135deg, rgba(255, 253, 209, 0.9), #FFFFFF);
     }
     
     .orders-list {
@@ -186,15 +203,15 @@
     }
     
     .order-card {
-      background: var(--white);
-      border: 1.5px solid var(--gray-200);
-      border-radius: var(--radius-lg);
+      background: #FFFFFF;
+      border: 1.5px solid var(--silver-light);
+      border-radius: var(--radius-lg, 14px);
       padding: 20px;
       display: grid;
       grid-template-columns: 1fr auto;
       gap: 16px;
       align-items: center;
-      transition: all var(--transition);
+      transition: all var(--transition, 0.2s);
       animation: slideIn 0.3s ease;
     }
     
@@ -204,19 +221,19 @@
     }
     
     .order-card:hover {
-      border-color: var(--blue-500);
-      box-shadow: var(--shadow);
+      border-color: var(--brand-dark-solid);
+      box-shadow: 0 8px 24px rgba(58, 22, 6, 0.12);
     }
     
     .order-card.new {
-      border-color: var(--orange-500);
-      background: linear-gradient(135deg, var(--orange-100), var(--white));
+      border-color: var(--brand-dark-solid);
+      background: linear-gradient(135deg, rgba(255, 253, 209, 0.95), #FFFFFF);
       animation: pulse-border 2s infinite;
     }
     
     @keyframes pulse-border {
-      0%, 100% { border-color: var(--orange-500); }
-      50% { border-color: var(--orange-400); }
+      0%, 100% { border-color: var(--brand-dark-solid); }
+      50% { border-color: var(--silver); }
     }
     
     .order-info {
@@ -229,9 +246,9 @@
     .order-icon {
       width: 48px;
       height: 48px;
-      border-radius: var(--radius);
-      background: var(--blue-50);
-      color: var(--blue-700);
+      border-radius: var(--radius, 10px);
+      background: rgba(58, 22, 6, 0.08);
+      color: var(--brand-dark-solid);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -243,7 +260,7 @@
     
     .order-title {
       font-weight: 700;
-      color: var(--blue-900);
+      color: var(--brand-dark-solid);
       margin-bottom: 4px;
       white-space: nowrap;
       overflow: hidden;
@@ -252,7 +269,7 @@
     
     .order-meta {
       font-size: 0.85rem;
-      color: var(--gray-500);
+      color: var(--brand-dark-soft);
       display: flex;
       gap: 12px;
       flex-wrap: wrap;
@@ -260,7 +277,7 @@
     
     .order-price {
       font-weight: 800;
-      color: var(--orange-600);
+      color: var(--brand-dark-solid);
     }
     
     .order-actions {
@@ -276,28 +293,28 @@
     }
     
     .admin-product-card {
-      background: var(--white);
-      border: 1.5px solid var(--gray-200);
-      border-radius: var(--radius-lg);
+      background: #FFFFFF;
+      border: 1.5px solid var(--silver-light);
+      border-radius: var(--radius-lg, 14px);
       overflow: hidden;
-      transition: all var(--transition);
+      transition: all var(--transition, 0.2s);
     }
     
     .admin-product-card:hover {
-      border-color: var(--blue-500);
-      box-shadow: var(--shadow-md);
+      border-color: var(--brand-dark-solid);
+      box-shadow: 0 8px 24px rgba(58, 22, 6, 0.12);
     }
     
     .admin-product-image {
       aspect-ratio: 1;
-      background: linear-gradient(135deg, var(--blue-50), var(--gray-100));
+      background: linear-gradient(135deg, rgba(255, 253, 209, 0.9), rgba(170, 169, 173, 0.25));
       position: relative;
       overflow: hidden;
       display: flex;
       align-items: center;
       justify-content: center;
       font-size: 3rem;
-      color: var(--gray-500);
+      color: var(--silver);
     }
     
     .admin-product-image img {
@@ -310,7 +327,7 @@
     
     .admin-product-name {
       font-weight: 700;
-      color: var(--blue-900);
+      color: var(--brand-dark-solid);
       margin-bottom: 6px;
       font-size: 0.95rem;
     }
@@ -318,8 +335,8 @@
     .admin-product-category {
       display: inline-block;
       font-size: 0.75rem;
-      color: var(--blue-700);
-      background: var(--blue-50);
+      color: var(--brand-dark-solid);
+      background: rgba(170, 169, 173, 0.25);
       padding: 2px 8px;
       border-radius: 10px;
       margin-bottom: 6px;
@@ -327,7 +344,7 @@
     }
     
     .admin-product-price {
-      color: var(--orange-600);
+      color: var(--brand-dark-solid);
       font-weight: 800;
       margin-bottom: 8px;
     }
@@ -336,7 +353,7 @@
       display: flex;
       gap: 12px;
       font-size: 0.8rem;
-      color: var(--gray-500);
+      color: var(--silver);
       margin-bottom: 12px;
     }
     
@@ -352,18 +369,18 @@
     }
     
     .image-upload {
-      border: 2px dashed var(--gray-300);
-      border-radius: var(--radius);
+      border: 2px dashed var(--silver);
+      border-radius: var(--radius, 10px);
       padding: 24px;
       text-align: center;
       cursor: pointer;
-      transition: all var(--transition);
-      background: var(--gray-50);
+      transition: all var(--transition, 0.2s);
+      background: var(--cream);
     }
     
     .image-upload:hover {
-      border-color: var(--blue-500);
-      background: var(--blue-50);
+      border-color: var(--brand-dark-solid);
+      background: rgba(255, 253, 209, 0.95);
     }
     
     .image-upload input[type="file"] { display: none; }
@@ -371,7 +388,7 @@
     .image-preview {
       max-width: 200px;
       max-height: 200px;
-      border-radius: var(--radius);
+      border-radius: var(--radius, 10px);
       margin: 0 auto;
     }
     
@@ -383,10 +400,10 @@
       left: 0;
       right: 0;
       margin-top: 4px;
-      background: white;
-      border: 1.5px solid var(--gray-200);
-      border-radius: var(--radius);
-      box-shadow: 0 8px 24px rgba(15, 23, 42, 0.1);
+      background: #FFFFFF;
+      border: 1.5px solid var(--silver-light);
+      border-radius: var(--radius, 10px);
+      box-shadow: 0 8px 24px rgba(58, 22, 6, 0.15);
       max-height: 240px;
       overflow-y: auto;
       z-index: 100;
@@ -406,7 +423,7 @@
     
     .category-suggestion-item:hover,
     .category-suggestion-item.active {
-      background: var(--blue-50);
+      background: var(--cream);
     }
     
     .category-suggestion-emoji { font-size: 1.2rem; }
@@ -415,19 +432,19 @@
     
     .category-suggestion-name {
       font-weight: 600;
-      color: var(--blue-900);
+      color: var(--brand-dark-solid);
       text-transform: capitalize;
       font-size: 0.9rem;
     }
     
     .category-suggestion-desc {
       font-size: 0.75rem;
-      color: var(--gray-500);
+      color: var(--silver);
     }
     
     .category-suggestions-empty {
       padding: 12px 16px;
-      color: var(--gray-500);
+      color: var(--silver);
       font-size: 0.85rem;
       text-align: center;
     }
@@ -445,33 +462,34 @@
     
     .badge-stock-yes { background: #D1FAE5; color: #065F46; }
     .badge-stock-no { background: #FEE2E2; color: #991B1B; }
-    .badge-stock-to-confirm { background: #FEF3C7; color: #92400E; }
+    .badge-stock-to-confirm { background: var(--cream); color: var(--brand-dark-solid); }
     
-    /* 🆕 Carte + code boutique */
+    /* Carte + code boutique */
     .map-container {
       height: 300px;
-      border-radius: var(--radius);
-      border: 1.5px solid var(--gray-200);
+      border-radius: var(--radius, 10px);
+      border: 1.5px solid var(--silver-light);
       overflow: hidden;
       margin-top: 8px;
     }
     
     .shop-code-display {
-      background: linear-gradient(135deg, var(--blue-700), var(--blue-500));
-      color: var(--white);
+      background: linear-gradient(135deg, var(--brand-dark-solid), var(--brand-dark));
+      color: var(--cream);
       padding: 16px 20px;
-      border-radius: var(--radius);
+      border-radius: var(--radius, 10px);
       margin-bottom: 20px;
       display: flex;
       align-items: center;
       justify-content: space-between;
       flex-wrap: wrap;
       gap: 12px;
+      border: 1.5px solid var(--silver-light);
     }
     
     .shop-code-display .label {
       font-size: 0.85rem;
-      opacity: 0.85;
+      color: var(--silver);
       margin-bottom: 2px;
     }
     
@@ -479,14 +497,15 @@
       font-size: 1.5rem;
       font-weight: 900;
       letter-spacing: 1px;
+      color: var(--cream);
     }
     
     .shop-code-display button {
-      background: rgba(255,255,255,0.15);
-      color: var(--white);
-      border: none;
+      background: rgba(255, 253, 209, 0.15);
+      color: var(--cream);
+      border: 1px solid var(--silver-light);
       padding: 8px 16px;
-      border-radius: var(--radius);
+      border-radius: var(--radius, 10px);
       cursor: pointer;
       font-weight: 600;
       font-size: 0.85rem;
@@ -495,7 +514,211 @@
     }
     
     .shop-code-display button:hover {
-      background: rgba(255,255,255,0.25);
+      background: rgba(255, 253, 209, 0.25);
+    }
+    
+    /* Boutons personnalisés */
+    .btn-primary {
+      background: var(--brand-dark-solid);
+      color: var(--cream);
+      border: 1.5px solid var(--brand-dark-solid);
+    }
+    
+    .btn-primary:hover {
+      background: var(--brand-dark-deep);
+      border-color: var(--brand-dark-deep);
+      color: var(--cream);
+    }
+    
+    .btn-ghost {
+      background: transparent;
+      color: var(--brand-dark-solid);
+      border: 1.5px solid var(--silver-light);
+    }
+    
+    .btn-ghost:hover {
+      background: var(--cream);
+      border-color: var(--brand-dark-solid);
+    }
+    
+    .btn-danger {
+      background: var(--danger);
+      color: #FFFFFF;
+      border: 1.5px solid var(--danger);
+    }
+    
+    .btn-danger:hover {
+      background: #B91C1C;
+      border-color: #B91C1C;
+    }
+    
+    /* Badges statut commande */
+    .badge-warning {
+      background: var(--cream);
+      color: var(--brand-dark-solid);
+      border: 1px solid var(--brand-dark-solid);
+    }
+    .badge-blue {
+      background: rgba(170, 169, 173, 0.3);
+      color: var(--brand-dark-solid);
+      border: 1px solid var(--silver);
+    }
+    .badge-success {
+      background: #D1FAE5;
+      color: #065F46;
+    }
+    .badge-danger {
+      background: #FEE2E2;
+      color: #991B1B;
+    }
+    
+    /* Inputs */
+    .form-input, .form-textarea {
+      background: #FFFFFF;
+      border: 1.5px solid var(--silver-light);
+      color: var(--brand-dark-solid);
+      border-radius: var(--radius, 10px);
+      padding: 10px 14px;
+      font-family: inherit;
+      font-size: 0.9rem;
+      width: 100%;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    
+    .form-input:focus, .form-textarea:focus {
+      outline: none;
+      border-color: var(--brand-dark-solid);
+      box-shadow: 0 0 0 3px rgba(58, 22, 6, 0.12);
+    }
+    
+    .form-label {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--brand-dark-solid);
+      margin-bottom: 6px;
+      display: block;
+    }
+    
+    /* Modal */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(42, 15, 3, 0.7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      padding: 20px;
+      overflow-y: auto;
+    }
+    
+    .modal {
+      background: #FFFFFF;
+      border-radius: var(--radius-lg, 14px);
+      max-width: 600px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      border: 1.5px solid var(--silver-light);
+      box-shadow: 0 24px 64px rgba(42, 15, 3, 0.35);
+    }
+    
+    .modal-header {
+      padding: 20px 24px;
+      border-bottom: 1.5px solid var(--silver-light);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--cream);
+    }
+    
+    .modal-header h3 {
+      color: var(--brand-dark-solid);
+      font-size: 1.1rem;
+      margin: 0;
+    }
+    
+    .modal-close {
+      background: transparent;
+      border: none;
+      font-size: 1.2rem;
+      color: var(--brand-dark-solid);
+      cursor: pointer;
+      padding: 4px 8px;
+      border-radius: 6px;
+    }
+    
+    .modal-close:hover { background: rgba(58, 22, 6, 0.08); }
+    
+    .modal-body { padding: 24px; }
+    
+    .modal-footer {
+      padding: 16px 24px;
+      border-top: 1.5px solid var(--silver-light);
+      display: flex;
+      justify-content: flex-end;
+      gap: 12px;
+      background: var(--cream);
+    }
+    
+    /* Alertes */
+    .alert {
+      padding: 12px 16px;
+      border-radius: var(--radius, 10px);
+      font-size: 0.88rem;
+      margin-bottom: 16px;
+    }
+    .alert-error {
+      background: #FEE2E2;
+      color: #991B1B;
+      border: 1px solid #FCA5A5;
+    }
+    .alert-success {
+      background: #D1FAE5;
+      color: #065F46;
+      border: 1px solid #6EE7B7;
+    }
+    
+    /* Spinner */
+    .spinner {
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      border: 2px solid rgba(255, 253, 209, 0.3);
+      border-top-color: var(--cream);
+      border-radius: 50%;
+      animation: spin 0.6s linear infinite;
+    }
+    .spinner-blue {
+      border-color: rgba(58, 22, 6, 0.2);
+      border-top-color: var(--brand-dark-solid);
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    
+    .loading-container {
+      display: flex;
+      justify-content: center;
+      padding: 60px 0;
+    }
+    
+    /* Empty state */
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+      background: #FFFFFF;
+      border: 1.5px dashed var(--silver);
+      border-radius: var(--radius-lg, 14px);
+    }
+    .empty-state-icon { font-size: 3rem; margin-bottom: 12px; }
+    .empty-state h3 {
+      color: var(--brand-dark-solid);
+      margin-bottom: 8px;
+      font-size: 1.1rem;
+    }
+    .empty-state p {
+      color: var(--brand-dark-soft);
+      font-size: 0.9rem;
+      margin-bottom: 16px;
     }
     
     @media (max-width: 900px) {
@@ -531,7 +754,7 @@
         position: sticky;
         top: 0;
         z-index: 50;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        box-shadow: 0 2px 8px rgba(58, 22, 6, 0.2);
         height: auto;
       }
       
@@ -725,7 +948,6 @@
         link.classList.toggle('active', link.dataset.tab === tabName);
       });
       
-      // Détruire la carte si on quitte l'onglet shop
       if (tabName !== 'shop') {
         destroyShopMap();
       }
@@ -783,24 +1005,24 @@
         
         <div class="stats-grid" style="grid-template-columns: 1fr 1fr;">
           <div class="stat-card">
-            <h3 style="font-size:1.1rem;margin-bottom:12px;">${t('seller.top_products')}</h3>
+            <h3 style="font-size:1.1rem;margin-bottom:12px;color:var(--brand-dark-solid);">${t('seller.top_products')}</h3>
             ${topProducts.length === 0 
-              ? `<p style="color:var(--gray-500);font-size:0.9rem;">${t('seller.no_products')}</p>`
+              ? `<p style="color:var(--silver);font-size:0.9rem;">${t('seller.no_products')}</p>`
               : topProducts.map((p, i) => `
-                <div style="display:flex;align-items:center;gap:12px;padding:8px 0;border-bottom:1px solid var(--gray-100);">
-                  <span style="font-weight:800;color:var(--gray-400);">#${i+1}</span>
+                <div style="display:flex;align-items:center;gap:12px;padding:8px 0;border-bottom:1px solid var(--silver-soft);">
+                  <span style="font-weight:800;color:var(--silver);">#${i+1}</span>
                   <div style="flex:1;min-width:0;">
-                    <div style="font-weight:600;font-size:0.9rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${escapeHtml(p.name)}</div>
-                    <div style="font-size:0.75rem;color:var(--gray-500);">${p.sales_count} ${t('product.sales').toLowerCase()}</div>
+                    <div style="font-weight:600;font-size:0.9rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--brand-dark-solid);">${escapeHtml(p.name)}</div>
+                    <div style="font-size:0.75rem;color:var(--silver);">${p.sales_count} ${t('product.sales').toLowerCase()}</div>
                   </div>
-                  <div style="font-weight:700;color:var(--orange-600);font-size:0.85rem;">${formatPrice(p.price * p.sales_count)}</div>
+                  <div style="font-weight:700;color:var(--brand-dark-solid);font-size:0.85rem;">${formatPrice(p.price * p.sales_count)}</div>
                 </div>
               `).join('')
             }
           </div>
           
           <div class="stat-card">
-            <h3 style="font-size:1.1rem;margin-bottom:12px;">${t('seller.orders_by_status')}</h3>
+            <h3 style="font-size:1.1rem;margin-bottom:12px;color:var(--brand-dark-solid);">${t('seller.orders_by_status')}</h3>
             ${['pending','confirmed','delivered','cancelled'].map(status => {
               const count = currentOrders.filter(o => o.status === status).length;
               const labels = {
@@ -810,9 +1032,9 @@
                 cancelled: t('orders.cancelled'),
               };
               return `
-                <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--gray-100);">
-                  <span style="font-size:0.9rem;">${labels[status]}</span>
-                  <span style="font-weight:700;">${count}</span>
+                <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--silver-soft);">
+                  <span style="font-size:0.9rem;color:var(--brand-dark-solid);">${labels[status]}</span>
+                  <span style="font-weight:700;color:var(--brand-dark-solid);">${count}</span>
                 </div>
               `;
             }).join('')}
@@ -873,7 +1095,7 @@
                 <span>📞 ${escapeHtml(order.buyer?.phone || '—')}</span>
                 ${order.buyer?.first_name ? `<span>👤 ${escapeHtml(order.buyer.first_name)}</span>` : ''}
               </div>
-              ${order.note ? `<div style="margin-top:8px;font-size:0.85rem;color:var(--gray-600);padding:8px;background:var(--gray-50);border-radius:6px;">💬 ${escapeHtml(order.note)}</div>` : ''}
+              ${order.note ? `<div style="margin-top:8px;font-size:0.85rem;color:var(--brand-dark-soft);padding:8px;background:var(--cream);border-radius:6px;border:1px solid var(--silver-soft);">💬 ${escapeHtml(order.note)}</div>` : ''}
             </div>
           </div>
           <div class="order-actions">
@@ -1081,7 +1303,7 @@
                   <div id="p-image-preview">
                     ${product.photo_url 
                       ? `<img src="${imageUrl(product.photo_url)}" class="image-preview" alt="Preview">`
-                      : `<div style="color:var(--gray-500);">
+                      : `<div style="color:var(--silver);">
                           <div style="font-size:2rem;margin-bottom:8px;">📸</div>
                           <div>JPEG, PNG, WEBP — max 5 MB</div>
                         </div>`}
@@ -1277,7 +1499,6 @@
           <p>${t('seller.my_shop_p')}</p>
         </div>
         
-        <!-- Code boutique -->
         ${currentShop.code ? `
           <div class="shop-code-display">
             <div>
@@ -1311,7 +1532,7 @@
               <div id="s-image-preview">
                 ${currentShop.photo_url 
                   ? `<img src="${imageUrl(currentShop.photo_url)}" class="image-preview" alt="Preview">`
-                  : `<div style="color:var(--gray-500);">
+                  : `<div style="color:var(--silver);">
                       <div style="font-size:2rem;margin-bottom:8px;">📸</div>
                       <div>${t('shop.photo_click')}</div>
                     </div>`}
@@ -1324,10 +1545,9 @@
           </button>
         </div>
         
-        <!-- Carte de localisation -->
         <div class="stat-card" style="max-width:600px;margin-top:20px;">
-          <h3 style="font-size:1.1rem;margin-bottom:6px;">${t('seller.shop_location')}</h3>
-          <p style="color:var(--gray-500);font-size:0.9rem;margin-bottom:12px;">${t('seller.shop_location_p')}</p>
+          <h3 style="font-size:1.1rem;margin-bottom:6px;color:var(--brand-dark-solid);">${t('seller.shop_location')}</h3>
+          <p style="color:var(--silver);font-size:0.9rem;margin-bottom:12px;">${t('seller.shop_location_p')}</p>
           
           <div id="map" class="map-container"></div>
           <input type="hidden" id="shop-latitude" value="${currentShop.latitude || ''}">
@@ -1350,7 +1570,6 @@
         </div>
       `;
       
-      // Initialiser la carte
       setTimeout(() => {
         initShopMap(
           6.3654, 2.4183,
