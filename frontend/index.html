@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
   <title>Finest Global — Be Findable</title>
-  <meta name="description" content="Trouvez les commerçants du marché et commandez directement.">
+  <meta name="description" content="Find marketplace vendors and order directly.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="preload" as="image" href="/assets/back.png">
@@ -1070,74 +1070,50 @@
     }
 
     /* ============================================================
-       🆕 GRANDS ÉCRANS — Adaptation 2K / ultra-wide / 4K
+       GRANDS ÉCRANS — Adaptation 2K / ultra-wide / 4K
        ============================================================ */
 
-    /* ----- 1600px+ ----- */
     @media (min-width: 1600px) {
       .hero {
         min-height: clamp(700px, 56.25vw, 1000px);
         padding: 160px 0 110px;
       }
-      .hero-inner {
-        max-width: 1440px;
-        padding: 0 60px;
-      }
-      .hero-text {
-        max-width: min(48vw, 720px);
-        border-left-width: 5px;
-        padding-left: 28px;
-      }
-      .hero h1 {
-        font-size: clamp(2.5rem, 4vw, 5rem);
-      }
-      .hero p {
-        font-size: 1.2rem;
-        max-width: 620px;
-      }
-
+      .hero-inner { max-width: 1440px; padding: 0 60px; }
+      .hero-text { max-width: min(48vw, 720px); border-left-width: 5px; padding-left: 28px; }
+      .hero h1 { font-size: clamp(2.5rem, 4vw, 5rem); }
+      .hero p { font-size: 1.2rem; max-width: 620px; }
       .section-carousel { padding: 110px 0; }
-      .section-header-centered {
-        max-width: 840px;
-        margin-bottom: 56px;
-      }
+      .section-header-centered { max-width: 840px; margin-bottom: 56px; }
       .section-header-centered h2 { font-size: 2.75rem; }
       .section-header-centered p { font-size: 1.2rem; }
-
       .carousel { max-width: 1440px; padding: 0 90px; }
       .carousel-track { gap: 32px; }
       .carousel-nav { width: 64px; height: 64px; font-size: 1.8rem; }
       .category-card, .product-slide, .shop-slide { width: calc((100% - 128px) / 4); }
       .skeleton-category { width: calc((100% - 128px) / 4); }
-
       .category-card { padding: 48px 28px; min-height: 300px; }
       .category-emoji { font-size: 4rem; }
       .category-name { font-size: 1.35rem; }
-
       .product-card { min-height: 440px; }
       .product-info { padding: 26px; }
       .product-name { font-size: 1.2rem; }
       .product-price { font-size: 1.4rem; }
-
       .shop-card { min-height: 440px; }
       .shop-banner { height: 180px; }
       .shop-avatar { width: 88px; height: 88px; font-size: 1.85rem; bottom: -32px; left: 28px; }
       .shop-body { padding: 52px 28px 28px; }
       .shop-name { font-size: 1.4rem; }
       .shop-desc { font-size: 1.05rem; }
-
       .section-near-you { padding: 110px 0; }
       .near-you-grid { max-width: 1200px; gap: 48px; }
       .near-you-card { padding: 48px 36px; }
       .near-you-card h3 { font-size: 1.6rem; }
       .near-you-card p { font-size: 1.05rem; }
-
       .cta-seller { padding: 110px 0; }
       .cta-seller-inner { gap: 80px; }
       .cta-seller h2 { font-size: 2.75rem; }
       .cta-seller p { font-size: 1.15rem; }
       .cta-list li { font-size: 1.1rem; }
-
       .footer { padding: 90px 0 40px; }
       .footer-grid { gap: 56px; margin-bottom: 64px; }
       .footer h4 { font-size: 1.1rem; }
@@ -1145,68 +1121,45 @@
       .footer-brand { font-size: 1.65rem; }
     }
 
-    /* ----- 2000px+ (ultra-wide 21:9 / 32:9) ----- */
     @media (min-width: 2000px) {
-      .hero {
-        min-height: clamp(800px, 56.25vw, 1200px);
-        padding: 200px 0 140px;
-      }
-      .hero-inner {
-        max-width: 1680px;
-        padding: 0 80px;
-      }
-      .hero-text {
-        max-width: min(50vw, 880px);
-        padding-left: 32px;
-      }
-      .hero h1 {
-        font-size: clamp(2.8rem, 4vw, 6rem);
-      }
-      .hero p {
-        font-size: 1.35rem;
-        max-width: 720px;
-      }
-
+      .hero { min-height: clamp(800px, 56.25vw, 1200px); padding: 200px 0 140px; }
+      .hero-inner { max-width: 1680px; padding: 0 80px; }
+      .hero-text { max-width: min(50vw, 880px); padding-left: 32px; }
+      .hero h1 { font-size: clamp(2.8rem, 4vw, 6rem); }
+      .hero p { font-size: 1.35rem; max-width: 720px; }
       .section-carousel { padding: 140px 0; }
       .section-header-centered { max-width: 960px; margin-bottom: 68px; }
       .section-header-centered h2 { font-size: 3.15rem; }
       .section-header-centered p { font-size: 1.35rem; }
-
       .carousel { max-width: 1680px; padding: 0 110px; }
       .carousel-track { gap: 36px; }
       .carousel-nav { width: 72px; height: 72px; font-size: 2rem; }
       .category-card, .product-slide, .shop-slide { width: calc((100% - 144px) / 4); }
       .skeleton-category { width: calc((100% - 144px) / 4); }
-
       .category-card { padding: 56px 32px; min-height: 340px; }
       .category-emoji { font-size: 4.75rem; }
       .category-name { font-size: 1.55rem; }
       .category-count { font-size: 1rem; padding: 8px 20px; }
-
       .product-card { min-height: 500px; }
       .product-info { padding: 30px; }
       .product-name { font-size: 1.35rem; }
       .product-price { font-size: 1.6rem; }
-
       .shop-card { min-height: 500px; }
       .shop-banner { height: 200px; }
       .shop-avatar { width: 96px; height: 96px; font-size: 2rem; bottom: -34px; left: 30px; }
       .shop-body { padding: 58px 30px 30px; }
       .shop-name { font-size: 1.55rem; }
       .shop-desc { font-size: 1.15rem; }
-
       .section-near-you { padding: 140px 0; }
       .near-you-grid { max-width: 1400px; gap: 56px; }
       .near-you-card { padding: 56px 44px; }
       .near-you-card h3 { font-size: 1.85rem; }
       .near-you-card p { font-size: 1.15rem; }
-
       .cta-seller { padding: 140px 0; }
       .cta-seller-inner { gap: 100px; }
       .cta-seller h2 { font-size: 3.25rem; }
       .cta-seller p { font-size: 1.25rem; }
       .cta-list li { font-size: 1.2rem; }
-
       .footer { padding: 110px 0 50px; }
       .footer-grid { gap: 72px; margin-bottom: 80px; }
       .footer h4 { font-size: 1.2rem; }
@@ -1214,67 +1167,44 @@
       .footer-brand { font-size: 1.9rem; }
     }
 
-    /* ----- 3000px+ (4K et plus) ----- */
     @media (min-width: 3000px) {
-      .hero {
-        min-height: clamp(900px, 56.25vw, 1400px);
-        padding: 240px 0 160px;
-      }
-      .hero-inner {
-        max-width: 1920px;
-        padding: 0 100px;
-      }
-      .hero-text {
-        max-width: min(50vw, 1000px);
-        padding-left: 40px;
-      }
-      .hero h1 {
-        font-size: clamp(3rem, 3.8vw, 7rem);
-      }
-      .hero p {
-        font-size: 1.55rem;
-        max-width: 840px;
-      }
-
+      .hero { min-height: clamp(900px, 56.25vw, 1400px); padding: 240px 0 160px; }
+      .hero-inner { max-width: 1920px; padding: 0 100px; }
+      .hero-text { max-width: min(50vw, 1000px); padding-left: 40px; }
+      .hero h1 { font-size: clamp(3rem, 3.8vw, 7rem); }
+      .hero p { font-size: 1.55rem; max-width: 840px; }
       .section-carousel { padding: 170px 0; }
       .section-header-centered { max-width: 1100px; margin-bottom: 80px; }
       .section-header-centered h2 { font-size: 3.75rem; }
       .section-header-centered p { font-size: 1.55rem; }
-
       .carousel { max-width: 1920px; padding: 0 130px; }
       .carousel-track { gap: 40px; }
       .carousel-nav { width: 80px; height: 80px; font-size: 2.2rem; }
       .category-card, .product-slide, .shop-slide { width: calc((100% - 160px) / 4); }
       .skeleton-category { width: calc((100% - 160px) / 4); }
-
       .category-card { padding: 64px 36px; min-height: 380px; }
       .category-emoji { font-size: 5.5rem; }
       .category-name { font-size: 1.75rem; }
-
       .product-card { min-height: 560px; }
       .product-info { padding: 34px; }
       .product-name { font-size: 1.5rem; }
       .product-price { font-size: 1.85rem; }
-
       .shop-card { min-height: 560px; }
       .shop-banner { height: 220px; }
       .shop-avatar { width: 110px; height: 110px; font-size: 2.25rem; bottom: -38px; left: 34px; }
       .shop-body { padding: 66px 34px 34px; }
       .shop-name { font-size: 1.75rem; }
       .shop-desc { font-size: 1.3rem; }
-
       .section-near-you { padding: 170px 0; }
       .near-you-grid { max-width: 1600px; gap: 64px; }
       .near-you-card { padding: 64px 48px; }
       .near-you-card h3 { font-size: 2.1rem; }
       .near-you-card p { font-size: 1.3rem; }
-
       .cta-seller { padding: 170px 0; }
       .cta-seller-inner { gap: 120px; }
       .cta-seller h2 { font-size: 3.85rem; }
       .cta-seller p { font-size: 1.45rem; }
       .cta-list li { font-size: 1.35rem; }
-
       .footer { padding: 130px 0 60px; }
       .footer-grid { gap: 88px; margin-bottom: 96px; }
       .footer h4 { font-size: 1.35rem; }
@@ -1300,10 +1230,10 @@
             <span class="typed-text" id="typed-2"></span>
           </span>
         </h1>
-        <p data-i18n="home.hero_p">Finest Global rend les commerçants du marché visibles, trouvables et connectés à leurs clients. Sans remplacer le marché physique — en le rendant simplement accessible.</p>
+        <p data-i18n="home.hero_p">Finest Global makes market vendors visible, findable and connected to their customers. Without replacing the physical market — simply making it accessible.</p>
         <div class="hero-buttons">
-          <a href="/marketplace.html" class="btn btn-white btn-lg" data-i18n="home.explore">Explorer la marketplace →</a>
-          <a href="/register.html" class="btn btn-outline-white btn-lg" data-i18n="home.become_seller">Devenir vendeur</a>
+          <a href="/marketplace.html" class="btn btn-white btn-lg" data-i18n="home.explore">Explore marketplace →</a>
+          <a href="/register.html" class="btn btn-outline-white btn-lg" data-i18n="home.become_seller">Become a seller</a>
         </div>
       </div>
     </div>
@@ -1315,21 +1245,21 @@
       <div class="section-header-centered" style="margin-bottom: 40px;">
         <h2 style="color: var(--cream);">
           <span class="accent-bar"></span> 
-          <span data-i18n="home.near_you_title"> Près de chez vous</span>
+          <span data-i18n="home.near_you_title">Discover Near You</span>
         </h2>
         <p style="color: var(--cream-soft);" data-i18n="home.near_you_p">
-          Découvrez les boutiques et produits autour de votre position.
+          Find products, shops and services near your current location.
         </p>
       </div>
       
       <div class="near-you-grid">
         <div class="near-you-card">
-          <h3><span data-i18n="home.near_you_title"> Près de chez vous</span></h3>
+          <h3><span data-i18n="home.near_you_title">Discover Near You</span></h3>
           <p data-i18n="home.near_you_p">
-            Découvrez les boutiques et produits autour de votre position.
+            Find products, shops and services near your current location.
           </p>
           <button id="detect-location-btn" onclick="detectAndRedirect()">
-            <span data-i18n="home.detect_location">Détecter ma position</span>
+            <span data-i18n="home.detect_location">Detect my location</span>
           </button>
         </div>
         
@@ -1347,7 +1277,7 @@
               onkeydown="if(event.key==='Enter') searchByCode()"
             >
             <button type="button" onclick="searchByCode()" style="width: auto; padding: 13px 20px;">
-              <span data-i18n="home.find_shop">Trouver</span>
+              <span data-i18n="home.find_shop">Find</span>
             </button>
           </div>
         </div>
@@ -1358,12 +1288,12 @@
   <!-- CATÉGORIES POPULAIRES -->
   <section class="section-carousel">
     <div class="section-header-centered">
-      <h2><span class="accent-bar"></span> <span data-i18n="home.categories_title">Catégories populaires</span></h2>
-      <p data-i18n="home.categories_p">Explorez les produits par catégorie et trouvez ce que vous cherchez rapidement.</p>
+      <h2><span class="accent-bar"></span> <span data-i18n="home.categories_title">Explore Categories</span></h2>
+      <p data-i18n="home.categories_p">Browse products and services by category to find what you're looking for.</p>
     </div>
     
     <div class="carousel">
-      <button class="carousel-nav prev" onclick="scrollCarousel('categories', -1)" aria-label="Précédent">‹</button>
+      <button class="carousel-nav prev" onclick="scrollCarousel('categories', -1)" aria-label="Previous">‹</button>
       <div class="carousel-track-wrapper" id="categories-track-wrapper">
         <div class="carousel-track" id="categories-track">
           <div class="skeleton-category"></div>
@@ -1372,19 +1302,19 @@
           <div class="skeleton-category"></div>
         </div>
       </div>
-      <button class="carousel-nav next" onclick="scrollCarousel('categories', 1)" aria-label="Suivant">›</button>
+      <button class="carousel-nav next" onclick="scrollCarousel('categories', 1)" aria-label="Next">›</button>
     </div>
   </section>
 
   <!-- LES PLUS VENDUS -->
   <section class="section-carousel">
     <div class="section-header-centered">
-      <h2><span class="accent-bar"></span> <span data-i18n="home.trending_title">Les plus vendus</span></h2>
-      <p data-i18n="home.trending_p">Les produits les plus populaires de la plateforme, choisis par nos clients.</p>
+      <h2><span class="accent-bar"></span> <span data-i18n="home.trending_title">Discover Products & Services</span></h2>
+      <p data-i18n="home.trending_p">Explore available products and services from businesses across the marketplace.</p>
     </div>
     
     <div class="carousel">
-      <button class="carousel-nav prev" onclick="scrollCarousel('trending', -1)" aria-label="Précédent">‹</button>
+      <button class="carousel-nav prev" onclick="scrollCarousel('trending', -1)" aria-label="Previous">‹</button>
       <div class="carousel-track-wrapper" id="trending-track-wrapper">
         <div class="carousel-track" id="trending-track">
           <div class="product-slide"><div class="skeleton-card"><div class="skeleton-image"></div><div class="skeleton-body"><div class="skeleton-line"></div><div class="skeleton-line short"></div></div></div></div>
@@ -1393,19 +1323,19 @@
           <div class="product-slide"><div class="skeleton-card"><div class="skeleton-image"></div><div class="skeleton-body"><div class="skeleton-line"></div><div class="skeleton-line short"></div></div></div></div>
         </div>
       </div>
-      <button class="carousel-nav next" onclick="scrollCarousel('trending', 1)" aria-label="Suivant">›</button>
+      <button class="carousel-nav next" onclick="scrollCarousel('trending', 1)" aria-label="Next">›</button>
     </div>
   </section>
 
   <!-- BOUTIQUES EN VEDETTE -->
   <section class="section-carousel">
     <div class="section-header-centered">
-      <h2><span class="accent-bar"></span> <span data-i18n="home.shops_title">Boutiques en vedette</span></h2>
-      <p data-i18n="home.shops_p">Découvrez les meilleures boutiques de la plateforme et leurs produits.</p>
+      <h2><span class="accent-bar"></span> <span data-i18n="home.shops_title">New on Finest Global</span></h2>
+      <p data-i18n="home.shops_p">Discover newly registered businesses and explore their storefronts.</p>
     </div>
     
     <div class="carousel">
-      <button class="carousel-nav prev" onclick="scrollCarousel('shops', -1)" aria-label="Précédent">‹</button>
+      <button class="carousel-nav prev" onclick="scrollCarousel('shops', -1)" aria-label="Previous">‹</button>
       <div class="carousel-track-wrapper" id="shops-track-wrapper">
         <div class="carousel-track" id="shops-track">
           <div class="shop-slide"><div class="skeleton-card"><div style="height:140px;background:rgba(170,169,173,0.3);"></div><div class="skeleton-body"><div class="skeleton-line"></div><div class="skeleton-line short"></div></div></div></div>
@@ -1414,7 +1344,7 @@
           <div class="shop-slide"><div class="skeleton-card"><div style="height:140px;background:rgba(170,169,173,0.3);"></div><div class="skeleton-body"><div class="skeleton-line"></div><div class="skeleton-line short"></div></div></div></div>
         </div>
       </div>
-      <button class="carousel-nav next" onclick="scrollCarousel('shops', 1)" aria-label="Suivant">›</button>
+      <button class="carousel-nav next" onclick="scrollCarousel('shops', 1)" aria-label="Next">›</button>
     </div>
   </section>
 
@@ -1423,19 +1353,19 @@
     <div class="container">
       <div class="cta-seller-inner">
         <div>
-          <h2 data-i18n="home.cta_title">Vous êtes commerçant ?</h2>
-          <p data-i18n="home.cta_p">Créez votre boutique en ligne gratuitement et recevez vos commandes directement sur votre téléphone.</p>
+          <h2 data-i18n="home.cta_title">Have something to sell or a service to offer?</h2>
+          <p data-i18n="home.cta_p">Create your free storefront on Finest Global and start showcasing what you offer.</p>
           <a href="/register.html" class="btn btn-orange btn-lg" id="cta-button" data-i18n="home.cta_btn">
-            Créer ma boutique →
+            Become a Seller
           </a>
         </div>
         <div>
           <ul class="cta-list">
-            <li data-i18n="home.cta_1">Boutique en ligne gratuite</li>
-            <li data-i18n="home.cta_2">Notifications en temps réel</li>
-            <li data-i18n="home.cta_3">Visible par des milliers d'acheteurs</li>
-            <li data-i18n="home.cta_4">Aucune commission au démarrage</li>
-            <li data-i18n="home.cta_5">Support en français</li>
+            <li data-i18n="home.cta_1">Free Online Storefront</li>
+            <li data-i18n="home.cta_2">Stay Updated on Activity</li>
+            <li data-i18n="home.cta_3">Reach Potential Customers</li>
+            <li data-i18n="home.cta_4">Free to Join</li>
+            <li data-i18n="home.cta_5">French-Language Support</li>
           </ul>
         </div>
       </div>
@@ -1448,26 +1378,26 @@
       <div class="footer-grid">
         <div>
           <div class="footer-brand">Finest<span>Global</span></div>
-          <p data-i18n="footer.tagline">Le marché physique, rendu visible. Connecter les vendeurs du Bénin à leurs clients, sans remplacer le marché traditionnel.</p>
+          <p data-i18n="footer.tagline">A digital marketplace connecting people, businesses, products and services. Discover opportunities, reach customers and make connections beyond physical boundaries.</p>
           <p class="footer-slogan">Be Findable.</p>
         </div>
         <div>
           <h4 data-i18n="footer.navigation">Navigation</h4>
           <ul>
-            <li><a href="/index.html" data-i18n="nav.home">Accueil</a></li>
+            <li><a href="/index.html" data-i18n="nav.home">Home</a></li>
             <li><a href="/marketplace.html" data-i18n="nav.marketplace">Marketplace</a></li>
-            <li><a href="/about.html" data-i18n="nav.about">À propos</a></li>
+            <li><a href="/about.html" data-i18n="nav.about">About</a></li>
           </ul>
         </div>
         <div>
-          <h4 data-i18n="footer.sellers">Vendeurs</h4>
+          <h4 data-i18n="footer.sellers">Sellers</h4>
           <ul>
-            <li><a href="/register.html" data-i18n="footer.create_shop">Créer une boutique</a></li>
-            <li><a href="/dashboard-seller.html" data-i18n="footer.my_dashboard">Mon dashboard</a></li>
+            <li><a href="/register.html" data-i18n="footer.create_shop">Create a storefront</a></li>
+            <li><a href="/dashboard-seller.html" data-i18n="footer.my_dashboard">My dashboard</a></li>
           </ul>
         </div>
         <div class="footer-contact">
-          <h4 data-i18n="footer.contact">Contact</h4>
+          <h4 data-i18n="footer.contact">Connect with us</h4>
           <ul>
             <li>Email: <a href="mailto:contact.finestglobal@gmail.com">contact.finestglobal@gmail.com</a></li>
             <li><a href="#">WhatsApp</a></li>
@@ -1477,7 +1407,7 @@
         </div>
       </div>
       <div class="footer-bottom">
-        © 2026 FinestGlobal — <span data-i18n="footer.rights">Tous droits réservés.</span>
+        © 2026 FinestGlobal — <span data-i18n="footer.rights">All rights reserved.</span>
       </div>
     </div>
   </footer>
@@ -1657,7 +1587,7 @@
           <a href="/marketplace.html?category=${encodeURIComponent(cat.name)}" class="category-card">
             <span class="category-emoji">${cat.emoji || '🏷️'}</span>
             <span class="category-name">${escapeHtml(cat.name)}</span>
-            <span class="category-count">${cat.product_count} ${cat.product_count > 1 ? 'produits' : 'produit'}</span>
+            <span class="category-count">${cat.product_count} ${cat.product_count > 1 ? 'products' : 'product'}</span>
           </a>
         `).join('');
         
