@@ -11,17 +11,22 @@
   <link rel="stylesheet" href="/css/components.css">
   <style>
     :root {
-      --brand-dark: rgba(58, 22, 6, 0.92);
-      --brand-dark-solid: #3A1606;
-      --brand-dark-deep: #2A0F03;
-      --silver: rgb(170, 169, 173);
-      --silver-light: rgba(170, 169, 173, 0.35);
-      --silver-soft: rgba(170, 169, 173, 0.15);
-      --cream: rgb(255, 253, 209);
-      --cream-soft: rgba(255, 253, 209, 0.88);
-      --cream-muted: rgba(255, 253, 209, 0.7);
+      --brand-dark:        rgba(58, 22, 6, 0.92);
+      --brand-dark-solid:  #3A1606;
+      --brand-dark-deep:   #2A0F03;
+      --brand-dark-soft:   rgba(58, 22, 6, 0.75);
+      --silver:            rgb(170, 169, 173);
+      --silver-light:      rgba(170, 169, 173, 0.45);
+      --silver-soft:       rgba(170, 169, 173, 0.2);
+      --cream:             rgb(255, 253, 209);
+      --cream-card:        rgba(255, 253, 209, 0.55);
+      --cream-soft:        rgba(255, 253, 209, 0.88);
+      --cream-muted:       rgba(255, 253, 209, 0.7);
     }
 
+    /* ============================
+       HERO
+       ============================ */
     .about-hero {
       background: linear-gradient(135deg, var(--brand-dark-deep) 0%, var(--brand-dark-solid) 55%, var(--brand-dark) 100%);
       color: var(--cream);
@@ -78,6 +83,9 @@
       line-height: 1.7;
     }
     
+    /* ============================
+       SECTIONS GÉNÉRIQUES
+       ============================ */
     .section { padding: 90px 0; }
     
     .section-title {
@@ -100,6 +108,9 @@
       margin: 0 auto;
     }
     
+    /* ============================
+       SECTION PROBLÈME — fond brun dominant
+       ============================ */
     .section-problem {
       background: var(--brand-dark);
       padding: 90px 0;
@@ -126,6 +137,9 @@
     .section-problem .section-title h2 { color: var(--cream); }
     .section-problem .section-title p { color: var(--cream-muted); }
     
+    /* ============================
+       GRILLES DE CARTES
+       ============================ */
     .cards-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -135,9 +149,9 @@
     .card-glass {
       background: rgba(255, 253, 209, 0.05);
       border: 1.5px solid var(--silver-light);
-      border-radius: var(--radius-lg);
+      border-radius: var(--radius-lg, 14px);
       padding: 32px 28px;
-      transition: all var(--transition);
+      transition: all var(--transition, 0.2s);
     }
     
     .card-glass:hover {
@@ -165,6 +179,9 @@
       line-height: 1.7;
     }
     
+    /* ============================
+       SECTION SOLUTION — fond brun profond
+       ============================ */
     .section-solution {
       background: var(--brand-dark-deep);
       padding: 90px 0;
@@ -176,9 +193,9 @@
     .card-white {
       background: rgba(255, 253, 209, 0.06);
       border: 1.5px solid var(--silver-light);
-      border-radius: var(--radius-lg);
+      border-radius: var(--radius-lg, 14px);
       padding: 32px 28px;
-      transition: all var(--transition);
+      transition: all var(--transition, 0.2s);
     }
     
     .card-white:hover {
@@ -206,6 +223,9 @@
       line-height: 1.7;
     }
     
+    /* ============================
+       SECTION VISION
+       ============================ */
     .section-vision {
       background: linear-gradient(135deg, var(--brand-dark) 0%, var(--brand-dark-solid) 100%);
       color: var(--cream);
@@ -253,6 +273,9 @@
       font-weight: 800;
     }
     
+    /* ============================
+       CHIFFRES CLÉS
+       ============================ */
     .stats-band {
       background: var(--brand-dark-deep);
       padding: 60px 0;
@@ -284,6 +307,9 @@
       font-weight: 600;
     }
     
+    /* ============================
+       CTA FINAL
+       ============================ */
     .cta-final {
       background: var(--brand-dark);
       color: var(--cream);
@@ -356,6 +382,9 @@
       border-color: var(--cream);
     }
     
+    /* ============================
+       FOOTER
+       ============================ */
     .footer {
       background: var(--brand-dark-deep);
       color: var(--cream);
@@ -369,6 +398,9 @@
       font-size: 0.9rem;
     }
     
+    /* ============================
+       RESPONSIVE
+       ============================ */
     @media (max-width: 900px) {
       .about-hero h1 { font-size: 2.25rem; letter-spacing: -1px; }
       .about-hero p { font-size: 1.05rem; }
@@ -398,7 +430,7 @@
       .section-title h2 { font-size: 1.35rem; letter-spacing: -0.3px; }
       .section-title p { font-size: 0.88rem; line-height: 1.55; }
       .cards-grid { gap: 14px; }
-      .card-glass, .card-white { padding: 22px 20px; border-radius: var(--radius); }
+      .card-glass, .card-white { padding: 22px 20px; border-radius: var(--radius, 10px); }
       .card-glass-emoji, .card-white-emoji { font-size: 1.65rem; margin-bottom: 12px; }
       .card-glass h3, .card-white h3 { font-size: 1rem; margin-bottom: 8px; }
       .card-glass p, .card-white p { font-size: 0.85rem; line-height: 1.6; }
