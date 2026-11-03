@@ -10,9 +10,21 @@
   <link rel="stylesheet" href="/css/main.css">
   <link rel="stylesheet" href="/css/components.css">
   <style>
+    :root {
+      --brand-dark: rgba(58, 22, 6, 0.92);
+      --brand-dark-solid: #3A1606;
+      --brand-dark-deep: #2A0F03;
+      --silver: rgb(170, 169, 173);
+      --silver-light: rgba(170, 169, 173, 0.35);
+      --silver-soft: rgba(170, 169, 173, 0.15);
+      --cream: rgb(255, 253, 209);
+      --cream-soft: rgba(255, 253, 209, 0.88);
+      --cream-muted: rgba(255, 253, 209, 0.7);
+    }
+
     .about-hero {
-      background: linear-gradient(135deg, var(--blue-950) 0%, var(--blue-700) 60%, var(--blue-500) 100%);
-      color: var(--white);
+      background: linear-gradient(135deg, var(--brand-dark-deep) 0%, var(--brand-dark-solid) 55%, var(--brand-dark) 100%);
+      color: var(--cream);
       padding: 100px 0;
       position: relative;
       overflow: hidden;
@@ -26,7 +38,7 @@
       right: -200px;
       width: 600px;
       height: 600px;
-      background: radial-gradient(circle, rgba(255,138,61,0.15) 0%, transparent 70%);
+      background: radial-gradient(circle, rgba(255,253,209,0.10) 0%, transparent 70%);
       border-radius: 50%;
     }
     
@@ -37,7 +49,7 @@
       left: -150px;
       width: 600px;
       height: 600px;
-      background: radial-gradient(circle, rgba(30,136,229,0.2) 0%, transparent 70%);
+      background: radial-gradient(circle, rgba(170,169,173,0.18) 0%, transparent 70%);
       border-radius: 50%;
     }
     
@@ -55,14 +67,14 @@
       margin-bottom: 20px;
       letter-spacing: -1.5px;
       line-height: 1.1;
-      color: var(--white);
+      color: var(--cream);
     }
     
-    .about-hero h1 span { color: var(--orange-500); }
+    .about-hero h1 span { color: var(--silver); }
     
     .about-hero p {
       font-size: 1.2rem;
-      color: rgba(255,255,255,0.9);
+      color: var(--cream-soft);
       line-height: 1.7;
     }
     
@@ -76,20 +88,20 @@
     .section-title h2 {
       font-size: 2.25rem;
       font-weight: 800;
-      color: var(--blue-900);
+      color: var(--cream);
       margin-bottom: 14px;
       letter-spacing: -0.5px;
     }
     
     .section-title p {
-      color: var(--gray-500);
+      color: var(--cream-muted);
       font-size: 1.1rem;
       max-width: 620px;
       margin: 0 auto;
     }
     
     .section-problem {
-      background: var(--blue-800);
+      background: var(--brand-dark);
       padding: 90px 0;
       position: relative;
       overflow: hidden;
@@ -102,7 +114,7 @@
       left: -150px;
       width: 500px;
       height: 500px;
-      background: radial-gradient(circle, rgba(255,138,61,0.15) 0%, transparent 70%);
+      background: radial-gradient(circle, rgba(255,253,209,0.08) 0%, transparent 70%);
       border-radius: 50%;
     }
     
@@ -111,8 +123,8 @@
       z-index: 1;
     }
     
-    .section-problem .section-title h2 { color: var(--white); }
-    .section-problem .section-title p { color: rgba(255,255,255,0.75); }
+    .section-problem .section-title h2 { color: var(--cream); }
+    .section-problem .section-title p { color: var(--cream-muted); }
     
     .cards-grid {
       display: grid;
@@ -121,18 +133,18 @@
     }
     
     .card-glass {
-      background: rgba(255,255,255,0.08);
-      border: 1.5px solid rgba(255,255,255,0.15);
+      background: rgba(255, 253, 209, 0.05);
+      border: 1.5px solid var(--silver-light);
       border-radius: var(--radius-lg);
       padding: 32px 28px;
       transition: all var(--transition);
     }
     
     .card-glass:hover {
-      background: var(--blue-500);
-      border-color: var(--blue-400);
+      background: rgba(255, 253, 209, 0.10);
+      border-color: var(--silver);
       transform: translateY(-4px);
-      box-shadow: 0 20px 48px rgba(0,0,0,0.25);
+      box-shadow: 0 20px 48px rgba(0,0,0,0.35);
     }
     
     .card-glass-emoji {
@@ -142,34 +154,38 @@
     }
     
     .card-glass h3 {
-      color: var(--white);
+      color: var(--cream);
       font-size: 1.15rem;
       margin-bottom: 12px;
     }
     
     .card-glass p {
-      color: rgba(255,255,255,0.85);
+      color: var(--cream-soft);
       font-size: 0.95rem;
       line-height: 1.7;
     }
     
     .section-solution {
-      background: var(--blue-50);
+      background: var(--brand-dark-deep);
       padding: 90px 0;
     }
     
+    .section-solution .section-title h2 { color: var(--cream); }
+    .section-solution .section-title p { color: var(--cream-muted); }
+    
     .card-white {
-      background: var(--white);
-      border: 1.5px solid var(--gray-200);
+      background: rgba(255, 253, 209, 0.06);
+      border: 1.5px solid var(--silver-light);
       border-radius: var(--radius-lg);
       padding: 32px 28px;
       transition: all var(--transition);
     }
     
     .card-white:hover {
-      border-color: var(--blue-500);
+      border-color: var(--silver);
+      background: rgba(255, 253, 209, 0.11);
       transform: translateY(-4px);
-      box-shadow: 0 20px 48px rgba(10, 77, 140, 0.15);
+      box-shadow: 0 20px 48px rgba(0,0,0,0.35);
     }
     
     .card-white-emoji {
@@ -179,20 +195,20 @@
     }
     
     .card-white h3 {
-      color: var(--blue-900);
+      color: var(--cream);
       font-size: 1.15rem;
       margin-bottom: 12px;
     }
     
     .card-white p {
-      color: var(--gray-700);
+      color: var(--cream-soft);
       font-size: 0.95rem;
       line-height: 1.7;
     }
     
     .section-vision {
-      background: linear-gradient(135deg, var(--blue-900) 0%, var(--blue-700) 100%);
-      color: var(--white);
+      background: linear-gradient(135deg, var(--brand-dark) 0%, var(--brand-dark-solid) 100%);
+      color: var(--cream);
       padding: 100px 0;
       position: relative;
       overflow: hidden;
@@ -205,7 +221,7 @@
       right: -200px;
       width: 600px;
       height: 600px;
-      background: radial-gradient(circle, rgba(255,138,61,0.15) 0%, transparent 70%);
+      background: radial-gradient(circle, rgba(255,253,209,0.09) 0%, transparent 70%);
       border-radius: 50%;
     }
     
@@ -214,34 +230,34 @@
       z-index: 1;
     }
     
-    .section-vision .section-title h2 { color: var(--white); }
+    .section-vision .section-title h2 { color: var(--cream); }
     
     .vision-text {
       max-width: 820px;
       margin: 0 auto;
       text-align: center;
       font-size: 1.15rem;
-      color: rgba(255,255,255,0.9);
+      color: var(--cream-soft);
       line-height: 2;
     }
     
     .vision-text p { margin-bottom: 28px; }
     
     .vision-text strong {
-      color: var(--white);
+      color: var(--cream);
       font-weight: 800;
     }
     
     .vision-highlight {
-      color: var(--orange-500);
+      color: var(--silver);
       font-weight: 800;
     }
     
     .stats-band {
-      background: var(--white);
+      background: var(--brand-dark-deep);
       padding: 60px 0;
-      border-top: 1px solid var(--gray-200);
-      border-bottom: 1px solid var(--gray-200);
+      border-top: 1px solid var(--silver-light);
+      border-bottom: 1px solid var(--silver-light);
     }
     
     .stats-band-grid {
@@ -254,14 +270,14 @@
     .stat-band-item .stat-value {
       font-size: 2.5rem;
       font-weight: 900;
-      color: var(--blue-700);
+      color: var(--cream);
       letter-spacing: -1.5px;
       line-height: 1;
       margin-bottom: 8px;
     }
     
     .stat-band-item .stat-label {
-      color: var(--gray-500);
+      color: var(--silver);
       font-size: 0.9rem;
       text-transform: uppercase;
       letter-spacing: 1px;
@@ -269,8 +285,8 @@
     }
     
     .cta-final {
-      background: var(--blue-800);
-      color: var(--white);
+      background: var(--brand-dark);
+      color: var(--cream);
       padding: 80px 0;
       text-align: center;
       position: relative;
@@ -284,7 +300,7 @@
       left: -150px;
       width: 500px;
       height: 500px;
-      background: radial-gradient(circle, rgba(255,138,61,0.2) 0%, transparent 70%);
+      background: radial-gradient(circle, rgba(255,253,209,0.10) 0%, transparent 70%);
       border-radius: 50%;
     }
     
@@ -297,13 +313,13 @@
       font-size: 2.25rem;
       font-weight: 800;
       margin-bottom: 16px;
-      color: var(--white);
+      color: var(--cream);
       letter-spacing: -0.5px;
     }
     
     .cta-final p {
       font-size: 1.1rem;
-      opacity: 0.88;
+      color: var(--cream-soft);
       margin-bottom: 32px;
       max-width: 620px;
       margin-left: auto;
@@ -318,35 +334,38 @@
     }
     
     .btn-white {
-      background: var(--white);
-      color: var(--blue-800);
+      background: var(--cream);
+      color: var(--brand-dark-solid);
+      border: 2px solid var(--cream);
     }
     .btn-white:hover {
-      background: var(--orange-500);
-      color: var(--white);
+      background: var(--silver);
+      color: var(--brand-dark-solid);
+      border-color: var(--silver);
       transform: translateY(-2px);
     }
     
     .btn-outline-white {
       background: transparent;
-      color: var(--white);
-      border: 2px solid rgba(255,255,255,0.5);
+      color: var(--cream);
+      border: 2px solid var(--silver);
     }
     .btn-outline-white:hover {
-      background: var(--white);
-      color: var(--blue-800);
-      border-color: var(--white);
+      background: var(--cream);
+      color: var(--brand-dark-solid);
+      border-color: var(--cream);
     }
     
     .footer {
-      background: var(--blue-950);
-      color: var(--white);
+      background: var(--brand-dark-deep);
+      color: var(--cream);
       padding: 32px 0;
       text-align: center;
+      border-top: 1px solid var(--silver-soft);
     }
     
     .footer p {
-      color: #7A93B8;
+      color: var(--silver);
       font-size: 0.9rem;
     }
     
@@ -417,7 +436,7 @@
     <div class="about-hero-inner">
       <h1>
         <span data-i18n="about.hero_title">Rendre le commerce </span>
-        <span style="color: var(--orange-500);" data-i18n="about.hero_visible">visible.</span>
+        <span style="color: var(--silver);" data-i18n="about.hero_visible">visible.</span>
       </h1>
       <p data-i18n="about.hero_p">Finest Global connecte les commerçants du marché physique à leurs clients — sans remplacer la tradition, en la rendant simplement accessible au monde digital.</p>
     </div>
