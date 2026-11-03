@@ -9,22 +9,63 @@
   <link rel="stylesheet" href="/css/main.css">
   <link rel="stylesheet" href="/css/components.css">
   <style>
+    :root {
+      --brand-dark:        rgba(58, 22, 6, 0.92);
+      --brand-dark-solid:  #3A1606;
+      --brand-dark-deep:   #2A0F03;
+      --brand-dark-soft:   rgba(58, 22, 6, 0.75);
+      --silver:            rgb(170, 169, 173);
+      --silver-light:      rgba(170, 169, 173, 0.45);
+      --silver-soft:       rgba(170, 169, 173, 0.2);
+      --cream:             rgb(255, 253, 209);
+      --cream-card:        rgba(255, 253, 209, 0.55);
+      --cream-soft:        rgba(255, 253, 209, 0.88);
+      --cream-muted:       rgba(255, 253, 209, 0.7);
+    }
+
     .auth-page {
       min-height: calc(100vh - 70px);
       display: flex;
       align-items: center;
       justify-content: center;
       padding: 40px 20px;
-      background: linear-gradient(135deg, var(--blue-50) 0%, var(--white) 100%);
+      background: linear-gradient(135deg, var(--brand-dark-deep) 0%, var(--brand-dark-solid) 55%, var(--brand-dark) 100%);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .auth-page::before {
+      content: "";
+      position: absolute;
+      top: -200px;
+      right: -200px;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(255,253,209,0.10) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+    
+    .auth-page::after {
+      content: "";
+      position: absolute;
+      bottom: -200px;
+      left: -200px;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(170,169,173,0.15) 0%, transparent 70%);
+      border-radius: 50%;
     }
     
     .auth-card {
       width: 100%;
       max-width: 440px;
-      background: var(--white);
-      border-radius: var(--radius-lg);
-      box-shadow: var(--shadow-lg);
+      background: var(--cream);
+      border-radius: var(--radius-lg, 14px);
+      box-shadow: 0 24px 64px rgba(42, 15, 3, 0.4);
       padding: 40px;
+      border: 1.5px solid var(--silver);
+      position: relative;
+      z-index: 1;
     }
     
     .auth-header {
@@ -35,10 +76,11 @@
     .auth-header h1 {
       font-size: 1.75rem;
       margin-bottom: 8px;
+      color: var(--brand-dark-solid);
     }
     
     .auth-header p {
-      color: var(--gray-500);
+      color: var(--brand-dark-soft);
       font-size: 0.95rem;
     }
     
@@ -46,13 +88,83 @@
       text-align: center;
       margin-top: 24px;
       font-size: 0.9rem;
-      color: var(--gray-500);
+      color: var(--brand-dark-soft);
     }
     
     .auth-footer a {
-      color: var(--blue-700);
-      font-weight: 600;
+      color: var(--brand-dark-solid);
+      font-weight: 700;
+      text-decoration: underline;
+      text-decoration-color: var(--silver);
     }
+    
+    .auth-footer a:hover {
+      color: var(--brand-dark-deep);
+    }
+    
+    /* Inputs */
+    .form-input {
+      background: rgba(255, 253, 209, 0.85);
+      border: 1.5px solid var(--silver);
+      color: var(--brand-dark-solid);
+      border-radius: var(--radius, 10px);
+      padding: 10px 14px;
+      font-family: inherit;
+      font-size: 0.9rem;
+      width: 100%;
+      transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+    }
+    
+    .form-input:focus {
+      outline: none;
+      border-color: var(--brand-dark-solid);
+      background: var(--cream);
+      box-shadow: 0 0 0 3px rgba(58, 22, 6, 0.15);
+    }
+    
+    .form-label {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--brand-dark-solid);
+      margin-bottom: 6px;
+      display: block;
+    }
+    
+    /* Bouton primaire */
+    .btn-primary {
+      background: var(--brand-dark-solid);
+      color: var(--cream);
+      border: 1.5px solid var(--brand-dark-solid);
+    }
+    
+    .btn-primary:hover {
+      background: var(--brand-dark-deep);
+      border-color: var(--brand-dark-deep);
+      color: var(--cream);
+    }
+    
+    /* Alertes */
+    .alert-error {
+      background: #FEE2E2;
+      color: #991B1B;
+      border: 1px solid #FCA5A5;
+      padding: 12px 16px;
+      border-radius: var(--radius, 10px);
+      font-size: 0.88rem;
+      margin-bottom: 16px;
+    }
+    
+    /* Spinner */
+    .spinner {
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      border: 2px solid rgba(255, 253, 209, 0.3);
+      border-top-color: var(--cream);
+      border-radius: 50%;
+      animation: spin 0.6s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
     
     @media (max-width: 640px) {
       .auth-page {
@@ -62,7 +174,7 @@
       
       .auth-card {
         padding: 28px 22px;
-        border-radius: var(--radius);
+        border-radius: var(--radius, 10px);
       }
       
       .auth-header { margin-bottom: 24px; }
@@ -155,7 +267,6 @@
         redirectAfterLogin();
       }
       
-      // Auto-remplir le téléphone si passé en paramètre URL
       const urlParams = new URLSearchParams(window.location.search);
       const phone = urlParams.get('phone');
       if (phone) {
@@ -173,7 +284,6 @@
       
       errorDiv.classList.add('hidden');
       
-      // Validation
       if (phone.length !== 10 || !phone.startsWith('01')) {
         errorDiv.textContent = t('register.phone_hint');
         errorDiv.classList.remove('hidden');

@@ -9,9 +9,23 @@
   <link rel="stylesheet" href="/css/main.css">
   <link rel="stylesheet" href="/css/components.css">
   <style>
+    :root {
+      --brand-dark:        rgba(58, 22, 6, 0.92);
+      --brand-dark-solid:  #3A1606;
+      --brand-dark-deep:   #2A0F03;
+      --brand-dark-soft:   rgba(58, 22, 6, 0.75);
+      --silver:            rgb(170, 169, 173);
+      --silver-light:      rgba(170, 169, 173, 0.45);
+      --silver-soft:       rgba(170, 169, 173, 0.2);
+      --cream:             rgb(255, 253, 209);
+      --cream-card:        rgba(255, 253, 209, 0.55);
+      --cream-soft:        rgba(255, 253, 209, 0.88);
+      --cream-muted:       rgba(255, 253, 209, 0.7);
+    }
+
     .marketplace-page {
       min-height: calc(100vh - 70px);
-      background: var(--gray-50);
+      background: var(--cream);
       padding: 32px 0 60px;
     }
     
@@ -23,10 +37,10 @@
     }
     
     .filters-sidebar {
-      background: var(--white);
-      border-radius: var(--radius-lg);
+      background: var(--cream-card);
+      border-radius: var(--radius-lg, 14px);
       padding: 24px;
-      border: 1.5px solid var(--gray-200);
+      border: 1.5px solid var(--silver);
       position: sticky;
       top: 90px;
       max-height: calc(100vh - 110px);
@@ -36,7 +50,7 @@
     .filters-title {
       font-size: 1.1rem;
       font-weight: 800;
-      color: var(--blue-900);
+      color: var(--brand-dark-solid);
       margin-bottom: 20px;
       display: flex;
       align-items: center;
@@ -45,7 +59,7 @@
     
     .filters-reset {
       font-size: 0.8rem;
-      color: var(--blue-700);
+      color: var(--brand-dark-soft);
       font-weight: 600;
       cursor: pointer;
       background: none;
@@ -54,13 +68,13 @@
     }
     
     .filters-reset:hover {
-      color: var(--blue-500);
+      color: var(--brand-dark-solid);
       text-decoration: underline;
     }
     
     .filter-group {
       padding: 16px 0;
-      border-bottom: 1px solid var(--gray-100);
+      border-bottom: 1px solid var(--silver-soft);
     }
     
     .filter-group:last-child { border-bottom: none; }
@@ -68,7 +82,7 @@
     .filter-label {
       font-size: 0.85rem;
       font-weight: 700;
-      color: var(--gray-700);
+      color: var(--brand-dark-solid);
       margin-bottom: 12px;
       display: block;
       text-transform: uppercase;
@@ -88,25 +102,25 @@
       align-items: center;
       gap: 8px;
       padding: 8px 10px;
-      border-radius: var(--radius-sm);
+      border-radius: var(--radius-sm, 6px);
       cursor: pointer;
-      transition: background var(--transition);
+      transition: background var(--transition, 0.2s);
       font-size: 0.9rem;
-      color: var(--gray-700);
+      color: var(--brand-dark-solid);
     }
     
-    .filter-option:hover { background: var(--gray-50); }
+    .filter-option:hover { background: rgba(255, 253, 209, 0.85); }
     .filter-option input { margin: 0; cursor: pointer; }
     .filter-option.active {
-      background: var(--blue-50);
-      color: var(--blue-800);
+      background: rgba(170, 169, 173, 0.35);
+      color: var(--brand-dark-deep);
       font-weight: 600;
     }
     
     .filter-count {
       margin-left: auto;
       font-size: 0.75rem;
-      color: var(--gray-500);
+      color: var(--brand-dark-soft);
     }
     
     .price-range {
@@ -119,37 +133,43 @@
       width: 100%;
       min-width: 0;
       padding: 8px 10px;
-      border: 1.5px solid var(--gray-200);
-      border-radius: var(--radius-sm);
+      border: 1.5px solid var(--silver);
+      border-radius: var(--radius-sm, 6px);
       font-size: 0.85rem;
+      background: rgba(255, 253, 209, 0.85);
+      color: var(--brand-dark-solid);
+      font-family: inherit;
     }
     
-    /* 🆕 Select localité/marché */
+    .price-range input:focus {
+      outline: none;
+      border-color: var(--brand-dark-solid);
+    }
+    
     .filter-select {
       width: 100%;
       padding: 10px 12px;
-      border: 1.5px solid var(--gray-200);
-      border-radius: var(--radius);
+      border: 1.5px solid var(--silver);
+      border-radius: var(--radius, 10px);
       font-size: 0.9rem;
-      background: var(--white);
-      color: var(--gray-700);
+      background: rgba(255, 253, 209, 0.85);
+      color: var(--brand-dark-solid);
       cursor: pointer;
       font-family: inherit;
     }
     
     .filter-select:focus {
       outline: none;
-      border-color: var(--blue-500);
+      border-color: var(--brand-dark-solid);
     }
     
-    /* 🆕 Bouton "Autour de moi" */
     .near-me-btn {
       width: 100%;
       padding: 12px 16px;
-      border-radius: var(--radius);
-      background: linear-gradient(135deg, var(--blue-700), var(--blue-500));
-      color: var(--white);
-      border: none;
+      border-radius: var(--radius, 10px);
+      background: linear-gradient(135deg, var(--brand-dark-solid), var(--brand-dark));
+      color: var(--cream);
+      border: 1.5px solid var(--brand-dark-solid);
       font-weight: 700;
       font-size: 0.9rem;
       cursor: pointer;
@@ -163,11 +183,13 @@
     
     .near-me-btn:hover {
       transform: translateY(-2px);
-      box-shadow: 0 8px 20px rgba(10, 77, 140, 0.3);
+      box-shadow: 0 8px 20px rgba(58, 22, 6, 0.3);
     }
     
     .near-me-btn.active {
-      background: linear-gradient(135deg, var(--orange-500), var(--orange-600));
+      background: linear-gradient(135deg, var(--silver), var(--brand-dark-soft));
+      color: var(--brand-dark-deep);
+      border-color: var(--silver);
     }
     
     .near-me-btn:disabled {
@@ -179,10 +201,10 @@
     .marketplace-main { min-width: 0; }
     
     .marketplace-header {
-      background: var(--white);
-      border-radius: var(--radius-lg);
+      background: var(--cream-card);
+      border-radius: var(--radius-lg, 14px);
       padding: 20px 24px;
-      border: 1.5px solid var(--gray-200);
+      border: 1.5px solid var(--silver);
       margin-bottom: 24px;
       display: flex;
       align-items: center;
@@ -193,28 +215,29 @@
     
     .results-count {
       font-size: 0.95rem;
-      color: var(--gray-700);
+      color: var(--brand-dark-soft);
     }
     
     .results-count strong {
-      color: var(--blue-900);
+      color: var(--brand-dark-solid);
       font-size: 1.1rem;
     }
     
     .sort-select {
       padding: 10px 14px;
-      border: 1.5px solid var(--gray-200);
-      border-radius: var(--radius);
+      border: 1.5px solid var(--silver);
+      border-radius: var(--radius, 10px);
       font-size: 0.9rem;
-      background: var(--white);
-      color: var(--gray-700);
+      background: rgba(255, 253, 209, 0.85);
+      color: var(--brand-dark-solid);
       font-weight: 600;
       cursor: pointer;
+      font-family: inherit;
     }
     
     .sort-select:focus {
       outline: none;
-      border-color: var(--blue-500);
+      border-color: var(--brand-dark-solid);
     }
     
     .products-grid {
@@ -224,11 +247,11 @@
     }
     
     .product-card {
-      background: var(--white);
-      border: 1.5px solid var(--gray-200);
-      border-radius: var(--radius-lg);
+      background: var(--cream-card);
+      border: 1.5px solid var(--silver);
+      border-radius: var(--radius-lg, 14px);
       overflow: hidden;
-      transition: all var(--transition);
+      transition: all var(--transition, 0.2s);
       cursor: pointer;
       display: flex;
       flex-direction: column;
@@ -237,21 +260,21 @@
     }
     
     .product-card:hover {
-      border-color: var(--blue-500);
+      border-color: var(--brand-dark-solid);
       transform: translateY(-4px);
-      box-shadow: var(--shadow-md);
+      box-shadow: 0 8px 24px rgba(58, 22, 6, 0.15);
     }
     
     .product-image {
       aspect-ratio: 1;
-      background: linear-gradient(135deg, var(--blue-50), var(--gray-100));
+      background: linear-gradient(135deg, rgba(255, 253, 209, 0.9), rgba(170, 169, 173, 0.35));
       position: relative;
       overflow: hidden;
       display: flex;
       align-items: center;
       justify-content: center;
       font-size: 3rem;
-      color: var(--gray-500);
+      color: var(--brand-dark-soft);
     }
     
     .product-image img {
@@ -264,12 +287,13 @@
       position: absolute;
       top: 12px;
       left: 12px;
-      background: var(--orange-500);
-      color: var(--white);
+      background: var(--brand-dark-solid);
+      color: var(--cream);
       padding: 4px 10px;
       border-radius: 20px;
       font-size: 0.75rem;
       font-weight: 700;
+      border: 1px solid var(--silver-light);
     }
     
     .product-color-dot {
@@ -279,22 +303,22 @@
       width: 20px;
       height: 20px;
       border-radius: 50%;
-      border: 2px solid var(--white);
-      box-shadow: var(--shadow-sm);
+      border: 2px solid var(--cream);
+      box-shadow: 0 2px 6px rgba(58, 22, 6, 0.25);
     }
     
-    /* 🆕 Badge distance */
     .product-badge-distance {
       position: absolute;
       bottom: 12px;
       left: 12px;
-      background: rgba(10, 77, 140, 0.9);
-      color: var(--white);
+      background: rgba(58, 22, 6, 0.92);
+      color: var(--cream);
       padding: 4px 10px;
       border-radius: 20px;
       font-size: 0.7rem;
       font-weight: 700;
       backdrop-filter: blur(4px);
+      border: 1px solid var(--silver-light);
     }
     
     .product-info {
@@ -306,7 +330,7 @@
     
     .product-name {
       font-weight: 700;
-      color: var(--blue-900);
+      color: var(--brand-dark-solid);
       font-size: 0.95rem;
       margin-bottom: 4px;
       display: -webkit-box;
@@ -319,7 +343,7 @@
     
     .product-shop {
       font-size: 0.8rem;
-      color: var(--gray-500);
+      color: var(--brand-dark-soft);
       margin-bottom: 8px;
     }
     
@@ -332,13 +356,13 @@
     
     .product-price {
       font-weight: 800;
-      color: var(--orange-600);
+      color: var(--brand-dark-solid);
       font-size: 1rem;
     }
     
     .product-stats {
       font-size: 0.75rem;
-      color: var(--gray-500);
+      color: var(--brand-dark-soft);
       display: flex;
       align-items: center;
       gap: 4px;
@@ -355,25 +379,26 @@
     
     .pagination button {
       padding: 8px 14px;
-      border: 1.5px solid var(--gray-200);
-      border-radius: var(--radius-sm);
-      background: var(--white);
-      color: var(--gray-700);
+      border: 1.5px solid var(--silver);
+      border-radius: var(--radius-sm, 6px);
+      background: rgba(255, 253, 209, 0.85);
+      color: var(--brand-dark-solid);
       font-weight: 600;
       font-size: 0.9rem;
       cursor: pointer;
-      transition: all var(--transition);
+      transition: all var(--transition, 0.2s);
+      font-family: inherit;
     }
     
     .pagination button:hover:not(:disabled) {
-      border-color: var(--blue-500);
-      color: var(--blue-700);
+      border-color: var(--brand-dark-solid);
+      background: var(--cream);
     }
     
     .pagination button.active {
-      background: var(--blue-700);
-      color: var(--white);
-      border-color: var(--blue-700);
+      background: var(--brand-dark-solid);
+      color: var(--cream);
+      border-color: var(--brand-dark-solid);
     }
     
     .pagination button:disabled {
@@ -387,18 +412,77 @@
       bottom: 20px;
       right: 20px;
       z-index: 50;
-      background: var(--blue-700);
-      color: var(--white);
+      background: var(--brand-dark-solid);
+      color: var(--cream);
       padding: 14px 20px;
       border-radius: 50px;
       font-weight: 700;
-      box-shadow: var(--shadow-lg);
+      box-shadow: 0 8px 24px rgba(58, 22, 6, 0.35);
       align-items: center;
       gap: 8px;
-      border: none;
+      border: 1.5px solid var(--silver);
       cursor: pointer;
       font-family: inherit;
       font-size: 0.95rem;
+    }
+    
+    /* Boutons */
+    .btn-primary {
+      background: var(--brand-dark-solid);
+      color: var(--cream);
+      border: 1.5px solid var(--brand-dark-solid);
+    }
+    .btn-primary:hover {
+      background: var(--brand-dark-deep);
+      border-color: var(--brand-dark-deep);
+      color: var(--cream);
+    }
+    .btn-ghost {
+      background: transparent;
+      color: var(--brand-dark-solid);
+      border: 1.5px solid var(--silver);
+    }
+    .btn-ghost:hover {
+      background: rgba(255, 253, 209, 0.85);
+      border-color: var(--brand-dark-solid);
+    }
+    
+    /* Empty state */
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+      background: var(--cream-card);
+      border: 1.5px dashed var(--silver);
+      border-radius: var(--radius-lg, 14px);
+    }
+    .empty-state-icon { font-size: 3rem; margin-bottom: 12px; }
+    .empty-state h3 {
+      color: var(--brand-dark-solid);
+      margin-bottom: 8px;
+      font-size: 1.1rem;
+    }
+    .empty-state p {
+      color: var(--brand-dark-soft);
+      font-size: 0.9rem;
+      margin-bottom: 16px;
+    }
+    
+    /* Skeleton */
+    .skeleton {
+      background: linear-gradient(90deg, rgba(170, 169, 173, 0.25) 25%, rgba(170, 169, 173, 0.4) 50%, rgba(170, 169, 173, 0.25) 75%);
+      background-size: 200% 100%;
+      animation: skeleton-loading 1.4s ease-in-out infinite;
+      border-radius: var(--radius-sm, 6px);
+    }
+    @keyframes skeleton-loading {
+      0% { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+    .skeleton-card {
+      background: var(--cream-card);
+      border: 1.5px solid var(--silver);
+      border-radius: var(--radius-lg, 14px);
+      overflow: hidden;
     }
     
     /* ---------- Tablette et téléphone (≤ 900px) ---------- */
@@ -418,6 +502,7 @@
         transition: transform 0.3s ease;
         overflow-y: auto;
         padding: 24px 20px;
+        background: var(--cream);
       }
       
       .filters-sidebar.open { transform: translateX(0); }
@@ -434,7 +519,6 @@
       .marketplace-page { padding: 16px 0 40px; }
       .container { padding: 0 14px; }
       
-      /* Sur téléphone : plus de filtres ni de tri (la recherche est celle de la navbar) */
       .filters-sidebar,
       .mobile-filter-btn,
       .sort-select { display: none; }
@@ -537,7 +621,6 @@
             <button class="filters-reset" onclick="resetFilters()" data-i18n="marketplace.clear_all">Tout effacer</button>
           </div>
           
-          <!-- 🆕 Autour de moi -->
           <div class="filter-group">
             <button 
               class="near-me-btn" 
@@ -548,7 +631,6 @@
             </button>
           </div>
           
-          <!-- 🆕 Localité -->
           <div class="filter-group">
             <label class="filter-label" data-i18n="marketplace.locality">Localité</label>
             <select class="filter-select" id="locality-filter" onchange="changeLocality()">
@@ -556,7 +638,6 @@
             </select>
           </div>
           
-          <!-- 🆕 Marché -->
           <div class="filter-group">
             <label class="filter-label" data-i18n="marketplace.market">Marché / Zone</label>
             <select class="filter-select" id="market-filter" onchange="changeMarket()">
@@ -564,7 +645,6 @@
             </select>
           </div>
           
-          <!-- Catégories -->
           <div class="filter-group">
             <label class="filter-label" data-i18n="marketplace.categories">Catégories</label>
             <div class="filter-options" id="categories-filter">
@@ -574,7 +654,6 @@
             </div>
           </div>
           
-          <!-- Couleurs -->
           <div class="filter-group">
             <label class="filter-label" data-i18n="marketplace.colors">Couleurs</label>
             <div class="filter-options" id="colors-filter">
@@ -583,7 +662,6 @@
             </div>
           </div>
           
-          <!-- Prix -->
           <div class="filter-group">
             <label class="filter-label" data-i18n="marketplace.price">Prix (FCFA)</label>
             <div class="price-range">
@@ -671,7 +749,6 @@
       sort_by: 'sales',
       skip: 0,
       total: 0,
-      // 🆕 Géolocalisation
       latitude: null,
       longitude: null,
       near_me: false,
@@ -725,7 +802,6 @@
       if (state.max_price) document.getElementById('max-price').value = state.max_price;
     }
     
-    // 🆕 Charger localités et marchés
     async function loadLocalitiesAndMarkets() {
       try {
         const [locData, mkData] = await Promise.all([
@@ -759,12 +835,10 @@
       }
     }
     
-    // 🆕 Toggle "Autour de moi"
     async function toggleNearMe() {
       const btn = document.getElementById('near-me-btn');
       
       if (state.near_me) {
-        // Désactiver
         state.near_me = false;
         state.latitude = null;
         state.longitude = null;
@@ -775,7 +849,6 @@
         return;
       }
       
-      // Activer
       btn.disabled = true;
       btn.innerHTML = `⏳ <span>${t('marketplace.detecting_location')}</span>`;
       
@@ -806,7 +879,6 @@
       loadProducts();
     }
     
-    // 🆕 Changement localité
     function changeLocality() {
       state.locality = document.getElementById('locality-filter').value;
       state.skip = 0;
@@ -814,7 +886,6 @@
       loadProducts();
     }
     
-    // 🆕 Changement marché
     function changeMarket() {
       state.market = document.getElementById('market-filter').value;
       state.skip = 0;
@@ -831,7 +902,7 @@
         
         const catContainer = document.getElementById('categories-filter');
         if (catsData.categories.length === 0) {
-          catContainer.innerHTML = '<p style="font-size:0.85rem;color:var(--gray-500);">—</p>';
+          catContainer.innerHTML = '<p style="font-size:0.85rem;color:var(--brand-dark-soft);">—</p>';
         } else {
           catContainer.innerHTML = catsData.categories.map(cat => `
             <label class="filter-option ${state.category === cat.name ? 'active' : ''}" data-value="${cat.name}">
@@ -850,7 +921,7 @@
         
         const colContainer = document.getElementById('colors-filter');
         if (colorsData.colors.length === 0) {
-          colContainer.innerHTML = '<p style="font-size:0.85rem;color:var(--gray-500);">—</p>';
+          colContainer.innerHTML = '<p style="font-size:0.85rem;color:var(--brand-dark-soft);">—</p>';
         } else {
           colContainer.innerHTML = colorsData.colors.map(col => {
             const hex = COLOR_HEX[col.name.toLowerCase()] || '#CBD5E1';
@@ -863,7 +934,7 @@
                   ${state.color === col.name ? 'checked' : ''}
                   onchange="applyFilter('color', '${col.name}')"
                 >
-                <span style="display:inline-block;width:14px;height:14px;border-radius:50%;background:${hex};border:1px solid var(--gray-300);"></span>
+                <span style="display:inline-block;width:14px;height:14px;border-radius:50%;background:${hex};border:1px solid var(--silver);"></span>
                 <span style="text-transform: capitalize;">${col.name}</span>
                 <span class="filter-count">${col.product_count}</span>
               </label>
@@ -890,7 +961,6 @@
       `).join('');
       
       try {
-        // Construire les filtres
         const filters = {
           q: state.q,
           category: state.category,
@@ -904,7 +974,6 @@
           limit: ITEMS_PER_PAGE,
         };
         
-        // 🆕 Ajouter lat/lng si "Autour de moi" est actif
         if (state.near_me && state.latitude && state.longitude) {
           filters.latitude = state.latitude;
           filters.longitude = state.longitude;
@@ -958,7 +1027,6 @@
         ? `<span class="product-color-dot" style="background: ${COLOR_HEX[product.color.toLowerCase()]}"></span>`
         : '';
       
-      // 🆕 Badge distance
       const distanceBadge = product.distance_km !== undefined
         ? `<div class="product-badge-distance">📍 ${formatDistance(product.distance_km)}</div>`
         : '';
@@ -1064,7 +1132,6 @@
       document.getElementById('locality-filter').value = '';
       document.getElementById('market-filter').value = '';
       
-      // Reset bouton near me
       const btn = document.getElementById('near-me-btn');
       btn.classList.remove('active');
       btn.innerHTML = `📍 <span>${t('marketplace.near_me')}</span>`;
