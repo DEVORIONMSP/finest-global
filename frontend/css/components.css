@@ -1099,22 +1099,6 @@ body.page-home:not(.nav-scrolled) .nav-chevron {
   display: none;
 }
 
-/* AJOUTER les 3 boutons (SAVINGS, MARKETING, CONSULTATION) sous le logo */
-body.page-home:not(.nav-scrolled) .navbar-logo::after {
-  content: "SAVINGS   •   MARKETING   •   CONSULTATION";
-  position: absolute;
-  bottom: -30px;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 0.55rem;
-  font-weight: 700;
-  color: var(--cream-50);
-  letter-spacing: 2px;
-  white-space: nowrap;
-  text-align: center;
-  pointer-events: none;
-}
-
 /* Sur mobile, on annule le logo géant et la loupe pour garder l'ergonomie */
 @media (max-width: 900px) {
   body.page-home:not(.nav-scrolled) .navbar-inner {
@@ -1130,13 +1114,93 @@ body.page-home:not(.nav-scrolled) .navbar-logo::after {
   body.page-home:not(.nav-scrolled) .navbar-search {
     display: none; /* La recherche est déjà cachée sur mobile */
   }
-  
-  body.page-home:not(.nav-scrolled) .navbar-logo::after {
-    display: none; /* On cache les petits boutons sur mobile */
-  }
 }
 
 /* Transition fluide pour le retour à la taille normale */
 .navbar-inner, .navbar-logo-img, .nav-link {
   transition: all 0.3s ease;
+}
+
+/* ============================================================
+   🆕 NAVBAR AU DÉFILEMENT — MÊME COULEUR SUR TOUTES LES PAGES
+   Dès que body.nav-scrolled est actif (scroll > 40px), la navbar
+   prend le fond brun translucide de l'accueil, partout.
+   ============================================================ */
+
+body.nav-scrolled #navbar {
+  background: rgba(58, 22, 6, 0.92);
+  border-bottom-color: transparent;
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.25);
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Liens */
+body.nav-scrolled .nav-link {
+  color: var(--cream-50);
+}
+body.nav-scrolled .nav-link::after {
+  background: var(--ginger-400);
+}
+body.nav-scrolled .nav-link:hover,
+body.nav-scrolled .nav-link.active,
+body.nav-scrolled .nav-link[aria-current="page"] {
+  color: var(--ginger-400);
+}
+body.nav-scrolled .nav-link.active::after,
+body.nav-scrolled .nav-link[aria-current="page"]::after {
+  width: 100%;
+}
+
+/* Bouton de connexion (ghost) */
+body.nav-scrolled .nav-auth .btn-ghost {
+  color: var(--cream-50);
+}
+body.nav-scrolled .nav-auth .btn-ghost:hover:not(:disabled) {
+  background: rgba(250, 246, 239, 0.14);
+}
+
+/* Barre de recherche */
+body.nav-scrolled .navbar-search input {
+  background: rgba(250, 246, 239, 0.12);
+  border-color: rgba(250, 246, 239, 0.32);
+  color: var(--cream-50);
+}
+body.nav-scrolled .navbar-search input::placeholder {
+  color: rgba(250, 246, 239, 0.65);
+}
+body.nav-scrolled .navbar-search input:focus {
+  background: rgba(250, 246, 239, 0.2);
+  border-color: var(--ginger-400);
+  box-shadow: 0 0 0 4px rgba(242, 140, 40, 0.2);
+}
+
+/* Menu utilisateur */
+body.nav-scrolled .nav-user-name,
+body.nav-scrolled .nav-chevron {
+  color: var(--cream-50);
+}
+body.nav-scrolled .nav-user-btn:hover {
+  background: rgba(250, 246, 239, 0.14);
+}
+
+/* Sélecteur de langue */
+body.nav-scrolled .lang-selector {
+  background: rgba(250, 246, 239, 0.16);
+}
+body.nav-scrolled .lang-btn {
+  color: var(--cream-50);
+}
+body.nav-scrolled .lang-btn:hover {
+  background: rgba(250, 246, 239, 0.18);
+}
+body.nav-scrolled .lang-btn.active {
+  background: var(--cream-50);
+  color: var(--ginger-600);
+}
+
+/* Logo : léger halo pour rester lisible sur le fond brun */
+body.nav-scrolled .navbar-logo-img {
+  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.35));
 }

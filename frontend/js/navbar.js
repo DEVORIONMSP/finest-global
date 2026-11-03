@@ -104,19 +104,11 @@ function renderNavbar() {
   
   navContainer.innerHTML = `
     <div class="navbar-inner">
-      <!-- LOGO + Liens en dessous -->
+      <!-- LOGO -->
       <div class="navbar-logo-wrapper">
         <a href="/index.html" class="navbar-logo" aria-label="Finest Global">
           <img src="/assets/finest.png" alt="Finest Global" class="navbar-logo-img">
         </a>
-        <!-- Les 3 boutons sous le logo (affichés uniquement sur l'accueil) -->
-        <div class="navbar-sub-links">
-          <a href="/savings.html" class="navbar-sub-link">SAVINGS</a>
-          <span class="navbar-sub-link">•</span>
-          <a href="/marketing.html" class="navbar-sub-link">MARKETING</a>
-          <span class="navbar-sub-link">•</span>
-          <a href="/consultation.html" class="navbar-sub-link">CONSULTATION</a>
-        </div>
       </div>
       
       <div class="navbar-search">
@@ -269,24 +261,25 @@ document.addEventListener('click', (e) => {
 });
 
 // ============================================================
-// LOGIQUE DE TAILLE DE LA NAVBAR SUR L'ACCUEIL
+// LOGIQUE DE LA NAVBAR AU DÉFILEMENT (TOUTES LES PAGES)
 // ============================================================
 document.addEventListener('DOMContentLoaded', () => {
   const isHomePage = window.location.pathname === '/' || window.location.pathname.endsWith('/index.html');
   
+  // Classe spécifique à l'accueil (navbar superposée au hero, logo agrandi, etc.)
   if (isHomePage) {
     document.body.classList.add('page-home');
-    
+  }
+  
+  // Au défilement, la navbar prend la même couleur sur TOUTES les pages
+  const applyNavScrolled = () => {
     if (window.scrollY > 40) {
       document.body.classList.add('nav-scrolled');
+    } else {
+      document.body.classList.remove('nav-scrolled');
     }
-    
-    window.addEventListener('scroll', () => {
-      if (window.scrollY > 40) {
-        document.body.classList.add('nav-scrolled');
-      } else {
-        document.body.classList.remove('nav-scrolled');
-      }
-    }, { passive: true });
-  }
+  };
+  
+  applyNavScrolled();
+  window.addEventListener('scroll', applyNavScrolled, { passive: true });
 });
