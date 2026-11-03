@@ -82,6 +82,8 @@
       color: var(--cream-soft);
       line-height: 1.7;
     }
+
+    .about-hero p + p { margin-top: 18px; }
     
     /* ============================
        SECTIONS GÉNÉRIQUES
@@ -105,6 +107,8 @@
       max-width: 620px;
       margin: 0 auto;
     }
+
+    .section-title p + p { margin-top: 16px; }
     
     /* ============================
        2. CHIFFRES CLÉS — 🟡 CREAM (1ère apparition)
@@ -343,6 +347,17 @@
     }
     
     .vision-text p { margin-bottom: 28px; }
+
+    .vision-text ul {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 28px;
+    }
+
+    .vision-text li {
+      color: var(--brand-dark-solid);
+      font-weight: 800;
+    }
     
     .vision-text strong {
       color: var(--brand-dark-solid);
@@ -485,6 +500,7 @@
       .card-glass p, .card-white p { font-size: 0.85rem; line-height: 1.6; }
       .vision-text { font-size: 0.95rem; line-height: 1.75; padding: 0 18px; }
       .vision-text p { margin-bottom: 20px; }
+      .vision-text ul { margin-bottom: 20px; }
       .cta-final { padding: 48px 0; }
       .cta-final h2 { font-size: 1.4rem; margin-bottom: 12px; }
       .cta-final p { font-size: 0.9rem; margin-bottom: 24px; padding: 0 18px; }
@@ -516,6 +532,7 @@
       .about-hero-inner { max-width: 1000px; padding: 0 40px; }
       .about-hero h1 { font-size: 4rem; letter-spacing: -2px; }
       .about-hero p { font-size: 1.4rem; max-width: 900px; margin: 0 auto; }
+      .about-hero p + p { margin-top: 22px; }
 
       .section,
       .section-problem,
@@ -543,6 +560,7 @@
 
       .vision-text { font-size: 1.35rem; max-width: 1000px; }
       .vision-text p { margin-bottom: 32px; }
+      .vision-text ul { margin-bottom: 32px; }
 
       .cta-final { padding: 110px 0; }
       .cta-final h2 { font-size: 2.75rem; }
@@ -584,6 +602,7 @@
 
       .vision-text { font-size: 1.55rem; max-width: 1200px; }
       .vision-text p { margin-bottom: 36px; }
+      .vision-text ul { margin-bottom: 36px; }
 
       .cta-final { padding: 140px 0; }
       .cta-final h2 { font-size: 3.25rem; }
@@ -622,6 +641,7 @@
 
       .vision-text { font-size: 1.75rem; max-width: 1400px; }
       .vision-text p { margin-bottom: 42px; }
+      .vision-text ul { margin-bottom: 42px; }
 
       .cta-final { padding: 170px 0; }
       .cta-final h2 { font-size: 3.75rem; }
@@ -637,10 +657,13 @@
   <section class="about-hero">
     <div class="about-hero-inner">
       <h1>
-        <span data-i18n="about.hero_title">Rendre le commerce </span>
-        <span style="color: var(--silver);" data-i18n="about.hero_visible">visible.</span>
+        <span style="color: var(--cream);" data-i18n="about.hero_title">MAKING COMMERCE </span>
+        <span style="color: var(--silver);" data-i18n="about.hero_visible">EASIER</span>
       </h1>
-      <p data-i18n="about.hero_p">Finest Global connecte les commerçants du marché physique à leurs clients — sans remplacer la tradition, en la rendant simplement accessible au monde digital.</p>
+      <p data-i18n="about.hero_p">Be Findable.</p>
+      <p data-i18n="about.hero_p2">Finest Global is a digital marketplace connecting people, businesses, products, services and commercial opportunities in one connected ecosystem.</p>
+      <p data-i18n="about.hero_p3">Our goal is to create more economic opportunities, make commerce easier and facilitate the circulation of money within countries and across borders.</p>
+      <p data-i18n="about.hero_p4">Connecting People • Empowering Businesses • Creating Possibilities.</p>
     </div>
   </section>
 
@@ -672,8 +695,11 @@
   <section class="section-problem">
     <div class="container">
       <div class="section-title">
-        <h2 data-i18n="about.problem_title">Le problème que nous résolvons</h2>
-        <p data-i18n="about.problem_p">Des milliers de commerçants ont un produit à vendre et un emplacement physique — mais restent invisibles.</p>
+        <h2 data-i18n="about.problem_title">THE PROBLEM WE SOLVE</h2>
+        <p data-i18n="about.problem_p">Commerce Should Be Easier.</p>
+        <p data-i18n="about.problem_p2">Businesses struggle to reach the customers who need their products and services. Customers struggle to find what they need, while service providers face challenges connecting their skills with commercial opportunities.</p>
+        <p data-i18n="about.problem_p3">With business discovery, communication and supporting services often scattered across different platforms, connecting the right people can be unnecessarily difficult.</p>
+        <p data-i18n="about.problem_p4">Finest Global aims to bridge these gaps by bringing commercial activities closer together.</p>
       </div>
       
       <div class="cards-grid">
@@ -700,25 +726,26 @@
   <section class="section-solution">
     <div class="container">
       <div class="section-title">
-        <h2 data-i18n="about.solution_title">Notre solution</h2>
-        <p data-i18n="about.solution_p">Un écosystème à trois faces qui connecte tout le monde.</p>
+        <h2 data-i18n="about.solution_title">OUR SOLUTION</h2>
+        <p data-i18n="about.solution_p">Bringing Commerce Together in One Digital Ecosystem.</p>
+        <p data-i18n="about.solution_p2">Finest Global is a digital marketplace dedicated to commerce, connecting:</p>
       </div>
       
       <div class="cards-grid">
         <div class="card-white">
           <span class="card-white-emoji">🏪</span>
           <h3 data-i18n="about.solution_1_title">Les business</h3>
-          <p data-i18n="about.solution_1_p">Rendus findables pour ce qu'ils vendent déjà. Une vitrine en ligne, sans quitter leur stand physique.</p>
+          <p data-i18n="about.solution_1_p">Showcase products and services and become easier to discover.</p>
         </div>
         <div class="card-white">
           <span class="card-white-emoji">🛒</span>
           <h3 data-i18n="about.solution_2_title">Les clients</h3>
-          <p data-i18n="about.solution_2_p">Trouvent le bon produit, au bon endroit, au bon moment. Commandent directement.</p>
+          <p data-i18n="about.solution_2_p">Find products, services and businesses that meet their needs.</p>
         </div>
         <div class="card-white">
           <span class="card-white-emoji">🎥</span>
-          <h3 data-i18n="about.solution_3_title">Les talents du digital</h3>
-          <p data-i18n="about.solution_3_p">Photographes, vidéastes et community managers deviennent les ponts entre vendeurs et acheteurs.</p>
+          <h3 data-i18n="about.solution_3_title">Service Providers</h3>
+          <p data-i18n="about.solution_3_p">Connect with commercial opportunities through services such as delivery, digital marketing, content creation, consultation and other professional support.</p>
         </div>
       </div>
     </div>
@@ -727,14 +754,14 @@
   <!-- 5. VISION — 🟡 CREAM (2ème apparition) -->
   <section class="section-vision">
     <div class="container">
-      <div class="section-title">
-        <h2 data-i18n="about.vision_title">Notre vision</h2>
-      </div>
-      
       <div class="vision-text">
-        <p data-i18n="about.vision_1">Nous ne remplaçons pas le marché physique. Nous l'adaptons à la réalité digitale.</p>
-        <p data-i18n="about.vision_2">Les marchés continueront d'exister — mais leurs commerçants seront <strong class="vision-highlight">visibles, trouvables et connectés</strong> à leurs clients.</p>
-        <p data-i18n="about.vision_3">Notre objectif : créer un écosystème fort entre business, clients et créateurs de contenu.</p>
+        <p data-i18n="about.vision_1">Our ecosystem is built around three service pillars:</p>
+        <ul>
+          <li data-i18n="about.vision_pillar_1">Marketing &amp; Business Visibility</li>
+          <li data-i18n="about.vision_pillar_2">Savings &amp; Financial Preparedness</li>
+          <li data-i18n="about.vision_pillar_3">Consultation &amp; Business Support</li>
+        </ul>
+        <p data-i18n="about.vision_2">Together, these pillars support our broader goal of making commerce easier and creating more opportunities.</p>
       </div>
     </div>
   </section>
