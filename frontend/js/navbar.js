@@ -1,7 +1,5 @@
 /* ============================================================
    FINEST GLOBAL — Navbar dynamique
-   Desktop : recherche + Accueil + Marketplace + À propos + profil + langue
-   Mobile : logo + Marketplace + langue + avatar
    ============================================================ */
 
 function renderNavbar() {
@@ -11,6 +9,7 @@ function renderNavbar() {
   const user = Auth.getUser();
   const isAuth = Auth.isAuthenticated();
   const currentLang = getCurrentLanguage();
+  const isHomePage = window.location.pathname === '/' || window.location.pathname.endsWith('/index.html');
   
   // Sélecteur de langue
   const langSelector = `
@@ -34,12 +33,29 @@ function renderNavbar() {
   let rightSection = '';
   
   if (!isAuth) {
-    rightSection = `
-      <div class="nav-auth">
-        <a href="/login.html" class="btn btn-ghost btn-sm">${t('nav.login')}</a>
-        <a href="/register.html" class="btn btn-primary btn-sm">${t('nav.register')}</a>
-      </div>
-    `;
+    if (isHomePage) {
+      // Sur l'accueil, on affiche l'icône de login
+      rightSection = `
+        <div class="nav-user">
+          <a href="/login.html" class="nav-user-btn" aria-label="Se connecter">
+            <span class="nav-avatar">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle>
+              </svg>
+            </span>
+          </a>
+        </div>
+      `;
+    } else {
+      // Sur les autres pages, on affiche les boutons normaux
+      rightSection = `
+        <div class="nav-auth">
+          <a href="/login.html" class="btn btn-ghost btn-sm">${t('nav.login')}</a>
+          <a href="/register.html" class="btn btn-primary btn-sm">${t('nav.register')}</a>
+        </div>
+      `;
+    }
   } else {
     const initials = (
       (user.first_name?.[0] || '') + (user.last_name?.[0] || '')
@@ -62,7 +78,7 @@ function renderNavbar() {
     rightSection = `
       <div class="nav-user" id="nav-user-menu">
         <button class="nav-user-btn" onclick="toggleUserMenu(event)" aria-label="${t('nav.profile')}">
-          <span class="nav-avatar">${initials}</span>
+          <span class="nav-avatar" style="width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,var(--ginger-400),var(--ginger-600));display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.85rem;flex-shrink:0;box-shadow:0 2px 8px rgba(217,98,43,0.3);color:white;">${initials}</span>
           <span class="nav-user-name">${user.first_name || user.phone}</span>
           <span class="nav-chevron">▾</span>
         </button>
@@ -88,9 +104,20 @@ function renderNavbar() {
   
   navContainer.innerHTML = `
     <div class="navbar-inner">
-      <a href="/index.html" class="navbar-logo" aria-label="Finest Global">
-        <img src="/assets/finest.png" alt="Finest Global" class="navbar-logo-img">
-      </a>
+      <!-- LOGO + Liens en dessous -->
+      <div class="navbar-logo-wrapper">
+        <a href="/index.html" class="navbar-logo" aria-label="Finest Global">
+          <img src="/assets/finest.png" alt="Finest Global" class="navbar-logo-img">
+        </a>
+        <!-- Les 3 boutons sous le logo (affichés uniquement sur l'accueil) -->
+        <div class="navbar-sub-links">
+          <a href="/savings.html" class="navbar-sub-link">SAVINGS</a>
+          <span class="navbar-sub-link">•</span>
+          <a href="/marketing.html" class="navbar-sub-link">MARKETING</a>
+          <span class="navbar-sub-link">•</span>
+          <a href="/consultation.html" class="navbar-sub-link">CONSULTATION</a>
+        </div>
+      </div>
       
       <div class="navbar-search">
         <input 
@@ -250,12 +277,10 @@ document.addEventListener('DOMContentLoaded', () => {
   if (isHomePage) {
     document.body.classList.add('page-home');
     
-    // Vérifier immédiatement si on est déjà défilé (au cas où on recharge la page)
     if (window.scrollY > 40) {
       document.body.classList.add('nav-scrolled');
     }
     
-    // Ajouter/retirer la classe au défilement
     window.addEventListener('scroll', () => {
       if (window.scrollY > 40) {
         document.body.classList.add('nav-scrolled');
