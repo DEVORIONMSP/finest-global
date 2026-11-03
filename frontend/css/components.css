@@ -392,12 +392,12 @@ img, video {
 }
 
 /* ============================================================
-   NAVBAR (Couleur unique sur toutes les pages)
+   NAVBAR
    ============================================================ */
 
 .navbar {
-  background: rgba(58, 22, 6, 0.95); /* Couleur brune unifiée */
-  border-bottom: 1px solid rgba(250, 246, 239, 0.1);
+  background: var(--cream-50);
+  border-bottom: 1px solid var(--cream-200);
   position: sticky;
   top: 0;
   z-index: 100;
@@ -417,22 +417,15 @@ img, video {
 
 .navbar-inner > * { min-width: 0; }
 
-/* LOGO + les 3 liens en dessous */
-.navbar-logo-wrapper {
+.navbar-logo {
   display: flex;
-  flex-direction: column;
-  justify-content: center;
+  align-items: center;
   flex-shrink: 0;
   transition: transform 0.2s;
 }
 
-.navbar-logo {
-  display: flex;
-  align-items: center;
-}
-
 .navbar-logo:hover {
-  transform: scale(1.02);
+  transform: scale(1.03);
 }
 
 .navbar-logo-img {
@@ -441,29 +434,6 @@ img, video {
   max-width: none;
   object-fit: contain;
   display: block;
-  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.35));
-}
-
-/* Liens sous le logo (Savings, Marketing, Consultation) */
-.navbar-sub-links {
-  display: flex;
-  gap: 12px;
-  margin-top: 4px;
-  font-size: 0.55rem;
-  font-weight: 700;
-  letter-spacing: 1.5px;
-  color: var(--cream-300);
-  justify-content: flex-start;
-}
-
-.navbar-sub-link {
-  color: var(--cream-300);
-  text-decoration: none;
-  transition: color 0.2s;
-}
-
-.navbar-sub-link:hover {
-  color: var(--ginger-400);
 }
 
 .navbar-search {
@@ -475,23 +445,19 @@ img, video {
 .navbar-search input {
   width: 100%;
   padding: 10px 16px 10px 42px;
-  border: 1.5px solid rgba(250, 246, 239, 0.32);
+  border: 1.5px solid var(--cream-300);
   border-radius: var(--radius);
   font-size: 0.9rem;
-  background: rgba(250, 246, 239, 0.12);
+  background: var(--white);
   transition: all var(--transition);
-  color: var(--cream-50);
-}
-
-.navbar-search input::placeholder {
-  color: rgba(250, 246, 239, 0.65);
+  color: var(--silver-900);
 }
 
 .navbar-search input:focus {
   outline: none;
-  background: rgba(250, 246, 239, 0.2);
-  border-color: var(--ginger-400);
-  box-shadow: 0 0 0 4px rgba(242, 140, 40, 0.2);
+  border-color: var(--ginger-500);
+  background: var(--white);
+  box-shadow: 0 0 0 4px rgba(217, 98, 43, 0.12);
 }
 
 /* Icône Loupe par défaut */
@@ -503,7 +469,7 @@ img, video {
   transform: translateY(-50%);
   width: 16px;
   height: 16px;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23FAF6EF' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cline x1='21' y1='21' x2='16.65' y2='16.65'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23737A87' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cline x1='21' y1='21' x2='16.65' y2='16.65'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-size: contain;
   pointer-events: none;
@@ -553,7 +519,7 @@ img, video {
 .nav-link {
   font-weight: 600;
   font-size: 0.95rem;
-  color: var(--cream-50);
+  color: var(--silver-700);
   transition: color var(--transition);
   white-space: nowrap;
   padding: 6px 0;
@@ -568,11 +534,11 @@ img, video {
   transform: translateX(-50%);
   width: 0;
   height: 2px;
-  background: var(--ginger-400);
+  background: var(--ginger-500);
   transition: width 0.25s ease;
 }
 
-.nav-link:hover { color: var(--ginger-400); }
+.nav-link:hover { color: var(--ginger-600); }
 .nav-link:hover::after { width: 100%; }
 
 .nav-auth {
@@ -604,37 +570,33 @@ img, video {
 }
 
 .nav-user-btn:hover {
-  background: rgba(250, 246, 239, 0.14);
+  background: var(--cream-200);
 }
 
-/* Nouvelle icône de connexion SVG */
 .nav-avatar {
-  width: 22px;
-  height: 22px;
-  background: transparent;
-  box-shadow: none;
-  color: var(--cream-50);
-  border-radius: 0;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--ginger-400), var(--ginger-600));
+  color: var(--white);
   display: flex;
   align-items: center;
   justify-content: center;
-}
-
-.nav-avatar svg {
-  width: 100%;
-  height: 100%;
-  stroke: currentColor;
+  font-weight: 700;
+  font-size: 0.85rem;
+  flex-shrink: 0;
+  box-shadow: 0 2px 8px rgba(217, 98, 43, 0.3);
 }
 
 .nav-user-name {
   font-weight: 600;
   font-size: 0.9rem;
-  color: var(--cream-50);
+  color: var(--silver-900);
 }
 
 .nav-chevron {
   font-size: 0.65rem;
-  color: var(--cream-300);
+  color: var(--silver-500);
   transition: transform 0.2s;
 }
 
@@ -723,7 +685,7 @@ img, video {
 .lang-selector {
   display: flex;
   gap: 4px;
-  background: rgba(250, 246, 239, 0.16);
+  background: var(--cream-200);
   border-radius: 20px;
   padding: 3px;
   flex-shrink: 0;
@@ -739,46 +701,288 @@ img, video {
   transition: all 0.2s;
   line-height: 1;
   font-family: inherit;
-  color: var(--cream-50);
+  color: var(--silver-700);
 }
 
 .lang-btn:hover {
-  background: rgba(250, 246, 239, 0.18);
+  background: var(--cream-300);
 }
 
 .lang-btn.active {
-  background: var(--cream-50);
-  color: var(--ginger-600);
+  background: var(--white);
   box-shadow: 0 1px 4px rgba(58, 51, 43, 0.12);
+  color: var(--ginger-600);
 }
 
 /* ============================================================
-   NAVBAR — PAGE D'ACCUEIL (Logo x4 + Liens sous le logo + Loupe)
+   NAVBAR — RESPONSIVE MOBILE
+   ============================================================ */
+
+@media (max-width: 900px) {
+  .navbar-search { display: none; }
+
+  .navbar-inner {
+    padding: 10px 12px;
+    padding-left: max(12px, env(safe-area-inset-left, 0px));
+    padding-right: max(12px, env(safe-area-inset-right, 0px));
+    gap: 8px;
+  }
+
+  .navbar-logo-img { height: 34px; }
+
+  .navbar-links {
+    flex: 1 1 auto;
+    min-width: 0;
+    justify-content: center;
+    gap: 0;
+  }
+
+  .nav-link {
+    font-size: 0.85rem;
+    font-weight: 600;
+    padding: 6px 6px;
+  }
+
+  .lang-selector { padding: 2px; gap: 2px; }
+  .lang-btn { padding: 4px 6px; font-size: 0.9rem; }
+
+  .nav-auth {
+    margin-left: 0;
+    gap: 0;
+  }
+  .nav-auth a[href="/register.html"] { display: none; }
+  .nav-auth a[href="/login.html"] {
+    background: var(--ginger-500);
+    color: var(--white);
+    border-color: transparent;
+    padding: 8px 14px;
+    font-size: 0.82rem;
+    font-weight: 700;
+  }
+
+  .nav-user { margin-left: 0; }
+  .nav-user-name,
+  .nav-chevron { display: none; }
+
+  .nav-user-btn {
+    padding: 3px 6px;
+    gap: 0;
+  }
+
+  .nav-avatar {
+    width: 34px;
+    height: 34px;
+    font-size: 0.78rem;
+  }
+
+  .nav-dropdown {
+    right: 0;
+    min-width: 220px;
+    max-width: calc(100vw - 24px);
+  }
+}
+
+@media (max-width: 420px) {
+  .navbar-inner { padding-top: 8px; padding-bottom: 8px; gap: 6px; }
+  .navbar-logo-img { height: 30px; }
+  .nav-link { font-size: 0.8rem; padding: 5px 4px; }
+  .lang-btn { padding: 3px 5px; font-size: 0.82rem; }
+  .nav-auth a[href="/login.html"] { padding: 7px 11px; font-size: 0.78rem; }
+  .nav-avatar { width: 30px; height: 30px; font-size: 0.72rem; }
+}
+
+@media (max-width: 340px) {
+  .navbar-links { display: none; }
+  .navbar-inner { justify-content: space-between; }
+  .nav-auth,
+  .nav-user { margin-left: auto; }
+}
+
+/* ============================================================
+   NAVBAR — PAGE MARKETPLACE (mobile / tablette)
+   ============================================================ */
+
+@media (max-width: 900px) {
+  body.page-marketplace .navbar-inner {
+    flex-wrap: wrap;
+  }
+
+  body.page-marketplace .navbar-search {
+    display: block;
+    order: 10;
+    flex: 1 1 100%;
+    max-width: 100%;
+    width: 100%;
+  }
+
+  body.page-marketplace .navbar-search input {
+    font-size: 16px;
+  }
+}
+
+/* ============================================================
+   NAVBAR — SUPERPOSÉE SUR LE HERO (page d'accueil)
+   ============================================================ */
+
+body.page-home #navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  padding-top: env(safe-area-inset-top, 0px);
+  background: transparent;
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+
+body.page-home.nav-scrolled #navbar {
+  background: rgba(58, 22, 6, 0.92);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.25);
+}
+
+body.page-home .navbar {
+  position: relative;
+  background: transparent;
+  border-bottom-color: transparent;
+}
+
+/* Liens */
+body.page-home .nav-link {
+  color: var(--cream-50);
+}
+body.page-home .nav-link::after {
+  background: var(--ginger-400);
+}
+body.page-home .nav-link:hover,
+body.page-home .nav-link.active,
+body.page-home .nav-link[aria-current="page"] {
+  color: var(--ginger-400);
+}
+body.page-home .nav-link.active::after,
+body.page-home .nav-link[aria-current="page"]::after {
+  width: 100%;
+}
+
+/* Bouton de connexion / inscription (ghost) */
+body.page-home .nav-auth .btn-ghost {
+  color: var(--cream-50);
+}
+body.page-home .nav-auth .btn-ghost:hover:not(:disabled) {
+  background: rgba(250, 246, 239, 0.14);
+}
+
+/* Barre de recherche */
+body.page-home .navbar-search input {
+  background: rgba(250, 246, 239, 0.12);
+  border-color: rgba(250, 246, 239, 0.32);
+  color: var(--cream-50);
+}
+body.page-home .navbar-search input::placeholder {
+  color: rgba(250, 246, 239, 0.65);
+}
+body.page-home .navbar-search input:focus {
+  background: rgba(250, 246, 239, 0.2);
+  border-color: var(--ginger-400);
+  box-shadow: 0 0 0 4px rgba(242, 140, 40, 0.2);
+}
+
+/* Menu utilisateur */
+body.page-home .nav-user-name,
+body.page-home .nav-chevron {
+  color: var(--cream-50);
+}
+body.page-home .nav-user-btn:hover {
+  background: rgba(250, 246, 239, 0.14);
+}
+
+/* Sélecteur de langue */
+body.page-home .lang-selector {
+  background: rgba(250, 246, 239, 0.16);
+}
+body.page-home .lang-btn {
+  color: var(--cream-50);
+}
+body.page-home .lang-btn:hover {
+  background: rgba(250, 246, 239, 0.18);
+}
+body.page-home .lang-btn.active {
+  background: var(--cream-50);
+  color: var(--ginger-600);
+}
+
+/* Logo : léger halo pour rester lisible sur le fond brun */
+body.page-home .navbar-logo-img {
+  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.35));
+}
+
+/* ============================================================
+   MODALES / TOASTS — RESPONSIVE ANDROID
+   ============================================================ */
+
+@media (max-width: 640px) {
+  .modal-overlay {
+    padding: 12px;
+    align-items: flex-end;
+  }
+
+  .modal {
+    max-width: 100%;
+    max-height: 92vh;
+    max-height: 92dvh;
+    border-radius: 20px 20px 0 0;
+  }
+
+  .modal-header { padding: 18px 20px; }
+  .modal-header h3 { font-size: 1.1rem; }
+  .modal-body { padding: 18px 20px; }
+
+  .modal-footer {
+    padding: 14px 20px;
+    flex-direction: column-reverse;
+    gap: 8px;
+  }
+
+  .modal-footer .btn { width: 100%; }
+
+  .toast-container {
+    top: 10px;
+    right: 10px;
+    left: 10px;
+    max-width: none;
+  }
+
+  .toast {
+    min-width: 0;
+    max-width: none;
+    width: 100%;
+    padding: 14px 16px;
+    font-size: 0.88rem;
+  }
+}
+
+/* ============================================================
+   🆕 NAVBAR SUR LA PAGE D'ACCUEIL : LOGO x4 + LOUPE SVG + ICÔNE CONNEXION
+   Ne modifie PAS la hauteur de la navbar.
+   Seuls le logo et la barre de recherche sont affectés.
    ============================================================ */
 
 /* On fige la hauteur de la navbar pour qu'elle ne bouge pas */
 body.page-home:not(.nav-scrolled) .navbar-inner {
-  min-height: 80px; 
+  min-height: 70px; 
   padding-top: 8px;
   padding-bottom: 8px;
-  align-items: flex-start; /* Aligne le haut du wrapper */
+  align-items: center;
 }
 
-/* Le logo est multiplié par 4 (176px) */
+/* Le logo est multiplié par 4 (176px) et sort visuellement de la navbar sans la pousser */
 body.page-home:not(.nav-scrolled) .navbar-logo-img {
   height: 176px; /* 44px * 4 */
   width: auto;
+  position: relative;
+  z-index: 10;
   transition: height 0.3s ease;
-}
-
-/* Affiche les 3 liens sous le logo */
-body.page-home:not(.nav-scrolled) .navbar-sub-links {
-  display: flex;
-}
-
-/* Cache les 3 liens quand on défile ou sur les autres pages */
-body.page-home.nav-scrolled .navbar-sub-links {
-  display: none;
 }
 
 /* La barre de recherche se transforme en loupe */
@@ -787,7 +991,6 @@ body.page-home:not(.nav-scrolled) .navbar-search {
   max-width: none;
   width: auto;
   margin-left: 10px;
-  align-self: center; /* Centre verticalement la loupe */
 }
 
 body.page-home:not(.nav-scrolled) .navbar-search input {
@@ -846,35 +1049,70 @@ body.page-home:not(.nav-scrolled) .navbar-search:focus-within::before {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23737A87' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cline x1='21' y1='21' x2='16.65' y2='16.65'/%3E%3C/svg%3E");
 }
 
-/* L'icône de connexion (login) sur la page d'accueil */
-body.page-home:not(.nav-scrolled) .nav-user .nav-user-btn {
-  width: 44px;
-  height: 44px;
-  padding: 0;
+/* MASQUER les boutons connexion/inscription sur l'accueil */
+body.page-home:not(.nav-scrolled) .nav-auth {
+  display: none;
+}
+
+/* AJOUTER l'icône de connexion sur l'accueil */
+body.page-home:not(.nav-scrolled) .nav-user {
+  display: flex;
+  align-items: center;
+  margin-left: auto; 
+}
+
+body.page-home:not(.nav-scrolled) .nav-user-btn {
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
   border-radius: 50%;
   background: transparent;
   border: none;
-  align-self: center;
+  cursor: pointer;
+  transition: background 0.2s;
 }
 
-body.page-home:not(.nav-scrolled) .nav-user .nav-user-btn:hover {
+body.page-home:not(.nav-scrolled) .nav-user-btn:hover {
   background: rgba(250, 246, 239, 0.14);
 }
 
-body.page-home:not(.nav-scrolled) .nav-user .nav-avatar {
+body.page-home:not(.nav-scrolled) .nav-avatar {
   width: 22px;
   height: 22px;
+  background: transparent;
+  box-shadow: none;
+  color: var(--cream-50);
+  border-radius: 0;
 }
 
-/* On centre verticalement les autres éléments de la navbar sur l'accueil */
-body.page-home:not(.nav-scrolled) .navbar-links,
-body.page-home:not(.nav-scrolled) .lang-selector,
-body.page-home:not(.nav-scrolled) .nav-auth,
-body.page-home:not(.nav-scrolled) .nav-user {
-  align-self: center;
+body.page-home:not(.nav-scrolled) .nav-avatar svg {
+  width: 100%;
+  height: 100%;
+  stroke: currentColor;
+}
+
+body.page-home:not(.nav-scrolled) .nav-user-name,
+body.page-home:not(.nav-scrolled) .nav-chevron {
+  display: none;
+}
+
+/* AJOUTER les 3 boutons (SAVINGS, MARKETING, CONSULTATION) sous le logo */
+body.page-home:not(.nav-scrolled) .navbar-logo::after {
+  content: "SAVINGS   •   MARKETING   •   CONSULTATION";
+  position: absolute;
+  bottom: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.55rem;
+  font-weight: 700;
+  color: var(--cream-50);
+  letter-spacing: 2px;
+  white-space: nowrap;
+  text-align: center;
+  pointer-events: none;
 }
 
 /* Sur mobile, on annule le logo géant et la loupe pour garder l'ergonomie */
@@ -889,12 +1127,12 @@ body.page-home:not(.nav-scrolled) .nav-user {
     height: 34px; /* Taille mobile normale */
   }
   
-  body.page-home:not(.nav-scrolled) .navbar-sub-links {
-    display: none; /* On cache les petits boutons sur mobile */
-  }
-  
   body.page-home:not(.nav-scrolled) .navbar-search {
     display: none; /* La recherche est déjà cachée sur mobile */
+  }
+  
+  body.page-home:not(.nav-scrolled) .navbar-logo::after {
+    display: none; /* On cache les petits boutons sur mobile */
   }
 }
 
