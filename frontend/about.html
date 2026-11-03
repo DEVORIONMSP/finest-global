@@ -25,7 +25,7 @@
     }
 
     /* ============================
-       HERO
+       HERO — fond brun sombre
        ============================ */
     .about-hero {
       background: linear-gradient(135deg, var(--brand-dark-deep) 0%, var(--brand-dark-solid) 55%, var(--brand-dark) 100%);
@@ -180,29 +180,60 @@
     }
     
     /* ============================
-       SECTION SOLUTION — fond brun profond
+       SECTION SOLUTION — 🆕 FOND CREAM LUMINEUX
        ============================ */
     .section-solution {
-      background: var(--brand-dark-deep);
+      background: var(--cream);
       padding: 90px 0;
+      position: relative;
+      overflow: hidden;
     }
     
-    .section-solution .section-title h2 { color: var(--cream); }
-    .section-solution .section-title p { color: var(--cream-muted); }
+    .section-solution::before {
+      content: "";
+      position: absolute;
+      top: -150px;
+      right: -150px;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(170,169,173,0.18) 0%, transparent 70%);
+      border-radius: 50%;
+    }
     
+    .section-solution::after {
+      content: "";
+      position: absolute;
+      bottom: -150px;
+      left: -150px;
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(58,22,6,0.06) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+    
+    .section-solution .container {
+      position: relative;
+      z-index: 1;
+    }
+    
+    /* Titres sombres sur fond cream lumineux */
+    .section-solution .section-title h2 { color: var(--brand-dark-solid); }
+    .section-solution .section-title p { color: var(--brand-dark-soft); }
+    
+    /* Cartes solution — fond blanc cassé + bordure silver */
     .card-white {
-      background: rgba(255, 253, 209, 0.06);
+      background: #FFFFFF;
       border: 1.5px solid var(--silver-light);
       border-radius: var(--radius-lg, 14px);
       padding: 32px 28px;
       transition: all var(--transition, 0.2s);
+      box-shadow: 0 4px 16px rgba(58, 22, 6, 0.08);
     }
     
     .card-white:hover {
-      border-color: var(--silver);
-      background: rgba(255, 253, 209, 0.11);
+      border-color: var(--brand-dark-solid);
       transform: translateY(-4px);
-      box-shadow: 0 20px 48px rgba(0,0,0,0.35);
+      box-shadow: 0 20px 48px rgba(58, 22, 6, 0.18);
     }
     
     .card-white-emoji {
@@ -212,23 +243,23 @@
     }
     
     .card-white h3 {
-      color: var(--cream);
+      color: var(--brand-dark-solid);
       font-size: 1.15rem;
       margin-bottom: 12px;
     }
     
     .card-white p {
-      color: var(--cream-soft);
+      color: var(--brand-dark-soft);
       font-size: 0.95rem;
       line-height: 1.7;
     }
     
     /* ============================
-       SECTION VISION
+       SECTION VISION — 🆕 FOND CREAM LUMINEUX
        ============================ */
     .section-vision {
-      background: linear-gradient(135deg, var(--brand-dark) 0%, var(--brand-dark-solid) 100%);
-      color: var(--cream);
+      background: var(--cream);
+      color: var(--brand-dark-solid);
       padding: 100px 0;
       position: relative;
       overflow: hidden;
@@ -237,11 +268,22 @@
     .section-vision::before {
       content: "";
       position: absolute;
-      bottom: -200px;
+      top: -200px;
       right: -200px;
       width: 600px;
       height: 600px;
-      background: radial-gradient(circle, rgba(255,253,209,0.09) 0%, transparent 70%);
+      background: radial-gradient(circle, rgba(170,169,173,0.18) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+    
+    .section-vision::after {
+      content: "";
+      position: absolute;
+      bottom: -200px;
+      left: -200px;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(58,22,6,0.06) 0%, transparent 70%);
       border-radius: 50%;
     }
     
@@ -250,27 +292,30 @@
       z-index: 1;
     }
     
-    .section-vision .section-title h2 { color: var(--cream); }
+    /* Titres sombres sur fond cream lumineux */
+    .section-vision .section-title h2 { color: var(--brand-dark-solid); }
     
     .vision-text {
       max-width: 820px;
       margin: 0 auto;
       text-align: center;
       font-size: 1.15rem;
-      color: var(--cream-soft);
+      color: var(--brand-dark-soft);
       line-height: 2;
     }
     
     .vision-text p { margin-bottom: 28px; }
     
     .vision-text strong {
-      color: var(--cream);
+      color: var(--brand-dark-solid);
       font-weight: 800;
     }
     
     .vision-highlight {
-      color: var(--silver);
+      color: var(--brand-dark-solid);
       font-weight: 800;
+      background: linear-gradient(transparent 60%, rgba(170,169,173,0.5) 60%);
+      padding: 0 4px;
     }
     
     /* ============================
@@ -308,7 +353,7 @@
     }
     
     /* ============================
-       CTA FINAL
+       CTA FINAL — fond brun
        ============================ */
     .cta-final {
       background: var(--brand-dark);
@@ -399,7 +444,7 @@
     }
     
     /* ============================
-       RESPONSIVE
+       RESPONSIVE — PETITS ÉCRANS
        ============================ */
     @media (max-width: 900px) {
       .about-hero h1 { font-size: 2.25rem; letter-spacing: -1px; }
@@ -457,6 +502,131 @@
       .vision-text { font-size: 0.88rem; }
       .cta-final h2 { font-size: 1.25rem; }
     }
+
+    /* ============================
+       🆕 GRANDS ÉCRANS — 2K / ultra-wide / 4K
+       ============================ */
+
+    /* ----- 1600px+ ----- */
+    @media (min-width: 1600px) {
+      .about-hero { padding: 130px 0; }
+      .about-hero-inner { max-width: 1000px; padding: 0 40px; }
+      .about-hero h1 { font-size: 4rem; letter-spacing: -2px; }
+      .about-hero p { font-size: 1.4rem; max-width: 900px; margin: 0 auto; }
+
+      .section,
+      .section-problem,
+      .section-solution { padding: 120px 0; }
+      .section-vision { padding: 130px 0; }
+
+      .section-title { margin-bottom: 68px; }
+      .section-title h2 { font-size: 2.75rem; }
+      .section-title p { font-size: 1.25rem; max-width: 780px; }
+
+      .cards-grid { gap: 32px; }
+      .card-glass,
+      .card-white { padding: 40px 34px; border-radius: var(--radius-lg, 14px); }
+      .card-glass-emoji,
+      .card-white-emoji { font-size: 2.5rem; margin-bottom: 20px; }
+      .card-glass h3,
+      .card-white h3 { font-size: 1.35rem; margin-bottom: 14px; }
+      .card-glass p,
+      .card-white p { font-size: 1.05rem; line-height: 1.8; }
+
+      .vision-text { font-size: 1.35rem; max-width: 1000px; line-height: 2.1; }
+      .vision-text p { margin-bottom: 32px; }
+
+      .stats-band { padding: 80px 0; }
+      .stats-band-grid { gap: 48px; }
+      .stat-band-item .stat-value { font-size: 3.15rem; }
+      .stat-band-item .stat-label { font-size: 1rem; }
+
+      .cta-final { padding: 110px 0; }
+      .cta-final h2 { font-size: 2.75rem; }
+      .cta-final p { font-size: 1.25rem; max-width: 780px; }
+      .cta-final-buttons { gap: 20px; }
+
+      .footer { padding: 44px 0; }
+      .footer p { font-size: 1rem; }
+    }
+
+    /* ----- 2000px+ (ultra-wide 21:9 / 32:9) ----- */
+    @media (min-width: 2000px) {
+      .about-hero { padding: 160px 0; }
+      .about-hero-inner { max-width: 1200px; padding: 0 60px; }
+      .about-hero h1 { font-size: 4.75rem; }
+      .about-hero p { font-size: 1.6rem; max-width: 1100px; }
+
+      .section,
+      .section-problem,
+      .section-solution { padding: 150px 0; }
+      .section-vision { padding: 160px 0; }
+
+      .section-title { margin-bottom: 80px; }
+      .section-title h2 { font-size: 3.25rem; }
+      .section-title p { font-size: 1.4rem; max-width: 920px; }
+
+      .cards-grid { gap: 40px; }
+      .card-glass,
+      .card-white { padding: 48px 40px; }
+      .card-glass-emoji,
+      .card-white-emoji { font-size: 2.85rem; margin-bottom: 24px; }
+      .card-glass h3,
+      .card-white h3 { font-size: 1.55rem; margin-bottom: 16px; }
+      .card-glass p,
+      .card-white p { font-size: 1.2rem; }
+
+      .vision-text { font-size: 1.55rem; max-width: 1200px; }
+      .vision-text p { margin-bottom: 36px; }
+
+      .stats-band { padding: 100px 0; }
+      .stats-band-grid { gap: 64px; }
+      .stat-band-item .stat-value { font-size: 3.85rem; }
+      .stat-band-item .stat-label { font-size: 1.1rem; }
+
+      .cta-final { padding: 140px 0; }
+      .cta-final h2 { font-size: 3.25rem; }
+      .cta-final p { font-size: 1.4rem; max-width: 920px; }
+    }
+
+    /* ----- 3000px+ (4K et plus) ----- */
+    @media (min-width: 3000px) {
+      .about-hero { padding: 200px 0; }
+      .about-hero-inner { max-width: 1400px; }
+      .about-hero h1 { font-size: 5.5rem; }
+      .about-hero p { font-size: 1.85rem; max-width: 1280px; }
+
+      .section,
+      .section-problem,
+      .section-solution { padding: 180px 0; }
+      .section-vision { padding: 190px 0; }
+
+      .section-title { margin-bottom: 96px; }
+      .section-title h2 { font-size: 3.75rem; }
+      .section-title p { font-size: 1.6rem; max-width: 1080px; }
+
+      .cards-grid { gap: 48px; }
+      .card-glass,
+      .card-white { padding: 56px 48px; }
+      .card-glass-emoji,
+      .card-white-emoji { font-size: 3.25rem; margin-bottom: 28px; }
+      .card-glass h3,
+      .card-white h3 { font-size: 1.75rem; margin-bottom: 18px; }
+      .card-glass p,
+      .card-white p { font-size: 1.35rem; }
+
+      .vision-text { font-size: 1.75rem; max-width: 1400px; }
+      .vision-text p { margin-bottom: 42px; }
+
+      .stats-band { padding: 120px 0; }
+      .stats-band-grid { gap: 80px; }
+      .stat-band-item .stat-value { font-size: 4.5rem; }
+      .stat-band-item .stat-label { font-size: 1.25rem; }
+
+      .cta-final { padding: 170px 0; }
+      .cta-final h2 { font-size: 3.75rem; }
+      .cta-final p { font-size: 1.6rem; max-width: 1080px; }
+    }
   </style>
 </head>
 <body>
@@ -498,7 +668,7 @@
     </div>
   </section>
 
-  <!-- LE PROBLÈME -->
+  <!-- LE PROBLÈME — fond brun -->
   <section class="section-problem">
     <div class="container">
       <div class="section-title">
@@ -526,7 +696,7 @@
     </div>
   </section>
 
-  <!-- NOTRE SOLUTION -->
+  <!-- NOTRE SOLUTION — 🆕 FOND CREAM LUMINEUX -->
   <section class="section-solution">
     <div class="container">
       <div class="section-title">
@@ -554,7 +724,7 @@
     </div>
   </section>
 
-  <!-- VISION -->
+  <!-- VISION — 🆕 FOND CREAM LUMINEUX -->
   <section class="section-vision">
     <div class="container">
       <div class="section-title">
@@ -563,13 +733,13 @@
       
       <div class="vision-text">
         <p data-i18n="about.vision_1">Nous ne remplaçons pas le marché physique. Nous l'adaptons à la réalité digitale.</p>
-        <p data-i18n="about.vision_2">Les marchés continueront d'exister — mais leurs commerçants seront visibles, trouvables et connectés à leurs clients.</p>
+        <p data-i18n="about.vision_2">Les marchés continueront d'exister — mais leurs commerçants seront <strong class="vision-highlight">visibles, trouvables et connectés</strong> à leurs clients.</p>
         <p data-i18n="about.vision_3">Notre objectif : créer un écosystème fort entre business, clients et créateurs de contenu.</p>
       </div>
     </div>
   </section>
 
-  <!-- CTA FINAL -->
+  <!-- CTA FINAL — fond brun -->
   <section class="cta-final">
     <div class="container">
       <h2 data-i18n="about.cta_title">Rejoignez l'aventure</h2>
