@@ -977,43 +977,41 @@
     }
 
     /* ============================================================
-       🆕 MOBILE — LE TEXTE DU HERO DESCEND ET SE CENTRE
+       🆕 MOBILE — IMAGE EN FOND DERRIÈRE LE TEXTE (PAS EN BAS)
        ============================================================ */
     @media (max-width: 640px) {
+      /* L'image reste en background du hero entier, comme sur desktop */
       .hero {
-        min-height: 0;
-        align-items: flex-start;
-        padding: 96px 0 340px;
-        background-size: auto 56%;
-        background-position: 80% bottom;
+        min-height: 100vh;
+        min-height: 100dvh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 96px 0 60px;
+        background-size: cover;
+        background-position: center center;
       }
       
+      /* Voile sombre uniforme pour la lisibilité sur toute l'image */
       .hero::before {
-        background: linear-gradient(180deg, rgba(42,15,3,0.75) 0%, rgba(42,15,3,0.3) 55%, transparent 100%);
+        background: linear-gradient(180deg, rgba(42,15,3,0.70) 0%, rgba(42,15,3,0.55) 50%, rgba(42,15,3,0.70) 100%);
       }
       
+      /* On retire le fondu de séparation du bas (l'image n'est plus en bas) */
       .hero::after {
-        content: "";
-        position: absolute;
-        left: 0;
-        right: 0;
-        bottom: calc(56% - 90px);
-        height: 90px;
-        background: linear-gradient(180deg, var(--brand-dark-solid) 0%, rgba(58,22,6,0) 100%);
-        z-index: 0;
-        pointer-events: none;
+        display: none;
       }
       
-      /* 🆕 Le conteneur du hero se centre verticalement et horizontalement */
+      /* Conteneur centré */
       .hero-inner {
         padding: 0 18px;
         display: flex;
         justify-content: center;
         text-align: center;
-        margin-top: 40px;
+        margin-top: 0;
       }
       
-      /* 🆕 Le bloc de texte est centré, sans bordure gauche, pleine largeur */
+      /* Bloc texte centré, sans bordure gauche */
       .hero-text {
         max-width: 100%;
         width: 100%;
@@ -1023,7 +1021,7 @@
         padding: 0 4px;
       }
       
-      /* 🆕 Titre centré */
+      /* Titre centré */
       .hero h1 {
         font-size: 1.9rem;
         letter-spacing: -0.6px;
@@ -1031,24 +1029,25 @@
         min-height: 2.5em;
         margin-bottom: 18px;
         text-align: center;
+        text-shadow: 0 2px 12px rgba(0,0,0,0.5);
       }
       
-      /* 🆕 Curseur clignotant adapté au centrage */
       .typed-text {
         border-right: 3px solid var(--silver);
         padding-right: 6px;
       }
       
-      /* 🆕 Paragraphe centré */
+      /* Paragraphe centré */
       .hero p {
         font-size: 0.92rem;
         line-height: 1.55;
         margin: 0 auto 24px;
         text-align: center;
         max-width: 100%;
+        text-shadow: 0 1px 8px rgba(0,0,0,0.5);
       }
       
-      /* 🆕 Boutons centrés et en colonne */
+      /* Boutons centrés */
       .hero-buttons {
         flex-direction: column;
         align-items: stretch;
@@ -1135,10 +1134,7 @@
        ============================================================ */
 
     @media (min-width: 1600px) {
-      .hero {
-        min-height: clamp(700px, 56.25vw, 1000px);
-        padding: 160px 0 110px;
-      }
+      .hero { min-height: clamp(700px, 56.25vw, 1000px); padding: 160px 0 110px; }
       .hero-inner { max-width: 1440px; padding: 0 60px; }
       .hero-text { max-width: min(48vw, 720px); border-left-width: 5px; padding-left: 28px; }
       .hero h1 { font-size: clamp(2.5rem, 4vw, 5rem); }
