@@ -10,6 +10,7 @@ function renderNavbar() {
   const isAuth = Auth.isAuthenticated();
   const currentLang = getCurrentLanguage();
   const isHomePage = window.location.pathname === '/' || window.location.pathname.endsWith('/index.html');
+  const isMobile = window.innerWidth <= 900;
   
   // Sélecteur de langue
   const langSelector = `
@@ -33,11 +34,11 @@ function renderNavbar() {
   let rightSection = '';
   
   if (!isAuth) {
-    if (isHomePage) {
-      // Sur l'accueil : icône de login
+    // 🆕 Sur mobile : toujours afficher l'icône de connexion (peu importe la page)
+    if (isMobile || isHomePage) {
       rightSection = `
         <div class="nav-user">
-          <a href="/login.html" class="nav-user-btn" aria-label="Se connecter">
+          <a href="/login.html" class="nav-user-btn" aria-label="${t('nav.login')}">
             <span class="nav-avatar">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
@@ -48,7 +49,7 @@ function renderNavbar() {
         </div>
       `;
     } else {
-      // Sur les autres pages : boutons classiques
+      // Desktop sur les autres pages : boutons classiques
       rightSection = `
         <div class="nav-auth">
           <a href="/login.html" class="btn btn-ghost btn-sm">${t('nav.login')}</a>
@@ -76,7 +77,7 @@ function renderNavbar() {
     rightSection = `
       <div class="nav-user" id="nav-user-menu">
         <button class="nav-user-btn" onclick="toggleUserMenu(event)" aria-label="${t('nav.profile')}">
-          <span class="nav-avatar" style="width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,var(--ginger-400),var(--ginger-600));display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.85rem;flex-shrink:0;box-shadow:0 2px 8px rgba(217,98,43,0.3);color:white;">${initials}</span>
+          <span class="nav-avatar">${initials}</span>
           <span class="nav-user-name">${user.first_name || user.phone}</span>
           <span class="nav-chevron">▾</span>
         </button>
@@ -160,6 +161,7 @@ function observeNavbarHeight() {
 
 /**
  * Retourne les liens selon la taille d'écran.
+ * 🆕 Sur mobile : uniquement "Marketplace" (4 éléments total : logo + marketplace + langue + icône)
  */
 function baseLinksForScreen() {
   const isMobile = window.innerWidth <= 900;
@@ -272,8 +274,16 @@ window.addEventListener('resize', () => {
   _navbarResizeTimer = setTimeout(() => {
     updateNavLinksForScreenSize();
     syncNavbarHeight();
+    // 🆕 Re-render la navbar si on change de breakpoint (mobile ↔ desktop)
+    const wasMobile = window.innerWidth <= 900;
+    if (wasMobile !== _lastIsMobile) {
+      _lastIsMobile = wasMobile;
+      renderNavbar();
+    }
   }, 200);
 });
+
+let _lastIsMobile = window.innerWidth <= 900;
 
 // Re-mesure une fois la page et les images entièrement chargées
 window.addEventListener('load', syncNavbarHeight);
