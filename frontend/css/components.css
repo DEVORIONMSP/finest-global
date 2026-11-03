@@ -959,3 +959,26 @@ body.page-home .navbar-logo-img {
     font-size: 0.88rem;
   }
 }
+
+/* ============================================================
+   NAVBAR SUR LA PAGE D'ACCUEIL (Taille doublée)
+   ============================================================ */
+body.page-home:not(.nav-scrolled) .navbar-inner {
+  padding-top: 24px;
+  padding-bottom: 24px;
+}
+body.page-home:not(.nav-scrolled) .navbar-logo-img {
+  height: 80px; /* Logo plus gros sur l'accueil */
+  transition: height 0.3s ease;
+}
+body.page-home:not(.nav-scrolled) .navbar-links {
+  gap: 32px;
+}
+body.page-home:not(.nav-scrolled) .nav-link {
+  font-size: 1.05rem;
+}
+
+/* Transition fluide pour le retour à la taille normale */
+.navbar-inner, .navbar-logo-img, .nav-link {
+  transition: all 0.3s ease;
+}
