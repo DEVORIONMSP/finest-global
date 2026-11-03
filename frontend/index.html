@@ -1310,7 +1310,8 @@
         <p data-i18n="home.hero_p">Finest Global makes market vendors visible, findable and connected to their customers. Without replacing the physical market — simply making it accessible.</p>
         <div class="hero-buttons">
           <a href="/marketplace.html" class="btn btn-white btn-lg" data-i18n="home.explore">Explore marketplace →</a>
-          <a href="/register.html" class="btn btn-outline-white btn-lg" data-i18n="home.become_seller">Become a seller</a>
+          <!-- 🆕 Bouton hero avec id pour adaptCTA() -->
+          <a href="/register.html" class="btn btn-outline-white btn-lg" id="hero-seller-btn" data-i18n="home.become_seller">Become a seller</a>
         </div>
       </div>
     </div>
@@ -1793,17 +1794,37 @@
       `;
     }
     
+    /**
+     * 🆕 Adapte les DEUX boutons "Devenir vendeur" selon l'état de l'utilisateur :
+     * - Bouton hero (#hero-seller-btn)
+     * - Bouton CTA (#cta-button)
+     */
     function adaptCTA() {
-      const btn = document.getElementById('cta-button');
-      if (!btn) return;
+      const heroBtn = document.getElementById('hero-seller-btn');
+      const ctaBtn = document.getElementById('cta-button');
       
       if (Auth.isSeller()) {
-        btn.textContent = t('nav.dashboard') + ' →';
-        btn.href = '/dashboard-seller.html';
+        // Vendeur connecté → redirige vers le dashboard
+        if (heroBtn) {
+          heroBtn.textContent = t('nav.dashboard') + ' →';
+          heroBtn.href = '/dashboard-seller.html';
+        }
+        if (ctaBtn) {
+          ctaBtn.textContent = t('nav.dashboard') + ' →';
+          ctaBtn.href = '/dashboard-seller.html';
+        }
       } else if (Auth.isAuthenticated()) {
-        btn.textContent = t('home.become_seller') + ' →';
-        btn.href = '/become-seller.html';
+        // Client connecté → redirige vers become-seller
+        if (heroBtn) {
+          heroBtn.textContent = t('home.become_seller') + ' →';
+          heroBtn.href = '/become-seller.html';
+        }
+        if (ctaBtn) {
+          ctaBtn.textContent = t('home.become_seller') + ' →';
+          ctaBtn.href = '/become-seller.html';
+        }
       }
+      // Si non connecté : on laisse les liens par défaut vers /register.html
     }
     
     function trackPageview() {
