@@ -977,10 +977,10 @@
     }
 
     /* ============================================================
-       🆕 MOBILE — IMAGE EN FOND DERRIÈRE LE TEXTE (PAS EN BAS)
+       🆕 MOBILE — IMAGE EN FOND DERRIÈRE LE TEXTE + FLOU LÉGER
        ============================================================ */
     @media (max-width: 640px) {
-      /* L'image reste en background du hero entier, comme sur desktop */
+      /* L'image de fond passe dans ::after pour pouvoir la flouter sans flouter le texte */
       .hero {
         min-height: 100vh;
         min-height: 100dvh;
@@ -988,29 +988,42 @@
         align-items: center;
         justify-content: center;
         padding: 96px 0 60px;
-        background-size: cover;
-
-        /* ⭐⭐⭐ LIGNE À MODIFIER POUR DÉCALER L'IMAGE ⭐⭐⭐
-           - center center  → image centrée
-           - 30% center     → image poussée à GAUCHE (décalée vers la gauche)
-           - 20% center     → image encore plus à gauche
-           - 70% center     → image poussée à droite
-           Actuellement : 30% center = légèrement à gauche */
-        background-position: 70% center;
+        background-color: var(--brand-dark-solid);
+        background-image: none; /* l'image est déplacée dans ::after */
       }
       
-      /* Voile sombre uniforme pour la lisibilité sur toute l'image */
+      /* 🆕 IMAGE DE FOND (floutée) */
+      .hero::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background-image: url('/assets/back.png');
+        background-size: cover;
+        background-position: 30% center; /* ⭐ décalage à gauche */
+        background-repeat: no-repeat;
+        z-index: 0;
+        pointer-events: none;
+        
+        /* ⭐⭐⭐ INTENSITÉ DU FLOU ⭐⭐⭐
+           1px = très léger | 2px = léger | 3px = un peu flou |
+           5px = moyen | 8px = fort
+           Actuel : 3px = un peu flou */
+        filter: blur(3px);
+        
+        /* Agrandit l'image pour cacher les bords blancs créés par le flou */
+        transform: scale(1.05);
+      }
+      
+      /* Voile sombre par-dessus l'image floutée (au-dessus du ::after) */
       .hero::before {
+        z-index: 1;
         background: linear-gradient(180deg, rgba(42,15,3,0.70) 0%, rgba(42,15,3,0.55) 50%, rgba(42,15,3,0.70) 100%);
       }
       
-      /* On retire le fondu de séparation du bas (l'image n'est plus en bas) */
-      .hero::after {
-        display: none;
-      }
-      
-      /* Conteneur centré */
+      /* Conteneur centré, au-dessus de l'image et du voile */
       .hero-inner {
+        position: relative;
+        z-index: 2;
         padding: 0 18px;
         display: flex;
         justify-content: center;
