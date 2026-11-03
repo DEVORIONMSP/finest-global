@@ -53,9 +53,9 @@ const TRANSLATIONS = {
     "home.location_detected": "Position détectée",
     "home.location_denied": "Impossible de détecter votre position. Vérifiez vos paramètres.",
     "home.see_nearby": "Voir les boutiques proches →",
-    "home.search_by_code": "Rechercher par code boutique",
-    "home.enter_code": "Entrez le code (ex: FG-0001)",
-    "home.find_shop": "Trouver la boutique",
+    "home.search_by_code": "Recherche par code business",
+    "home.enter_code": "Vous cherchez une entreprise en particulier ? Entrez son code business Finest Global pour trouver sa vitrine.",
+    "home.find_shop": "Trouver",
     "home.code_not_found": "Aucune boutique trouvée avec ce code.",
     
     // Footer
@@ -347,7 +347,7 @@ const TRANSLATIONS = {
     "upgrade.password_hint": "Ce mot de passe vous servira pour les connexions futures.",
     
     // ============================================================
-    // 🆕 À PROPOS — TRADUCTION FRANÇAISE COMPLÈTE
+    // À PROPOS — TRADUCTION FRANÇAISE COMPLÈTE
     // ============================================================
     
     // Hero
@@ -455,9 +455,9 @@ const TRANSLATIONS = {
     "home.location_detected": "Location detected",
     "home.location_denied": "Unable to detect your location. Check your settings.",
     "home.see_nearby": "See nearby shops →",
-    "home.search_by_code": "Search by shop code",
-    "home.enter_code": "Enter code (ex: FG-0001)",
-    "home.find_shop": "Find shop",
+    "home.search_by_code": "Business-code search",
+    "home.enter_code": "Looking for a Specific Business? Enter its Finest Global business code to find its storefront.",
+    "home.find_shop": "Find",
     "home.code_not_found": "No shop found with this code.",
     
     // Footer
@@ -749,7 +749,7 @@ const TRANSLATIONS = {
     "upgrade.password_hint": "This password will be used for future logins.",
     
     // ============================================================
-    // 🆕 ABOUT — FULL ENGLISH (SOURCE)
+    // ABOUT — FULL ENGLISH (SOURCE)
     // ============================================================
     
     // Hero
