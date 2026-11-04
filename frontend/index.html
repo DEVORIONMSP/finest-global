@@ -877,6 +877,54 @@
       animation: shimmer 1.5s infinite;
     }
 
+    /* ============================================================
+       🆕 ÉTAT VIDE GLOBAL
+       ============================================================ */
+    #global-empty-state {
+      display: none;
+      padding: 100px 24px;
+      text-align: center;
+      background: var(--cream);
+    }
+
+    #global-empty-state .empty-icon {
+      font-size: 4rem;
+      margin-bottom: 20px;
+      opacity: 0.7;
+    }
+
+    #global-empty-state h2 {
+      font-size: 1.75rem;
+      font-weight: 900;
+      color: var(--brand-dark-solid);
+      margin-bottom: 14px;
+      letter-spacing: -0.5px;
+    }
+
+    #global-empty-state p {
+      color: var(--brand-dark-soft);
+      font-size: 1rem;
+      max-width: 500px;
+      margin: 0 auto 24px;
+      line-height: 1.6;
+    }
+
+    #global-empty-state .btn {
+      display: inline-block;
+      padding: 13px 26px;
+      background: var(--brand-dark-solid);
+      color: var(--cream);
+      border-radius: var(--radius, 10px);
+      font-weight: 700;
+      text-decoration: none;
+      transition: all 0.25s;
+    }
+
+    #global-empty-state .btn:hover {
+      background: var(--brand-dark-deep);
+      transform: translateY(-2px);
+    }
+
     /* Footer */
     .footer {
       background: var(--brand-dark-deep);
@@ -980,7 +1028,6 @@
        🆕 MOBILE — IMAGE EN FOND DERRIÈRE LE TEXTE + FLOU LÉGER
        ============================================================ */
     @media (max-width: 640px) {
-      /* L'image de fond passe dans ::after pour pouvoir la flouter sans flouter le texte */
       .hero {
         min-height: 100vh;
         min-height: 100dvh;
@@ -989,38 +1036,28 @@
         justify-content: center;
         padding: 96px 0 60px;
         background-color: var(--brand-dark-solid);
-        background-image: none; /* l'image est déplacée dans ::after */
+        background-image: none;
       }
       
-      /* 🆕 IMAGE DE FOND (floutée) */
       .hero::after {
         content: "";
         position: absolute;
         inset: 0;
         background-image: url('/assets/back.png');
         background-size: cover;
-        background-position: 75% center; /* ⭐ décalage à gauche */
+        background-position: 75% center;
         background-repeat: no-repeat;
         z-index: 0;
         pointer-events: none;
-        
-        /* ⭐⭐⭐ INTENSITÉ DU FLOU ⭐⭐⭐
-           1px = très léger | 2px = léger | 3px = un peu flou |
-           5px = moyen | 8px = fort
-           Actuel : 3px = un peu flou */
         filter: blur(3px);
-        
-        /* Agrandit l'image pour cacher les bords blancs créés par le flou */
         transform: scale(1.05);
       }
       
-      /* Voile sombre par-dessus l'image floutée (au-dessus du ::after) */
       .hero::before {
         z-index: 1;
         background: linear-gradient(180deg, rgba(42,15,3,0.70) 0%, rgba(42,15,3,0.55) 50%, rgba(42,15,3,0.70) 100%);
       }
       
-      /* Conteneur centré, au-dessus de l'image et du voile */
       .hero-inner {
         position: relative;
         z-index: 2;
@@ -1031,7 +1068,6 @@
         margin-top: 0;
       }
       
-      /* Bloc texte centré, sans bordure gauche */
       .hero-text {
         max-width: 100%;
         width: 100%;
@@ -1041,7 +1077,6 @@
         padding: 0 4px;
       }
       
-      /* Titre centré */
       .hero h1 {
         font-size: 1.9rem;
         letter-spacing: -0.6px;
@@ -1057,7 +1092,6 @@
         padding-right: 6px;
       }
       
-      /* Paragraphe centré */
       .hero p {
         font-size: 0.92rem;
         line-height: 1.55;
@@ -1067,7 +1101,6 @@
         text-shadow: 0 1px 8px rgba(0,0,0,0.5);
       }
       
-      /* Boutons centrés */
       .hero-buttons {
         flex-direction: column;
         align-items: stretch;
@@ -1131,6 +1164,9 @@
       .footer-brand { font-size: 1.2rem; }
       .footer h4 { margin-bottom: 14px; }
       .footer p, .footer a, .footer li { font-size: 0.9rem; line-height: 1.9; }
+      #global-empty-state { padding: 60px 20px; }
+      #global-empty-state h2 { font-size: 1.3rem; }
+      #global-empty-state p { font-size: 0.9rem; }
     }
 
     @media (max-width: 380px) {
@@ -1310,7 +1346,6 @@
         <p data-i18n="home.hero_p">Finest Global makes market vendors visible, findable and connected to their customers. Without replacing the physical market — simply making it accessible.</p>
         <div class="hero-buttons">
           <a href="/marketplace.html" class="btn btn-white btn-lg" data-i18n="home.explore">Explore marketplace →</a>
-          <!-- 🆕 Bouton hero avec id pour adaptCTA() -->
           <a href="/register.html" class="btn btn-outline-white btn-lg" id="hero-seller-btn" data-i18n="home.become_seller">Become a seller</a>
         </div>
       </div>
@@ -1363,8 +1398,16 @@
     </div>
   </section>
 
+  <!-- 🆕 ÉTAT VIDE GLOBAL (masqué par défaut, affiché si tout est vide) -->
+  <div id="global-empty-state">
+    <div class="empty-icon">🏪</div>
+    <h2 data-i18n="home.empty_title">Aucun contenu pour le moment</h2>
+    <p data-i18n="home.empty_p">Les catégories, produits et boutiques apparaîtront ici dès qu'ils seront disponibles. Reviens bientôt !</p>
+    <a href="/register.html" class="btn" data-i18n="home.empty_cta">Devenir vendeur</a>
+  </div>
+
   <!-- CATÉGORIES POPULAIRES -->
-  <section class="section-carousel">
+  <section class="section-carousel" id="section-categories">
     <div class="section-header-centered">
       <h2><span class="accent-bar"></span> <span data-i18n="home.categories_title">Explore Categories</span></h2>
       <p data-i18n="home.categories_p">Browse products and services by category to find what you're looking for.</p>
@@ -1385,7 +1428,7 @@
   </section>
 
   <!-- LES PLUS VENDUS -->
-  <section class="section-carousel">
+  <section class="section-carousel" id="section-trending">
     <div class="section-header-centered">
       <h2><span class="accent-bar"></span> <span data-i18n="home.trending_title">Discover Products & Services</span></h2>
       <p data-i18n="home.trending_p">Explore available products and services from businesses across the marketplace.</p>
@@ -1406,7 +1449,7 @@
   </section>
 
   <!-- BOUTIQUES EN VEDETTE -->
-  <section class="section-carousel">
+  <section class="section-carousel" id="section-shops">
     <div class="section-header-centered">
       <h2><span class="accent-bar"></span> <span data-i18n="home.shops_title">New on Finest Global</span></h2>
       <p data-i18n="home.shops_p">Discover newly registered businesses and explore their storefronts.</p>
@@ -1496,16 +1539,42 @@
   <script src="/js/geo.js"></script>
   <script src="/js/navbar.js"></script>
   <script>
-    document.addEventListener('DOMContentLoaded', () => {
+    /* ============================================================
+       🆕 HELPER — masque une section carrousel entière
+       ============================================================ */
+    function hideSection(sectionId) {
+      const section = document.getElementById(sectionId);
+      if (section) section.style.display = 'none';
+    }
+
+    /* ============================================================
+       INIT
+       ============================================================ */
+    document.addEventListener('DOMContentLoaded', async () => {
       renderNavbar();
       startTypingAnimation();
-      loadCategories();
-      loadTrending();
-      loadShops();
       adaptCTA();
       trackPageview();
       initCarousels();
       handleNavScroll();
+
+      // 🆕 Charger les 3 sections en parallèle et récupérer leurs données
+      const [categories, trending, shops] = await Promise.all([
+        loadCategories(),
+        loadTrending(),
+        loadShops(),
+      ]);
+
+      // 🆕 Si TOUT est vide → afficher le message global
+      const allEmpty =
+        (!categories || categories.length === 0) &&
+        (!trending || trending.length === 0) &&
+        (!shops || shops.length === 0);
+
+      if (allEmpty) {
+        const emptyState = document.getElementById('global-empty-state');
+        if (emptyState) emptyState.style.display = 'block';
+      }
     });
 
     function handleNavScroll() {
@@ -1517,8 +1586,8 @@
       const typed1 = document.getElementById('typed-1');
       const typed2 = document.getElementById('typed-2');
       
-      const word1 = t('home.hero_1');
-      const word2 = t('home.hero_2');
+      const word1 = typeof t === 'function' ? t('home.hero_1') : 'Be Visible.';
+      const word2 = typeof t === 'function' ? t('home.hero_2') : 'Be Findable.';
       
       function typeSequence() {
         typed1.textContent = "";
@@ -1555,18 +1624,20 @@
     async function detectAndRedirect() {
       const btn = document.getElementById('detect-location-btn');
       btn.disabled = true;
-      btn.innerHTML = `⏳ <span>${t('home.detecting')}</span>`;
+      const loadingText = typeof t === 'function' ? t('home.detecting') : 'Detecting...';
+      btn.innerHTML = `⏳ <span>${loadingText}</span>`;
       
       const location = await detectClientLocation();
       
       if (!location) {
         btn.disabled = false;
-        btn.innerHTML = `<span>${t('home.detect_location')}</span>`;
-        showToast(t('home.location_denied'), 'error');
+        const defaultText = typeof t === 'function' ? t('home.detect_location') : 'Detect my location';
+        btn.innerHTML = `<span>${defaultText}</span>`;
+        showToast(typeof t === 'function' ? t('home.location_denied') : 'Location denied', 'error');
         return;
       }
       
-      showToast(`✅ ${t('home.location_detected')}`, 'success');
+      showToast(`✅ ${typeof t === 'function' ? t('home.location_detected') : 'Location detected'}`, 'success');
       
       setTimeout(() => {
         window.location.href = `/marketplace.html?near_me=1&lat=${location.latitude}&lng=${location.longitude}&sort_by=distance`;
@@ -1592,7 +1663,7 @@
           }, 600);
         }
       } catch (error) {
-        showToast(t('home.code_not_found'), 'error');
+        showToast(typeof t === 'function' ? t('home.code_not_found') : 'Code not found', 'error');
       }
     }
     
@@ -1642,6 +1713,9 @@
       next.disabled = scrollLeft >= maxScroll - 4;
     }
     
+    /* ============================================================
+       🆕 CATÉGORIES — retourne le tableau + masque la section si vide
+       ============================================================ */
     async function loadCategories() {
       const track = document.getElementById('categories-track');
       
@@ -1649,16 +1723,8 @@
         const categories = await CategoriesAPI.list();
         
         if (!categories || categories.length === 0) {
-          track.innerHTML = `
-            <div class="empty-state" style="width: 100%; padding: 60px 20px;">
-              <div class="empty-state-icon">🏷️</div>
-              <h3 data-i18n="home.no_categories">${t('home.categories_title')}</h3>
-              <p style="color: var(--brand-dark-soft);">—</p>
-            </div>
-          `;
-          const carousel = track.closest('.carousel');
-          carousel.querySelectorAll('.carousel-nav').forEach(b => b.style.display = 'none');
-          return;
+          hideSection('section-categories');
+          return [];
         }
         
         track.innerHTML = categories.map(cat => `
@@ -1670,41 +1736,45 @@
         `).join('');
         
         setTimeout(() => updateCarouselButtons('categories'), 100);
+        return categories;
         
       } catch (error) {
         console.error('Erreur catégories:', error);
+        hideSection('section-categories');
+        return [];
       }
     }
     
+    /* ============================================================
+       🆕 TRENDING — gère les 2 formats + masque si vide
+       ============================================================ */
     async function loadTrending() {
       const track = document.getElementById('trending-track');
       
       try {
         const data = await SearchAPI.trending(12);
         
-        if (!data.results || data.results.length === 0) {
-          track.innerHTML = `
-            <div class="empty-state" style="width: 100%; padding: 60px 20px;">
-              <div class="empty-state-icon">📦</div>
-              <h3>—</h3>
-              <p style="color: var(--brand-dark-soft);">—</p>
-            </div>
-          `;
-          const carousel = track.closest('.carousel');
-          carousel.querySelectorAll('.carousel-nav').forEach(b => b.style.display = 'none');
-          return;
+        // 🆕 Gère les 2 formats possibles : tableau direct OU { results: [...] }
+        const results = Array.isArray(data) ? data : (data?.results || []);
+        
+        if (results.length === 0) {
+          hideSection('section-trending');
+          return [];
         }
         
-        track.innerHTML = data.results.map(p => `
+        track.innerHTML = results.map(p => `
           <div class="product-slide">
             ${renderProductCard(p)}
           </div>
         `).join('');
         
         setTimeout(() => updateCarouselButtons('trending'), 100);
+        return results;
         
       } catch (error) {
         console.error('Erreur trending:', error);
+        hideSection('section-trending');
+        return [];
       }
     }
     
@@ -1730,6 +1800,9 @@
       `;
     }
     
+    /* ============================================================
+       🆕 BOUTIQUES — retourne le tableau + masque la section si vide
+       ============================================================ */
     async function loadShops() {
       const track = document.getElementById('shops-track');
       
@@ -1737,16 +1810,8 @@
         const shops = await ShopsAPI.list({ limit: 10 });
         
         if (!shops || shops.length === 0) {
-          track.innerHTML = `
-            <div class="empty-state" style="width: 100%; padding: 60px 20px;">
-              <div class="empty-state-icon">🏪</div>
-              <h3>—</h3>
-              <p style="color: var(--brand-dark-soft);">—</p>
-            </div>
-          `;
-          const carousel = track.closest('.carousel');
-          carousel.querySelectorAll('.carousel-nav').forEach(b => b.style.display = 'none');
-          return;
+          hideSection('section-shops');
+          return [];
         }
         
         track.innerHTML = shops.map(shop => `
@@ -1756,9 +1821,12 @@
         `).join('');
         
         setTimeout(() => updateCarouselButtons('shops'), 100);
+        return shops;
         
       } catch (error) {
         console.error('Erreur boutiques:', error);
+        hideSection('section-shops');
+        return [];
       }
     }
     
@@ -1794,37 +1862,29 @@
       `;
     }
     
-    /**
-     * 🆕 Adapte les DEUX boutons "Devenir vendeur" selon l'état de l'utilisateur :
-     * - Bouton hero (#hero-seller-btn)
-     * - Bouton CTA (#cta-button)
-     */
     function adaptCTA() {
       const heroBtn = document.getElementById('hero-seller-btn');
       const ctaBtn = document.getElementById('cta-button');
       
       if (Auth.isSeller()) {
-        // Vendeur connecté → redirige vers le dashboard
         if (heroBtn) {
-          heroBtn.textContent = t('nav.dashboard') + ' →';
+          heroBtn.textContent = (typeof t === 'function' ? t('nav.dashboard') : 'Dashboard') + ' →';
           heroBtn.href = '/dashboard-seller.html';
         }
         if (ctaBtn) {
-          ctaBtn.textContent = t('nav.dashboard') + ' →';
+          ctaBtn.textContent = (typeof t === 'function' ? t('nav.dashboard') : 'Dashboard') + ' →';
           ctaBtn.href = '/dashboard-seller.html';
         }
       } else if (Auth.isAuthenticated()) {
-        // Client connecté → redirige vers become-seller
         if (heroBtn) {
-          heroBtn.textContent = t('home.become_seller') + ' →';
+          heroBtn.textContent = (typeof t === 'function' ? t('home.become_seller') : 'Become a seller') + ' →';
           heroBtn.href = '/become-seller.html';
         }
         if (ctaBtn) {
-          ctaBtn.textContent = t('home.become_seller') + ' →';
+          ctaBtn.textContent = (typeof t === 'function' ? t('home.become_seller') : 'Become a seller') + ' →';
           ctaBtn.href = '/become-seller.html';
         }
       }
-      // Si non connecté : on laisse les liens par défaut vers /register.html
     }
     
     function trackPageview() {
