@@ -1,7 +1,7 @@
 """
 Routes liées aux boutiques.
 Un vendeur = une boutique (relation 1-1).
-Géolocalisation + code unique FG-0001.
+Géolocalisation + code unique FG-0001 + Statut Actif/Inactif.
 """
 
 from fastapi import (
@@ -10,6 +10,7 @@ from fastapi import (
 from sqlalchemy.orm import Session
 from sqlalchemy import func
 from typing import List, Optional
+from pydantic import BaseModel # 🆕 Pour le schéma de statut rapide
 
 from database import get_db
 from models import User, Shop, UserRole
@@ -22,12 +23,18 @@ router = APIRouter(prefix="/api/shops", tags=["Boutiques"])
 
 
 # ============================================================
+# 🆕 SCHEMA POUR LE STATUT
+# ============================================================
+class ShopStatusUpdate(BaseModel):
+    is_active: bool
+
+
+# ============================================================
 # HELPER : Générer un code unique FG-0001
 # ============================================================
 
 def generate_shop_code(db: Session) -> str:
     """Génère un code unique FG-0001, FG-0002, FG-0003..."""
-    # Trouver le dernier shop par id
     last_shop = db.query(Shop).order_by(Shop.id.desc()).first()
     
     if not last_shop or not last_shop.id:
@@ -35,7 +42,6 @@ def generate_shop_code(db: Session) -> str:
     else:
         next_number = last_shop.id + 1
     
-    # Vérifier qu'il n'y a pas de collision (au cas où)
     while True:
         code = f"FG-{next_number:04d}"
         existing = db.query(Shop).filter(Shop.code == code).first()
@@ -54,12 +60,7 @@ def create_shop(
     current_user: User = Depends(require_seller),
     db: Session = Depends(get_db),
 ):
-    """
-    Crée la boutique du vendeur connecté.
-    Un vendeur ne peut avoir qu'une seule boutique.
-    Code unique généré automatiquement.
-    """
-    # Déjà une boutique ?
+    """Crée la boutique du vendeur connecté."""
     existing = db.query(Shop).filter(Shop.owner_id == current_user.id).first()
     if existing:
         raise HTTPException(
@@ -67,20 +68,16 @@ def create_shop(
             detail="Vous avez déjà une boutique. Modifiez-la au lieu d'en créer une nouvelle.",
         )
     
-    # Créer la boutique
     shop = Shop(
         owner_id=current_user.id,
         name=payload.name,
         description=payload.description,
-        # 🆕 Géolocalisation
         latitude=payload.latitude,
         longitude=payload.longitude,
         locality=payload.locality,
         market=payload.market,
-        # 🆕 Code unique auto-généré
         code=generate_shop_code(db),
-        # 🆕 Statut actif
-        is_active=True,
+        is_active=True, # 🆕 Actif par défaut
     )
     db.add(shop)
     db.commit()
@@ -97,7 +94,7 @@ def get_my_shop(
     current_user: User = Depends(require_seller),
     db: Session = Depends(get_db),
 ):
-    """Renvoie la boutique du vendeur connecté."""
+    """Renvoie la boutique du vendeur connecté (même si elle est inactive)."""
     shop = db.query(Shop).filter(Shop.owner_id == current_user.id).first()
     if not shop:
         raise HTTPException(
@@ -117,9 +114,38 @@ def update_my_shop(
     current_user: User = Depends(require_seller),
     db: Session = Depends(get_db),
 ):
+    """Modifie les infos de sa boutique."""
+    shop = db.query(Shop).filter(Shop.owner_id == current_user.id).first()
+    if not shop:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Vous n'avez pas encore de boutique.",
+        )
+    
+    update_data = payload.model_dump(exclude_unset=True)
+    for field, value in update_data.items():
+        setattr(shop, field, value)
+    
+    db.commit()
+    db.refresh(shop)
+    return shop
+
+
+# ============================================================
+# 🆕 3.5 CHANGER LE STATUT (Actif / Inactif)
+# ============================================================
+
+@router.patch("/me/status", response_model=ShopOut)
+def update_my_shop_status(
+    payload: ShopStatusUpdate,
+    current_user: User = Depends(require_seller),
+    db: Session = Depends(get_db),
+):
     """
-    Modifie les infos de sa boutique.
-    Permet aussi de changer la localisation (lat/lng, locality, market).
+    Permet au vendeur d'activer ou désactiver sa boutique.
+    
+    ⚠️ Important : Désactiver la boutique ne supprime PAS les commandes en cours.
+    Cela cache juste la boutique et ses produits de la recherche publique.
     """
     shop = db.query(Shop).filter(Shop.owner_id == current_user.id).first()
     if not shop:
@@ -128,13 +154,10 @@ def update_my_shop(
             detail="Vous n'avez pas encore de boutique.",
         )
     
-    # Mise à jour dynamique : ne modifier que les champs fournis
-    update_data = payload.model_dump(exclude_unset=True)
-    for field, value in update_data.items():
-        setattr(shop, field, value)
-    
+    shop.is_active = payload.is_active
     db.commit()
     db.refresh(shop)
+    
     return shop
 
 
@@ -179,13 +202,11 @@ def list_shops(
     db: Session = Depends(get_db),
 ):
     """
-    Liste toutes les boutiques actives.
-    Filtrable par localité et/ou marché.
-    Triées par nombre de vues décroissant.
+    Liste toutes les boutiques ACTIVES.
+    Les boutiques inactives sont cachées.
     """
     query = db.query(Shop).filter(Shop.is_active == True)
     
-    # 🆕 Filtres géographiques
     if locality:
         query = query.filter(func.lower(Shop.locality) == locality.lower())
     if market:
@@ -208,8 +229,7 @@ def list_shops(
 @router.get("/localities")
 def list_localities(db: Session = Depends(get_db)):
     """
-    Renvoie la liste des localités qui ont au moins une boutique.
-    Utilisé pour les filtres côté client.
+    Renvoie la liste des localités des boutiques ACTIVES.
     """
     localities = (
         db.query(
@@ -217,7 +237,7 @@ def list_localities(db: Session = Depends(get_db)):
             func.count(Shop.id).label("shop_count")
         )
         .filter(
-            Shop.is_active == True,
+            Shop.is_active == True, # 🆕 Uniquement les actives
             Shop.locality.isnot(None),
             Shop.locality != ""
         )
@@ -241,7 +261,7 @@ def list_localities(db: Session = Depends(get_db)):
 @router.get("/markets")
 def list_markets(db: Session = Depends(get_db)):
     """
-    Renvoie la liste des marchés qui ont au moins une boutique.
+    Renvoie la liste des marchés des boutiques ACTIVES.
     """
     markets = (
         db.query(
@@ -249,7 +269,7 @@ def list_markets(db: Session = Depends(get_db)):
             func.count(Shop.id).label("shop_count")
         )
         .filter(
-            Shop.is_active == True,
+            Shop.is_active == True, # 🆕 Uniquement les actives
             Shop.market.isnot(None),
             Shop.market != ""
         )
@@ -276,17 +296,17 @@ def get_shop_by_code(
     db: Session = Depends(get_db),
 ):
     """
-    Trouve une boutique par son code FG-0001.
+    Trouve une boutique ACTIVE par son code FG-0001.
     """
     shop = db.query(Shop).filter(
         func.upper(Shop.code) == code.upper(),
-        Shop.is_active == True
+        Shop.is_active == True # 🆕 Uniquement si active
     ).first()
     
     if not shop:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
-            detail="Aucune entreprise trouvée avec ce code.",
+            detail="Aucune entreprise active trouvée avec ce code.",
         )
     
     return shop
@@ -304,7 +324,7 @@ def get_shop(
 ):
     """
     Renvoie les infos publiques d'une boutique.
-    Incrémente le compteur de vues (sauf si c'est le propriétaire).
+    Si la boutique est inactive, seul le propriétaire peut la voir.
     """
     shop = db.query(Shop).filter(Shop.id == shop_id).first()
     if not shop:
@@ -313,8 +333,16 @@ def get_shop(
             detail="Boutique introuvable.",
         )
     
-    # Incrémenter les vues (sauf si c'est le propriétaire connecté)
-    if not current_user or current_user.id != shop.owner_id:
+    # 🆕 Si la boutique est inactive, on bloque l'accès public
+    is_owner = current_user and current_user.id == shop.owner_id
+    if not shop.is_active and not is_owner:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Cette boutique est actuellement inactive.",
+        )
+    
+    # Incrémenter les vues (sauf si c'est le propriétaire)
+    if not is_owner:
         shop.views_count += 1
         db.commit()
         db.refresh(shop)

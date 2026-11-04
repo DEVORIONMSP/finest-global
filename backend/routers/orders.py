@@ -55,6 +55,13 @@ async def create_order(
             detail="Boutique introuvable.",
         )
     
+    # 🆕 SÉCURITÉ : Bloquer les nouvelles commandes si la boutique est inactive
+    if not shop.is_active:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Cette boutique est actuellement fermée. Les commandes sont suspendues.",
+        )
+    
     # Un vendeur ne peut pas commander chez lui-même
     if shop.owner_id == current_user.id:
         raise HTTPException(
@@ -124,6 +131,7 @@ def get_received_orders(
 ):
     """
     Liste les commandes reçues par le vendeur connecté.
+    ⚠️ Même si la boutique est inactive, le vendeur voit ses commandes en cours.
     """
     orders = (
         db.query(Order)
@@ -177,6 +185,7 @@ async def update_order_status(
     """
     Le vendeur confirme, livre ou annule une commande.
     Le client est notifié en temps réel du changement.
+    ⚠️ Fonctionne même si la boutique est désactivée (pour honorer les commandes en cours).
     """
     order = db.query(Order).filter(Order.id == order_id).first()
     if not order:

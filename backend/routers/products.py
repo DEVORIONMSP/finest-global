@@ -16,7 +16,7 @@ from schemas import ProductCreate, ProductUpdate, ProductOut
 from auth import (
     require_seller, get_current_user, get_current_user_optional
 )
-from utils import save_image, delete_image, PRODUCTS_DIR
+from utils import save_image, save_video, delete_image, delete_video, PRODUCTS_DIR
 
 
 router = APIRouter(prefix="/api/products", tags=["Produits"])
@@ -64,7 +64,6 @@ def create_product(
 ):
     """
     Ajoute un produit dans la boutique du vendeur connecté.
-    Le vendeur doit avoir déjà créé sa boutique.
     """
     # Le vendeur doit avoir une boutique
     shop = db.query(Shop).filter(Shop.owner_id == current_user.id).first()
@@ -74,10 +73,7 @@ def create_product(
             detail="Vous devez d'abord créer votre boutique.",
         )
     
-    # Déterminer l'availability
     availability = payload.availability or "in_stock"
-    
-    # Synchroniser in_stock avec availability
     in_stock = (availability == "in_stock")
     
     product = Product(
@@ -85,9 +81,11 @@ def create_product(
         name=payload.name,
         description=payload.description,
         price=payload.price,
+        is_price_fixed=payload.is_price_fixed,
         category=payload.category,
         color=payload.color,
         availability=availability,
+        stock_quantity=payload.stock_quantity,
         in_stock=in_stock,
     )
     db.add(product)
@@ -113,11 +111,9 @@ async def upload_product_photo(
     """
     product = _get_owned_product(product_id, current_user, db)
     
-    # Supprimer l'ancienne photo
     if product.photo_url:
         delete_image(product.photo_url)
     
-    # Sauvegarder la nouvelle
     photo_url = await save_image(file, PRODUCTS_DIR, prefix=f"product_{product.id}")
     product.photo_url = photo_url
     db.commit()
@@ -126,7 +122,34 @@ async def upload_product_photo(
 
 
 # ============================================================
-# 3. MES PRODUITS (vendeur connecté)
+# 3. UPLOADER LA VIDÉO D'UN PRODUIT (Lot ou démonstration)
+# ============================================================
+
+@router.post("/{product_id}/video", response_model=ProductOut)
+async def upload_product_video(
+    product_id: int,
+    file: UploadFile = File(...),
+    current_user: User = Depends(require_seller),
+    db: Session = Depends(get_db),
+):
+    """
+    Upload la vidéo d'un produit (ex: lot de chaussures).
+    Remplace l'ancienne si elle existe.
+    """
+    product = _get_owned_product(product_id, current_user, db)
+    
+    if product.video_url:
+        delete_video(product.video_url)
+    
+    video_url = await save_video(file, PRODUCTS_DIR, prefix=f"product_vid_{product.id}")
+    product.video_url = video_url
+    db.commit()
+    db.refresh(product)
+    return product
+
+
+# ============================================================
+# 4. MES PRODUITS (vendeur connecté)
 # ============================================================
 
 @router.get("/me", response_model=List[ProductOut])
@@ -136,7 +159,6 @@ def get_my_products(
 ):
     """
     Liste tous les produits de la boutique du vendeur connecté.
-    Triés par date de création décroissante.
     """
     shop = db.query(Shop).filter(Shop.owner_id == current_user.id).first()
     if not shop:
@@ -152,7 +174,7 @@ def get_my_products(
 
 
 # ============================================================
-# 4. PRODUITS D'UNE BOUTIQUE (public)
+# 5. PRODUITS D'UNE BOUTIQUE (public)
 # ============================================================
 
 @router.get("/shop/{shop_id}", response_model=List[ProductOut])
@@ -170,9 +192,7 @@ def get_products_by_shop(
 ):
     """
     Liste les produits d'une boutique, avec filtres.
-    Trié par défaut par date de création.
     """
-    # Vérifier que la boutique existe
     shop = db.query(Shop).filter(Shop.id == shop_id).first()
     if not shop:
         raise HTTPException(
@@ -182,7 +202,6 @@ def get_products_by_shop(
     
     query = db.query(Product).filter(Product.shop_id == shop_id)
     
-    # Filtres
     if category:
         query = query.filter(func.lower(Product.category) == category.lower())
     if color:
@@ -194,21 +213,20 @@ def get_products_by_shop(
     if max_price is not None:
         query = query.filter(Product.price <= max_price)
     
-    # Tri
     if sort_by == "sales":
         query = query.order_by(desc(Product.sales_count))
     elif sort_by == "price_asc":
         query = query.order_by(Product.price.asc())
     elif sort_by == "price_desc":
         query = query.order_by(Product.price.desc())
-    else:  # "recent"
+    else:
         query = query.order_by(desc(Product.created_at))
     
     return query.offset(skip).limit(limit).all()
 
 
 # ============================================================
-# 5. VOIR UN PRODUIT (public, incrémente les vues)
+# 6. VOIR UN PRODUIT (public, incrémente les vues)
 # ============================================================
 
 @router.get("/{product_id}", response_model=ProductOut)
@@ -219,7 +237,6 @@ def get_product(
 ):
     """
     Renvoie les infos publiques d'un produit.
-    Incrémente le compteur de vues sauf si c'est le propriétaire.
     """
     product = db.query(Product).filter(Product.id == product_id).first()
     if not product:
@@ -228,7 +245,6 @@ def get_product(
             detail="Produit introuvable.",
         )
     
-    # Incrémenter les vues sauf si le propriétaire consulte son propre produit
     shop = db.query(Shop).filter(Shop.id == product.shop_id).first()
     is_owner = current_user and shop and shop.owner_id == current_user.id
     
@@ -241,7 +257,7 @@ def get_product(
 
 
 # ============================================================
-# 6. MODIFIER UN PRODUIT
+# 7. MODIFIER UN PRODUIT
 # ============================================================
 
 @router.patch("/{product_id}", response_model=ProductOut)
@@ -258,7 +274,6 @@ def update_product(
     
     update_data = payload.model_dump(exclude_unset=True)
     
-    # Si availability change, synchroniser in_stock
     if "availability" in update_data:
         update_data["in_stock"] = (update_data["availability"] == "in_stock")
     
@@ -271,7 +286,7 @@ def update_product(
 
 
 # ============================================================
-# 7. SUPPRIMER UN PRODUIT
+# 8. SUPPRIMER UN PRODUIT
 # ============================================================
 
 @router.delete("/{product_id}", status_code=status.HTTP_204_NO_CONTENT)
@@ -281,14 +296,14 @@ def delete_product(
     db: Session = Depends(get_db),
 ):
     """
-    Supprime un produit. Seul le propriétaire peut le faire.
-    Supprime aussi la photo associée.
+    Supprime un produit et ses médias associés.
     """
     product = _get_owned_product(product_id, current_user, db)
     
-    # Supprimer la photo
     if product.photo_url:
         delete_image(product.photo_url)
+    if product.video_url:
+        delete_video(product.video_url)
     
     db.delete(product)
     db.commit()

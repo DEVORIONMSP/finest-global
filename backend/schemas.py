@@ -74,7 +74,6 @@ class UserBase(BaseModel):
 
 
 class UserRegisterClient(UserBase):
-    """Inscription d'un CLIENT : prénom + nom + téléphone + password."""
     first_name: str = Field(..., min_length=2, max_length=50)
     last_name: str = Field(..., min_length=2, max_length=50)
     password: str = Field(..., min_length=6, max_length=100)
@@ -86,7 +85,6 @@ class UserRegisterClient(UserBase):
 
 
 class UserRegisterSeller(UserBase):
-    """Inscription d'un VENDEUR : téléphone + infos supplémentaires."""
     first_name: str = Field(..., min_length=2, max_length=50)
     last_name: str = Field(..., min_length=2, max_length=50)
     email: EmailStr
@@ -99,7 +97,6 @@ class UserRegisterSeller(UserBase):
 
 
 class UserLogin(BaseModel):
-    """Connexion : téléphone + mot de passe."""
     phone: str
     password: str = Field(..., min_length=1)
     
@@ -110,7 +107,6 @@ class UserLogin(BaseModel):
 
 
 class UserUpgradeToSeller(BaseModel):
-    """Un CLIENT existant qui veut devenir VENDEUR."""
     first_name: str = Field(..., min_length=2, max_length=50)
     last_name: str = Field(..., min_length=2, max_length=50)
     email: EmailStr
@@ -118,7 +114,6 @@ class UserUpgradeToSeller(BaseModel):
 
 
 class UserOut(BaseModel):
-    """Ce que l'API renvoie pour un utilisateur."""
     id: int
     phone: str
     first_name: Optional[str] = None
@@ -133,7 +128,6 @@ class UserOut(BaseModel):
 
 
 class Token(BaseModel):
-    """Token JWT renvoyé après connexion."""
     access_token: str
     token_type: str = "bearer"
     user: UserOut
@@ -144,11 +138,8 @@ class Token(BaseModel):
 # ============================================================
 
 class ShopCreate(BaseModel):
-    """Création d'une boutique avec géolocalisation."""
     name: str = Field(..., min_length=2, max_length=100)
     description: Optional[str] = Field(None, max_length=1000)
-    
-    # 🆕 Géolocalisation
     latitude: Optional[float] = Field(None, ge=-90, le=90)
     longitude: Optional[float] = Field(None, ge=-180, le=180)
     locality: Optional[str] = Field(None, max_length=100)
@@ -156,11 +147,8 @@ class ShopCreate(BaseModel):
 
 
 class ShopUpdate(BaseModel):
-    """Mise à jour d'une boutique."""
     name: Optional[str] = Field(None, min_length=2, max_length=100)
     description: Optional[str] = Field(None, max_length=1000)
-    
-    # 🆕 Géolocalisation modifiable
     latitude: Optional[float] = Field(None, ge=-90, le=90)
     longitude: Optional[float] = Field(None, ge=-180, le=180)
     locality: Optional[str] = Field(None, max_length=100)
@@ -168,25 +156,17 @@ class ShopUpdate(BaseModel):
 
 
 class ShopOut(BaseModel):
-    """Ce que l'API renvoie pour une boutique."""
     id: int
     owner_id: int
     name: str
     description: Optional[str]
     photo_url: Optional[str]
-    
-    # 🆕 Géolocalisation
     latitude: Optional[float]
     longitude: Optional[float]
     locality: Optional[str]
     market: Optional[str]
-    
-    # 🆕 Code unique FG-0001
     code: Optional[str]
-    
-    # 🆕 Statut
     is_active: bool
-    
     views_count: int
     created_at: datetime
     
@@ -195,19 +175,23 @@ class ShopOut(BaseModel):
 
 
 # ============================================================
-# PRODUITS
+# PRODUITS (🆕 Mis à jour)
 # ============================================================
 
 class ProductCreate(BaseModel):
-    """Création d'un produit avec disponibilité."""
     name: str = Field(..., min_length=2, max_length=150)
     description: Optional[str] = Field(None, max_length=2000)
-    price: float = Field(..., gt=0)
+    
+    # Prix
+    price: float = Field(0, ge=0) # 0 si non fixe
+    is_price_fixed: bool = Field(True) # 🆕
+    
     category: Optional[str] = Field(None, max_length=50)
     color: Optional[str] = Field(None, max_length=30)
     
-    # 🆕 Disponibilité
+    # Disponibilité
     availability: Optional[str] = Field("in_stock", max_length=20)
+    stock_quantity: Optional[str] = Field(None, max_length=50) # 🆕
     
     @field_validator("availability")
     @classmethod
@@ -219,16 +203,15 @@ class ProductCreate(BaseModel):
 
 
 class ProductUpdate(BaseModel):
-    """Mise à jour d'un produit."""
     name: Optional[str] = Field(None, min_length=2, max_length=150)
     description: Optional[str] = None
-    price: Optional[float] = Field(None, gt=0)
+    price: Optional[float] = Field(None, ge=0)
+    is_price_fixed: Optional[bool] = None # 🆕
     category: Optional[str] = None
     color: Optional[str] = None
     in_stock: Optional[bool] = None
-    
-    # 🆕 Disponibilité
     availability: Optional[str] = Field(None, max_length=20)
+    stock_quantity: Optional[str] = Field(None, max_length=50) # 🆕
     
     @field_validator("availability")
     @classmethod
@@ -242,22 +225,19 @@ class ProductUpdate(BaseModel):
 
 
 class ProductOut(BaseModel):
-    """Ce que l'API renvoie pour un produit."""
     id: int
     shop_id: int
     name: str
     description: Optional[str]
     price: float
+    is_price_fixed: bool # 🆕
     photo_url: Optional[str]
+    video_url: Optional[str] # 🆕
     category: Optional[str]
     color: Optional[str]
-    
-    # 🆕 Disponibilité
     availability: str
-    
-    # Ancien champ (compatibilité)
+    stock_quantity: Optional[str] # 🆕
     in_stock: bool
-    
     views_count: int
     sales_count: int
     created_at: datetime
@@ -267,7 +247,6 @@ class ProductOut(BaseModel):
 
 
 class ProductWithShopOut(ProductOut):
-    """Produit enrichi avec les infos de sa boutique (pour la recherche par distance)."""
     shop_name: Optional[str] = None
     shop_code: Optional[str] = None
     shop_latitude: Optional[float] = None
@@ -277,11 +256,57 @@ class ProductWithShopOut(ProductOut):
 
 
 # ============================================================
-# COMMANDES
+# SERVICES (🆕)
+# ============================================================
+
+class ServiceCreate(BaseModel):
+    name: str = Field(..., min_length=2, max_length=150)
+    description: Optional[str] = Field(None, max_length=2000)
+    
+    price: float = Field(0, ge=0)
+    is_price_fixed: bool = Field(True)
+    
+    category: Optional[str] = Field(None, max_length=50)
+    service_area: Optional[str] = Field(None, max_length=100)
+    availability_info: Optional[str] = Field(None, max_length=500)
+
+
+class ServiceUpdate(BaseModel):
+    name: Optional[str] = Field(None, min_length=2, max_length=150)
+    description: Optional[str] = None
+    price: Optional[float] = Field(None, ge=0)
+    is_price_fixed: Optional[bool] = None
+    category: Optional[str] = None
+    service_area: Optional[str] = Field(None, max_length=100)
+    availability_info: Optional[str] = Field(None, max_length=500)
+
+
+class ServiceOut(BaseModel):
+    id: int
+    shop_id: int
+    name: str
+    description: Optional[str]
+    price: float
+    is_price_fixed: bool
+    category: Optional[str]
+    service_area: Optional[str]
+    availability_info: Optional[str]
+    photo_url: Optional[str]
+    video_url: Optional[str]
+    views_count: int
+    created_at: datetime
+    
+    class Config:
+        from_attributes = True
+
+
+# ============================================================
+# COMMANDES (🆕 Mis à jour)
 # ============================================================
 
 class OrderCreate(BaseModel):
-    product_id: int
+    product_id: Optional[int] = None # 🆕 Optionnel
+    service_id: Optional[int] = None # 🆕 Optionnel
     quantity: int = Field(1, ge=1)
     note: Optional[str] = Field(None, max_length=500)
 
@@ -292,13 +317,15 @@ class OrderUpdateStatus(BaseModel):
 
 class OrderOut(BaseModel):
     id: int
-    product_id: int
+    product_id: Optional[int] # 🆕
+    service_id: Optional[int] # 🆕
     buyer_id: int
     seller_id: int
     quantity: int
     total_price: float
     status: OrderStatus
     note: Optional[str]
+    screenshot_url: Optional[str] # 🆕
     created_at: datetime
     
     class Config:
@@ -320,7 +347,6 @@ class SearchResult(BaseModel):
 # ============================================================
 
 class LocationSearchParams(BaseModel):
-    """Paramètres de recherche par proximité."""
     latitude: float = Field(..., ge=-90, le=90)
     longitude: float = Field(..., ge=-180, le=180)
     radius_km: float = Field(10.0, gt=0, le=100)
@@ -336,6 +362,7 @@ class StatsOverview(BaseModel):
     total_sellers: int
     total_shops: int
     total_products: int
+    total_services: int # 🆕
     total_orders: int
     total_revenue: float
     pending_orders: int
@@ -377,14 +404,16 @@ class PageViewCreate(BaseModel):
     path: str
     shop_id: Optional[int] = None
     product_id: Optional[int] = None
+    service_id: Optional[int] = None # 🆕
 
 
 # ============================================================
-# CATÉGORIES
+# CATÉGORIES (🆕 Mis à jour avec type)
 # ============================================================
 
 class CategoryBase(BaseModel):
     name: str = Field(..., min_length=2, max_length=50)
+    type: str = Field("product") # 🆕 "product" ou "service"
     description: Optional[str] = Field(None, max_length=255)
     emoji: Optional[str] = Field(None, max_length=10)
 
@@ -395,6 +424,7 @@ class CategoryCreate(CategoryBase):
 
 class CategoryUpdate(BaseModel):
     name: Optional[str] = Field(None, min_length=2, max_length=50)
+    type: Optional[str] = None # 🆕
     description: Optional[str] = Field(None, max_length=255)
     emoji: Optional[str] = Field(None, max_length=10)
     display_order: Optional[int] = None
@@ -412,5 +442,26 @@ class CategoryOut(CategoryBase):
 
 
 class CategoryWithCount(CategoryOut):
-    """Catégorie avec le nombre de produits associés."""
     product_count: int = 0
+
+
+
+# ============================================================
+# NOTIFICATIONS (🆕)
+# ============================================================
+
+class NotificationOut(BaseModel):
+    id: int
+    user_id: int
+    title: str
+    message: str
+    type: str
+    link: Optional[str]
+    is_read: bool
+    created_at: datetime
+    
+    class Config:
+        from_attributes = True
+
+class NotificationMarkRead(BaseModel):
+    is_read: bool

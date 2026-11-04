@@ -29,17 +29,24 @@ app.add_middleware(
 # Fichiers statiques (uploads)
 UPLOAD_DIR = Path("uploads")
 UPLOAD_DIR.mkdir(exist_ok=True)
+
+# 🆕 On s'assure que le dossier videos existe
+VIDEOS_DIR = UPLOAD_DIR / "videos"
+VIDEOS_DIR.mkdir(exist_ok=True)
+
+# On monte les dossiers statiques
 app.mount("/uploads", StaticFiles(directory="uploads"), name="uploads")
 
 # Routers
 from routers import (
-    users, shops, products, orders, search, admin, tracking,
+    users, shops, products, services, orders, search, admin, tracking,
     categories, admin_categories,
 )
 
 app.include_router(users.router)
 app.include_router(shops.router)
 app.include_router(products.router)
+app.include_router(services.router) # 🆕 Inclusion du router services
 app.include_router(orders.router)
 app.include_router(search.router)
 app.include_router(admin.router)
