@@ -76,6 +76,11 @@
       box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4);
       animation: pulse 2s infinite;
     }
+    .status-dot.inactive {
+      background: var(--silver);
+      animation: none;
+      box-shadow: none;
+    }
     
     @keyframes pulse {
       0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4); }
@@ -517,6 +522,31 @@
     .shop-code-display button:hover {
       background: rgba(255, 253, 209, 0.25);
     }
+
+    /* 🆕 Statut de la boutique */
+    .storefront-status-card {
+      background: var(--cream-card);
+      border: 1.5px solid var(--silver);
+      border-radius: var(--radius-lg, 14px);
+      padding: 24px;
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .storefront-status-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .storefront-status-badge {
+      font-size: 1.2rem;
+      font-weight: 800;
+    }
+    .storefront-status-badge.active { color: var(--success); }
+    .storefront-status-badge.inactive { color: var(--silver); }
     
     /* Boutons personnalisés */
     .btn-primary {
@@ -553,6 +583,17 @@
       border-color: #B91C1C;
     }
     
+    /* 🆕 Bouton succès */
+    .btn-success {
+      background: var(--success);
+      color: white;
+      border: 1.5px solid var(--success);
+    }
+    .btn-success:hover {
+      background: #059669;
+      border-color: #059669;
+    }
+    
     /* Badges statut commande */
     .badge-warning {
       background: var(--cream);
@@ -574,7 +615,7 @@
     }
     
     /* Inputs */
-    .form-input, .form-textarea {
+    .form-input, .form-textarea, .form-select {
       background: rgba(255, 253, 209, 0.85);
       border: 1.5px solid var(--silver);
       color: var(--brand-dark-solid);
@@ -586,7 +627,7 @@
       transition: border-color 0.2s, box-shadow 0.2s;
     }
     
-    .form-input:focus, .form-textarea:focus {
+    .form-input:focus, .form-textarea:focus, .form-select:focus {
       outline: none;
       border-color: var(--brand-dark-solid);
       background: var(--cream);
@@ -840,6 +881,7 @@
       
       .map-container { height: 220px; }
       .shop-code-display .code { font-size: 1.15rem; }
+      .storefront-status-card { flex-direction: column; align-items: stretch; text-align: center; }
     }
     
     @media (max-width: 380px) {
@@ -861,8 +903,8 @@
       <div class="sidebar-header">
         <div class="sidebar-shop-name" id="sidebar-shop-name">...</div>
         <div class="sidebar-shop-status">
-          <span class="status-dot"></span>
-          <span data-i18n="seller.notifications_active">Notifications actives</span>
+          <span class="status-dot" id="sidebar-status-dot"></span>
+          <span id="sidebar-status-text" data-i18n="seller.notifications_active">Notifications actives</span>
         </div>
       </div>
       
@@ -880,9 +922,14 @@
           <span class="sidebar-link-icon">🛍️</span>
           <span data-i18n="seller.products">Mes produits</span>
         </button>
+        <!-- 🆕 Ajout de l'onglet Services -->
+        <button class="sidebar-link" onclick="switchTab('services')" data-tab="services">
+          <span class="sidebar-link-icon">🛠️</span>
+          <span data-i18n="seller.services">Mes services</span>
+        </button>
         <button class="sidebar-link" onclick="switchTab('shop')" data-tab="shop">
           <span class="sidebar-link-icon">🏪</span>
-          <span data-i18n="seller.shop">Ma boutique</span>
+          <span data-i18n="seller.shop">Ma vitrine</span>
         </button>
       </nav>
     </aside>
@@ -904,9 +951,14 @@
   <script>
     let currentShop = null;
     let currentProducts = [];
+    let currentServices = []; // 🆕
     let currentOrders = [];
     let editingProductId = null;
+    let editingServiceId = null; // 🆕
     let productImageFile = null;
+    let productVideoFile = null; // 🆕
+    let serviceImageFile = null; // 🆕
+    let serviceVideoFile = null; // 🆕
     let shopImageFile = null;
     let ws = null;
     let newOrdersCount = 0;
@@ -920,6 +972,7 @@
       try {
         currentShop = await ShopsAPI.getMine();
         document.getElementById('sidebar-shop-name').textContent = currentShop.name;
+        updateSidebarStatus(); // 🆕
       } catch (error) {
         if (error.status === 404) {
           showToast(t('shop.create_title'), 'info');
@@ -931,10 +984,23 @@
       }
       
       loadCategoriesCache();
-      await Promise.all([loadProducts(), loadOrders()]);
+      await Promise.all([loadProducts(), loadServices(), loadOrders()]); // 🆕 loadServices
       switchTab('overview');
       startWebSocket();
     });
+    
+    // 🆕 Mise à jour du statut dans la sidebar
+    function updateSidebarStatus() {
+      const dot = document.getElementById('sidebar-status-dot');
+      const text = document.getElementById('sidebar-status-text');
+      if (currentShop.is_active) {
+        dot.classList.remove('inactive');
+        text.textContent = "Actif";
+      } else {
+        dot.classList.add('inactive');
+        text.textContent = "Inactif";
+      }
+    }
     
     async function loadCategoriesCache() {
       try {
@@ -960,6 +1026,7 @@
         newOrdersCount = 0;
         updateOrdersBadge();
       } else if (tabName === 'products') renderProducts();
+      else if (tabName === 'services') renderServices(); // 🆕
       else if (tabName === 'shop') renderShopSettings();
     }
     
@@ -1177,6 +1244,236 @@
       `;
     }
     
+    // 🆕 SERVICES
+    async function loadServices() {
+      try {
+        currentServices = await ServicesAPI.getMine();
+      } catch (error) {
+        console.error('Erreur chargement services:', error);
+      }
+    }
+
+    function renderServices() {
+      const main = document.getElementById('dashboard-main');
+      
+      main.innerHTML = `
+        <div class="dashboard-header" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;">
+          <div>
+            <h1>Mes Services</h1>
+            <p>${currentServices.length} service(s) proposé(s)</p>
+          </div>
+          <button class="btn btn-primary" onclick="openServiceModal()">
+            ➕ Ajouter un service
+          </button>
+        </div>
+        
+        ${currentServices.length === 0 
+          ? `<div class="empty-state">
+              <div class="empty-state-icon">🛠️</div>
+              <h3>Aucun service pour l'instant</h3>
+              <p>Ajoutez votre premier service pour commencer.</p>
+              <button class="btn btn-primary mt-16" onclick="openServiceModal()">Ajouter un service</button>
+            </div>`
+          : `<div class="products-grid-admin">
+              ${currentServices.map(s => renderAdminServiceCard(s)).join('')}
+            </div>`
+        }
+        
+        <div id="service-modal" class="hidden"></div>
+      `;
+    }
+
+    function renderAdminServiceCard(service) {
+      return `
+        <div class="admin-product-card">
+          <div class="admin-product-image">
+            ${service.photo_url 
+              ? `<img src="${imageUrl(service.photo_url)}" alt="${escapeHtml(service.name)}">`
+              : '🛠️'}
+          </div>
+          <div class="admin-product-body">
+            <div class="admin-product-name">${escapeHtml(service.name)}</div>
+            ${service.category ? `<div class="admin-product-category">${escapeHtml(service.category)}</div>` : ''}
+            <div class="admin-product-price">${service.is_price_fixed ? formatPrice(service.price) : 'Prix variable'}</div>
+            <div class="admin-product-stats">
+              <span>📍 ${escapeHtml(service.service_area || 'Zone non définie')}</span>
+            </div>
+            <div class="admin-product-actions">
+              <button class="btn btn-ghost btn-sm" onclick="openServiceModal(${service.id})">Éditer</button>
+              <button class="btn btn-ghost btn-sm" onclick="deleteService(${service.id})" style="color:var(--danger);">🗑️</button>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    // Modal Service
+    function openServiceModal(serviceId = null) {
+      editingServiceId = serviceId;
+      serviceImageFile = null;
+      serviceVideoFile = null;
+      
+      let service = {
+        name: '', description: '', price: '', category: '', service_area: '', availability_info: '', is_price_fixed: true
+      };
+      
+      if (serviceId) {
+        service = currentServices.find(s => s.id === serviceId);
+      }
+      
+      const isEdit = !!serviceId;
+      const modal = document.getElementById('service-modal');
+      
+      modal.innerHTML = `
+        <div class="modal-overlay" onclick="closeServiceModal(event)">
+          <div class="modal" style="max-width:600px;" onclick="event.stopPropagation()">
+            <div class="modal-header">
+              <h3>${isEdit ? '✏️ Modifier le service' : '➕ Ajouter un service'}</h3>
+              <button class="modal-close" onclick="closeServiceModal()">✕</button>
+            </div>
+            
+            <div class="modal-body">
+              <div id="service-error" class="alert alert-error hidden"></div>
+              
+              <div class="form-group">
+                <label class="form-label required">Nom du service</label>
+                <input type="text" class="form-input" id="s-name" value="${escapeHtml(service.name)}">
+              </div>
+              
+              <div class="form-group">
+                <label class="form-label">Description</label>
+                <textarea class="form-textarea" id="s-desc">${escapeHtml(service.description || '')}</textarea>
+              </div>
+              
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">Prix (FCFA)</label>
+                  <input type="number" class="form-input" id="s-price" value="${service.price}" placeholder="0">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Prix fixe ?</label>
+                  <select class="form-input" id="s-price-fixed">
+                    <option value="true" ${service.is_price_fixed ? 'selected' : ''}>Oui</option>
+                    <option value="false" ${!service.is_price_fixed ? 'selected' : ''}>Non (Négociable)</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">Catégorie</label>
+                  <input type="text" class="form-input" id="s-category" value="${escapeHtml(service.category || '')}">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Zone d'intervention</label>
+                  <input type="text" class="form-input" id="s-area" value="${escapeHtml(service.service_area || '')}" placeholder="Ex: Cotonou, Fidjrossè">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Disponibilité / Horaires</label>
+                <input type="text" class="form-input" id="s-availability" value="${escapeHtml(service.availability_info || '')}" placeholder="Ex: Sur rendez-vous, Lun-Sam 9h-18h">
+              </div>
+              
+              <div class="form-group">
+                <label class="form-label">Photo</label>
+                <div class="image-upload" onclick="document.getElementById('s-image').click()">
+                  <input type="file" id="s-image" accept="image/jpeg,image/png,image/webp" onchange="handleServiceImage(event)">
+                  <div id="s-image-preview">
+                    ${service.photo_url 
+                      ? `<img src="${imageUrl(service.photo_url)}" class="image-preview">`
+                      : `<div style="color:var(--brand-dark-soft);">📸 Cliquez pour ajouter une photo</div>`}
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="modal-footer">
+              <button class="btn btn-ghost" onclick="closeServiceModal()">Annuler</button>
+              <button class="btn btn-primary" id="save-service-btn" onclick="saveService()">
+                ${isEdit ? 'Modifier' : 'Ajouter'}
+              </button>
+            </div>
+          </div>
+        </div>
+      `;
+      
+      modal.classList.remove('hidden');
+    }
+
+    function closeServiceModal(event) {
+      if (event && event.target !== event.currentTarget) return;
+      document.getElementById('service-modal').classList.add('hidden');
+      editingServiceId = null;
+    }
+
+    function handleServiceImage(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      serviceImageFile = file;
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        document.getElementById('s-image-preview').innerHTML = `<img src="${e.target.result}" class="image-preview">`;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    async function saveService() {
+      const btn = document.getElementById('save-service-btn');
+      const errorDiv = document.getElementById('service-error');
+      
+      const data = {
+        name: document.getElementById('s-name').value.trim(),
+        description: document.getElementById('s-desc').value.trim() || null,
+        price: parseFloat(document.getElementById('s-price').value) || 0,
+        is_price_fixed: document.getElementById('s-price-fixed').value === 'true',
+        category: document.getElementById('s-category').value.trim() || null,
+        service_area: document.getElementById('s-area').value.trim() || null,
+        availability_info: document.getElementById('s-availability').value.trim() || null,
+      };
+      
+      if (!data.name) {
+        errorDiv.textContent = 'Le nom est requis';
+        errorDiv.classList.remove('hidden');
+        return;
+      }
+      
+      btn.disabled = true;
+      btn.innerHTML = '<span class="spinner"></span>';
+      
+      try {
+        let service;
+        if (editingServiceId) {
+          service = await ServicesAPI.update(editingServiceId, data);
+          if (serviceImageFile) await ServicesAPI.uploadPhoto(editingServiceId, serviceImageFile);
+        } else {
+          service = await ServicesAPI.create(data);
+          if (serviceImageFile) await ServicesAPI.uploadPhoto(service.id, serviceImageFile);
+        }
+        
+        closeServiceModal();
+        await loadServices();
+        renderServices();
+        showToast('✅ Service enregistré', 'success');
+      } catch (error) {
+        errorDiv.textContent = error.message;
+        errorDiv.classList.remove('hidden');
+        btn.disabled = false;
+      }
+    }
+
+    async function deleteService(serviceId) {
+      if (!confirm('Supprimer ce service ?')) return;
+      try {
+        await ServicesAPI.delete(serviceId);
+        await loadServices();
+        renderServices();
+        showToast('✅ Supprimé', 'success');
+      } catch (error) {
+        showToast(error.message, 'error');
+      }
+    }
+
     function getAvailabilityBadgeClass(availability) {
       const classes = {
         'in_stock': 'badge-stock-yes',
@@ -1207,11 +1504,12 @@
             <span class="product-badge-stock ${getAvailabilityBadgeClass(availability)}">
               ${getAvailabilityBadgeLabel(availability)}
             </span>
+            ${product.video_url ? `<span style="position:absolute;bottom:10px;left:10px;background:rgba(0,0,0,0.6);color:white;padding:2px 6px;border-radius:4px;font-size:0.7rem;">🎥 Vidéo</span>` : ''}
           </div>
           <div class="admin-product-body">
             <div class="admin-product-name">${escapeHtml(product.name)}</div>
             ${product.category ? `<div class="admin-product-category">${escapeHtml(product.category)}</div>` : ''}
-            <div class="admin-product-price">${formatPrice(product.price)}</div>
+            <div class="admin-product-price">${product.is_price_fixed ? formatPrice(product.price) : 'Prix variable'}</div>
             <div class="admin-product-stats">
               <span>📦 ${product.sales_count}</span>
               <span>👁️ ${product.views_count}</span>
@@ -1228,10 +1526,11 @@
     function openProductModal(productId = null) {
       editingProductId = productId;
       productImageFile = null;
+      productVideoFile = null; // 🆕
       
       let product = {
         name: '', description: '', price: '', category: '', color: '',
-        availability: 'in_stock',
+        availability: 'in_stock', is_price_fixed: true, stock_quantity: '' // 🆕
       };
       
       if (productId) {
@@ -1265,8 +1564,18 @@
               <div class="form-row">
                 <div class="form-group">
                   <label class="form-label required">Prix (FCFA)</label>
-                  <input type="number" class="form-input" id="p-price" value="${product.price}" placeholder="12000" min="1">
+                  <input type="number" class="form-input" id="p-price" value="${product.price}" placeholder="12000" min="0">
                 </div>
+                <div class="form-group">
+                  <label class="form-label">Prix fixe ?</label> <!-- 🆕 -->
+                  <select class="form-input" id="p-price-fixed">
+                    <option value="true" ${product.is_price_fixed ? 'selected' : ''}>Oui (Fixe)</option>
+                    <option value="false" ${!product.is_price_fixed ? 'selected' : ''}>Non (Négociable)</option>
+                  </select>
+                </div>
+              </div>
+              
+              <div class="form-row">
                 <div class="form-group">
                   <label class="form-label">${t('marketplace.categories')}</label>
                   <div class="category-input-wrapper">
@@ -1281,13 +1590,13 @@
                     <div class="category-suggestions" id="p-category-suggestions"></div>
                   </div>
                 </div>
-              </div>
-              
-              <div class="form-row">
                 <div class="form-group">
                   <label class="form-label">${t('marketplace.colors')}</label>
                   <input type="text" class="form-input" id="p-color" value="${escapeHtml(product.color || '')}" placeholder="...">
                 </div>
+              </div>
+              
+              <div class="form-row">
                 <div class="form-group">
                   <label class="form-label">${t('product.availability')}</label>
                   <select class="form-input" id="p-availability">
@@ -1295,6 +1604,10 @@
                     <option value="out_of_stock" ${product.availability === 'out_of_stock' ? 'selected' : ''}>❌ ${t('product.out_of_stock_label')}</option>
                     <option value="to_confirm" ${product.availability === 'to_confirm' ? 'selected' : ''}>⏳ ${t('product.to_confirm')}</option>
                   </select>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Stock (Précisez)</label> <!-- 🆕 -->
+                  <input type="text" class="form-input" id="p-stock" value="${escapeHtml(product.stock_quantity || '')}" placeholder="Ex: 1 pièce, Douzaine, En stock...">
                 </div>
               </div>
               
@@ -1312,6 +1625,23 @@
                   </div>
                 </div>
               </div>
+
+              <!-- 🆕 Upload Vidéo -->
+              <div class="form-group">
+                <label class="form-label">Vidéo du lot (Optionnel)</label>
+                <div class="image-upload" onclick="document.getElementById('p-video').click()">
+                  <input type="file" id="p-video" accept="video/mp4,video/webm" onchange="handleProductVideo(event)">
+                  <div id="p-video-preview">
+                    ${product.video_url 
+                      ? `<div style="color:var(--success);font-weight:bold;">✅ Vidéo déjà uploadée</div>`
+                      : `<div style="color:var(--brand-dark-soft);">
+                          <div style="font-size:2rem;margin-bottom:8px;">🎥</div>
+                          <div>MP4, WEBM — max 50 MB</div>
+                        </div>`}
+                  </div>
+                </div>
+              </div>
+
             </div>
             
             <div class="modal-footer">
@@ -1394,6 +1724,7 @@
       document.getElementById('product-modal').classList.add('hidden');
       editingProductId = null;
       productImageFile = null;
+      productVideoFile = null; // 🆕
     }
     
     function handleProductImage(event) {
@@ -1414,6 +1745,20 @@
       };
       reader.readAsDataURL(file);
     }
+
+    // 🆕 Gestion Vidéo
+    function handleProductVideo(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      
+      if (file.size > 50 * 1024 * 1024) {
+        showToast('max 50 MB', 'error');
+        return;
+      }
+      
+      productVideoFile = file;
+      document.getElementById('p-video-preview').innerHTML = `<div style="color:var(--success);font-weight:bold;">✅ Vidéo prête à être uploadée</div>`;
+    }
     
     async function saveProduct() {
       const btn = document.getElementById('save-product-btn');
@@ -1424,10 +1769,12 @@
       const data = {
         name: document.getElementById('p-name').value.trim(),
         description: document.getElementById('p-desc').value.trim() || null,
-        price: parseFloat(document.getElementById('p-price').value),
+        price: parseFloat(document.getElementById('p-price').value) || 0,
+        is_price_fixed: document.getElementById('p-price-fixed').value === 'true', // 🆕
         category: document.getElementById('p-category').value.trim() || null,
         color: document.getElementById('p-color').value.trim() || null,
         availability: document.getElementById('p-availability').value,
+        stock_quantity: document.getElementById('p-stock').value.trim() || null, // 🆕
       };
       
       if (!data.name) {
@@ -1436,8 +1783,8 @@
         return;
       }
       
-      if (!data.price || data.price <= 0) {
-        errorDiv.textContent = '—';
+      if (data.is_price_fixed && (!data.price || data.price <= 0)) {
+        errorDiv.textContent = 'Le prix est requis si fixe.';
         errorDiv.classList.remove('hidden');
         return;
       }
@@ -1454,6 +1801,9 @@
           if (productImageFile) {
             product = await ProductsAPI.uploadPhoto(editingProductId, productImageFile);
           }
+          if (productVideoFile) {
+            product = await ProductsAPI.uploadVideo(editingProductId, productVideoFile); // 🆕
+          }
           
           showToast('✅', 'success');
         } else {
@@ -1461,6 +1811,9 @@
           
           if (productImageFile) {
             product = await ProductsAPI.uploadPhoto(product.id, productImageFile);
+          }
+          if (productVideoFile) {
+            product = await ProductsAPI.uploadVideo(product.id, productVideoFile); // 🆕
           }
           
           showToast('✅', 'success');
@@ -1492,13 +1845,49 @@
       }
     }
     
+    // 🆕 BASCULER LE STATUT
+    async function toggleShopStatus() {
+      const newStatus = !currentShop.is_active;
+      if (!confirm(newStatus ? "Voulez-vous activer votre vitrine ?" : "Voulez-vous désactiver votre vitrine ? Elle ne sera plus visible par les clients.")) return;
+      
+      try {
+        currentShop = await ShopsAPI.updateStatus(newStatus);
+        updateSidebarStatus();
+        renderShopSettings();
+        showToast('✅ Statut mis à jour', 'success');
+      } catch (error) {
+        showToast(error.message, 'error');
+      }
+    }
+
     function renderShopSettings() {
       const main = document.getElementById('dashboard-main');
+      const isActive = currentShop.is_active;
       
       main.innerHTML = `
         <div class="dashboard-header">
           <h1>${t('seller.my_shop')}</h1>
           <p>${t('seller.my_shop_p')}</p>
+        </div>
+
+        <!-- 🆕 STATUT DE LA VITRINE -->
+        <div class="storefront-status-card">
+          <div class="storefront-status-info">
+            <span class="storefront-status-badge ${isActive ? 'active' : 'inactive'}">
+              ${isActive ? '🟢 Actif' : '⚪ Inactif'}
+            </span>
+            <span style="font-size:0.9rem;color:var(--brand-dark-soft);">
+              ${isActive ? 'Votre vitrine est visible par les clients.' : 'Votre vitrine est masquée. Les commandes en cours restent gérables.'}
+            </span>
+          </div>
+          <div style="display:flex;gap:12px;flex-wrap:wrap;">
+            <a href="/shop.html?id=${currentShop.id}" target="_blank" class="btn btn-ghost">
+              👁️ Preview Storefront
+            </a>
+            <button class="btn ${isActive ? 'btn-danger' : 'btn-success'}" onclick="toggleShopStatus()">
+              ${isActive ? 'Désactiver la vitrine' : 'Activer la vitrine'}
+            </button>
+          </div>
         </div>
         
         ${currentShop.code ? `

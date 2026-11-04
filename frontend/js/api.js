@@ -118,6 +118,13 @@ const ShopsAPI = {
   
   updateMine: (data) =>
     apiFetch('/api/shops/me', { method: 'PATCH', body: data }),
+
+  // 🆕 Changer le statut (Actif / Inactif)
+  updateStatus: (isActive) =>
+    apiFetch('/api/shops/me/status', { 
+      method: 'PATCH', 
+      body: { is_active: isActive } 
+    }),
   
   uploadPhoto: (file) => {
     const formData = new FormData();
@@ -132,7 +139,6 @@ const ShopsAPI = {
   list: (filters = {}) => {
     const params = new URLSearchParams();
     
-    // Support des anciens arguments (skip, limit)
     if (typeof filters === 'number') {
       params.append('skip', filters);
       if (arguments[1]) params.append('limit', arguments[1]);
@@ -150,13 +156,10 @@ const ShopsAPI = {
   
   getById: (id) => apiFetch(`/api/shops/${id}`),
   
-  // ---- 🆕 Localités ----
   listLocalities: () => apiFetch('/api/shops/localities'),
   
-  // ---- 🆕 Marchés ----
   listMarkets: () => apiFetch('/api/shops/markets'),
   
-  // ---- 🆕 Recherche par code ----
   getByCode: (code) => apiFetch(`/api/shops/by-code/${encodeURIComponent(code)}`),
 };
 
@@ -172,6 +175,16 @@ const ProductsAPI = {
     const formData = new FormData();
     formData.append('file', file);
     return apiFetch(`/api/products/${productId}/photo`, {
+      method: 'POST',
+      body: formData,
+    });
+  },
+
+  // 🆕 Upload Vidéo
+  uploadVideo: (productId, file) => {
+    const formData = new FormData();
+    formData.append('file', file);
+    return apiFetch(`/api/products/${productId}/video`, {
       method: 'POST',
       body: formData,
     });
@@ -200,6 +213,54 @@ const ProductsAPI = {
 };
 
 // ============================================================
+// 🆕 API — SERVICES
+// ============================================================
+
+const ServicesAPI = {
+  create: (data) =>
+    apiFetch('/api/services/', { method: 'POST', body: data }),
+  
+  uploadPhoto: (serviceId, file) => {
+    const formData = new FormData();
+    formData.append('file', file);
+    return apiFetch(`/api/services/${serviceId}/photo`, {
+      method: 'POST',
+      body: formData,
+    });
+  },
+
+  uploadVideo: (serviceId, file) => {
+    const formData = new FormData();
+    formData.append('file', file);
+    return apiFetch(`/api/services/${serviceId}/video`, {
+      method: 'POST',
+      body: formData,
+    });
+  },
+  
+  getMine: () => apiFetch('/api/services/me'),
+  
+  getByShop: (shopId, filters = {}) => {
+    const params = new URLSearchParams();
+    Object.entries(filters).forEach(([key, value]) => {
+      if (value !== null && value !== undefined && value !== '') {
+        params.append(key, value);
+      }
+    });
+    const qs = params.toString();
+    return apiFetch(`/api/services/shop/${shopId}${qs ? '?' + qs : ''}`);
+  },
+  
+  getById: (id) => apiFetch(`/api/services/${id}`),
+  
+  update: (id, data) =>
+    apiFetch(`/api/services/${id}`, { method: 'PATCH', body: data }),
+  
+  delete: (id) =>
+    apiFetch(`/api/services/${id}`, { method: 'DELETE' }),
+};
+
+// ============================================================
 // API — COMMANDES
 // ============================================================
 
@@ -221,20 +282,31 @@ const OrdersAPI = {
 };
 
 // ============================================================
+// 🆕 API — NOTIFICATIONS
+// ============================================================
+
+const NotificationsAPI = {
+  getMine: (unreadOnly = false) => 
+    apiFetch(`/api/notifications/?unread_only=${unreadOnly}`),
+  
+  getUnreadCount: () => 
+    apiFetch('/api/notifications/unread-count'),
+  
+  markRead: (id, isRead = true) =>
+    apiFetch(`/api/notifications/${id}/read`, { 
+      method: 'PATCH', 
+      body: { is_read: isRead } 
+    }),
+  
+  markAllRead: () => 
+    apiFetch('/api/notifications/read-all', { method: 'POST' }),
+};
+
+// ============================================================
 // API — RECHERCHE
 // ============================================================
 
 const SearchAPI = {
-  /**
-   * Recherche multi-critères.
-   * Filtres possibles :
-   * - q, category, color, shop_id
-   * - locality, market
-   * - latitude, longitude, radius_km
-   * - min_price, max_price
-   * - availability
-   * - sort_by : sales | recent | views | price_asc | price_desc | distance
-   */
   search: (filters = {}) => {
     const params = new URLSearchParams();
     Object.entries(filters).forEach(([key, value]) => {
@@ -244,6 +316,20 @@ const SearchAPI = {
     });
     return apiFetch(`/api/search/?${params.toString()}`);
   },
+
+  // 🆕 Recherche par Image
+  byImage: (file) => {
+    const formData = new FormData();
+    formData.append('file', file);
+    return apiFetch('/api/search/by-image', {
+      method: 'POST',
+      body: formData,
+    });
+  },
+
+  // 🆕 Recherche par Code Vendeur
+  bySellerCode: (code) => 
+    apiFetch(`/api/search/by-seller-code/${encodeURIComponent(code)}`),
   
   suggest: (q) =>
     apiFetch(`/api/search/suggest?q=${encodeURIComponent(q)}`),
@@ -296,7 +382,11 @@ const TrackAPI = {
 // ============================================================
 
 const CategoriesAPI = {
-  list: () => apiFetch('/api/categories/'),
+  // 🆕 On peut filtrer par type ("product" ou "service")
+  list: (type = null) => {
+    const url = type ? `/api/categories/?type=${type}` : '/api/categories/';
+    return apiFetch(url);
+  },
   
   suggest: (q) => apiFetch(`/api/categories/suggest?q=${encodeURIComponent(q)}`),
   
@@ -336,6 +426,7 @@ function imageUrl(path) {
  * Formate un prix en FCFA.
  */
 function formatPrice(price) {
+  if (price === null || price === undefined) return '—';
   return new Intl.NumberFormat('fr-FR').format(price) + ' FCFA';
 }
 
@@ -378,7 +469,7 @@ function showToast(message, type = 'info', duration = 4000) {
 }
 
 /**
- * 🆕 Formate une distance (m ou km).
+ * Formate une distance (m ou km).
  */
 function formatDistance(km) {
   if (km === null || km === undefined) return '';
@@ -389,7 +480,7 @@ function formatDistance(km) {
 }
 
 /**
- * 🆕 Récupère l'availability traduite d'un produit.
+ * Récupère l'availability traduite d'un produit.
  */
 function getAvailabilityLabel(availability) {
   const labels = {
@@ -401,7 +492,7 @@ function getAvailabilityLabel(availability) {
 }
 
 /**
- * 🆕 Récupère la classe CSS de l'availability.
+ * Récupère la classe CSS de l'availability.
  */
 function getAvailabilityClass(availability) {
   const classes = {

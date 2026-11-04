@@ -30,11 +30,35 @@ function renderNavbar() {
     </div>
   `;
   
+  // 🆕 Cloche de notifications (uniquement si connecté)
+  let notificationBell = '';
+  if (isAuth) {
+    notificationBell = `
+      <div class="nav-notifications" id="nav-notifications-menu">
+        <button class="nav-notif-btn" onclick="toggleNotifications(event)" aria-label="Notifications">
+          🔔
+          <span class="nav-notif-badge hidden" id="notif-badge">0</span>
+        </button>
+        <div class="nav-notif-dropdown" id="nav-notif-dropdown">
+          <div class="notif-header">
+            <span>Notifications</span>
+            <button class="notif-mark-all" onclick="markAllNotificationsRead()">Tout marquer lu</button>
+          </div>
+          <div class="notif-list" id="notif-list">
+            <div class="notif-empty">Chargement...</div>
+          </div>
+          <div class="notif-footer">
+            <a href="/notifications.html">Voir tout</a>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+  
   // Partie droite : auth ou profil
   let rightSection = '';
   
   if (!isAuth) {
-    // 🆕 Sur mobile : toujours afficher l'icône de connexion (peu importe la page)
     if (isMobile || isHomePage) {
       rightSection = `
         <div class="nav-user">
@@ -49,7 +73,6 @@ function renderNavbar() {
         </div>
       `;
     } else {
-      // Desktop sur les autres pages : boutons classiques
       rightSection = `
         <div class="nav-auth">
           <a href="/login.html" class="btn btn-ghost btn-sm">${t('nav.login')}</a>
@@ -125,17 +148,128 @@ function renderNavbar() {
       
       ${langSelector}
       
+      ${notificationBell}
+      
       ${rightSection}
     </div>
   `;
   
   initNavbarSearch();
   
-  // La navbar est en position fixe : on indique au CSS sa hauteur
-  // pour décaler le contenu des pages (hors accueil)
+  if (isAuth) {
+    initNotifications();
+  }
+  
   document.body.classList.add('has-navbar');
   syncNavbarHeight();
   observeNavbarHeight();
+}
+
+/**
+ * 🆕 Initialise le système de notifications (chargement + WebSocket)
+ */
+async function initNotifications() {
+  await loadNotifications();
+  startNotificationWebSocket();
+}
+
+async function loadNotifications() {
+  try {
+    const countData = await NotificationsAPI.getUnreadCount();
+    updateNotifBadge(countData.unread_count);
+    
+    const notifs = await NotificationsAPI.getMine();
+    renderNotifList(notifs);
+  } catch (error) {
+    console.error('Erreur chargement notifications:', error);
+  }
+}
+
+function updateNotifBadge(count) {
+  const badge = document.getElementById('notif-badge');
+  if (!badge) return;
+  
+  if (count > 0) {
+    badge.textContent = count > 9 ? '9+' : count;
+    badge.classList.remove('hidden');
+  } else {
+    badge.classList.add('hidden');
+  }
+}
+
+function renderNotifList(notifs) {
+  const list = document.getElementById('notif-list');
+  if (!list) return;
+  
+  if (notifs.length === 0) {
+    list.innerHTML = `<div class="notif-empty">Aucune notification</div>`;
+    return;
+  }
+  
+  list.innerHTML = notifs.slice(0, 10).map(n => `
+    <div class="notif-item ${n.is_read ? 'read' : 'unread'}" onclick="handleNotifClick(${n.id}, '${n.link || ''}')">
+      <div class="notif-title">${escapeHtml(n.title)}</div>
+      <div class="notif-message">${escapeHtml(n.message)}</div>
+      <div class="notif-time">${formatDate(n.created_at)}</div>
+    </div>
+  `).join('');
+}
+
+async function handleNotifClick(id, link) {
+  try {
+    await NotificationsAPI.markRead(id, true);
+    await loadNotifications();
+    if (link && link !== '') {
+      window.location.href = link;
+    }
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+async function markAllNotificationsRead() {
+  try {
+    await NotificationsAPI.markAllRead();
+    await loadNotifications();
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+function toggleNotifications(event) {
+  event.stopPropagation();
+  const dropdown = document.getElementById('nav-notif-dropdown');
+  if (dropdown) dropdown.classList.toggle('open');
+}
+
+// 🆕 WebSocket pour les notifications en temps réel
+let _notifWs = null;
+function startNotificationWebSocket() {
+  const token = Auth.getToken();
+  if (!token || _notifWs) return;
+  
+  const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+  const API_HOST = isLocal ? '127.0.0.1:8000' : 'finest-global-api.onrender.com';
+  const WS_PROTOCOL = isLocal ? 'ws' : 'wss';
+  
+  const wsUrl = `${WS_PROTOCOL}://${API_HOST}/ws/notifications?token=${token}`;
+  _notifWs = new WebSocket(wsUrl);
+  
+  _notifWs.onmessage = (event) => {
+    try {
+      const message = JSON.parse(event.data);
+      if (message.type === 'new_order' || message.type === 'order_status_changed') {
+        // Recharger les notifications
+        loadNotifications();
+        showToast(`🔔 ${message.title}`, 'info');
+      }
+    } catch (e) {}
+  };
+  
+  _notifWs.onclose = () => {
+    _notifWs = null;
+    setTimeout(startNotificationWebSocket, 5000); // Reconnexion
+  };
 }
 
 /**
@@ -147,10 +281,6 @@ function syncNavbarHeight() {
   document.documentElement.style.setProperty('--navbar-h', nav.offsetHeight + 'px');
 }
 
-/**
- * Re-mesure automatiquement la navbar si sa taille change
- * (rotation, barre de recherche sur 2 lignes, chargement du logo...).
- */
 let _navbarObserver = null;
 function observeNavbarHeight() {
   const nav = document.getElementById('navbar');
@@ -159,10 +289,6 @@ function observeNavbarHeight() {
   _navbarObserver.observe(nav);
 }
 
-/**
- * Retourne les liens selon la taille d'écran.
- * 🆕 Sur mobile : uniquement "Marketplace" (4 éléments total : logo + marketplace + langue + icône)
- */
 function baseLinksForScreen() {
   const isMobile = window.innerWidth <= 900;
   
@@ -177,27 +303,18 @@ function baseLinksForScreen() {
   `;
 }
 
-/**
- * Met à jour les liens lors du redimensionnement.
- */
 function updateNavLinksForScreenSize() {
   const linksContainer = document.querySelector('.navbar-links');
   if (!linksContainer) return;
   linksContainer.innerHTML = baseLinksForScreen();
 }
 
-/**
- * Toggle du menu utilisateur.
- */
 function toggleUserMenu(event) {
   event.stopPropagation();
   const dropdown = document.getElementById('nav-dropdown');
   if (dropdown) dropdown.classList.toggle('open');
 }
 
-/**
- * Autocomplétion dans la navbar.
- */
 function initNavbarSearch() {
   const input = document.getElementById('navbar-search-input');
   const suggestions = document.getElementById('navbar-suggestions');
@@ -250,31 +367,23 @@ function initNavbarSearch() {
   });
 }
 
-/**
- * Redirige vers la marketplace avec la recherche.
- */
 function goToSearch(query) {
   if (!query) return;
   window.location.href = `/marketplace.html?q=${encodeURIComponent(query)}`;
 }
 
-/**
- * Échappe le HTML.
- */
 function escapeHtml(text) {
   const div = document.createElement('div');
   div.textContent = text;
   return div.innerHTML;
 }
 
-// Mettre à jour la navbar lors du redimensionnement
 let _navbarResizeTimer;
 window.addEventListener('resize', () => {
   clearTimeout(_navbarResizeTimer);
   _navbarResizeTimer = setTimeout(() => {
     updateNavLinksForScreenSize();
     syncNavbarHeight();
-    // 🆕 Re-render la navbar si on change de breakpoint (mobile ↔ desktop)
     const wasMobile = window.innerWidth <= 900;
     if (wasMobile !== _lastIsMobile) {
       _lastIsMobile = wasMobile;
@@ -285,30 +394,30 @@ window.addEventListener('resize', () => {
 
 let _lastIsMobile = window.innerWidth <= 900;
 
-// Re-mesure une fois la page et les images entièrement chargées
 window.addEventListener('load', syncNavbarHeight);
 
-// Fermer le menu au clic ailleurs
 document.addEventListener('click', (e) => {
   const dropdown = document.getElementById('nav-dropdown');
   const userMenu = document.getElementById('nav-user-menu');
   if (dropdown && userMenu && !userMenu.contains(e.target)) {
     dropdown.classList.remove('open');
   }
+  
+  // 🆕 Fermer les notifications au clic ailleurs
+  const notifDropdown = document.getElementById('nav-notif-dropdown');
+  const notifMenu = document.getElementById('nav-notifications-menu');
+  if (notifDropdown && notifMenu && !notifMenu.contains(e.target)) {
+    notifDropdown.classList.remove('open');
+  }
 });
 
-// ============================================================
-// LOGIQUE DE LA NAVBAR AU DÉFILEMENT (TOUTES LES PAGES)
-// ============================================================
 document.addEventListener('DOMContentLoaded', () => {
   const isHomePage = window.location.pathname === '/' || window.location.pathname.endsWith('/index.html');
   
-  // Classe spécifique à l'accueil (logo géant, icône login, etc.)
   if (isHomePage) {
     document.body.classList.add('page-home');
   }
   
-  // ✅ Scroll listener actif sur TOUTES les pages
   const applyNavScrolled = () => {
     if (window.scrollY > 40) {
       document.body.classList.add('nav-scrolled');

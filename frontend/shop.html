@@ -154,6 +154,31 @@
       flex-wrap: wrap;
     }
     
+    /* 🆕 Onglets Produits / Services */
+    .shop-tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+    
+    .shop-tab {
+      padding: 10px 20px;
+      border-radius: var(--radius, 10px);
+      background: transparent;
+      border: 1.5px solid var(--silver);
+      color: var(--brand-dark-soft);
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: inherit;
+    }
+    
+    .shop-tab.active {
+      background: var(--brand-dark-solid);
+      color: var(--cream);
+      border-color: var(--brand-dark-solid);
+    }
+
     .shop-toolbar h2 {
       font-size: 1.1rem;
       color: var(--brand-dark-solid);
@@ -310,6 +335,19 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
+    }
+
+    /* 🆕 Lecteur Vidéo */
+    .video-container {
+      margin-top: 16px;
+      border-radius: var(--radius, 10px);
+      overflow: hidden;
+      border: 1.5px solid var(--silver);
+    }
+    
+    .video-container video {
+      width: 100%;
+      display: block;
     }
     
     .product-detail-info h1 {
@@ -711,6 +749,7 @@
       .order-summary { padding: 12px; margin-bottom: 16px; }
       .order-summary-row { font-size: 0.85rem; padding: 5px 0; }
       .order-summary-row.total { font-size: 1rem; padding-top: 10px; }
+      .shop-tabs { flex-direction: column; }
     }
     
     @media (max-width: 380px) {
@@ -743,6 +782,7 @@
     let currentProduct = null;
     let currentShop = null;
     let quantity = 1;
+    let currentShopTab = 'products'; // 🆕 'products' | 'services'
     
     const COLOR_HEX = {
       'rouge': '#EF4444', 'bleu': '#1E88E5', 'noir': '#0F172A',
@@ -760,12 +800,26 @@
     function route() {
       const params = new URLSearchParams(window.location.search);
       
-      if (params.get('product')) {
+      // 🆕 Recherche par Code Vendeur
+      if (params.get('code')) {
+        loadShopByCode(params.get('code'));
+      } else if (params.get('product')) {
         loadProductDetail(parseInt(params.get('product')));
       } else if (params.get('id')) {
         loadShop(parseInt(params.get('id')));
       } else {
-        showError(t('product.no_products'));
+        showError("Aucun identifiant fourni.");
+      }
+    }
+
+    // 🆕 Charger une boutique par son code
+    async function loadShopByCode(code) {
+      try {
+        const shop = await ShopsAPI.getByCode(code);
+        // On redirige vers l'ID pour uniformiser
+        window.location.href = `/shop.html?id=${shop.id}`;
+      } catch (error) {
+        showError("Aucune boutique trouvée avec ce code.");
       }
     }
     
@@ -789,15 +843,22 @@
     
     async function loadShop(shopId) {
       try {
-        const [shop, products] = await Promise.all([
+        const [shop, products, services] = await Promise.all([
           ShopsAPI.getById(shopId),
           ProductsAPI.getByShop(shopId, { sort_by: 'sales' }),
+          ServicesAPI.getByShop(shopId),
         ]);
         
+        // 🆕 Gestion de la boutique inactive
+        if (!shop.is_active) {
+          showError("Cette boutique est actuellement fermée par son propriétaire.");
+          return;
+        }
+
         currentShop = shop;
         document.title = `${shop.name} — Finest Global`;
         
-        renderShopPage(shop, products);
+        renderShopPage(shop, products, services);
         showContent();
         
         TrackAPI.pageview({ path: `/shop/${shopId}`, shop_id: shopId }).catch(() => {});
@@ -806,7 +867,7 @@
       }
     }
     
-    function renderShopPage(shop, products) {
+    function renderShopPage(shop, products, services) {
       const initials = shop.name.substring(0, 2).toUpperCase();
       
       const codeBadge = shop.code 
@@ -816,14 +877,11 @@
         : '';
       
       const localityStats = [];
-      if (shop.locality) {
-        localityStats.push(`<span>📍 ${escapeHtml(shop.locality)}</span>`);
-      }
-      if (shop.market) {
-        localityStats.push(`<span>🏪 ${escapeHtml(shop.market)}</span>`);
-      }
+      if (shop.locality) localityStats.push(`<span>📍 ${escapeHtml(shop.locality)}</span>`);
+      if (shop.market) localityStats.push(`<span>🏪 ${escapeHtml(shop.market)}</span>`);
       localityStats.push(`<span>👁️ ${shop.views_count} ${t('product.views')}</span>`);
-      localityStats.push(`<span>📦 ${products.length} ${t('seller.product')}${products.length > 1 ? 's' : ''}</span>`);
+      localityStats.push(`<span>📦 ${products.length} Produits</span>`);
+      if (services.length > 0) localityStats.push(`<span>🛠️ ${services.length} Services</span>`);
       
       document.getElementById('content').innerHTML = `
         <div class="shop-hero">
@@ -845,8 +903,12 @@
         <div class="shop-toolbar">
           <div class="container">
             <div class="shop-toolbar-inner">
-              <h2 data-i18n="product.all_products">${t('product.all_products')}</h2>
-              <select class="sort-select" id="sort-select" onchange="sortShopProducts(${shop.id})">
+              <div class="shop-tabs">
+                <button class="shop-tab ${currentShopTab === 'products' ? 'active' : ''}" onclick="switchShopTab('products')">🛍️ Produits (${products.length})</button>
+                ${services.length > 0 ? `<button class="shop-tab ${currentShopTab === 'services' ? 'active' : ''}" onclick="switchShopTab('services')">🛠️ Services (${services.length})</button>` : ''}
+              </div>
+              
+              <select class="sort-select" id="sort-select" onchange="sortShopItems(${shop.id})">
                 <option value="sales" data-i18n="marketplace.sort_sales">${t('marketplace.sort_sales')}</option>
                 <option value="recent" data-i18n="marketplace.sort_recent">${t('marketplace.sort_recent')}</option>
                 <option value="price_asc" data-i18n="marketplace.sort_price_asc">${t('marketplace.sort_price_asc')}</option>
@@ -858,12 +920,37 @@
         
         <div class="products-section">
           <div class="container">
-            <div class="products-grid" id="shop-products">
-              ${renderProducts(products)}
+            <div class="products-grid" id="shop-items">
+              ${currentShopTab === 'products' ? renderProducts(products) : renderServices(services)}
             </div>
           </div>
         </div>
       `;
+    }
+
+    // 🆕 Changer d'onglet (Produits / Services)
+    function switchShopTab(tab) {
+      currentShopTab = tab;
+      if (tab === 'products') {
+        ProductsAPI.getByShop(currentShop.id, { sort_by: 'sales' }).then(products => {
+          document.getElementById('shop-items').innerHTML = renderProducts(products);
+          updateTabsUI();
+        });
+      } else {
+        ServicesAPI.getByShop(currentShop.id).then(services => {
+          document.getElementById('shop-items').innerHTML = renderServices(services);
+          updateTabsUI();
+        });
+      }
+    }
+
+    function updateTabsUI() {
+      document.querySelectorAll('.shop-tab').forEach(btn => btn.classList.remove('active'));
+      if (currentShopTab === 'products') {
+        document.querySelectorAll('.shop-tab')[0].classList.add('active');
+      } else {
+        document.querySelectorAll('.shop-tab')[1].classList.add('active');
+      }
     }
     
     function copyCode(code) {
@@ -893,23 +980,58 @@
               ${p.photo_url ? `<img src="${imageUrl(p.photo_url)}" alt="${escapeHtml(p.name)}" loading="lazy">` : '📦'}
               ${p.sales_count > 0 ? `<div class="product-badge-sales">${p.sales_count} ${p.sales_count > 1 ? 'ventes' : 'vente'}</div>` : ''}
               <span class="product-badge-availability ${availabilityClass}">${availabilityLabel}</span>
+              ${p.video_url ? `<span style="position:absolute;bottom:10px;right:10px;background:rgba(0,0,0,0.6);color:white;padding:2px 6px;border-radius:4px;font-size:0.7rem;">🎥</span>` : ''}
             </div>
             <div class="product-info">
               <div class="product-name">${escapeHtml(p.name)}</div>
               <div class="product-footer">
-                <div class="product-price">${formatPrice(p.price)}</div>
+                <div class="product-price">${p.is_price_fixed ? formatPrice(p.price) : 'Prix variable'}</div>
               </div>
             </div>
           </a>
         `;
       }).join('');
     }
+
+    // 🆕 Rendu des Services
+    function renderServices(services) {
+      if (services.length === 0) {
+        return `
+          <div class="empty-state" style="grid-column: 1 / -1;">
+            <div class="empty-state-icon">🛠️</div>
+            <h3>Aucun service</h3>
+            <p>Cette boutique ne propose pas encore de services.</p>
+          </div>
+        `;
+      }
+      
+      return services.map(s => `
+        <div class="product-card" onclick="openServiceDetail(${s.id})">
+          <div class="product-image">
+            ${s.photo_url ? `<img src="${imageUrl(s.photo_url)}" alt="${escapeHtml(s.name)}" loading="lazy">` : '🛠️'}
+            <span class="product-badge-availability" style="background:var(--cream);color:var(--brand-dark-solid);border:1px solid var(--brand-dark-solid);">SERVICE</span>
+            ${s.video_url ? `<span style="position:absolute;bottom:10px;right:10px;background:rgba(0,0,0,0.6);color:white;padding:2px 6px;border-radius:4px;font-size:0.7rem;">🎥</span>` : ''}
+          </div>
+          <div class="product-info">
+            <div class="product-name">${escapeHtml(s.name)}</div>
+            <div class="product-footer">
+              <div class="product-price">${s.is_price_fixed ? formatPrice(s.price) : 'Prix variable'}</div>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
     
-    async function sortShopProducts(shopId) {
+    async function sortShopItems(shopId) {
       const sortBy = document.getElementById('sort-select').value;
       try {
-        const products = await ProductsAPI.getByShop(shopId, { sort_by: sortBy });
-        document.getElementById('shop-products').innerHTML = renderProducts(products);
+        if (currentShopTab === 'products') {
+          const products = await ProductsAPI.getByShop(shopId, { sort_by: sortBy });
+          document.getElementById('shop-items').innerHTML = renderProducts(products);
+        } else {
+          const services = await ServicesAPI.getByShop(shopId);
+          document.getElementById('shop-items').innerHTML = renderServices(services);
+        }
       } catch (error) {
         showToast(error.message, 'error');
       }
@@ -922,6 +1044,11 @@
         
         const shop = await ShopsAPI.getById(product.shop_id);
         currentShop = shop;
+
+        if (!shop.is_active) {
+          showError("Cette boutique est actuellement fermée.");
+          return;
+        }
         
         document.title = `${product.name} — Finest Global`;
         
@@ -965,23 +1092,30 @@
       if (shop.code) {
         shopBadges.push(`<span class="badge badge-orange" style="cursor:pointer;" onclick="copyCode('${escapeHtml(shop.code)}')">🔖 ${escapeHtml(shop.code)}</span>`);
       }
-      if (shop.locality) {
-        shopBadges.push(`<span class="badge badge-blue">📍 ${escapeHtml(shop.locality)}</span>`);
-      }
-      if (shop.market) {
-        shopBadges.push(`<span class="badge badge-blue">🏪 ${escapeHtml(shop.market)}</span>`);
-      }
+      if (shop.locality) shopBadges.push(`<span class="badge badge-blue">📍 ${escapeHtml(shop.locality)}</span>`);
+      
+      const priceDisplay = product.is_price_fixed 
+        ? formatPrice(product.price) 
+        : `<span style="font-size:1.2rem;">Prix non fixé</span>`;
       
       document.getElementById('content').innerHTML = `
         <div class="product-detail">
           <div class="container">
             <div class="product-detail-grid">
               
-              <div class="product-detail-image">
-                ${product.photo_url 
-                  ? `<img src="${imageUrl(product.photo_url)}" alt="${escapeHtml(product.name)}">` 
-                  : '📦'}
-                <span class="product-badge-availability ${availabilityClass}" style="top:16px;right:16px;">${availabilityLabel}</span>
+              <div>
+                <div class="product-detail-image">
+                  ${product.photo_url 
+                    ? `<img src="${imageUrl(product.photo_url)}" alt="${escapeHtml(product.name)}">` 
+                    : '📦'}
+                  <span class="product-badge-availability ${availabilityClass}" style="top:16px;right:16px;">${availabilityLabel}</span>
+                </div>
+
+                ${product.video_url ? `
+                  <div class="video-container">
+                    <video controls src="${imageUrl(product.video_url)}"></video>
+                  </div>
+                ` : ''}
               </div>
               
               <div class="product-detail-info">
@@ -992,7 +1126,7 @@
                   ${product.color ? `<span class="badge badge-blue"><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:${colorHex};margin-right:4px;vertical-align:middle;"></span>${product.color}</span>` : ''}
                 </div>
                 
-                <div class="product-detail-price">${formatPrice(product.price)}</div>
+                <div class="product-detail-price">${priceDisplay}</div>
                 
                 <div class="product-detail-stats">
                   <div class="stat-box">
@@ -1008,6 +1142,12 @@
                     <div class="stat-label" data-i18n="product.stock">${t('product.stock')}</div>
                   </div>
                 </div>
+
+                ${product.stock_quantity ? `
+                  <div style="margin-bottom:20px; font-weight:600; color:var(--brand-dark-solid);">
+                    📦 Stock disponible : ${escapeHtml(product.stock_quantity)}
+                  </div>
+                ` : ''}
                 
                 <div class="product-detail-desc">
                   ${escapeHtml(product.description || '—')}
@@ -1062,7 +1202,7 @@
                         <div class="product-info">
                           <div class="product-name">${escapeHtml(p.name)}</div>
                           <div class="product-footer">
-                            <div class="product-price">${formatPrice(p.price)}</div>
+                            <div class="product-price">${p.is_price_fixed ? formatPrice(p.price) : 'Prix variable'}</div>
                           </div>
                         </div>
                       </a>
@@ -1077,6 +1217,13 @@
         
         <div id="order-modal" class="hidden"></div>
       `;
+    }
+
+    // 🆕 Détail Service (Affichage simple)
+    function openServiceDetail(serviceId) {
+      const service = currentShop.id ? null : null; // On pourrait fetch le service mais on l'a déjà dans le DOM
+      // Pour faire simple, on redirige vers la page service si elle existe
+      window.location.href = `/service.html?id=${serviceId}`;
     }
     
     function changeQty(delta) {
@@ -1121,16 +1268,18 @@
                 </div>
                 <div class="order-summary-row">
                   <span data-i18n="product.price_unit">${t('product.price_unit')}</span>
-                  <strong>${formatPrice(currentProduct.price)}</strong>
+                  <strong>${currentProduct.is_price_fixed ? formatPrice(currentProduct.price) : 'Négociable'}</strong>
                 </div>
                 <div class="order-summary-row">
                   <span data-i18n="product.quantity">${t('product.quantity')}</span>
                   <strong>${quantity}</strong>
                 </div>
-                <div class="order-summary-row total">
-                  <span data-i18n="product.total">${t('product.total')}</span>
-                  <span>${formatPrice(total)}</span>
-                </div>
+                ${currentProduct.is_price_fixed ? `
+                  <div class="order-summary-row total">
+                    <span data-i18n="product.total">${t('product.total')}</span>
+                    <span>${formatPrice(total)}</span>
+                  </div>
+                ` : ''}
               </div>
               
               <div class="form-group">

@@ -28,7 +28,129 @@
       background: var(--cream);
       padding: 32px 0 60px;
     }
+
+    /* 🆕 BARRE DE RECHERCHE MULTI-MÉTHODES */
+    .search-methods-bar {
+      background: var(--cream-card);
+      border: 1.5px solid var(--silver);
+      border-radius: var(--radius-lg, 14px);
+      padding: 16px;
+      margin-bottom: 24px;
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
     
+    .search-method-tabs {
+      display: flex;
+      gap: 4px;
+      background: rgba(170, 169, 173, 0.2);
+      padding: 4px;
+      border-radius: var(--radius, 10px);
+    }
+    
+    .search-method-tab {
+      padding: 8px 16px;
+      border: none;
+      background: transparent;
+      color: var(--brand-dark-soft);
+      font-weight: 600;
+      font-size: 0.9rem;
+      border-radius: var(--radius-sm, 6px);
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: inherit;
+    }
+    
+    .search-method-tab.active {
+      background: var(--brand-dark-solid);
+      color: var(--cream);
+    }
+    
+    .search-input-wrapper {
+      flex: 1;
+      min-width: 200px;
+      position: relative;
+    }
+    
+    .search-input-wrapper input {
+      width: 100%;
+      padding: 10px 16px 10px 42px;
+      border: 1.5px solid var(--silver);
+      border-radius: var(--radius, 10px);
+      background: rgba(255, 253, 209, 0.85);
+      font-family: inherit;
+      font-size: 0.9rem;
+      color: var(--brand-dark-solid);
+    }
+    
+    .search-input-wrapper input:focus {
+      outline: none;
+      border-color: var(--brand-dark-solid);
+    }
+    
+    .search-input-wrapper::before {
+      content: "🔍";
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 1rem;
+    }
+
+    .search-btn {
+      padding: 10px 20px;
+      border-radius: var(--radius, 10px);
+      background: var(--brand-dark-solid);
+      color: var(--cream);
+      border: 1.5px solid var(--brand-dark-solid);
+      font-weight: 700;
+      cursor: pointer;
+      font-family: inherit;
+      transition: all 0.2s;
+    }
+    
+    .search-btn:hover {
+      background: var(--brand-dark-deep);
+    }
+
+    /* Style pour la recherche par image */
+    .image-upload-search {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      width: 100%;
+    }
+    
+    .image-upload-search input[type="file"] {
+      display: none;
+    }
+    
+    .image-upload-search label {
+      padding: 10px 20px;
+      background: var(--brand-dark-solid);
+      color: var(--cream);
+      border-radius: var(--radius, 10px);
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.9rem;
+      text-align: center;
+      transition: all 0.2s;
+    }
+    
+    .image-upload-search label:hover {
+      background: var(--brand-dark-deep);
+    }
+    
+    .image-preview-mini {
+      width: 40px;
+      height: 40px;
+      object-fit: cover;
+      border-radius: 6px;
+      border: 1.5px solid var(--silver);
+    }
+
     .marketplace-layout {
       display: grid;
       grid-template-columns: 260px minmax(0, 1fr);
@@ -512,6 +634,15 @@
         grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 12px;
       }
+
+      .search-methods-bar {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      
+      .search-method-tabs {
+        overflow-x: auto;
+      }
     }
     
     /* ---------- Téléphone (≤ 640px) ---------- */
@@ -610,6 +741,44 @@
 
   <div class="marketplace-page">
     <div class="container">
+
+      <!-- 🆕 BARRE DE RECHERCHE MULTI-MÉTHODES -->
+      <div class="search-methods-bar">
+        <div class="search-method-tabs">
+          <button class="search-method-tab active" onclick="switchSearchMethod('text')">📝 Texte</button>
+          <button class="search-method-tab" onclick="switchSearchMethod('image')">📸 Image</button>
+          <button class="search-method-tab" onclick="switchSearchMethod('code')">🔑 Code Vendeur</button>
+        </div>
+        
+        <!-- Recherche par Texte -->
+        <div class="search-input-wrapper" id="search-text-wrapper">
+          <input 
+            type="text" 
+            id="search-text-input" 
+            placeholder="Rechercher un produit, un service..."
+            onkeydown="if(event.key==='Enter') searchByText()"
+          >
+        </div>
+        <button class="search-btn" id="search-text-btn" onclick="searchByText()">Rechercher</button>
+
+        <!-- Recherche par Image (Caché par défaut) -->
+        <div class="image-upload-search hidden" id="search-image-wrapper" style="display:none;">
+          <input type="file" id="search-image-input" accept="image/*" onchange="handleImageSearch(event)">
+          <label for="search-image-input">📸 Choisir une image</label>
+          <img id="search-image-preview" class="image-preview-mini" style="display:none;">
+        </div>
+
+        <!-- Recherche par Code Vendeur (Caché par défaut) -->
+        <div class="search-input-wrapper hidden" id="search-code-wrapper" style="display:none;">
+          <input 
+            type="text" 
+            id="search-code-input" 
+            placeholder="Ex: FG-0001"
+            onkeydown="if(event.key==='Enter') searchByCode()"
+          >
+        </div>
+        <button class="search-btn" id="search-code-btn" style="display:none;" onclick="searchByCode()">Trouver la boutique</button>
+      </div>
       
       <div class="marketplace-layout">
         
@@ -752,9 +921,11 @@
       latitude: null,
       longitude: null,
       near_me: false,
+      searchMethod: 'text', // 🆕 'text' | 'image' | 'code'
     };
     
     let clientLocation = null;
+    let searchImageFile = null; // 🆕
     
     const COLOR_HEX = {
       'rouge': '#EF4444',
@@ -785,7 +956,10 @@
     function readUrlParams() {
       const params = new URLSearchParams(window.location.search);
       
-      if (params.get('q')) state.q = params.get('q');
+      if (params.get('q')) {
+        state.q = params.get('q');
+        document.getElementById('search-text-input').value = state.q;
+      }
       if (params.get('category')) state.category = params.get('category');
       if (params.get('color')) state.color = params.get('color');
       if (params.get('locality')) state.locality = params.get('locality');
@@ -800,6 +974,93 @@
       
       if (state.min_price) document.getElementById('min-price').value = state.min_price;
       if (state.max_price) document.getElementById('max-price').value = state.max_price;
+    }
+
+    // 🆕 GESTION DES MÉTHODES DE RECHERCHE
+    function switchSearchMethod(method) {
+      state.searchMethod = method;
+      
+      // Mettre à jour les onglets actifs
+      document.querySelectorAll('.search-method-tab').forEach(tab => {
+        tab.classList.remove('active');
+      });
+      event.target.classList.add('active');
+      
+      // Cacher toutes les zones de recherche
+      document.getElementById('search-text-wrapper').style.display = 'none';
+      document.getElementById('search-text-btn').style.display = 'none';
+      document.getElementById('search-image-wrapper').style.display = 'none';
+      document.getElementById('search-code-wrapper').style.display = 'none';
+      document.getElementById('search-code-btn').style.display = 'none';
+      
+      // Afficher la bonne
+      if (method === 'text') {
+        document.getElementById('search-text-wrapper').style.display = 'block';
+        document.getElementById('search-text-btn').style.display = 'block';
+      } else if (method === 'image') {
+        document.getElementById('search-image-wrapper').style.display = 'flex';
+      } else if (method === 'code') {
+        document.getElementById('search-code-wrapper').style.display = 'block';
+        document.getElementById('search-code-btn').style.display = 'block';
+      }
+    }
+
+    function searchByText() {
+      state.q = document.getElementById('search-text-input').value.trim();
+      state.skip = 0;
+      updateUrl();
+      loadProducts();
+    }
+
+    function searchByCode() {
+      const code = document.getElementById('search-code-input').value.trim().toUpperCase();
+      if (!code) return;
+      
+      // On redirige directement vers la vitrine
+      window.location.href = `/shop.html?code=${encodeURIComponent(code)}`;
+    }
+
+    function handleImageSearch(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      
+      searchImageFile = file;
+      
+      // Afficher un aperçu
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const preview = document.getElementById('search-image-preview');
+        preview.src = e.target.result;
+        preview.style.display = 'block';
+      };
+      reader.readAsDataURL(file);
+      
+      // Lancer la recherche
+      performImageSearch();
+    }
+
+    async function performImageSearch() {
+      if (!searchImageFile) return;
+      
+      const grid = document.getElementById('products-grid');
+      grid.innerHTML = `<div class="loading-container"><span class="spinner spinner-blue"></span></div>`;
+      
+      try {
+        const data = await SearchAPI.byImage(searchImageFile);
+        
+        state.total = data.total;
+        document.getElementById('results-count').innerHTML = `<strong>${data.total}</strong> résultats similaires`;
+        
+        if (data.results.length === 0) {
+          grid.innerHTML = `<div class="empty-state"><h3>Aucun résultat</h3><p>Essayez une autre image.</p></div>`;
+          return;
+        }
+        
+        grid.innerHTML = data.results.map(p => renderProductCard(p)).join('');
+        
+      } catch (error) {
+        grid.innerHTML = `<div class="empty-state"><h3>Erreur</h3><p>${error.message}</p></div>`;
+      }
     }
     
     async function loadLocalitiesAndMarkets() {
@@ -1040,6 +1301,7 @@
             ${product.sales_count > 0 ? `<div class="product-badge-sales">${product.sales_count} ${salesText}</div>` : ''}
             ${colorDot}
             ${distanceBadge}
+            ${product.video_url ? `<span style="position:absolute;bottom:10px;right:10px;background:rgba(0,0,0,0.6);color:white;padding:2px 6px;border-radius:4px;font-size:0.7rem;">🎥</span>` : ''}
           </div>
           <div class="product-info">
             <div class="product-name">${escapeHtml(product.name)}</div>
@@ -1125,12 +1387,23 @@
       state.near_me = false;
       state.latitude = null;
       state.longitude = null;
+      state.searchMethod = 'text';
       
+      document.getElementById('search-text-input').value = '';
+      document.getElementById('search-code-input').value = '';
+      document.getElementById('search-image-preview').style.display = 'none';
       document.getElementById('min-price').value = '';
       document.getElementById('max-price').value = '';
       document.getElementById('sort-select').value = 'sales';
       document.getElementById('locality-filter').value = '';
       document.getElementById('market-filter').value = '';
+      
+      // Réinitialiser l'onglet de recherche actif
+      document.querySelectorAll('.search-method-tab').forEach(tab => {
+        tab.classList.remove('active');
+      });
+      document.querySelector('.search-method-tab').classList.add('active');
+      switchSearchMethod('text');
       
       const btn = document.getElementById('near-me-btn');
       btn.classList.remove('active');
