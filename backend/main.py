@@ -9,6 +9,7 @@ from pathlib import Path
 
 from database import engine, Base
 import models
+from websocket import websocket_endpoint # 👈 AJOUTÉ (il manquait pour le WebSocket)
 
 Base.metadata.create_all(bind=engine)
 
@@ -40,19 +41,20 @@ app.mount("/uploads", StaticFiles(directory="uploads"), name="uploads")
 # Routers
 from routers import (
     users, shops, products, services, orders, search, admin, tracking,
-    categories, admin_categories,
+    categories, admin_categories, notifications, # 👈 AJOUTÉ ICI
 )
 
 app.include_router(users.router)
 app.include_router(shops.router)
 app.include_router(products.router)
-app.include_router(services.router) # 🆕 Inclusion du router services
+app.include_router(services.router)
 app.include_router(orders.router)
 app.include_router(search.router)
 app.include_router(admin.router)
 app.include_router(tracking.router)
 app.include_router(categories.router)
 app.include_router(admin_categories.router)
+app.include_router(notifications.router) # 👈 AJOUTÉ ICI
 
 # ============================================================
 # WEBSOCKET TEMPS RÉEL
