@@ -40,9 +40,7 @@
       --ginger-600:        var(--brand-dark-deep);
     }
 
-    /* ============================================================
-       HERO
-       ============================================================ */
+    /* HERO */
     .hero {
       position: relative;
       color: var(--cream);
@@ -158,9 +156,7 @@
       border-color: var(--cream);
     }
 
-    /* ============================================================
-       SECTIONS CARROUSEL
-       ============================================================ */
+    /* SECTIONS CARROUSEL */
     .section-carousel {
       padding: 90px 0;
       background: var(--cream);
@@ -602,9 +598,7 @@
       gap: 4px;
     }
 
-    /* ============================================================
-       SECTION PRÈS DE CHEZ VOUS
-       ============================================================ */
+    /* SECTION PRÈS DE CHEZ VOUS */
     .section-near-you {
       background: var(--brand-dark);
       color: var(--cream);
@@ -732,9 +726,7 @@
       background: rgba(255,253,209,0.15);
     }
 
-    /* ============================================================
-       CTA VENDEUR
-       ============================================================ */
+    /* CTA VENDEUR */
     .cta-seller {
       background: var(--brand-dark);
       color: var(--cream);
@@ -877,9 +869,7 @@
       animation: shimmer 1.5s infinite;
     }
 
-    /* ============================================================
-       🆕 ÉTAT VIDE GLOBAL
-       ============================================================ */
+    /* ÉTAT VIDE GLOBAL */
     #global-empty-state {
       display: none;
       padding: 100px 24px;
@@ -993,9 +983,7 @@
       font-size: 0.9rem;
     }
 
-    /* ============================================================
-       RESPONSIVE — PETITS ÉCRANS
-       ============================================================ */
+    /* RESPONSIVE */
     @media (max-width: 1024px) {
       .category-card, .product-slide, .shop-slide { width: calc((100% - 56px) / 3); }
       .skeleton-category { width: calc((100% - 56px) / 3); }
@@ -1024,9 +1012,6 @@
       .near-you-grid { grid-template-columns: 1fr; gap: 24px; }
     }
 
-    /* ============================================================
-       🆕 MOBILE — IMAGE EN FOND DERRIÈRE LE TEXTE + FLOU LÉGER
-       ============================================================ */
     @media (max-width: 640px) {
       .hero {
         min-height: 100vh;
@@ -1185,10 +1170,7 @@
       .cta-seller::before { animation: none; }
     }
 
-    /* ============================================================
-       GRANDS ÉCRANS — Adaptation 2K / ultra-wide / 4K
-       ============================================================ */
-
+    /* GRANDS ÉCRANS */
     @media (min-width: 1600px) {
       .hero { min-height: clamp(700px, 56.25vw, 1000px); padding: 160px 0 110px; }
       .hero-inner { max-width: 1440px; padding: 0 60px; }
@@ -1328,7 +1310,6 @@
 </head>
 <body class="page-home">
 
-  <!-- NAVBAR -->
   <div id="navbar"></div>
 
   <!-- HERO -->
@@ -1398,7 +1379,7 @@
     </div>
   </section>
 
-  <!-- 🆕 ÉTAT VIDE GLOBAL (masqué par défaut, affiché si tout est vide) -->
+  <!-- ÉTAT VIDE GLOBAL -->
   <div id="global-empty-state">
     <div class="empty-icon">🏪</div>
     <h2 data-i18n="home.empty_title">Aucun contenu pour le moment</h2>
@@ -1406,24 +1387,45 @@
     <a href="/register.html" class="btn" data-i18n="home.empty_cta">Devenir vendeur</a>
   </div>
 
-  <!-- CATÉGORIES POPULAIRES -->
-  <section class="section-carousel" id="section-categories">
+  <!-- CATÉGORIES PRODUITS -->
+  <section class="section-carousel" id="section-categories-products">
     <div class="section-header-centered">
-      <h2><span class="accent-bar"></span> <span data-i18n="home.categories_title">Explore Categories</span></h2>
-      <p data-i18n="home.categories_p">Browse products and services by category to find what you're looking for.</p>
+      <h2><span class="accent-bar"></span> <span data-i18n="home.product_categories_title">Explore Product Categories</span></h2>
+      <p data-i18n="home.product_categories_p">Browse products by category.</p>
     </div>
     
     <div class="carousel">
-      <button class="carousel-nav prev" onclick="scrollCarousel('categories', -1)" aria-label="Previous">‹</button>
-      <div class="carousel-track-wrapper" id="categories-track-wrapper">
-        <div class="carousel-track" id="categories-track">
+      <button class="carousel-nav prev" onclick="scrollCarousel('categories-products', -1)" aria-label="Previous">‹</button>
+      <div class="carousel-track-wrapper" id="categories-products-track-wrapper">
+        <div class="carousel-track" id="categories-products-track">
           <div class="skeleton-category"></div>
           <div class="skeleton-category"></div>
           <div class="skeleton-category"></div>
           <div class="skeleton-category"></div>
         </div>
       </div>
-      <button class="carousel-nav next" onclick="scrollCarousel('categories', 1)" aria-label="Next">›</button>
+      <button class="carousel-nav next" onclick="scrollCarousel('categories-products', 1)" aria-label="Next">›</button>
+    </div>
+  </section>
+
+  <!-- CATÉGORIES SERVICES -->
+  <section class="section-carousel" id="section-categories-services">
+    <div class="section-header-centered">
+      <h2><span class="accent-bar"></span> <span data-i18n="home.service_categories_title">Explore Service Categories</span></h2>
+      <p data-i18n="home.service_categories_p">Browse services by category.</p>
+    </div>
+    
+    <div class="carousel">
+      <button class="carousel-nav prev" onclick="scrollCarousel('categories-services', -1)" aria-label="Previous">‹</button>
+      <div class="carousel-track-wrapper" id="categories-services-track-wrapper">
+        <div class="carousel-track" id="categories-services-track">
+          <div class="skeleton-category"></div>
+          <div class="skeleton-category"></div>
+          <div class="skeleton-category"></div>
+          <div class="skeleton-category"></div>
+        </div>
+      </div>
+      <button class="carousel-nav next" onclick="scrollCarousel('categories-services', 1)" aria-label="Next">›</button>
     </div>
   </section>
 
@@ -1539,17 +1541,13 @@
   <script src="/js/geo.js"></script>
   <script src="/js/navbar.js"></script>
   <script>
-    /* ============================================================
-       🆕 HELPER — masque une section carrousel entière
-       ============================================================ */
+    /* HELPER — masque une section carrousel entière */
     function hideSection(sectionId) {
       const section = document.getElementById(sectionId);
       if (section) section.style.display = 'none';
     }
 
-    /* ============================================================
-       INIT
-       ============================================================ */
+    /* INIT */
     document.addEventListener('DOMContentLoaded', async () => {
       renderNavbar();
       startTypingAnimation();
@@ -1558,16 +1556,16 @@
       initCarousels();
       handleNavScroll();
 
-      // 🆕 Charger les 3 sections en parallèle et récupérer leurs données
-      const [categories, trending, shops] = await Promise.all([
-        loadCategories(),
+      const [productCats, serviceCats, trending, shops] = await Promise.all([
+        loadProductCategories(),
+        loadServiceCategories(),
         loadTrending(),
         loadShops(),
       ]);
 
-      // 🆕 Si TOUT est vide → afficher le message global
       const allEmpty =
-        (!categories || categories.length === 0) &&
+        (!productCats || productCats.length === 0) &&
+        (!serviceCats || serviceCats.length === 0) &&
         (!trending || trending.length === 0) &&
         (!shops || shops.length === 0);
 
@@ -1668,13 +1666,14 @@
     }
     
     const carouselState = {
-      categories: { el: null, nav: null },
+      'categories-products': { el: null, nav: null },
+      'categories-services': { el: null, nav: null },
       trending: { el: null, nav: null },
       shops: { el: null, nav: null },
     };
     
     function initCarousels() {
-      ['categories', 'trending', 'shops'].forEach(name => {
+      ['categories-products', 'categories-services', 'trending', 'shops'].forEach(name => {
         const wrapper = document.getElementById(`${name}-track-wrapper`);
         const carousel = wrapper?.closest('.carousel');
         if (!wrapper || !carousel) return;
@@ -1713,48 +1712,73 @@
       next.disabled = scrollLeft >= maxScroll - 4;
     }
     
-    /* ============================================================
-       🆕 CATÉGORIES — retourne le tableau + masque la section si vide
-       ============================================================ */
-    async function loadCategories() {
-      const track = document.getElementById('categories-track');
+    /* CATÉGORIES PRODUITS */
+    async function loadProductCategories() {
+      const track = document.getElementById('categories-products-track');
       
       try {
-        const categories = await CategoriesAPI.list();
+        const categories = await CategoriesAPI.list('product');
         
         if (!categories || categories.length === 0) {
-          hideSection('section-categories');
+          hideSection('section-categories-products');
           return [];
         }
         
         track.innerHTML = categories.map(cat => `
-          <a href="/marketplace.html?category=${encodeURIComponent(cat.name)}" class="category-card">
+          <a href="/marketplace.html?category=${encodeURIComponent(cat.name)}&type=product" class="category-card">
             <span class="category-emoji">${cat.emoji || '🏷️'}</span>
             <span class="category-name">${escapeHtml(cat.name)}</span>
             <span class="category-count">${cat.product_count} ${cat.product_count > 1 ? 'products' : 'product'}</span>
           </a>
         `).join('');
         
-        setTimeout(() => updateCarouselButtons('categories'), 100);
+        setTimeout(() => updateCarouselButtons('categories-products'), 100);
         return categories;
         
       } catch (error) {
-        console.error('Erreur catégories:', error);
-        hideSection('section-categories');
+        console.error('Erreur catégories produits:', error);
+        hideSection('section-categories-products');
+        return [];
+      }
+    }
+
+    /* CATÉGORIES SERVICES */
+    async function loadServiceCategories() {
+      const track = document.getElementById('categories-services-track');
+      
+      try {
+        const categories = await CategoriesAPI.list('service');
+        
+        if (!categories || categories.length === 0) {
+          hideSection('section-categories-services');
+          return [];
+        }
+        
+        track.innerHTML = categories.map(cat => `
+          <a href="/marketplace.html?category=${encodeURIComponent(cat.name)}&type=service" class="category-card">
+            <span class="category-emoji">${cat.emoji || '🛠️'}</span>
+            <span class="category-name">${escapeHtml(cat.name)}</span>
+            <span class="category-count">${cat.product_count} ${cat.product_count > 1 ? 'services' : 'service'}</span>
+          </a>
+        `).join('');
+        
+        setTimeout(() => updateCarouselButtons('categories-services'), 100);
+        return categories;
+        
+      } catch (error) {
+        console.error('Erreur catégories services:', error);
+        hideSection('section-categories-services');
         return [];
       }
     }
     
-    /* ============================================================
-       🆕 TRENDING — gère les 2 formats + masque si vide
-       ============================================================ */
+    /* TRENDING */
     async function loadTrending() {
       const track = document.getElementById('trending-track');
       
       try {
         const data = await SearchAPI.trending(12);
         
-        // 🆕 Gère les 2 formats possibles : tableau direct OU { results: [...] }
         const results = Array.isArray(data) ? data : (data?.results || []);
         
         if (results.length === 0) {
@@ -1800,9 +1824,7 @@
       `;
     }
     
-    /* ============================================================
-       🆕 BOUTIQUES — retourne le tableau + masque la section si vide
-       ============================================================ */
+    /* BOUTIQUES */
     async function loadShops() {
       const track = document.getElementById('shops-track');
       

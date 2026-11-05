@@ -382,13 +382,18 @@ const TrackAPI = {
 // ============================================================
 
 const CategoriesAPI = {
-  // 🆕 On peut filtrer par type ("product" ou "service")
+  // 🆕 Filtre par type ("product" ou "service")
   list: (type = null) => {
     const url = type ? `/api/categories/?type=${type}` : '/api/categories/';
     return apiFetch(url);
   },
   
-  suggest: (q) => apiFetch(`/api/categories/suggest?q=${encodeURIComponent(q)}`),
+  // 🆕 Filtre aussi par type
+  suggest: (q, type = null) => {
+    let url = `/api/categories/suggest?q=${encodeURIComponent(q)}`;
+    if (type) url += `&type=${type}`;
+    return apiFetch(url);
+  },
   
   getById: (id) => apiFetch(`/api/categories/${id}`),
 };

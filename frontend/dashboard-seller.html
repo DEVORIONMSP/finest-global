@@ -523,7 +523,7 @@
       background: rgba(255, 253, 209, 0.25);
     }
 
-    /* 🆕 Statut de la boutique */
+    /* Statut de la boutique */
     .storefront-status-card {
       background: var(--cream-card);
       border: 1.5px solid var(--silver);
@@ -583,7 +583,6 @@
       border-color: #B91C1C;
     }
     
-    /* 🆕 Bouton succès */
     .btn-success {
       background: var(--success);
       color: white;
@@ -922,7 +921,6 @@
           <span class="sidebar-link-icon">🛍️</span>
           <span data-i18n="seller.products">Mes produits</span>
         </button>
-        <!-- 🆕 Ajout de l'onglet Services -->
         <button class="sidebar-link" onclick="switchTab('services')" data-tab="services">
           <span class="sidebar-link-icon">🛠️</span>
           <span data-i18n="seller.services">Mes services</span>
@@ -951,18 +949,21 @@
   <script>
     let currentShop = null;
     let currentProducts = [];
-    let currentServices = []; // 🆕
+    let currentServices = [];
     let currentOrders = [];
     let editingProductId = null;
-    let editingServiceId = null; // 🆕
+    let editingServiceId = null;
     let productImageFile = null;
-    let productVideoFile = null; // 🆕
-    let serviceImageFile = null; // 🆕
-    let serviceVideoFile = null; // 🆕
+    let productVideoFile = null;
+    let serviceImageFile = null;
+    let serviceVideoFile = null;
     let shopImageFile = null;
     let ws = null;
     let newOrdersCount = 0;
-    let allCategories = null;
+    
+    // 🆕 Catégories séparées par type
+    let productCategories = [];
+    let serviceCategories = [];
     
     document.addEventListener('DOMContentLoaded', async () => {
       renderNavbar();
@@ -972,7 +973,7 @@
       try {
         currentShop = await ShopsAPI.getMine();
         document.getElementById('sidebar-shop-name').textContent = currentShop.name;
-        updateSidebarStatus(); // 🆕
+        updateSidebarStatus();
       } catch (error) {
         if (error.status === 404) {
           showToast(t('shop.create_title'), 'info');
@@ -984,12 +985,11 @@
       }
       
       loadCategoriesCache();
-      await Promise.all([loadProducts(), loadServices(), loadOrders()]); // 🆕 loadServices
+      await Promise.all([loadProducts(), loadServices(), loadOrders()]);
       switchTab('overview');
       startWebSocket();
     });
     
-    // 🆕 Mise à jour du statut dans la sidebar
     function updateSidebarStatus() {
       const dot = document.getElementById('sidebar-status-dot');
       const text = document.getElementById('sidebar-status-text');
@@ -1002,12 +1002,19 @@
       }
     }
     
+    // 🆕 Charge les 2 listes de catégories en parallèle
     async function loadCategoriesCache() {
       try {
-        allCategories = await CategoriesAPI.list();
+        const [prods, servs] = await Promise.all([
+          CategoriesAPI.list('product'),
+          CategoriesAPI.list('service'),
+        ]);
+        productCategories = prods || [];
+        serviceCategories = servs || [];
       } catch (error) {
         console.error('Erreur chargement catégories:', error);
-        allCategories = [];
+        productCategories = [];
+        serviceCategories = [];
       }
     }
     
@@ -1026,7 +1033,7 @@
         newOrdersCount = 0;
         updateOrdersBadge();
       } else if (tabName === 'products') renderProducts();
-      else if (tabName === 'services') renderServices(); // 🆕
+      else if (tabName === 'services') renderServices();
       else if (tabName === 'shop') renderShopSettings();
     }
     
@@ -1244,7 +1251,6 @@
       `;
     }
     
-    // 🆕 SERVICES
     async function loadServices() {
       try {
         currentServices = await ServicesAPI.getMine();
@@ -1361,8 +1367,18 @@
 
               <div class="form-row">
                 <div class="form-group">
-                  <label class="form-label">Catégorie</label>
-                  <input type="text" class="form-input" id="s-category" value="${escapeHtml(service.category || '')}">
+                  <label class="form-label">Catégorie (service)</label>
+                  <div class="category-input-wrapper">
+                    <input 
+                      type="text" 
+                      class="form-input" 
+                      id="s-category" 
+                      value="${escapeHtml(service.category || '')}"
+                      placeholder="Ex: Beauty & Personal Care"
+                      autocomplete="off"
+                    >
+                    <div class="category-suggestions" id="s-category-suggestions"></div>
+                  </div>
                 </div>
                 <div class="form-group">
                   <label class="form-label">Zone d'intervention</label>
@@ -1399,6 +1415,11 @@
       `;
       
       modal.classList.remove('hidden');
+      
+      // 🆕 Autocomplete services après ouverture du modal
+      setTimeout(() => {
+        initCategoryAutocomplete('s-category', 's-category-suggestions', 'service');
+      }, 50);
     }
 
     function closeServiceModal(event) {
@@ -1526,11 +1547,11 @@
     function openProductModal(productId = null) {
       editingProductId = productId;
       productImageFile = null;
-      productVideoFile = null; // 🆕
+      productVideoFile = null;
       
       let product = {
         name: '', description: '', price: '', category: '', color: '',
-        availability: 'in_stock', is_price_fixed: true, stock_quantity: '' // 🆕
+        availability: 'in_stock', is_price_fixed: true, stock_quantity: ''
       };
       
       if (productId) {
@@ -1567,7 +1588,7 @@
                   <input type="number" class="form-input" id="p-price" value="${product.price}" placeholder="12000" min="0">
                 </div>
                 <div class="form-group">
-                  <label class="form-label">Prix fixe ?</label> <!-- 🆕 -->
+                  <label class="form-label">Prix fixe ?</label>
                   <select class="form-input" id="p-price-fixed">
                     <option value="true" ${product.is_price_fixed ? 'selected' : ''}>Oui (Fixe)</option>
                     <option value="false" ${!product.is_price_fixed ? 'selected' : ''}>Non (Négociable)</option>
@@ -1606,7 +1627,7 @@
                   </select>
                 </div>
                 <div class="form-group">
-                  <label class="form-label">Stock (Précisez)</label> <!-- 🆕 -->
+                  <label class="form-label">Stock (Précisez)</label>
                   <input type="text" class="form-input" id="p-stock" value="${escapeHtml(product.stock_quantity || '')}" placeholder="Ex: 1 pièce, Douzaine, En stock...">
                 </div>
               </div>
@@ -1626,7 +1647,6 @@
                 </div>
               </div>
 
-              <!-- 🆕 Upload Vidéo -->
               <div class="form-group">
                 <label class="form-label">Vidéo du lot (Optionnel)</label>
                 <div class="image-upload" onclick="document.getElementById('p-video').click()">
@@ -1655,24 +1675,32 @@
       `;
       
       modal.classList.remove('hidden');
-      initCategoryAutocomplete();
+      
+      // 🆕 Autocomplete produits après ouverture du modal
+      setTimeout(() => {
+        initCategoryAutocomplete('p-category', 'p-category-suggestions', 'product');
+      }, 50);
     }
     
-    function initCategoryAutocomplete() {
-      const input = document.getElementById('p-category');
-      const suggestions = document.getElementById('p-category-suggestions');
+    // 🆕 Autocomplete générique (filtre par type)
+    function initCategoryAutocomplete(inputId = 'p-category', suggestionsId = 'p-category-suggestions', type = 'product') {
+      const input = document.getElementById(inputId);
+      const suggestions = document.getElementById(suggestionsId);
       if (!input || !suggestions) return;
+      
+      // 🆕 Choisir la bonne liste selon le type
+      const sourceCategories = type === 'service' ? serviceCategories : productCategories;
       
       function renderSuggestions(filter = '') {
         const q = filter.toLowerCase().trim();
         
-        const filtered = (allCategories || []).filter(c => 
+        const filtered = sourceCategories.filter(c => 
           c.name.toLowerCase().includes(q) ||
           (c.description && c.description.toLowerCase().includes(q))
         );
         
         if (filtered.length === 0) {
-          suggestions.innerHTML = `<div class="category-suggestions-empty">—</div>`;
+          suggestions.innerHTML = `<div class="category-suggestions-empty">Aucune catégorie</div>`;
           suggestions.classList.add('open');
           return;
         }
@@ -1724,7 +1752,7 @@
       document.getElementById('product-modal').classList.add('hidden');
       editingProductId = null;
       productImageFile = null;
-      productVideoFile = null; // 🆕
+      productVideoFile = null;
     }
     
     function handleProductImage(event) {
@@ -1746,7 +1774,6 @@
       reader.readAsDataURL(file);
     }
 
-    // 🆕 Gestion Vidéo
     function handleProductVideo(event) {
       const file = event.target.files[0];
       if (!file) return;
@@ -1770,11 +1797,11 @@
         name: document.getElementById('p-name').value.trim(),
         description: document.getElementById('p-desc').value.trim() || null,
         price: parseFloat(document.getElementById('p-price').value) || 0,
-        is_price_fixed: document.getElementById('p-price-fixed').value === 'true', // 🆕
+        is_price_fixed: document.getElementById('p-price-fixed').value === 'true',
         category: document.getElementById('p-category').value.trim() || null,
         color: document.getElementById('p-color').value.trim() || null,
         availability: document.getElementById('p-availability').value,
-        stock_quantity: document.getElementById('p-stock').value.trim() || null, // 🆕
+        stock_quantity: document.getElementById('p-stock').value.trim() || null,
       };
       
       if (!data.name) {
@@ -1802,7 +1829,7 @@
             product = await ProductsAPI.uploadPhoto(editingProductId, productImageFile);
           }
           if (productVideoFile) {
-            product = await ProductsAPI.uploadVideo(editingProductId, productVideoFile); // 🆕
+            product = await ProductsAPI.uploadVideo(editingProductId, productVideoFile);
           }
           
           showToast('✅', 'success');
@@ -1813,7 +1840,7 @@
             product = await ProductsAPI.uploadPhoto(product.id, productImageFile);
           }
           if (productVideoFile) {
-            product = await ProductsAPI.uploadVideo(product.id, productVideoFile); // 🆕
+            product = await ProductsAPI.uploadVideo(product.id, productVideoFile);
           }
           
           showToast('✅', 'success');
@@ -1845,7 +1872,6 @@
       }
     }
     
-    // 🆕 BASCULER LE STATUT
     async function toggleShopStatus() {
       const newStatus = !currentShop.is_active;
       if (!confirm(newStatus ? "Voulez-vous activer votre vitrine ?" : "Voulez-vous désactiver votre vitrine ? Elle ne sera plus visible par les clients.")) return;
@@ -1870,7 +1896,6 @@
           <p>${t('seller.my_shop_p')}</p>
         </div>
 
-        <!-- 🆕 STATUT DE LA VITRINE -->
         <div class="storefront-status-card">
           <div class="storefront-status-info">
             <span class="storefront-status-badge ${isActive ? 'active' : 'inactive'}">
