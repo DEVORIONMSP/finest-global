@@ -175,7 +175,7 @@ class ShopOut(BaseModel):
 
 
 # ============================================================
-# PRODUITS (🆕 Mis à jour)
+# PRODUITS
 # ============================================================
 
 class ProductCreate(BaseModel):
@@ -183,15 +183,15 @@ class ProductCreate(BaseModel):
     description: Optional[str] = Field(None, max_length=2000)
     
     # Prix
-    price: float = Field(0, ge=0) # 0 si non fixe
-    is_price_fixed: bool = Field(True) # 🆕
+    price: float = Field(0, ge=0)
+    is_price_fixed: bool = Field(True)
     
     category: Optional[str] = Field(None, max_length=50)
     color: Optional[str] = Field(None, max_length=30)
     
     # Disponibilité
     availability: Optional[str] = Field("in_stock", max_length=20)
-    stock_quantity: Optional[str] = Field(None, max_length=50) # 🆕
+    stock_quantity: Optional[str] = Field(None, max_length=50)
     
     @field_validator("availability")
     @classmethod
@@ -206,12 +206,12 @@ class ProductUpdate(BaseModel):
     name: Optional[str] = Field(None, min_length=2, max_length=150)
     description: Optional[str] = None
     price: Optional[float] = Field(None, ge=0)
-    is_price_fixed: Optional[bool] = None # 🆕
+    is_price_fixed: Optional[bool] = None
     category: Optional[str] = None
     color: Optional[str] = None
     in_stock: Optional[bool] = None
     availability: Optional[str] = Field(None, max_length=20)
-    stock_quantity: Optional[str] = Field(None, max_length=50) # 🆕
+    stock_quantity: Optional[str] = Field(None, max_length=50)
     
     @field_validator("availability")
     @classmethod
@@ -230,13 +230,13 @@ class ProductOut(BaseModel):
     name: str
     description: Optional[str]
     price: float
-    is_price_fixed: bool # 🆕
+    is_price_fixed: bool
     photo_url: Optional[str]
-    video_url: Optional[str] # 🆕
+    video_url: Optional[str]
     category: Optional[str]
     color: Optional[str]
     availability: str
-    stock_quantity: Optional[str] # 🆕
+    stock_quantity: Optional[str]
     in_stock: bool
     views_count: int
     sales_count: int
@@ -256,7 +256,7 @@ class ProductWithShopOut(ProductOut):
 
 
 # ============================================================
-# SERVICES (🆕)
+# SERVICES
 # ============================================================
 
 class ServiceCreate(BaseModel):
@@ -301,12 +301,12 @@ class ServiceOut(BaseModel):
 
 
 # ============================================================
-# COMMANDES (🆕 Mis à jour)
+# COMMANDES
 # ============================================================
 
 class OrderCreate(BaseModel):
-    product_id: Optional[int] = None # 🆕 Optionnel
-    service_id: Optional[int] = None # 🆕 Optionnel
+    product_id: Optional[int] = None
+    service_id: Optional[int] = None
     quantity: int = Field(1, ge=1)
     note: Optional[str] = Field(None, max_length=500)
 
@@ -317,15 +317,15 @@ class OrderUpdateStatus(BaseModel):
 
 class OrderOut(BaseModel):
     id: int
-    product_id: Optional[int] # 🆕
-    service_id: Optional[int] # 🆕
+    product_id: Optional[int]
+    service_id: Optional[int]
     buyer_id: int
     seller_id: int
     quantity: int
     total_price: float
     status: OrderStatus
     note: Optional[str]
-    screenshot_url: Optional[str] # 🆕
+    screenshot_url: Optional[str]
     created_at: datetime
     
     class Config:
@@ -362,7 +362,7 @@ class StatsOverview(BaseModel):
     total_sellers: int
     total_shops: int
     total_products: int
-    total_services: int # 🆕
+    total_services: int
     total_orders: int
     total_revenue: float
     pending_orders: int
@@ -404,18 +404,27 @@ class PageViewCreate(BaseModel):
     path: str
     shop_id: Optional[int] = None
     product_id: Optional[int] = None
-    service_id: Optional[int] = None # 🆕
+    service_id: Optional[int] = None
 
 
 # ============================================================
-# CATÉGORIES (🆕 Mis à jour avec type)
+# CATÉGORIES (avec type : 'product' ou 'service')
 # ============================================================
 
 class CategoryBase(BaseModel):
     name: str = Field(..., min_length=2, max_length=50)
-    type: str = Field("product") # 🆕 "product" ou "service"
+    type: str = Field("product", description="Type de catégorie : 'product' ou 'service'")
     description: Optional[str] = Field(None, max_length=255)
     emoji: Optional[str] = Field(None, max_length=10)
+    
+    # 🆕 Validateur pour n'accepter que 'product' ou 'service'
+    @field_validator("type")
+    @classmethod
+    def validate_type(cls, v):
+        allowed = {"product", "service"}
+        if v not in allowed:
+            raise ValueError(f"Type invalide : {v}. Valeurs acceptées : {allowed}")
+        return v
 
 
 class CategoryCreate(CategoryBase):
@@ -424,11 +433,22 @@ class CategoryCreate(CategoryBase):
 
 class CategoryUpdate(BaseModel):
     name: Optional[str] = Field(None, min_length=2, max_length=50)
-    type: Optional[str] = None # 🆕
+    type: Optional[str] = None
     description: Optional[str] = Field(None, max_length=255)
     emoji: Optional[str] = Field(None, max_length=10)
     display_order: Optional[int] = None
     is_active: Optional[bool] = None
+    
+    # 🆕 Validateur pour n'accepter que 'product' ou 'service'
+    @field_validator("type")
+    @classmethod
+    def validate_type(cls, v):
+        if v is None:
+            return v
+        allowed = {"product", "service"}
+        if v not in allowed:
+            raise ValueError(f"Type invalide : {v}. Valeurs acceptées : {allowed}")
+        return v
 
 
 class CategoryOut(CategoryBase):
@@ -445,9 +465,8 @@ class CategoryWithCount(CategoryOut):
     product_count: int = 0
 
 
-
 # ============================================================
-# NOTIFICATIONS (🆕)
+# NOTIFICATIONS
 # ============================================================
 
 class NotificationOut(BaseModel):
@@ -462,6 +481,7 @@ class NotificationOut(BaseModel):
     
     class Config:
         from_attributes = True
+
 
 class NotificationMarkRead(BaseModel):
     is_read: bool
