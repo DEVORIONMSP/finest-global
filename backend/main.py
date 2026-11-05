@@ -9,7 +9,7 @@ from pathlib import Path
 
 from database import engine, Base
 import models
-from websocket import websocket_endpoint # 👈 AJOUTÉ (il manquait pour le WebSocket)
+from websocket import websocket_endpoint
 
 Base.metadata.create_all(bind=engine)
 
@@ -19,29 +19,54 @@ app = FastAPI(
     version="0.1.0",
 )
 
+# ============================================================
+# CONFIGURATION CORS
+# ⚠️ RÈGLE : avec allow_credentials=True, il est INTERDIT d'utiliser
+# allow_origins=["*"]. Il faut lister EXPLICITEMENT chaque origine.
+# ============================================================
+
+ALLOWED_ORIGINS = [
+    # Production (Netlify)
+    "https://finestglobal.netlify.app",
+    
+    # Render (si tu sers le front depuis Render)
+    "https://finest-global-guh4.onrender.com",
+    
+    # Développement local (Live Server VSCode, http.server, Vite, etc.)
+    "http://localhost:3000",
+    "http://localhost:5500",
+    "http://localhost:5501",
+    "http://localhost:8000",
+    "http://localhost:8080",
+    "http://127.0.0.1:3000",
+    "http://127.0.0.1:5500",
+    "http://127.0.0.1:5501",
+    "http://127.0.0.1:8000",
+    "http://127.0.0.1:8080",
+]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=ALLOWED_ORIGINS,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
+    expose_headers=["*"],
 )
 
 # Fichiers statiques (uploads)
 UPLOAD_DIR = Path("uploads")
 UPLOAD_DIR.mkdir(exist_ok=True)
 
-# 🆕 On s'assure que le dossier videos existe
 VIDEOS_DIR = UPLOAD_DIR / "videos"
 VIDEOS_DIR.mkdir(exist_ok=True)
 
-# On monte les dossiers statiques
 app.mount("/uploads", StaticFiles(directory="uploads"), name="uploads")
 
 # Routers
 from routers import (
     users, shops, products, services, orders, search, admin, tracking,
-    categories, admin_categories, notifications, # 👈 AJOUTÉ ICI
+    categories, admin_categories, notifications,
 )
 
 app.include_router(users.router)
@@ -54,7 +79,7 @@ app.include_router(admin.router)
 app.include_router(tracking.router)
 app.include_router(categories.router)
 app.include_router(admin_categories.router)
-app.include_router(notifications.router) # 👈 AJOUTÉ ICI
+app.include_router(notifications.router)
 
 # ============================================================
 # WEBSOCKET TEMPS RÉEL
