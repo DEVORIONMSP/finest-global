@@ -249,26 +249,31 @@ function startNotificationWebSocket() {
   if (!token || _notifWs) return;
   
   const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-  const API_HOST = isLocal ? '127.0.0.1:8000' : 'finest-global-api.onrender.com';
+  
+  // 🆕 HOST CORRIGÉ : finest-global-guh4 (au lieu de finest-global-api)
+  const API_HOST = isLocal ? '127.0.0.1:8000' : 'finest-global-guh4.onrender.com';
   const WS_PROTOCOL = isLocal ? 'ws' : 'wss';
   
   const wsUrl = `${WS_PROTOCOL}://${API_HOST}/ws/notifications?token=${token}`;
   _notifWs = new WebSocket(wsUrl);
   
+  _notifWs.onopen = () => console.log('🟢 WebSocket notifications connecté');
+  
   _notifWs.onmessage = (event) => {
     try {
       const message = JSON.parse(event.data);
       if (message.type === 'new_order' || message.type === 'order_status_changed') {
-        // Recharger les notifications
         loadNotifications();
         showToast(`🔔 ${message.title}`, 'info');
       }
     } catch (e) {}
   };
   
+  _notifWs.onerror = (err) => console.warn('⚠️ WebSocket notifications erreur:', err);
+  
   _notifWs.onclose = () => {
     _notifWs = null;
-    setTimeout(startNotificationWebSocket, 5000); // Reconnexion
+    setTimeout(startNotificationWebSocket, 5000);
   };
 }
 
