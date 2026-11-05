@@ -18,6 +18,7 @@
       --silver-light:      rgba(170, 169, 173, 0.35);
       --silver-soft:       rgba(170, 169, 173, 0.15);
       --cream:             rgb(255, 253, 209);
+      --cream-card:        rgba(255, 253, 209, 0.55);   /* 🆕 AJOUTÉ */
       --cream-soft:        rgba(255, 253, 209, 0.88);
       --cream-muted:       rgba(255, 253, 209, 0.7);
       --danger:            #DC2626;
@@ -127,7 +128,7 @@
     }
     
     .stat-card {
-      background: #FFFFFF;
+      background: var(--cream-card);                 /* 🆕 Plus de blanc */
       border: 1.5px solid var(--silver-light);
       border-radius: var(--radius-lg, 14px);
       padding: 20px;
@@ -176,7 +177,7 @@
     }
     
     .chart-card {
-      background: #FFFFFF;
+      background: var(--cream-card);                 /* 🆕 Plus de blanc */
       border: 1.5px solid var(--silver-light);
       border-radius: var(--radius-lg, 14px);
       padding: 24px;
@@ -291,7 +292,7 @@
     }
     
     .table-card {
-      background: #FFFFFF;
+      background: var(--cream-card);                 /* 🆕 Plus de blanc */
       border: 1.5px solid var(--silver-light);
       border-radius: var(--radius-lg, 14px);
       overflow: hidden;
@@ -318,7 +319,7 @@
       border: 1.5px solid var(--silver-light);
       border-radius: var(--radius, 10px);
       font-size: 0.85rem;
-      background: #FFFFFF;
+      background: var(--cream-card);                 /* 🆕 Plus de blanc */
       color: var(--brand-dark-solid);
       cursor: pointer;
       font-family: inherit;
@@ -376,7 +377,7 @@
     }
     
     .ranking-card {
-      background: #FFFFFF;
+      background: var(--cream-card);                 /* 🆕 Plus de blanc */
       border: 1.5px solid var(--silver-light);
       border-radius: var(--radius-lg, 14px);
       padding: 24px;
@@ -421,7 +422,7 @@
     
     .ranking-position.top-2 {
       background: linear-gradient(135deg, var(--silver), #8B8A8E);
-      color: #FFFFFF;
+      color: var(--cream);
       border-color: var(--silver);
     }
     
@@ -496,7 +497,7 @@
     
     /* Inputs */
     .form-input, .form-textarea {
-      background: #FFFFFF;
+      background: var(--cream-card);                 /* 🆕 Plus de blanc */
       border: 1.5px solid var(--silver-light);
       color: var(--brand-dark-solid);
       border-radius: var(--radius, 10px);
@@ -510,6 +511,7 @@
       outline: none;
       border-color: var(--brand-dark-solid);
       box-shadow: 0 0 0 3px rgba(58, 22, 6, 0.12);
+      background: var(--cream);
     }
     .form-label {
       font-size: 0.85rem;
@@ -532,7 +534,7 @@
       overflow-y: auto;
     }
     .modal {
-      background: #FFFFFF;
+      background: var(--cream);                       /* 🆕 Plus de blanc */
       border-radius: var(--radius-lg, 14px);
       max-width: 480px;
       width: 100%;
@@ -613,7 +615,7 @@
     .empty-state {
       text-align: center;
       padding: 60px 20px;
-      background: #FFFFFF;
+      background: var(--cream-card);                 /* 🆕 Plus de blanc */
       border: 1.5px dashed var(--silver);
       border-radius: var(--radius-lg, 14px);
     }
@@ -855,24 +857,30 @@
       else if (tabName === 'rankings') renderRankings();
     }
     
+    // 🆕 Logs améliorés + reset du flag
     async function loadOverview() {
-      try { overview = await AdminAPI.overview(); }
-      catch (e) { console.error('Erreur overview:', e); }
+      try {
+        overview = await AdminAPI.overview();
+        console.log('✅ Overview chargé :', overview);
+      } catch (e) {
+        console.error('❌ Erreur overview:', e.status, e.message, e);
+        overview = null;
+      }
     }
     
     async function loadUsers() {
       try { users = await AdminAPI.users(); }
-      catch (e) { console.error('Erreur users:', e); }
+      catch (e) { console.error('Erreur users:', e); users = []; }
     }
     
     async function loadShops() {
       try { shops = await AdminAPI.shops(); }
-      catch (e) { console.error('Erreur shops:', e); }
+      catch (e) { console.error('Erreur shops:', e); shops = []; }
     }
     
     async function loadOrders() {
       try { orders = await AdminAPI.orders(); }
-      catch (e) { console.error('Erreur orders:', e); }
+      catch (e) { console.error('Erreur orders:', e); orders = []; }
     }
     
     async function loadRankings() {
@@ -881,14 +889,14 @@
           AdminAPI.topSellers(10),
           AdminAPI.topProducts(10),
         ]);
-      } catch (e) { console.error('Erreur rankings:', e); }
+      } catch (e) { console.error('Erreur rankings:', e); topSellers = []; topProducts = []; }
     }
     
     async function loadVisitors(period) {
       try {
         visitorsData = await AdminAPI.visitors(period);
         visitorsPeriod = period;
-      } catch (e) { console.error('Erreur visitors:', e); }
+      } catch (e) { console.error('Erreur visitors:', e); visitorsData = null; }
     }
     
     async function loadCategories() {
@@ -900,10 +908,25 @@
       }
     }
     
+    // 🆕 Fallback si overview = null (plus d'écran blanc)
     function renderOverview() {
-      if (!overview) return;
-      
       const main = document.getElementById('dashboard-main');
+      
+      if (!overview) {
+        main.innerHTML = `
+          <div class="dashboard-header">
+            <h1>${t('admin.title')}</h1>
+            <p>${t('admin.subtitle')}</p>
+          </div>
+          <div class="empty-state">
+            <div class="empty-state-icon">⚠️</div>
+            <h3>Impossible de charger les statistiques</h3>
+            <p>Vérifie ta connexion, ton token, ou réessaie dans quelques secondes.</p>
+            <button class="btn btn-primary mt-16" onclick="reloadOverview()">🔄 Réessayer</button>
+          </div>
+        `;
+        return;
+      }
       
       main.innerHTML = `
         <div class="dashboard-header">
@@ -975,6 +998,12 @@
           ${renderVisitorChart()}
         </div>
       `;
+    }
+    
+    // 🆕 Recharge les stats
+    async function reloadOverview() {
+      await loadOverview();
+      renderOverview();
     }
     
     function renderVisitorChart() {
