@@ -40,32 +40,46 @@
       --ginger-600:        var(--brand-dark-deep);
     }
 
-    /* 🆕 BARRE CONNECTÉE — placée SOUS la navbar, dans le hero */
+    /* ============================================================
+       🆕 BARRE CONNECTÉE — UNIQUEMENT SUR MOBILE
+       Cachée par défaut sur toutes les tailles.
+       Affichée uniquement si : mobile (≤ 900px) ET connecté.
+       ============================================================ */
     .user-topbar {
-      display: none;
+      display: none;                    /* caché par défaut */
       position: relative;
       z-index: 5;
       width: 100%;
       max-width: 1320px;
-      margin: 0 auto 32px;
-      padding: 12px 16px;
+      margin: 0 auto 24px;
+      padding: 10px 12px;
       background: rgba(255, 253, 209, 0.1);
       -webkit-backdrop-filter: blur(12px);
       backdrop-filter: blur(12px);
       border: 1.5px solid var(--silver-light);
       border-radius: var(--radius, 10px);
       align-items: center;
-      gap: 12px;
+      gap: 8px;
       box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
     }
     
-    .user-topbar.visible {
-      display: flex;
+    /* Affichage UNIQUEMENT sur mobile ET si connecté (.visible) */
+    @media (max-width: 900px) {
+      .user-topbar.visible {
+        display: flex;
+      }
+    }
+    
+    /* Sur desktop : jamais de topbar, même si .visible est ajoutée */
+    @media (min-width: 901px) {
+      .user-topbar.visible {
+        display: none !important;
+      }
     }
     
     .user-topbar-avatar {
-      width: 42px;
-      height: 42px;
+      width: 38px;
+      height: 38px;
       border-radius: 50%;
       background: linear-gradient(135deg, var(--cream), var(--silver));
       color: var(--brand-dark-solid);
@@ -73,7 +87,7 @@
       align-items: center;
       justify-content: center;
       font-weight: 800;
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       flex-shrink: 0;
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
       text-decoration: none;
@@ -81,8 +95,8 @@
       transition: transform 0.2s;
     }
     
-    .user-topbar-avatar:hover {
-      transform: scale(1.05);
+    .user-topbar-avatar:active {
+      transform: scale(0.95);
     }
     
     .user-topbar-search {
@@ -93,13 +107,13 @@
     
     .user-topbar-search input {
       width: 100%;
-      padding: 11px 16px 11px 40px;
-      border-radius: 22px;
+      padding: 9px 14px 9px 36px;
+      border-radius: 20px;
       border: 1.5px solid var(--silver-light);
       background: rgba(255, 253, 209, 0.12);
       color: var(--cream);
       font-family: inherit;
-      font-size: 0.92rem;
+      font-size: 0.85rem;
       transition: all 0.2s;
     }
     
@@ -117,11 +131,11 @@
     .user-topbar-search::before {
       content: "";
       position: absolute;
-      left: 15px;
+      left: 13px;
       top: 50%;
       transform: translateY(-50%);
-      width: 16px;
-      height: 16px;
+      width: 14px;
+      height: 14px;
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23FFFDD1' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cline x1='21' y1='21' x2='16.65' y2='16.65'/%3E%3C/svg%3E");
       background-repeat: no-repeat;
       background-size: contain;
@@ -131,8 +145,8 @@
     
     .user-topbar-notif {
       position: relative;
-      width: 42px;
-      height: 42px;
+      width: 38px;
+      height: 38px;
       border-radius: 50%;
       background: rgba(255, 253, 209, 0.12);
       border: 1.5px solid var(--silver-light);
@@ -146,9 +160,9 @@
       transition: background 0.2s, transform 0.2s;
     }
     
-    .user-topbar-notif:hover {
+    .user-topbar-notif:active {
       background: rgba(255, 253, 209, 0.22);
-      transform: scale(1.05);
+      transform: scale(0.95);
     }
     
     .user-topbar-notif-badge {
@@ -157,11 +171,11 @@
       right: -2px;
       background: #EF4444;
       color: white;
-      font-size: 0.62rem;
+      font-size: 0.6rem;
       font-weight: 800;
-      min-width: 17px;
-      height: 17px;
-      border-radius: 9px;
+      min-width: 16px;
+      height: 16px;
+      border-radius: 8px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -209,7 +223,7 @@
       text-align: left;
     }
     
-    /* 🆕 Topbar connectée : wrapper qui contient la topbar + le hero-text */
+    /* Wrapper pour la topbar connectée mobile */
     .hero-top-wrapper {
       position: relative;
       z-index: 2;
@@ -1208,26 +1222,26 @@
       }
       
       .user-topbar {
-        margin-bottom: 24px;
-        padding: 10px 12px;
-        gap: 8px;
+        margin-bottom: 20px;
+        padding: 9px 10px;
+        gap: 6px;
       }
       
       .user-topbar-avatar,
       .user-topbar-notif {
-        width: 36px;
-        height: 36px;
+        width: 34px;
+        height: 34px;
       }
       
       .user-topbar-search input {
-        padding: 9px 12px 9px 36px;
-        font-size: 0.85rem;
+        padding: 8px 12px 8px 32px;
+        font-size: 0.82rem;
       }
       
       .user-topbar-search::before {
-        left: 13px;
-        width: 14px;
-        height: 14px;
+        left: 11px;
+        width: 13px;
+        height: 13px;
       }
       
       .hero-text {
@@ -1352,7 +1366,6 @@
       .hero { min-height: clamp(700px, 56.25vw, 1000px); padding: 160px 0 110px; }
       .hero-inner { max-width: 1440px; padding: 0 60px; }
       .hero-top-wrapper { max-width: 1440px; padding: 0 60px; }
-      .user-topbar { margin-bottom: 40px; padding: 14px 20px; }
       .hero-text { max-width: min(48vw, 720px); border-left-width: 5px; padding-left: 28px; }
       .hero h1 { font-size: clamp(2.5rem, 4vw, 5rem); }
       .hero p { font-size: 1.2rem; max-width: 620px; }
@@ -1399,7 +1412,6 @@
       .hero { min-height: clamp(800px, 56.25vw, 1200px); padding: 200px 0 140px; }
       .hero-inner { max-width: 1680px; padding: 0 80px; }
       .hero-top-wrapper { max-width: 1680px; padding: 0 80px; }
-      .user-topbar { margin-bottom: 48px; }
       .hero-text { max-width: min(50vw, 880px); padding-left: 32px; }
       .hero h1 { font-size: clamp(2.8rem, 4vw, 6rem); }
       .hero p { font-size: 1.35rem; max-width: 720px; }
@@ -1497,7 +1509,7 @@
   <!-- HERO -->
   <section class="hero">
     <div class="hero-top-wrapper">
-      <!-- 🆕 BARRE CONNECTÉE — SOUS LA NAVBAR, au-dessus du H1 -->
+      <!-- 🆕 BARRE CONNECTÉE — UNIQUEMENT SUR MOBILE, SOUS LA NAVBAR -->
       <div class="user-topbar" id="user-topbar">
         <a href="#" class="user-topbar-avatar" id="user-topbar-avatar" onclick="goToProfileFromTopbar(event)">FG</a>
         
@@ -1754,20 +1766,22 @@
       if (section) section.style.display = 'none';
     }
 
-    /* 🆕 INIT TOPBAR CONNECTÉE */
+    /* 🆕 INIT TOPBAR CONNECTÉE — UNIQUEMENT SUR MOBILE */
     function initUserTopbar() {
       const topbar = document.getElementById('user-topbar');
       if (!topbar) return;
       
+      // 🆕 La topbar est UNIQUEMENT pour mobile
+      const isMobile = window.innerWidth <= 900;
       const isAuth = typeof Auth !== 'undefined' && Auth.isAuthenticated();
       const user = typeof Auth !== 'undefined' ? Auth.getUser() : null;
       
-      if (!isAuth || !user) {
+      if (!isMobile || !isAuth || !user) {
         topbar.classList.remove('visible');
         return;
       }
       
-      // Afficher la topbar
+      // Afficher la topbar (seulement sur mobile + connecté)
       topbar.classList.add('visible');
       
       // Avatar avec initiales
@@ -1835,6 +1849,16 @@
     document.addEventListener('DOMContentLoaded', async () => {
       renderNavbar();
       initUserTopbar();        /* 🆕 */
+      
+      // 🆕 Réévaluer la topbar au redimensionnement
+      let _topbarResizeTimer;
+      window.addEventListener('resize', () => {
+        clearTimeout(_topbarResizeTimer);
+        _topbarResizeTimer = setTimeout(() => {
+          initUserTopbar();
+        }, 200);
+      });
+      
       startTypingAnimation();
       adaptCTA();
       trackPageview();
