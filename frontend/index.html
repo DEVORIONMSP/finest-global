@@ -40,6 +40,129 @@
       --ginger-600:        var(--brand-dark-deep);
     }
 
+    /* 🆕 BARRE CONNECTÉE EN HAUT DE L'INDEX */
+    .user-topbar {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 200;
+      background: rgba(58, 22, 6, 0.95);
+      -webkit-backdrop-filter: blur(10px);
+      backdrop-filter: blur(10px);
+      padding: 10px 16px;
+      padding-top: calc(10px + env(safe-area-inset-top, 0px));
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .user-topbar.visible {
+      display: flex;
+    }
+    
+    .user-topbar-avatar {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--cream), var(--silver));
+      color: var(--brand-dark-solid);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 0.85rem;
+      flex-shrink: 0;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+      text-decoration: none;
+      border: 2px solid var(--silver);
+    }
+    
+    .user-topbar-search {
+      flex: 1;
+      position: relative;
+    }
+    
+    .user-topbar-search input {
+      width: 100%;
+      padding: 10px 14px 10px 38px;
+      border-radius: 20px;
+      border: 1.5px solid rgba(255, 253, 209, 0.3);
+      background: rgba(255, 253, 209, 0.12);
+      color: var(--cream);
+      font-family: inherit;
+      font-size: 0.9rem;
+      transition: all 0.2s;
+    }
+    
+    .user-topbar-search input::placeholder {
+      color: rgba(255, 253, 209, 0.6);
+    }
+    
+    .user-topbar-search input:focus {
+      outline: none;
+      border-color: var(--cream);
+      background: rgba(255, 253, 209, 0.2);
+    }
+    
+    .user-topbar-search::before {
+      content: "";
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 16px;
+      height: 16px;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23FFFDD1' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cline x1='21' y1='21' x2='16.65' y2='16.65'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-size: contain;
+      pointer-events: none;
+    }
+    
+    .user-topbar-notif {
+      position: relative;
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: rgba(255, 253, 209, 0.12);
+      border: 1.5px solid rgba(255, 253, 209, 0.25);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: var(--cream);
+      flex-shrink: 0;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+    
+    .user-topbar-notif:hover {
+      background: rgba(255, 253, 209, 0.2);
+    }
+    
+    .user-topbar-notif-badge {
+      position: absolute;
+      top: -2px;
+      right: -2px;
+      background: #EF4444;
+      color: white;
+      font-size: 0.6rem;
+      font-weight: 800;
+      min-width: 16px;
+      height: 16px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 4px;
+      border: 2px solid var(--brand-dark-solid);
+    }
+    
+    .user-topbar-notif-badge.hidden {
+      display: none;
+    }
+
     /* HERO */
     .hero {
       position: relative;
@@ -55,6 +178,11 @@
       background-position: right center;
       background-repeat: no-repeat;
       isolation: isolate;
+    }
+    
+    /* 🆕 Décalage quand la topbar connectée est visible */
+    body.has-user-topbar .hero {
+      padding-top: 180px;
     }
 
     .hero::before {
@@ -461,7 +589,9 @@
       margin-bottom: 14px;
       display: -webkit-box;
       -webkit-line-clamp: 2;
+      line-clamp: 2;
       -webkit-box-orient: vertical;
+      box-orient: vertical;
       overflow: hidden;
       min-height: 2.8em;
       line-height: 1.4;
@@ -575,7 +705,9 @@
       color: var(--brand-dark-soft);
       display: -webkit-box;
       -webkit-line-clamp: 3;
+      line-clamp: 3;
       -webkit-box-orient: vertical;
+      box-orient: vertical;
       overflow: hidden;
       margin-bottom: 18px;
       min-height: 3.9em;
@@ -1152,6 +1284,34 @@
       #global-empty-state { padding: 60px 20px; }
       #global-empty-state h2 { font-size: 1.3rem; }
       #global-empty-state p { font-size: 0.9rem; }
+      
+      /* 🆕 Ajustement mobile pour la topbar connectée */
+      body.has-user-topbar .hero {
+        padding-top: 120px;
+      }
+      
+      .user-topbar {
+        padding: 8px 12px;
+        padding-top: calc(8px + env(safe-area-inset-top, 0px));
+        gap: 8px;
+      }
+      
+      .user-topbar-avatar,
+      .user-topbar-notif {
+        width: 34px;
+        height: 34px;
+      }
+      
+      .user-topbar-search input {
+        padding: 8px 12px 8px 34px;
+        font-size: 0.85rem;
+      }
+      
+      .user-topbar-search::before {
+        left: 12px;
+        width: 14px;
+        height: 14px;
+      }
     }
 
     @media (max-width: 380px) {
@@ -1309,6 +1469,29 @@
   </style>
 </head>
 <body class="page-home">
+
+  <!-- 🆕 BARRE CONNECTÉE (visible seulement si connecté) -->
+  <div class="user-topbar" id="user-topbar">
+    <a href="#" class="user-topbar-avatar" id="user-topbar-avatar" onclick="goToProfileFromTopbar(event)">FG</a>
+    
+    <div class="user-topbar-search">
+      <input 
+        type="text" 
+        id="user-topbar-search-input" 
+        placeholder="Rechercher un produit, une vitrine..."
+        autocomplete="off"
+        onkeydown="if(event.key==='Enter') goToSearch(this.value.trim())"
+      />
+    </div>
+    
+    <a href="/notifications.html" class="user-topbar-notif" aria-label="Notifications">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+        <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+      </svg>
+      <span class="user-topbar-notif-badge hidden" id="user-topbar-notif-badge">0</span>
+    </a>
+  </div>
 
   <div id="navbar"></div>
 
@@ -1547,9 +1730,89 @@
       if (section) section.style.display = 'none';
     }
 
+    /* 🆕 INIT TOPBAR CONNECTÉE */
+    function initUserTopbar() {
+      const topbar = document.getElementById('user-topbar');
+      if (!topbar) return;
+      
+      const isAuth = typeof Auth !== 'undefined' && Auth.isAuthenticated();
+      const user = typeof Auth !== 'undefined' ? Auth.getUser() : null;
+      
+      if (!isAuth || !user) {
+        topbar.classList.remove('visible');
+        document.body.classList.remove('has-user-topbar');
+        return;
+      }
+      
+      // Afficher la topbar
+      topbar.classList.add('visible');
+      document.body.classList.add('has-user-topbar');
+      
+      // Avatar avec initiales
+      const avatar = document.getElementById('user-topbar-avatar');
+      if (avatar) {
+        const first = (user.first_name && user.first_name[0]) || '';
+        const last = (user.last_name && user.last_name[0]) || '';
+        const initials = (first + last).toUpperCase() || (user.phone ? String(user.phone).slice(-2) : 'FG');
+        avatar.textContent = initials;
+      }
+      
+      // Charger le badge de notifications
+      initUserTopbarNotifications();
+    }
+    
+    /* 🆕 Charger le badge de notifications de la topbar */
+    async function initUserTopbarNotifications() {
+      try {
+        if (typeof NotificationsAPI === 'undefined') return;
+        const countData = await NotificationsAPI.getUnreadCount();
+        const badge = document.getElementById('user-topbar-notif-badge');
+        if (!badge) return;
+        
+        const count = countData.unread_count || 0;
+        if (count > 0) {
+          badge.textContent = count > 9 ? '9+' : count;
+          badge.classList.remove('hidden');
+        } else {
+          badge.classList.add('hidden');
+        }
+      } catch (e) {
+        console.error('Erreur badge notifications topbar:', e);
+      }
+    }
+    
+    /* 🆕 Aller au profil depuis la topbar */
+    function goToProfileFromTopbar(event) {
+      if (event) event.preventDefault();
+      const isAuth = typeof Auth !== 'undefined' && Auth.isAuthenticated();
+      if (!isAuth) {
+        window.location.href = '/register.html';
+        return;
+      }
+      const user = Auth.getUser();
+      if (!user) {
+        window.location.href = '/register.html';
+        return;
+      }
+      if (user.role === 'admin') {
+        window.location.href = '/dashboard-admin.html';
+      } else if (user.role === 'seller') {
+        window.location.href = '/dashboard-seller.html';
+      } else {
+        window.location.href = '/orders.html';
+      }
+    }
+    
+    /* 🆕 Recherche depuis la topbar */
+    function goToSearch(query) {
+      if (!query) return;
+      window.location.href = `/marketplace.html?q=${encodeURIComponent(query)}`;
+    }
+
     /* INIT */
     document.addEventListener('DOMContentLoaded', async () => {
       renderNavbar();
+      initUserTopbar();        /* 🆕 */
       startTypingAnimation();
       adaptCTA();
       trackPageview();
