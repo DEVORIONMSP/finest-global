@@ -33,6 +33,13 @@ const TRANSLATIONS = {
     "home.explore": "Explorer la marketplace →",
     "home.become_seller": "Devenir vendeur",
     
+    // 🆕 Catégories séparées (produits / services)
+    "home.product_categories_title": "Explore Products Categories",
+    "home.product_categories_p": "Browse products by category to find what you're looking for.",
+    "home.service_categories_title": "Explore Services Categories",
+    "home.service_categories_p": "Browse services by category to find what you're looking for.",
+    
+    // Anciennes clés (conservées pour compatibilité)
     "home.categories_title": "Catégories populaires",
     "home.categories_p": "Explorez les produits et services par catégorie pour trouver ce que vous cherchez.",
     
@@ -445,6 +452,13 @@ const TRANSLATIONS = {
     "home.explore": "Explore marketplace →",
     "home.become_seller": "Become a seller",
     
+    // 🆕 Catégories séparées (produits / services)
+    "home.product_categories_title": "Explore Products Categories",
+    "home.product_categories_p": "Browse products by category to find what you're looking for.",
+    "home.service_categories_title": "Explore Services Categories",
+    "home.service_categories_p": "Browse services by category to find what you're looking for.",
+    
+    // Anciennes clés (conservées pour compatibilité)
     "home.categories_title": "Explore Categories",
     "home.categories_p": "Browse products and services by category to find what you're looking for.",
     
