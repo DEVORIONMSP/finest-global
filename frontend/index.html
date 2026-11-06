@@ -156,80 +156,6 @@
       border-color: var(--cream);
     }
 
-    /* ============================================================
-       🆕 CARROUSEL MOBILE (UNIQUEMENT SUR TÉLÉPHONE)
-       ============================================================ */
-    .mobile-hero-carousel {
-      display: none; /* Caché sur ordinateur */
-    }
-
-    @media (max-width: 900px) {
-      .mobile-hero-carousel {
-        display: block;
-        width: 100%;
-        margin-bottom: 24px; /* Espace entre le carrousel et le texte Be Findable */
-        overflow: hidden;
-        border-radius: var(--radius, 10px);
-        background: var(--cream-card);
-        border: 1.5px solid var(--silver);
-        box-shadow: 0 4px 12px rgba(58,22,6,0.15);
-        position: relative;
-      }
-
-      .carousel-track-mobile {
-        display: flex;
-        transition: transform 0.5s ease-in-out;
-        height: 120px; /* Hauteur du carrousel mobile */
-      }
-
-      .carousel-slide-mobile {
-        min-width: 100%;
-        height: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 10px 20px;
-        text-align: center;
-      }
-
-      /* Style pour la slide avec l'image */
-      .carousel-slide-mobile.slide-image {
-        background: rgba(58, 22, 6, 0.95); /* Fond sombre pour faire ressortir le logo */
-        padding: 0;
-      }
-
-      .carousel-slide-mobile.slide-image img {
-        max-width: 100%;
-        max-height: 100%;
-        object-fit: contain;
-      }
-
-      /* Style pour les slides textes */
-      .carousel-slide-mobile.slide-text {
-        background: var(--cream);
-        color: var(--brand-dark-solid);
-        flex-direction: column;
-        gap: 4px;
-      }
-
-      .carousel-slide-mobile.slide-text h3 {
-        font-size: 1.1rem;
-        font-weight: 900;
-        margin: 0;
-        color: var(--brand-dark-solid);
-      }
-
-      .carousel-slide-mobile.slide-text p {
-        font-size: 0.85rem;
-        margin: 0;
-        color: var(--brand-dark-soft);
-        line-height: 1.4;
-        font-weight: 600;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-      }
-    }
-
     /* SECTIONS CARROUSEL */
     .section-carousel {
       padding: 90px 0;
@@ -1125,7 +1051,6 @@
         justify-content: center;
         text-align: center;
         margin-top: 0;
-        flex-direction: column; /* Pour empiler le carrousel et le texte */
       }
       
       .hero-text {
@@ -1390,38 +1315,6 @@
   <!-- HERO -->
   <section class="hero">
     <div class="hero-inner">
-      
-      <!-- 🆕 CARROUSEL RECTANGLE POUR MOBILE -->
-      <div class="mobile-hero-carousel">
-        <div class="carousel-track-mobile" id="mobile-carousel-track">
-          
-          <!-- Slide 1 : Ton image -->
-          <div class="carousel-slide-mobile slide-image">
-            <img src="/assets/image.png" alt="Finest Global Logo">
-          </div>
-          
-          <!-- Slide 2 : Texte -->
-          <div class="carousel-slide-mobile slide-text">
-            <h3>Découvrez</h3>
-            <p>Entreprises · Produits · Services</p>
-          </div>
-          
-          <!-- Slide 3 : Texte -->
-          <div class="carousel-slide-mobile slide-text">
-            <h3>Opportunités</h3>
-            <p>Trouvez ce que vous cherchez</p>
-          </div>
-          
-          <!-- Slide 4 : Texte -->
-          <div class="carousel-slide-mobile slide-text">
-            <h3>Be Findable</h3>
-            <p>Soyez visible sur le marché</p>
-          </div>
-
-        </div>
-      </div>
-      <!-- FIN DU CARROUSEL MOBILE -->
-
       <div class="hero-text">
         <h1>
           <span class="line line-1">
@@ -1654,33 +1547,9 @@
       if (section) section.style.display = 'none';
     }
 
-    /* 🆕 INIT DU CARROUSEL MOBILE */
-    function initMobileCarousel() {
-      const track = document.getElementById('mobile-carousel-track');
-      if (!track) return;
-      
-      const slides = track.querySelectorAll('.carousel-slide-mobile');
-      if (slides.length === 0) return;
-      
-      let currentIndex = 0;
-      
-      setInterval(() => {
-        // Si on n'est pas sur mobile, on ne fait rien
-        if (window.innerWidth > 900) return;
-        
-        currentIndex++;
-        if (currentIndex >= slides.length) {
-          currentIndex = 0; // Retour au début
-        }
-        
-        track.style.transform = `translateX(-${currentIndex * 100}%)`;
-      }, 3000); // Défilement toutes les 3 secondes
-    }
-
     /* INIT */
     document.addEventListener('DOMContentLoaded', async () => {
       renderNavbar();
-      initMobileCarousel(); /* 🆕 */
       startTypingAnimation();
       adaptCTA();
       trackPageview();
