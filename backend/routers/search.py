@@ -23,8 +23,14 @@ router = APIRouter(prefix="/api/search", tags=["Recherche"])
 GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")
 gemini_client = genai.Client(api_key=GEMINI_API_KEY) if GEMINI_API_KEY else None
 
-# 🆕 Modèle utilisé pour DÉCRIRE une image en texte (modifiable via variable d'environnement)
-GEMINI_VISION_MODEL = os.environ.get("GEMINI_VISION_MODEL", "gemini-2.5-flash")
+# 🆕 Modèles essayés dans l'ordre pour décrire une image (le premier qui fonctionne est utilisé)
+GEMINI_VISION_MODELS = [
+    m.strip()
+    for m in os.environ.get(
+        "GEMINI_VISION_MODEL", "gemini-3.8-flash,gemini-2.5-flash"
+    ).split(",")
+    if m.strip()
+]
 
 # 🆕 Modèle d'embedding : DOIT rester celui utilisé pour vectoriser les produits
 GEMINI_EMBEDDING_MODEL = "gemini-embedding-001"
@@ -350,14 +356,6 @@ def get_popular_searches(
 
 # ============================================================
 # 8. 🆕 RECHERCHE SÉMANTIQUE (Texte ou Image via Gemini)
-#
-# CORRECTION : gemini-embedding-001 ne comprend QUE du texte.
-# Envoyer une image directement provoquait l'erreur
-# « 400 INVALID_ARGUMENT : The text content is empty ».
-#
-# Solution : si l'utilisateur envoie une image, Gemini la DÉCRIT d'abord
-# en texte (nom, catégorie, couleur...). Cette description est ensuite
-# vectorisée avec gemini-embedding-001, exactement comme les produits.
 # ============================================================
 
 def _describe_image(image_bytes: bytes, mime_type: str, user_hint: str = "") -> str:
@@ -371,14 +369,28 @@ def _describe_image(image_bytes: bytes, mime_type: str, user_hint: str = "") -> 
     if user_hint:
         prompt += f" Indication supplémentaire de l'utilisateur : {user_hint}"
 
-    response = gemini_client.models.generate_content(
-        model=GEMINI_VISION_MODEL,
-        contents=[
-            types.Part.from_bytes(data=image_bytes, mime_type=mime_type),
-            prompt,
-        ],
-    )
-    return (response.text or "").strip()
+    last_error = None
+
+    for model_name in GEMINI_VISION_MODELS:
+        try:
+            response = gemini_client.models.generate_content(
+                model=model_name,
+                contents=[
+                    types.Part.from_bytes(data=image_bytes, mime_type=mime_type),
+                    prompt,
+                ],
+            )
+            return (response.text or "").strip()
+        except Exception as e:
+            message = str(e)
+            # Modèle retiré / introuvable → on essaie le suivant
+            if "404" in message or "NOT_FOUND" in message:
+                last_error = e
+                continue
+            # Autre erreur (clé, quota, image...) → on la remonte directement
+            raise
+
+    raise last_error or RuntimeError("Aucun modèle de description d'image disponible.")
 
 
 def _embed_text(query_text: str) -> List[float]:
