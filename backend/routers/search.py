@@ -7,6 +7,7 @@ import math
 from typing import List, Optional
 
 from fastapi import APIRouter, Depends, Query, UploadFile, File, Form, HTTPException, status
+from fastapi.concurrency import run_in_threadpool
 from sqlalchemy.orm import Session
 from sqlalchemy import desc, func, or_, and_, text
 from google import genai
@@ -21,6 +22,12 @@ router = APIRouter(prefix="/api/search", tags=["Recherche"])
 # 🆕 Initialisation du client Gemini pour la recherche sémantique
 GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")
 gemini_client = genai.Client(api_key=GEMINI_API_KEY) if GEMINI_API_KEY else None
+
+# 🆕 Modèle utilisé pour DÉCRIRE une image en texte (modifiable via variable d'environnement)
+GEMINI_VISION_MODEL = os.environ.get("GEMINI_VISION_MODEL", "gemini-2.5-flash")
+
+# 🆕 Modèle d'embedding : DOIT rester celui utilisé pour vectoriser les produits
+GEMINI_EMBEDDING_MODEL = "gemini-embedding-001"
 
 
 # ============================================================
@@ -343,7 +350,49 @@ def get_popular_searches(
 
 # ============================================================
 # 8. 🆕 RECHERCHE SÉMANTIQUE (Texte ou Image via Gemini)
+#
+# CORRECTION : gemini-embedding-001 ne comprend QUE du texte.
+# Envoyer une image directement provoquait l'erreur
+# « 400 INVALID_ARGUMENT : The text content is empty ».
+#
+# Solution : si l'utilisateur envoie une image, Gemini la DÉCRIT d'abord
+# en texte (nom, catégorie, couleur...). Cette description est ensuite
+# vectorisée avec gemini-embedding-001, exactement comme les produits.
 # ============================================================
+
+def _describe_image(image_bytes: bytes, mime_type: str, user_hint: str = "") -> str:
+    """Décrit une image de produit en quelques mots (fonction synchrone)."""
+    prompt = (
+        "Tu aides à retrouver des produits dans une marketplace. "
+        "Décris précisément le produit principal visible sur cette image en 1 à 2 phrases courtes, "
+        "en français : nom du produit, catégorie, couleur, matière, style. "
+        "Réponds uniquement avec la description, sans introduction."
+    )
+    if user_hint:
+        prompt += f" Indication supplémentaire de l'utilisateur : {user_hint}"
+
+    response = gemini_client.models.generate_content(
+        model=GEMINI_VISION_MODEL,
+        contents=[
+            types.Part.from_bytes(data=image_bytes, mime_type=mime_type),
+            prompt,
+        ],
+    )
+    return (response.text or "").strip()
+
+
+def _embed_text(query_text: str) -> List[float]:
+    """Vectorise un texte avec le même modèle que les produits (fonction synchrone)."""
+    result = gemini_client.models.embed_content(
+        model=GEMINI_EMBEDDING_MODEL,
+        contents=query_text,
+        config=types.EmbedContentConfig(
+            task_type="RETRIEVAL_QUERY",
+            output_dimensionality=768,
+        ),
+    )
+    return result.embeddings[0].values
+
 
 @router.post("/semantic")
 async def semantic_search(
@@ -353,8 +402,9 @@ async def semantic_search(
     db: Session = Depends(get_db),
 ):
     """
-    Recherche intelligente : accepte un texte OU une image.
-    Utilise Gemini Embeddings pour trouver les produits les plus similaires.
+    Recherche intelligente : accepte un texte OU une image (ou les deux).
+    Les images sont d'abord décrites en texte par Gemini, puis vectorisées
+    avec Gemini Embeddings pour trouver les produits les plus similaires.
     """
     if not gemini_client:
         raise HTTPException(
@@ -362,42 +412,46 @@ async def semantic_search(
             detail="Clé API Gemini manquante sur le serveur.",
         )
 
-    # 1. Construire la requête (texte, image, ou les deux)
-    contents = []
-    
-    # On nettoie le texte pour éviter les chaînes vides
     clean_text = query_text.strip() if query_text else ""
-    
-    if clean_text:
-        contents.append(clean_text)
-    
-    if file:
-        image_bytes = await file.read()
-        contents.append(
-            types.Part.from_bytes(data=image_bytes, mime_type=file.content_type)
-        )
-        # 🆕 Si on a une image mais pas de texte, on ajoute un texte par défaut
-        # (Gemini exige au moins une partie texte pour comprendre le contexte)
-        if not clean_text:
-            contents.insert(0, "Analyse cette image pour trouver des produits similaires.")
+    image_bytes = None
+    mime_type = "image/jpeg"
 
-    if not contents:
+    # Lecture de l'image (si fournie)
+    if file is not None and file.filename:
+        image_bytes = await file.read()
+        if file.content_type and file.content_type.startswith("image/"):
+            mime_type = file.content_type
+
+    if not clean_text and not image_bytes:
         raise HTTPException(
             status_code=400,
             detail="Veuillez fournir un texte ou une image.",
         )
 
     try:
-        # 2. Générer l'embedding de la requête utilisateur
-        result = gemini_client.models.embed_content(
-            model="gemini-embedding-001",
-            contents=contents,
-            config=types.EmbedContentConfig(
-                task_type="RETRIEVAL_QUERY",
-                output_dimensionality=768,
-            ),
-        )
-        query_vector = result.embeddings[0].values
+        # 1. Construire le texte final à vectoriser
+        search_text = clean_text
+        image_description = None
+
+        if image_bytes:
+            # Les appels Gemini sont synchrones : on les sort de la boucle async
+            image_description = await run_in_threadpool(
+                _describe_image, image_bytes, mime_type, clean_text
+            )
+
+            if not image_description:
+                raise HTTPException(
+                    status_code=422,
+                    detail="Impossible d'analyser cette image. Essayez avec une photo plus nette.",
+                )
+
+            # Description de l'image + texte éventuel de l'utilisateur
+            search_text = (
+                f"{image_description}. {clean_text}" if clean_text else image_description
+            )
+
+        # 2. Générer l'embedding de la requête
+        query_vector = await run_in_threadpool(_embed_text, search_text)
         vector_str = '[' + ','.join(str(x) for x in query_vector) + ']'
 
         # 3. Chercher les produits les plus proches (similarité cosinus)
@@ -428,11 +482,15 @@ async def semantic_search(
 
         return {
             "query": query_text,
-            "type": "image" if file else "text",
+            "type": "image" if image_bytes else "text",
+            "image_description": image_description,
             "count": len(results),
             "results": results,
         }
 
+    except HTTPException:
+        # On laisse passer nos propres erreurs (400, 422...) sans les transformer en 500
+        raise
     except Exception as e:
         raise HTTPException(
             status_code=500,
