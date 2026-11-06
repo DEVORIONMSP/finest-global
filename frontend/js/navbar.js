@@ -1,13 +1,28 @@
 /* ============================================================
    FINEST GLOBAL — Navbar dynamique (Desktop + Mobile 2-barres)
-   Version corrigée : menu burger + scroll hide + bouton profil
+   Version corrigée :
+   - menu burger fiable sur toutes les pages
+   - barre du bas toujours en bas
+   - masquage au défilement (bas) / réapparition (haut) partout
+   - bouton profil (barre du haut + barre du bas) fonctionnel
    ============================================================ */
+
+/* État partagé */
+let _lastIsMobile = window.innerWidth <= 900;
+let _lastScrollY = 0;
+let _navbarsHidden = false;
+let _scrollBound = false;
+let _scrollTicking = false;
+let _navbarObserver = null;
+let _notifWs = null;
+let _globalListenersBound = false;
 
 function renderNavbar() {
   const navContainer = document.getElementById('navbar');
   if (!navContainer) return;
   
   const isMobile = window.innerWidth <= 900;
+  _lastIsMobile = isMobile;
   
   if (isMobile) {
     renderMobileNavbar(navContainer);
@@ -22,11 +37,23 @@ function renderNavbar() {
 }
 
 /* ============================================================
+   UTILITAIRES UTILISATEUR
+   ============================================================ */
+function getUserInitials(user) {
+  if (!user) return '👤';
+  const first = (user.first_name && user.first_name[0]) || '';
+  const last = (user.last_name && user.last_name[0]) || '';
+  const initials = (first + last).toUpperCase();
+  if (initials) return initials;
+  return user.phone ? String(user.phone).slice(-2) : '👤';
+}
+
+/* ============================================================
    DESKTOP NAVBAR
    ============================================================ */
 function renderDesktopNavbar(navContainer) {
   const user = Auth.getUser();
-  const isAuth = Auth.isAuthenticated();
+  const isAuth = Auth.isAuthenticated() && !!user;
   const currentLang = getCurrentLanguage();
   
   const langSelector = `
@@ -68,7 +95,7 @@ function renderDesktopNavbar(navContainer) {
       </div>
     `;
   } else {
-    const initials = ((user.first_name?.[0] || '') + (user.last_name?.[0] || '')).toUpperCase() || user.phone.slice(-2);
+    const initials = getUserInitials(user);
     
     let dashboardLink = '';
     if (user.role === 'admin') {
@@ -91,7 +118,7 @@ function renderDesktopNavbar(navContainer) {
         <div class="nav-dropdown" id="nav-dropdown">
           <div class="dropdown-header">
             <div class="dropdown-name">${user.first_name || ''} ${user.last_name || ''}</div>
-            <div class="dropdown-phone">${user.phone}</div>
+            <div class="dropdown-phone">${user.phone || ''}</div>
             <div class="dropdown-role badge badge-${roleBadgeClass}">${t('role.' + user.role)}</div>
           </div>
           <div class="dropdown-divider"></div>
@@ -133,11 +160,12 @@ function renderDesktopNavbar(navContainer) {
    ============================================================ */
 function renderMobileNavbar(navContainer) {
   const user = Auth.getUser();
-  const isAuth = Auth.isAuthenticated();
+  const isAuth = Auth.isAuthenticated() && !!user;
   const currentPath = window.location.pathname;
   
-  // 🆕 URL du profil selon le rôle
+  // URL du profil selon le rôle
   const profileUrl = getProfileUrl();
+  const initials = getUserInitials(user);
   
   navContainer.innerHTML = `
     <!-- ===== NAVBAR HAUT ===== -->
@@ -161,10 +189,10 @@ function renderMobileNavbar(navContainer) {
         </svg>
       </button>
       
-      <!-- 🆕 Bouton profil dans la navbar du haut -->
-      <a href="${profileUrl}" class="mobile-profile-btn" aria-label="${t('nav.profile')}">
+      <!-- Bouton profil dans la navbar du haut (juste après la loupe) -->
+      <a href="${profileUrl}" class="mobile-profile-btn" onclick="goToProfile(event)" aria-label="${t('nav.profile')}">
         ${isAuth 
-          ? `<span class="mobile-profile-avatar">${((user.first_name?.[0] || '') + (user.last_name?.[0] || '')).toUpperCase() || user.phone.slice(-2)}</span>`
+          ? `<span class="mobile-profile-avatar">${initials}</span>`
           : `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
               <circle cx="12" cy="7" r="4"></circle>
@@ -184,9 +212,9 @@ function renderMobileNavbar(navContainer) {
     <aside class="mobile-drawer" id="mobile-drawer">
       <div class="mobile-drawer-header">
         ${isAuth ? `
-          <div class="mobile-drawer-avatar">${((user.first_name?.[0] || '') + (user.last_name?.[0] || '')).toUpperCase() || user.phone.slice(-2)}</div>
+          <div class="mobile-drawer-avatar">${initials}</div>
           <div class="mobile-drawer-user">
-            <div class="mobile-drawer-name">${escapeHtml(user.first_name || user.phone)}</div>
+            <div class="mobile-drawer-name">${escapeHtml(user.first_name || user.phone || '')}</div>
             <div class="mobile-drawer-role">${t('role.' + user.role)}</div>
           </div>
         ` : `
@@ -220,7 +248,7 @@ function renderMobileNavbar(navContainer) {
           
           <div class="mobile-drawer-divider"></div>
           
-          <a href="${profileUrl}" class="mobile-drawer-link">👤 <span>${t('nav.profile')}</span></a>
+          <a href="${profileUrl}" class="mobile-drawer-link" onclick="goToProfile(event)">👤 <span>${t('nav.profile')}</span></a>
           <button class="mobile-drawer-link mobile-drawer-logout" onclick="Auth.logout()">
             🚪 <span>${t('nav.logout')}</span>
           </button>
@@ -273,8 +301,8 @@ function renderMobileNavbar(navContainer) {
         <span class="mobile-tab-badge hidden" id="mobile-notif-badge">0</span>
       </a>
       
-      <!-- 🆕 Bouton profil corrigé -->
-      <a href="${profileUrl}" class="mobile-tab ${currentPath.endsWith('/profile.html') || currentPath.endsWith('/login.html') || currentPath.endsWith('/dashboard-seller.html') || currentPath.endsWith('/dashboard-admin.html') ? 'active' : ''}" aria-label="${t('nav.profile')}">
+      <!-- Bouton profil : calcule la bonne destination au moment du clic -->
+      <a href="${profileUrl}" class="mobile-tab ${currentPath.endsWith('/profile.html') || currentPath.endsWith('/register.html') || currentPath.endsWith('/dashboard-seller.html') || currentPath.endsWith('/dashboard-admin.html') ? 'active' : ''}" onclick="goToProfile(event)" aria-label="${t('nav.profile')}">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
           <circle cx="12" cy="7" r="4"></circle>
@@ -292,80 +320,161 @@ function renderMobileNavbar(navContainer) {
 }
 
 /* ============================================================
-   🆕 URL DU PROFIL SELON LE RÔLE
+   URL DU PROFIL SELON LE RÔLE
+   - non connecté  → page d'inscription
+   - admin         → dashboard admin
+   - vendeur       → dashboard vendeur
+   - client        → profil
    ============================================================ */
 function getProfileUrl() {
-  const isAuth = Auth.isAuthenticated();
-  if (!isAuth) return '/register.html';
+  let isAuth = false;
+  let user = null;
   
-  const user = Auth.getUser();
-  if (!user) return '/register.html';
+  try {
+    isAuth = Auth.isAuthenticated();
+    user = Auth.getUser();
+  } catch (e) {
+    return '/register.html';
+  }
+  
+  if (!isAuth || !user) return '/register.html';
   
   if (user.role === 'admin') return '/dashboard-admin.html';
   if (user.role === 'seller') return '/dashboard-seller.html';
   return '/profile.html'; // client
 }
 
+/* Navigation vers le profil (calculée au clic, donc toujours à jour) */
+function goToProfile(event) {
+  if (event) {
+    event.preventDefault();
+    event.stopPropagation();
+  }
+  closeMobileMenu();
+  window.location.href = getProfileUrl();
+}
+
 /* ============================================================
-   🆕 INIT MENU MOBILE (listeners corrects à chaque render)
+   INIT MENU MOBILE (listeners corrects à chaque render)
    ============================================================ */
 function initMobileMenuEvents() {
-  // S'assurer que le drawer est fermé au chargement
   const drawer = document.getElementById('mobile-drawer');
   const overlay = document.getElementById('mobile-drawer-overlay');
+  
+  // S'assurer que le drawer est fermé au chargement
   if (drawer) drawer.classList.remove('open');
   if (overlay) overlay.classList.remove('open');
   document.body.style.overflow = '';
+  
+  // Fermer le menu dès qu'on clique sur un lien du drawer
+  if (drawer) {
+    drawer.querySelectorAll('a').forEach((link) => {
+      link.addEventListener('click', () => {
+        closeMobileMenu();
+      });
+    });
+  }
 }
 
 /* ============================================================
-   🆕 SCROLL HIDE / SHOW — cache les navbars en descendant
+   SCROLL HIDE / SHOW — cache les navbars en descendant,
+   les ramène dès qu'on remonte (toutes les pages)
    ============================================================ */
-let _lastScrollY = 0;
-let _navbarsHidden = false;
+function getScrollY() {
+  return Math.max(
+    0,
+    window.pageYOffset ||
+    (document.documentElement && document.documentElement.scrollTop) ||
+    (document.body && document.body.scrollTop) ||
+    0
+  );
+}
+
+function showMobileNavbars() {
+  const topbar = document.querySelector('.mobile-topbar');
+  const bottombar = document.querySelector('.mobile-bottombar');
+  if (topbar) topbar.classList.remove('nav-hidden');
+  if (bottombar) bottombar.classList.remove('nav-hidden');
+  _navbarsHidden = false;
+}
+
+function hideMobileNavbars() {
+  const topbar = document.querySelector('.mobile-topbar');
+  const bottombar = document.querySelector('.mobile-bottombar');
+  if (topbar) topbar.classList.add('nav-hidden');
+  if (bottombar) bottombar.classList.add('nav-hidden');
+  
+  // On referme aussi la barre de recherche mobile
+  const searchBar = document.getElementById('mobile-search-bar');
+  if (searchBar) searchBar.classList.remove('open');
+  
+  _navbarsHidden = true;
+}
 
 function initNavbarScrollBehavior() {
-  // Retirer l'ancien listener s'il existe
-  window.removeEventListener('scroll', handleNavbarScroll, { passive: true });
-  window.addEventListener('scroll', handleNavbarScroll, { passive: true });
-  _lastScrollY = window.scrollY;
+  // Repartir d'un état propre à chaque (re)rendu de la navbar
+  _lastScrollY = getScrollY();
+  _navbarsHidden = false;
+  
+  // Un seul écouteur, en phase de capture : fonctionne même si c'est
+  // le body (et non la window) qui défile dans certains navigateurs/WebView
+  if (!_scrollBound) {
+    document.addEventListener('scroll', onAnyScroll, { passive: true, capture: true });
+    _scrollBound = true;
+  }
+}
+
+function onAnyScroll(e) {
+  const target = e.target;
+  // On ignore les défilements internes (listes, modales, dropdowns...)
+  if (
+    target &&
+    target !== document &&
+    target !== document.documentElement &&
+    target !== document.body
+  ) {
+    return;
+  }
+  
+  if (_scrollTicking) return;
+  _scrollTicking = true;
+  window.requestAnimationFrame(() => {
+    handleNavbarScroll();
+    _scrollTicking = false;
+  });
 }
 
 function handleNavbarScroll() {
-  const currentScrollY = window.scrollY;
-  const isMobile = window.innerWidth <= 900;
-  
-  if (!isMobile) {
-    // Sur desktop, on ne cache pas les navbars
-    return;
-  }
+  // Sur desktop, on ne cache pas les navbars
+  if (window.innerWidth > 900) return;
   
   const topbar = document.querySelector('.mobile-topbar');
   const bottombar = document.querySelector('.mobile-bottombar');
   if (!topbar || !bottombar) return;
   
+  // Menu ouvert : on ne touche à rien
+  const drawer = document.getElementById('mobile-drawer');
+  if (drawer && drawer.classList.contains('open')) return;
+  
+  const currentScrollY = getScrollY();
   const scrollDiff = currentScrollY - _lastScrollY;
   
-  // Ne rien faire si on est tout en haut
+  // Tout en haut de la page : toujours visibles
   if (currentScrollY < 60) {
-    topbar.classList.remove('nav-hidden');
-    bottombar.classList.remove('nav-hidden');
-    _navbarsHidden = false;
+    if (_navbarsHidden || topbar.classList.contains('nav-hidden') || bottombar.classList.contains('nav-hidden')) {
+      showMobileNavbars();
+    }
     _lastScrollY = currentScrollY;
     return;
   }
   
   // Scroll vers le bas → cacher
-  if (scrollDiff > 8 && !_navbarsHidden) {
-    topbar.classList.add('nav-hidden');
-    bottombar.classList.add('nav-hidden');
-    _navbarsHidden = true;
+  if (scrollDiff > 6 && !_navbarsHidden) {
+    hideMobileNavbars();
   }
-  // Scroll vers le haut → montrer
-  else if (scrollDiff < -8 && _navbarsHidden) {
-    topbar.classList.remove('nav-hidden');
-    bottombar.classList.remove('nav-hidden');
-    _navbarsHidden = false;
+  // Scroll vers le haut → montrer immédiatement
+  else if (scrollDiff < -4 && _navbarsHidden) {
+    showMobileNavbars();
   }
   
   _lastScrollY = currentScrollY;
@@ -378,7 +487,7 @@ function handleAddButton() {
   const isAuth = Auth.isAuthenticated();
   const user = Auth.getUser();
   
-  if (!isAuth) {
+  if (!isAuth || !user) {
     showToast('🔐 Créez un compte pour ajouter un produit', 'info');
     setTimeout(() => { window.location.href = '/register.html'; }, 800);
     return;
@@ -414,6 +523,8 @@ function toggleMobileMenu(event) {
   if (isOpen) {
     closeMobileMenu();
   } else {
+    // On s'assure que les barres sont visibles quand le menu s'ouvre
+    showMobileNavbars();
     drawer.classList.add('open');
     overlay.classList.add('open');
     document.body.style.overflow = 'hidden';
@@ -436,6 +547,7 @@ function toggleMobileSearch(event) {
   const bar = document.getElementById('mobile-search-bar');
   if (!bar) return;
   
+  showMobileNavbars();
   bar.classList.toggle('open');
   
   if (bar.classList.contains('open')) {
@@ -547,7 +659,6 @@ function toggleNotifications(event) {
 /* ============================================================
    WEBSOCKET
    ============================================================ */
-let _notifWs = null;
 function startNotificationWebSocket() {
   const token = Auth.getToken();
   if (!token || _notifWs) return;
@@ -583,17 +694,25 @@ function startNotificationWebSocket() {
    UTILITAIRES
    ============================================================ */
 function syncNavbarHeight() {
-  const nav = document.getElementById('navbar');
-  if (!nav) return;
-  document.documentElement.style.setProperty('--navbar-h', nav.offsetHeight + 'px');
+  const isMobile = window.innerWidth <= 900;
+  // Sur mobile, #navbar est un conteneur neutre : on mesure la barre du haut
+  const target = isMobile
+    ? document.querySelector('.mobile-topbar')
+    : document.getElementById('navbar');
+  if (!target) return;
+  document.documentElement.style.setProperty('--navbar-h', target.offsetHeight + 'px');
 }
 
-let _navbarObserver = null;
 function observeNavbarHeight() {
-  const nav = document.getElementById('navbar');
-  if (!nav || _navbarObserver || !('ResizeObserver' in window)) return;
+  if (!('ResizeObserver' in window)) return;
+  
+  if (_navbarObserver) _navbarObserver.disconnect();
   _navbarObserver = new ResizeObserver(syncNavbarHeight);
-  _navbarObserver.observe(nav);
+  
+  const nav = document.getElementById('navbar');
+  const topbar = document.querySelector('.mobile-topbar');
+  if (nav) _navbarObserver.observe(nav);
+  if (topbar) _navbarObserver.observe(topbar);
 }
 
 function baseLinksForScreen() {
@@ -656,8 +775,6 @@ function initNavbarSearch() {
     }, 250);
   });
   
-  document.addEventListener('click', () => suggestions.classList.remove('open'));
-  
   input.addEventListener('keydown', (e) => {
     if (e.key === 'Enter') goToSearch(input.value.trim());
   });
@@ -675,7 +792,7 @@ function escapeHtml(text) {
 }
 
 /* ============================================================
-   RESIZE + INIT
+   RESIZE
    ============================================================ */
 let _navbarResizeTimer;
 window.addEventListener('resize', () => {
@@ -692,32 +809,86 @@ window.addEventListener('resize', () => {
   }, 200);
 });
 
-let _lastIsMobile = window.innerWidth <= 900;
-
 window.addEventListener('load', syncNavbarHeight);
 
-document.addEventListener('click', (e) => {
-  const dropdown = document.getElementById('nav-dropdown');
-  const userMenu = document.getElementById('nav-user-menu');
-  if (dropdown && userMenu && !userMenu.contains(e.target)) dropdown.classList.remove('open');
+/* ============================================================
+   ÉCOUTEURS GLOBAUX (une seule fois, quel que soit le nombre de rendus)
+   ============================================================ */
+function bindGlobalNavbarListeners() {
+  if (_globalListenersBound) return;
+  _globalListenersBound = true;
   
-  const notifDropdown = document.getElementById('nav-notif-dropdown');
-  const notifMenu = document.getElementById('nav-notifications-menu');
-  if (notifDropdown && notifMenu && !notifMenu.contains(e.target)) notifDropdown.classList.remove('open');
-});
+  // Fermer les menus déroulants desktop au clic extérieur
+  document.addEventListener('click', (e) => {
+    const dropdown = document.getElementById('nav-dropdown');
+    const userMenu = document.getElementById('nav-user-menu');
+    if (dropdown && userMenu && !userMenu.contains(e.target)) dropdown.classList.remove('open');
+    
+    const notifDropdown = document.getElementById('nav-notif-dropdown');
+    const notifMenu = document.getElementById('nav-notifications-menu');
+    if (notifDropdown && notifMenu && !notifMenu.contains(e.target)) notifDropdown.classList.remove('open');
+    
+    // Suggestions de recherche desktop
+    const suggestions = document.getElementById('navbar-suggestions');
+    if (suggestions) suggestions.classList.remove('open');
+  });
+  
+  // Touche Échap : ferme le menu mobile et la recherche mobile
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      closeMobileMenu();
+      const bar = document.getElementById('mobile-search-bar');
+      if (bar) bar.classList.remove('open');
+    }
+  });
+  
+  // Retour arrière / avant du navigateur (cache bfcache) :
+  // on réaffiche proprement la navbar
+  window.addEventListener('pageshow', (e) => {
+    if (e.persisted) {
+      document.body.style.overflow = '';
+      if (document.getElementById('navbar')) {
+        try { renderNavbar(); } catch (err) { console.error(err); }
+      }
+    }
+  });
+}
 
 /* ============================================================
-   🆕 INIT AU CHARGEMENT — CRUCIAL pour que ça marche sur toutes les pages
+   INIT AU CHARGEMENT — CRUCIAL pour que ça marche sur toutes les pages
    ============================================================ */
 document.addEventListener('DOMContentLoaded', () => {
   const isHomePage = window.location.pathname === '/' || window.location.pathname.endsWith('/index.html');
   if (isHomePage) document.body.classList.add('page-home');
   
+  bindGlobalNavbarListeners();
+  
+  // Sécurité : si la page n'a pas encore rendu la navbar, on la rend ici
+  const navContainer = document.getElementById('navbar');
+  if (
+    navContainer &&
+    !navContainer.querySelector('.navbar-inner, .mobile-topbar') &&
+    typeof Auth !== 'undefined' &&
+    typeof t === 'function'
+  ) {
+    try { renderNavbar(); } catch (err) { console.error('Erreur renderNavbar:', err); }
+  }
+  
+  // Classe nav-scrolled (couleur de la navbar sur l'accueil)
   const applyNavScrolled = () => {
-    if (window.scrollY > 40) document.body.classList.add('nav-scrolled');
+    if (getScrollY() > 40) document.body.classList.add('nav-scrolled');
     else document.body.classList.remove('nav-scrolled');
   };
   
   applyNavScrolled();
-  window.addEventListener('scroll', applyNavScrolled, { passive: true });
+  document.addEventListener('scroll', (e) => {
+    const target = e.target;
+    if (
+      target &&
+      target !== document &&
+      target !== document.documentElement &&
+      target !== document.body
+    ) return;
+    applyNavScrolled();
+  }, { passive: true, capture: true });
 });
