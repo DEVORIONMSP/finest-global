@@ -1,7 +1,7 @@
 """
 Modèles SQLAlchemy — définition de toutes les tables de la base de données.
 """
-
+from pgvector.sqlalchemy import Vector
 from sqlalchemy import (
     Column, Integer, String, Text, Float, DateTime, 
     ForeignKey, Enum, Boolean
@@ -46,6 +46,9 @@ class User(Base):
     last_name = Column(String(50), nullable=True)
     email = Column(String(120), unique=True, nullable=True, index=True)
     password_hash = Column(String(255), nullable=True)
+    
+    # 🆕 Photo de profil
+    photo_url = Column(String(255), nullable=True)
     
     role = Column(Enum(UserRole), default=UserRole.CLIENT, nullable=False)
     is_verified = Column(Boolean, default=False, nullable=False)
@@ -117,10 +120,10 @@ class Product(Base):
     
     # PRIX
     price = Column(Float, nullable=False) # 0 si non fixe
-    is_price_fixed = Column(Boolean, default=True, nullable=False) # 🆕
+    is_price_fixed = Column(Boolean, default=True, nullable=False)
     
     photo_url = Column(String(255), nullable=True)
-    video_url = Column(String(255), nullable=True) # 🆕 Pour la vidéo de lot
+    video_url = Column(String(255), nullable=True)
     
     # Catégorisation
     category = Column(String(50), nullable=True, index=True)
@@ -128,7 +131,7 @@ class Product(Base):
     
     # DISPONIBILITÉ / STOCK
     availability = Column(String(20), default="in_stock", nullable=False)
-    stock_quantity = Column(String(50), nullable=True) # 🆕 ex: "1", "Douzaine", "En stock"
+    stock_quantity = Column(String(50), nullable=True)
     
     # Ancien champ conservé pour compatibilité
     in_stock = Column(Boolean, default=True, nullable=False)
@@ -136,6 +139,9 @@ class Product(Base):
     # Statistiques
     views_count = Column(Integer, default=0, nullable=False)
     sales_count = Column(Integer, default=0, nullable=False)
+    
+    # 🆕 Vecteur Gemini pour la recherche sémantique (768 dimensions)
+    embedding = Vector(768)
     
     # Timestamps
     created_at = Column(DateTime(timezone=True), server_default=func.now())
@@ -150,7 +156,7 @@ class Product(Base):
 
 
 # ============================================================
-# SERVICES (🆕)
+# SERVICES
 # ============================================================
 
 class Service(Base):
@@ -163,15 +169,15 @@ class Service(Base):
     description = Column(Text, nullable=True)
     
     # PRIX
-    price = Column(Float, nullable=True) # 0 si non fixe
+    price = Column(Float, nullable=True)
     is_price_fixed = Column(Boolean, default=True, nullable=False)
     
     category = Column(String(50), nullable=True, index=True)
-    service_area = Column(String(100), nullable=True, index=True) # 🆕 Zone (ex: Cotonou, Fidjrossè)
-    availability_info = Column(Text, nullable=True) # 🆕 Rendez-vous, horaires
+    service_area = Column(String(100), nullable=True, index=True)
+    availability_info = Column(Text, nullable=True)
     
     photo_url = Column(String(255), nullable=True)
-    video_url = Column(String(255), nullable=True) # 🆕 Exemples de travaux
+    video_url = Column(String(255), nullable=True)
     
     views_count = Column(Integer, default=0, nullable=False)
     
@@ -193,8 +199,8 @@ class Order(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     
-    product_id = Column(Integer, ForeignKey("products.id"), nullable=True) # 🆕 Peut être null si c'est un service
-    service_id = Column(Integer, ForeignKey("services.id"), nullable=True) # 🆕
+    product_id = Column(Integer, ForeignKey("products.id"), nullable=True)
+    service_id = Column(Integer, ForeignKey("services.id"), nullable=True)
     
     buyer_id = Column(Integer, ForeignKey("users.id"), nullable=False)
     seller_id = Column(Integer, ForeignKey("users.id"), nullable=False)
@@ -204,13 +210,13 @@ class Order(Base):
     
     status = Column(Enum(OrderStatus), default=OrderStatus.PENDING, nullable=False)
     note = Column(Text, nullable=True)
-    screenshot_url = Column(String(255), nullable=True) # 🆕 Capture d'écran d'encerclement vidéo
+    screenshot_url = Column(String(255), nullable=True)
     
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), onupdate=func.now())
     
     product = relationship("Product", back_populates="orders")
-    service = relationship("Service") # 🆕
+    service = relationship("Service")
     buyer = relationship("User", back_populates="orders", foreign_keys=[buyer_id])
     seller = relationship("User", foreign_keys=[seller_id])
     
@@ -230,7 +236,7 @@ class PageView(Base):
     user_id = Column(Integer, ForeignKey("users.id"), nullable=True)
     shop_id = Column(Integer, ForeignKey("shops.id"), nullable=True)
     product_id = Column(Integer, ForeignKey("products.id"), nullable=True)
-    service_id = Column(Integer, ForeignKey("services.id"), nullable=True) # 🆕
+    service_id = Column(Integer, ForeignKey("services.id"), nullable=True)
     
     path = Column(String(255), nullable=False)
     ip_address = Column(String(45), nullable=True)
@@ -239,7 +245,7 @@ class PageView(Base):
 
 
 # ============================================================
-# CATÉGORIES (🆕 avec type product/service)
+# CATÉGORIES
 # ============================================================
 
 class Category(Base):
@@ -247,7 +253,7 @@ class Category(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String(50), nullable=False, index=True)
-    type = Column(String(20), default="product", nullable=False) # 🆕 "product" ou "service"
+    type = Column(String(20), default="product", nullable=False)
     description = Column(String(255), nullable=True)
     emoji = Column(String(10), nullable=True)
     
@@ -260,9 +266,8 @@ class Category(Base):
         return f"<Category {self.name} ({self.type})>"
 
 
-
 # ============================================================
-# NOTIFICATIONS (🆕)
+# NOTIFICATIONS
 # ============================================================
 
 class Notification(Base):
@@ -273,16 +278,14 @@ class Notification(Base):
     
     title = Column(String(100), nullable=False)
     message = Column(Text, nullable=False)
-    type = Column(String(50), nullable=False) # ex: "new_order", "order_status", "system"
+    type = Column(String(50), nullable=False)
     
-    # Lien pour rediriger quand on clique sur la notif
     link = Column(String(255), nullable=True)
     
     is_read = Column(Boolean, default=False, nullable=False, index=True)
     
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     
-    # Relation
     user = relationship("User", backref="notifications")
     
     def __repr__(self):

@@ -2,7 +2,11 @@
 Routes de recherche intelligente avec autocomplétion.
 Toutes les routes sont publiques (pas d'authentification requise).
 """
-
+import os
+from google import genai
+from google.genai import types
+from fastapi import APIRouter, Depends, Query, UploadFile, File, Form, HTTPException, status
+from sqlalchemy import text
 from fastapi import APIRouter, Depends, Query, UploadFile, File, HTTPException, status
 from sqlalchemy.orm import Session
 from sqlalchemy import desc, func, or_, and_
@@ -16,7 +20,9 @@ from schemas import ProductOut
 
 
 router = APIRouter(prefix="/api/search", tags=["Recherche"])
-
+# 🆕 Initialisation du client Gemini pour la recherche sémantique
+GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")
+gemini_client = genai.Client(api_key=GEMINI_API_KEY) if GEMINI_API_KEY else None
 
 # ============================================================
 # HELPER : Calculer la distance entre 2 points GPS (Haversine)
@@ -392,3 +398,106 @@ def get_popular_searches(
         "popular_categories": [{"name": cat, "total_sales": int(sales or 0)} for cat, sales in top_categories],
         "popular_products": [name for (name,) in top_products],
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+# ============================================================
+# 🆕 RECHERCHE SÉMANTIQUE (Texte ou Image via Gemini)
+# ============================================================
+
+@router.post("/semantic")
+async def semantic_search(
+    query_text: str = Form(None, description="Texte à rechercher"),
+    file: UploadFile = File(None, description="Image à rechercher"),
+    limit: int = Form(12),
+    db: Session = Depends(get_db),
+):
+    """
+    Recherche intelligente : accepte un texte OU une image.
+    Utilise Gemini Embeddings pour trouver les produits les plus similaires.
+    """
+    if not gemini_client:
+        raise HTTPException(
+            status_code=500,
+            detail="Clé API Gemini manquante sur le serveur.",
+        )
+
+    # 1. Construire la requête (texte, image, ou les deux)
+    contents = []
+    
+    if query_text:
+        contents.append(query_text)
+    
+    if file:
+        image_bytes = await file.read()
+        contents.append(
+            types.Part.from_bytes(data=image_bytes, mime_type=file.content_type)
+        )
+
+    if not contents:
+        raise HTTPException(
+            status_code=400,
+            detail="Veuillez fournir un texte ou une image.",
+        )
+
+    try:
+        # 2. Générer l'embedding de la requête utilisateur
+        result = gemini_client.models.embed_content(
+            model="gemini-embedding-001",
+            contents=contents,
+            config=types.EmbedContentConfig(
+                task_type="RETRIEVAL_QUERY",
+                output_dimensionality=768,
+            ),
+        )
+        query_vector = result.embeddings[0].values
+        vector_str = '[' + ','.join(str(x) for x in query_vector) + ']'
+
+        # 3. Chercher les produits les plus proches (similarité cosinus)
+        sql = text("""
+            SELECT 
+                id, name, description, price, photo_url, category, color,
+                1 - (embedding <=> CAST(:vec AS vector)) AS similarity
+            FROM products
+            WHERE embedding IS NOT NULL
+            ORDER BY embedding <=> CAST(:vec AS vector)
+            LIMIT :limit;
+        """)
+
+        rows = db.execute(sql, {"vec": vector_str, "limit": limit}).fetchall()
+
+        results = []
+        for row in rows:
+            results.append({
+                "id": row.id,
+                "name": row.name,
+                "description": row.description,
+                "price": row.price,
+                "photo_url": row.photo_url,
+                "category": row.category,
+                "color": row.color,
+                "similarity": round(float(row.similarity), 4),
+            })
+
+        return {
+            "query": query_text,
+            "type": "image" if file else "text",
+            "count": len(results),
+            "results": results,
+        }
+
+    except Exception as e:
+        raise HTTPException(
+            status_code=500,
+            detail=f"Erreur de recherche : {str(e)}",
+        )
