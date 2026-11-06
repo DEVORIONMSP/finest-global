@@ -3,26 +3,25 @@ Routes de recherche intelligente avec autocomplétion.
 Toutes les routes sont publiques (pas d'authentification requise).
 """
 import os
+import math
+from typing import List, Optional
+
+from fastapi import APIRouter, Depends, Query, UploadFile, File, Form, HTTPException, status
+from sqlalchemy.orm import Session
+from sqlalchemy import desc, func, or_, and_, text
 from google import genai
 from google.genai import types
-from fastapi import APIRouter, Depends, Query, UploadFile, File, Form, HTTPException, status
-from sqlalchemy import text
-from fastapi import APIRouter, Depends, Query, UploadFile, File, HTTPException, status
-from sqlalchemy.orm import Session
-from sqlalchemy import desc, func, or_, and_
-from typing import List, Optional
-import math
-from utils import save_image, delete_image, PRODUCTS_DIR # 🆕 Pour l'upload d'image de recherche
 
 from database import get_db
-from models import Product, Shop, User, Service # 🆕 Service ajouté
+from models import Product, Shop, User, Service
 from schemas import ProductOut
 
-
 router = APIRouter(prefix="/api/search", tags=["Recherche"])
+
 # 🆕 Initialisation du client Gemini pour la recherche sémantique
 GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")
 gemini_client = genai.Client(api_key=GEMINI_API_KEY) if GEMINI_API_KEY else None
+
 
 # ============================================================
 # HELPER : Calculer la distance entre 2 points GPS (Haversine)
@@ -42,7 +41,7 @@ def haversine_distance(lat1: float, lon1: float, lat2: float, lon2: float) -> fl
 
 
 # ============================================================
-# 1. RECHERCHE MULTI-CRITÈRES (Texte)
+# 1. RECHERCHE MULTI-CRITÈRES (Texte classique)
 # ============================================================
 
 @router.get("/")
@@ -51,13 +50,11 @@ def search_products(
     category: Optional[str] = Query(None, description="Catégorie exacte"),
     color: Optional[str] = Query(None, description="Couleur exacte"),
     shop_id: Optional[int] = Query(None, description="Filtrer par boutique"),
-    
     locality: Optional[str] = Query(None, description="Filtrer par localité"),
     market: Optional[str] = Query(None, description="Filtrer par marché"),
     latitude: Optional[float] = Query(None, ge=-90, le=90, description="Latitude du client"),
     longitude: Optional[float] = Query(None, ge=-180, le=180, description="Longitude du client"),
     radius_km: Optional[float] = Query(None, gt=0, le=100, description="Rayon de recherche en km"),
-    
     min_price: Optional[float] = Query(None, ge=0),
     max_price: Optional[float] = Query(None, ge=0),
     availability: Optional[str] = Query(None, description="in_stock | out_of_stock | to_confirm"),
@@ -156,63 +153,7 @@ def search_products(
 
 
 # ============================================================
-# 🆕 1.5 RECHERCHE PAR IMAGE (Upload d'image)
-# ============================================================
-
-@router.post("/by-image")
-async def search_by_image(
-    file: UploadFile = File(...),
-    limit: int = 20,
-    db: Session = Depends(get_db),
-):
-    """
-    🆕 Recherche par image.
-    Le client upload une photo, le système extrait les caractéristiques
-    (couleur dominante, forme via IA) et renvoie des produits similaires.
-    
-    Pour l'instant, on utilise une recherche basique par couleur détectée
-    ou par mot-clé (si on intègre une API comme Google Vision plus tard).
-    """
-    if not file.content_type.startswith("image/"):
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Le fichier doit être une image (JPEG, PNG, WEBP)."
-        )
-    
-    # 1. Sauvegarder l'image temporairement pour l'analyse
-    temp_url = await save_image(file, PRODUCTS_DIR, prefix="search_temp")
-    
-    try:
-        # 2. Analyse de l'image
-        # ⚠️ ÉTAPE FUTURE : Intégrer une IA (Google Vision, AWS Rekognition, ou un modèle local)
-        # Pour l'instant, on simule une recherche basique.
-        # Exemple : on cherche tous les produits qui ont une image et on prend les 20 premiers.
-        
-        # Simulation : On récupère les produits avec des images
-        products = (
-            db.query(Product)
-            .join(Shop, Product.shop_id == Shop.id)
-            .filter(Product.photo_url.isnot(None), Shop.is_active == True)
-            .order_by(desc(Product.views_count))
-            .limit(limit)
-            .all()
-        )
-        
-        results = [ProductOut.model_validate(p).model_dump() for p in products]
-        
-        return {
-            "message": "Recherche par image effectuée (IA à venir).",
-            "total": len(results),
-            "results": results
-        }
-        
-    finally:
-        # 3. Supprimer l'image temporaire
-        delete_image(temp_url)
-
-
-# ============================================================
-# 🆕 1.6 RECHERCHE PAR CODE VENDEUR (Raccourci)
+# 2. RECHERCHE PAR CODE VENDEUR (Raccourci)
 # ============================================================
 
 @router.get("/by-seller-code/{code}")
@@ -221,7 +162,7 @@ def search_by_seller_code(
     db: Session = Depends(get_db),
 ):
     """
-    🆕 Recherche par code vendeur.
+    Recherche par code vendeur.
     Le client entre un code (ex: FG-0001), on renvoie directement la vitrine.
     """
     shop = db.query(Shop).filter(
@@ -245,7 +186,7 @@ def search_by_seller_code(
 
 
 # ============================================================
-# 2. AUTOCOMPLÉTION
+# 3. AUTOCOMPLÉTION
 # ============================================================
 
 @router.get("/suggest")
@@ -315,7 +256,7 @@ def suggest(
 
 
 # ============================================================
-# 3. PRODUITS LES PLUS VENDUS (trending)
+# 4. PRODUITS LES PLUS VENDUS (trending)
 # ============================================================
 
 @router.get("/trending")
@@ -344,7 +285,7 @@ def get_trending(
 
 
 # ============================================================
-# 4. LISTE DES CATÉGORIES DISPONIBLES
+# 5. LISTE DES CATÉGORIES DISPONIBLES
 # ============================================================
 
 @router.get("/categories")
@@ -360,7 +301,7 @@ def get_categories(db: Session = Depends(get_db)):
 
 
 # ============================================================
-# 5. LISTE DES COULEURS DISPONIBLES
+# 6. LISTE DES COULEURS DISPONIBLES
 # ============================================================
 
 @router.get("/colors")
@@ -376,7 +317,7 @@ def get_colors(db: Session = Depends(get_db)):
 
 
 # ============================================================
-# 6. RECHERCHES POPULAIRES
+# 7. RECHERCHES POPULAIRES
 # ============================================================
 
 @router.get("/popular")
@@ -400,19 +341,8 @@ def get_popular_searches(
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
 # ============================================================
-# 🆕 RECHERCHE SÉMANTIQUE (Texte ou Image via Gemini)
+# 8. 🆕 RECHERCHE SÉMANTIQUE (Texte ou Image via Gemini)
 # ============================================================
 
 @router.post("/semantic")
@@ -435,14 +365,21 @@ async def semantic_search(
     # 1. Construire la requête (texte, image, ou les deux)
     contents = []
     
-    if query_text:
-        contents.append(query_text)
+    # On nettoie le texte pour éviter les chaînes vides
+    clean_text = query_text.strip() if query_text else ""
+    
+    if clean_text:
+        contents.append(clean_text)
     
     if file:
         image_bytes = await file.read()
         contents.append(
             types.Part.from_bytes(data=image_bytes, mime_type=file.content_type)
         )
+        # 🆕 Si on a une image mais pas de texte, on ajoute un texte par défaut
+        # (Gemini exige au moins une partie texte pour comprendre le contexte)
+        if not clean_text:
+            contents.insert(0, "Analyse cette image pour trouver des produits similaires.")
 
     if not contents:
         raise HTTPException(
