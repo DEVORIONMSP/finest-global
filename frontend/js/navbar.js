@@ -1,5 +1,6 @@
 /* ============================================================
    FINEST GLOBAL — Navbar dynamique (Desktop + Mobile 2-barres)
+   Version corrigée : menu burger + scroll hide + bouton profil
    ============================================================ */
 
 function renderNavbar() {
@@ -17,18 +18,17 @@ function renderNavbar() {
   document.body.classList.add('has-navbar');
   syncNavbarHeight();
   observeNavbarHeight();
+  initNavbarScrollBehavior();
 }
 
 /* ============================================================
-   DESKTOP NAVBAR (inchangée)
+   DESKTOP NAVBAR
    ============================================================ */
 function renderDesktopNavbar(navContainer) {
   const user = Auth.getUser();
   const isAuth = Auth.isAuthenticated();
   const currentLang = getCurrentLanguage();
-  const isHomePage = window.location.pathname === '/' || window.location.pathname.endsWith('/index.html');
   
-  // Sélecteur de langue
   const langSelector = `
     <div class="lang-selector">
       <button class="lang-btn ${currentLang === 'fr' ? 'active' : ''}" onclick="setLanguage('fr')" aria-label="Français" title="Français">🇫🇷</button>
@@ -36,7 +36,6 @@ function renderDesktopNavbar(navContainer) {
     </div>
   `;
   
-  // Cloche de notifications
   let notificationBell = '';
   if (isAuth) {
     notificationBell = `
@@ -59,7 +58,6 @@ function renderDesktopNavbar(navContainer) {
     `;
   }
   
-  // Partie droite
   let rightSection = '';
   
   if (!isAuth) {
@@ -138,6 +136,9 @@ function renderMobileNavbar(navContainer) {
   const isAuth = Auth.isAuthenticated();
   const currentPath = window.location.pathname;
   
+  // 🆕 URL du profil selon le rôle
+  const profileUrl = getProfileUrl();
+  
   navContainer.innerHTML = `
     <!-- ===== NAVBAR HAUT ===== -->
     <div class="mobile-topbar">
@@ -159,6 +160,17 @@ function renderMobileNavbar(navContainer) {
           <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
         </svg>
       </button>
+      
+      <!-- 🆕 Bouton profil dans la navbar du haut -->
+      <a href="${profileUrl}" class="mobile-profile-btn" aria-label="${t('nav.profile')}">
+        ${isAuth 
+          ? `<span class="mobile-profile-avatar">${((user.first_name?.[0] || '') + (user.last_name?.[0] || '')).toUpperCase() || user.phone.slice(-2)}</span>`
+          : `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+              <circle cx="12" cy="7" r="4"></circle>
+            </svg>`
+        }
+      </a>
     </div>
     
     <!-- ===== BARRE DE RECHERCHE (cachée par défaut) ===== -->
@@ -208,7 +220,7 @@ function renderMobileNavbar(navContainer) {
           
           <div class="mobile-drawer-divider"></div>
           
-          <a href="/profile.html" class="mobile-drawer-link">👤 <span>${t('nav.profile')}</span></a>
+          <a href="${profileUrl}" class="mobile-drawer-link">👤 <span>${t('nav.profile')}</span></a>
           <button class="mobile-drawer-link mobile-drawer-logout" onclick="Auth.logout()">
             🚪 <span>${t('nav.logout')}</span>
           </button>
@@ -245,7 +257,6 @@ function renderMobileNavbar(navContainer) {
         <span>${t('nav.marketplace')}</span>
       </a>
       
-      <!-- 🆕 Bouton ➕ central (intelligent) -->
       <button class="mobile-tab mobile-tab-add" onclick="handleAddButton()" aria-label="Ajouter">
         <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
           <line x1="12" y1="5" x2="12" y2="19"></line>
@@ -258,11 +269,12 @@ function renderMobileNavbar(navContainer) {
           <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
           <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
         </svg>
-        <span>${isAuth ? 'Notifs' : 'Notifs'}</span>
+        <span>Notifs</span>
         <span class="mobile-tab-badge hidden" id="mobile-notif-badge">0</span>
       </a>
       
-      <a href="${isAuth ? '/profile.html' : '/login.html'}" class="mobile-tab ${currentPath.endsWith('/profile.html') || currentPath.endsWith('/login.html') ? 'active' : ''}" aria-label="${t('nav.profile')}">
+      <!-- 🆕 Bouton profil corrigé -->
+      <a href="${profileUrl}" class="mobile-tab ${currentPath.endsWith('/profile.html') || currentPath.endsWith('/login.html') || currentPath.endsWith('/dashboard-seller.html') || currentPath.endsWith('/dashboard-admin.html') ? 'active' : ''}" aria-label="${t('nav.profile')}">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
           <circle cx="12" cy="7" r="4"></circle>
@@ -272,56 +284,120 @@ function renderMobileNavbar(navContainer) {
     </nav>
   `;
   
-  // Init recherche mobile
   initMobileSearch();
-  
-  // Init notifications
-  if (isAuth) {
-    initNotifications();
-  }
+  initMobileMenuEvents();
+  if (isAuth) initNotifications();
   
   document.body.classList.add('mobile-nav-active');
 }
 
 /* ============================================================
-   BOUTON ➕ — Logique intelligente (4 cas)
+   🆕 URL DU PROFIL SELON LE RÔLE
+   ============================================================ */
+function getProfileUrl() {
+  const isAuth = Auth.isAuthenticated();
+  if (!isAuth) return '/register.html';
+  
+  const user = Auth.getUser();
+  if (!user) return '/register.html';
+  
+  if (user.role === 'admin') return '/dashboard-admin.html';
+  if (user.role === 'seller') return '/dashboard-seller.html';
+  return '/profile.html'; // client
+}
+
+/* ============================================================
+   🆕 INIT MENU MOBILE (listeners corrects à chaque render)
+   ============================================================ */
+function initMobileMenuEvents() {
+  // S'assurer que le drawer est fermé au chargement
+  const drawer = document.getElementById('mobile-drawer');
+  const overlay = document.getElementById('mobile-drawer-overlay');
+  if (drawer) drawer.classList.remove('open');
+  if (overlay) overlay.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+/* ============================================================
+   🆕 SCROLL HIDE / SHOW — cache les navbars en descendant
+   ============================================================ */
+let _lastScrollY = 0;
+let _navbarsHidden = false;
+
+function initNavbarScrollBehavior() {
+  // Retirer l'ancien listener s'il existe
+  window.removeEventListener('scroll', handleNavbarScroll, { passive: true });
+  window.addEventListener('scroll', handleNavbarScroll, { passive: true });
+  _lastScrollY = window.scrollY;
+}
+
+function handleNavbarScroll() {
+  const currentScrollY = window.scrollY;
+  const isMobile = window.innerWidth <= 900;
+  
+  if (!isMobile) {
+    // Sur desktop, on ne cache pas les navbars
+    return;
+  }
+  
+  const topbar = document.querySelector('.mobile-topbar');
+  const bottombar = document.querySelector('.mobile-bottombar');
+  if (!topbar || !bottombar) return;
+  
+  const scrollDiff = currentScrollY - _lastScrollY;
+  
+  // Ne rien faire si on est tout en haut
+  if (currentScrollY < 60) {
+    topbar.classList.remove('nav-hidden');
+    bottombar.classList.remove('nav-hidden');
+    _navbarsHidden = false;
+    _lastScrollY = currentScrollY;
+    return;
+  }
+  
+  // Scroll vers le bas → cacher
+  if (scrollDiff > 8 && !_navbarsHidden) {
+    topbar.classList.add('nav-hidden');
+    bottombar.classList.add('nav-hidden');
+    _navbarsHidden = true;
+  }
+  // Scroll vers le haut → montrer
+  else if (scrollDiff < -8 && _navbarsHidden) {
+    topbar.classList.remove('nav-hidden');
+    bottombar.classList.remove('nav-hidden');
+    _navbarsHidden = false;
+  }
+  
+  _lastScrollY = currentScrollY;
+}
+
+/* ============================================================
+   BOUTON ➕ — Logique intelligente
    ============================================================ */
 function handleAddButton() {
   const isAuth = Auth.isAuthenticated();
   const user = Auth.getUser();
   
-  // Cas 1 : Non connecté → register
   if (!isAuth) {
     showToast('🔐 Créez un compte pour ajouter un produit', 'info');
-    setTimeout(() => {
-      window.location.href = '/register.html';
-    }, 800);
+    setTimeout(() => { window.location.href = '/register.html'; }, 800);
     return;
   }
   
-  // Cas 2 : Admin → dashboard admin
   if (user.role === 'admin') {
     showToast('👑 Redirection vers le dashboard admin', 'info');
-    setTimeout(() => {
-      window.location.href = '/dashboard-admin.html';
-    }, 600);
+    setTimeout(() => { window.location.href = '/dashboard-admin.html'; }, 600);
     return;
   }
   
-  // Cas 3 : Vendeur → dashboard produits
   if (user.role === 'seller') {
     showToast('📦 Redirection vers vos produits', 'info');
-    setTimeout(() => {
-      window.location.href = '/dashboard-seller.html?tab=products';
-    }, 600);
+    setTimeout(() => { window.location.href = '/dashboard-seller.html?tab=products'; }, 600);
     return;
   }
   
-  // Cas 4 : Client → devenir vendeur
   showToast('🚀 Devenez vendeur pour ajouter des produits', 'info');
-  setTimeout(() => {
-    window.location.href = '/become-seller.html';
-  }, 800);
+  setTimeout(() => { window.location.href = '/become-seller.html'; }, 800);
 }
 
 /* ============================================================
@@ -374,19 +450,6 @@ function initMobileSearch() {
   const input = document.getElementById('mobile-search-input');
   if (!input) return;
   
-  let debounceTimer;
-  
-  input.addEventListener('input', (e) => {
-    clearTimeout(debounceTimer);
-    const q = e.target.value.trim();
-    if (q.length < 2) return;
-    
-    debounceTimer = setTimeout(() => {
-      // On pourrait afficher des suggestions ici
-      // Pour l'instant, juste naviguer sur Entrée
-    }, 250);
-  });
-  
   input.addEventListener('keydown', (e) => {
     if (e.key === 'Enter') {
       const q = input.value.trim();
@@ -409,7 +472,6 @@ async function loadNotifications() {
   try {
     const countData = await NotificationsAPI.getUnreadCount();
     updateNotifBadge(countData.unread_count);
-    
     const notifs = await NotificationsAPI.getMine();
     renderNotifList(notifs);
   } catch (error) {
@@ -418,7 +480,6 @@ async function loadNotifications() {
 }
 
 function updateNotifBadge(count) {
-  // Badge desktop
   const badge = document.getElementById('notif-badge');
   if (badge) {
     if (count > 0) {
@@ -429,7 +490,6 @@ function updateNotifBadge(count) {
     }
   }
   
-  // Badge mobile
   const mobileBadge = document.getElementById('mobile-notif-badge');
   if (mobileBadge) {
     if (count > 0) {
@@ -646,6 +706,9 @@ document.addEventListener('click', (e) => {
   if (notifDropdown && notifMenu && !notifMenu.contains(e.target)) notifDropdown.classList.remove('open');
 });
 
+/* ============================================================
+   🆕 INIT AU CHARGEMENT — CRUCIAL pour que ça marche sur toutes les pages
+   ============================================================ */
 document.addEventListener('DOMContentLoaded', () => {
   const isHomePage = window.location.pathname === '/' || window.location.pathname.endsWith('/index.html');
   if (isHomePage) document.body.classList.add('page-home');
