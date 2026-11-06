@@ -921,11 +921,13 @@
       latitude: null,
       longitude: null,
       near_me: false,
-      searchMethod: 'text', // 🆕 'text' | 'image' | 'code'
+      searchMethod: 'text',
+      isSemantic: false, // 🆕 Flag pour savoir si on utilise la recherche sémantique
+      imageResults: null, // 🆕 Résultats de la recherche par image
     };
     
     let clientLocation = null;
-    let searchImageFile = null; // 🆕
+    let searchImageFile = null;
     
     const COLOR_HEX = {
       'rouge': '#EF4444',
@@ -949,7 +951,16 @@
       readUrlParams();
       loadFilters();
       loadLocalitiesAndMarkets();
-      loadProducts();
+      
+      // 🆕 Si on arrive avec des résultats d'image, on les affiche
+      if (state.imageResults) {
+        renderImageResults();
+      } else if (state.isSemantic && state.q) {
+        performSemanticTextSearch();
+      } else {
+        loadProducts();
+      }
+      
       trackPageview();
     });
     
@@ -969,6 +980,18 @@
       if (params.get('sort_by')) state.sort_by = params.get('sort_by');
       if (params.get('skip')) state.skip = parseInt(params.get('skip')) || 0;
       
+      // 🆕 Détecter si c'est une recherche sémantique ou par image
+      if (params.get('semantic') === '1') {
+        state.isSemantic = true;
+      }
+      if (params.get('image_search') === '1') {
+        const stored = sessionStorage.getItem('image_search_results');
+        if (stored) {
+          state.imageResults = JSON.parse(stored);
+          sessionStorage.removeItem('image_search_results');
+        }
+      }
+      
       const sortSelect = document.getElementById('sort-select');
       if (sortSelect) sortSelect.value = state.sort_by;
       
@@ -976,24 +999,20 @@
       if (state.max_price) document.getElementById('max-price').value = state.max_price;
     }
 
-    // 🆕 GESTION DES MÉTHODES DE RECHERCHE
     function switchSearchMethod(method) {
       state.searchMethod = method;
       
-      // Mettre à jour les onglets actifs
       document.querySelectorAll('.search-method-tab').forEach(tab => {
         tab.classList.remove('active');
       });
       event.target.classList.add('active');
       
-      // Cacher toutes les zones de recherche
       document.getElementById('search-text-wrapper').style.display = 'none';
       document.getElementById('search-text-btn').style.display = 'none';
       document.getElementById('search-image-wrapper').style.display = 'none';
       document.getElementById('search-code-wrapper').style.display = 'none';
       document.getElementById('search-code-btn').style.display = 'none';
       
-      // Afficher la bonne
       if (method === 'text') {
         document.getElementById('search-text-wrapper').style.display = 'block';
         document.getElementById('search-text-btn').style.display = 'block';
@@ -1005,28 +1024,74 @@
       }
     }
 
-    function searchByText() {
+    // 🆕 Recherche par texte (sémantique via Gemini)
+    async function searchByText() {
       state.q = document.getElementById('search-text-input').value.trim();
       state.skip = 0;
+      
+      if (!state.q) {
+        loadProducts();
+        return;
+      }
+      
+      // On utilise la recherche sémantique
+      state.isSemantic = true;
       updateUrl();
-      loadProducts();
+      performSemanticTextSearch();
+    }
+
+    // 🆕 Effectuer la recherche sémantique par texte
+    async function performSemanticTextSearch() {
+      const grid = document.getElementById('products-grid');
+      const countEl = document.getElementById('results-count');
+      
+      grid.innerHTML = Array(4).fill(`
+        <div class="skeleton-card">
+          <div class="skeleton" style="aspect-ratio:1;"></div>
+          <div style="padding:16px;">
+            <div class="skeleton" style="height:14px;margin-bottom:8px;"></div>
+            <div class="skeleton" style="height:14px;width:60%;"></div>
+          </div>
+        </div>
+      `).join('');
+      
+      try {
+        const data = await SearchAPI.semantic(state.q, null);
+        
+        state.total = data.count;
+        countEl.innerHTML = `<strong>${data.count}</strong> résultats pour "${escapeHtml(state.q)}"`;
+        
+        if (data.results.length === 0) {
+          grid.innerHTML = `
+            <div class="empty-state" style="grid-column: 1/-1;">
+              <div class="empty-state-icon">🔍</div>
+              <h3>Aucun résultat</h3>
+              <p>Essayez avec d'autres mots-clés.</p>
+            </div>
+          `;
+          return;
+        }
+        
+        grid.innerHTML = data.results.map(p => renderProductCard(p)).join('');
+        
+      } catch (error) {
+        grid.innerHTML = `<div class="empty-state" style="grid-column:1/-1;"><h3>Erreur</h3><p>${escapeHtml(error.message)}</p></div>`;
+      }
     }
 
     function searchByCode() {
       const code = document.getElementById('search-code-input').value.trim().toUpperCase();
       if (!code) return;
-      
-      // On redirige directement vers la vitrine
       window.location.href = `/shop.html?code=${encodeURIComponent(code)}`;
     }
 
+    // 🆕 Recherche par image
     function handleImageSearch(event) {
       const file = event.target.files[0];
       if (!file) return;
       
       searchImageFile = file;
       
-      // Afficher un aperçu
       const reader = new FileReader();
       reader.onload = (e) => {
         const preview = document.getElementById('search-image-preview');
@@ -1035,32 +1100,45 @@
       };
       reader.readAsDataURL(file);
       
-      // Lancer la recherche
       performImageSearch();
     }
 
+    // 🆕 Effectuer la recherche par image via Gemini
     async function performImageSearch() {
       if (!searchImageFile) return;
       
       const grid = document.getElementById('products-grid');
-      grid.innerHTML = `<div class="loading-container"><span class="spinner spinner-blue"></span></div>`;
+      const countEl = document.getElementById('results-count');
+      
+      grid.innerHTML = `<div class="loading-container" style="grid-column:1/-1;"><span class="spinner spinner-blue"></span></div>`;
       
       try {
-        const data = await SearchAPI.byImage(searchImageFile);
+        const data = await SearchAPI.semantic(null, searchImageFile);
         
-        state.total = data.total;
-        document.getElementById('results-count').innerHTML = `<strong>${data.total}</strong> résultats similaires`;
+        state.total = data.count;
+        countEl.innerHTML = `<strong>${data.count}</strong> résultats similaires à votre image`;
         
         if (data.results.length === 0) {
-          grid.innerHTML = `<div class="empty-state"><h3>Aucun résultat</h3><p>Essayez une autre image.</p></div>`;
+          grid.innerHTML = `<div class="empty-state" style="grid-column:1/-1;"><h3>Aucun résultat</h3><p>Essayez une autre image.</p></div>`;
           return;
         }
         
         grid.innerHTML = data.results.map(p => renderProductCard(p)).join('');
         
       } catch (error) {
-        grid.innerHTML = `<div class="empty-state"><h3>Erreur</h3><p>${error.message}</p></div>`;
+        grid.innerHTML = `<div class="empty-state" style="grid-column:1/-1;"><h3>Erreur</h3><p>${escapeHtml(error.message)}</p></div>`;
       }
+    }
+
+    // 🆕 Afficher les résultats d'image venant de la navbar
+    function renderImageResults() {
+      if (!state.imageResults || state.imageResults.length === 0) return;
+      
+      const grid = document.getElementById('products-grid');
+      const countEl = document.getElementById('results-count');
+      
+      countEl.innerHTML = `<strong>${state.imageResults.length}</strong> résultats similaires à votre image`;
+      grid.innerHTML = state.imageResults.map(p => renderProductCard(p)).join('');
     }
     
     async function loadLocalitiesAndMarkets() {
@@ -1208,6 +1286,11 @@
     }
     
     async function loadProducts() {
+      // 🆕 Si on est en mode sémantique ou image, on ne fait pas la recherche classique
+      if (state.isSemantic || state.imageResults) {
+        return;
+      }
+      
       const grid = document.getElementById('products-grid');
       const countEl = document.getElementById('results-count');
       
@@ -1388,6 +1471,8 @@
       state.latitude = null;
       state.longitude = null;
       state.searchMethod = 'text';
+      state.isSemantic = false;
+      state.imageResults = null;
       
       document.getElementById('search-text-input').value = '';
       document.getElementById('search-code-input').value = '';
@@ -1398,7 +1483,6 @@
       document.getElementById('locality-filter').value = '';
       document.getElementById('market-filter').value = '';
       
-      // Réinitialiser l'onglet de recherche actif
       document.querySelectorAll('.search-method-tab').forEach(tab => {
         tab.classList.remove('active');
       });
@@ -1425,6 +1509,9 @@
       if (state.max_price) params.set('max_price', state.max_price);
       if (state.sort_by !== 'sales') params.set('sort_by', state.sort_by);
       if (state.skip > 0) params.set('skip', state.skip);
+      
+      // 🆕 On garde les flags sémantiques dans l'URL si besoin
+      if (state.isSemantic) params.set('semantic', '1');
       
       const qs = params.toString();
       window.history.replaceState({}, '', `/marketplace.html${qs ? '?' + qs : ''}`);

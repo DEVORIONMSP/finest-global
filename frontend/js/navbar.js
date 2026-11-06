@@ -1,10 +1,6 @@
 /* ============================================================
    FINEST GLOBAL — Navbar dynamique (Desktop + Mobile 2-barres)
-   Version corrigée :
-   - menu burger fiable sur toutes les pages
-   - barre du bas toujours en bas
-   - masquage au défilement (bas) / réapparition (haut) partout
-   - bouton profil (barre du haut + barre du bas) fonctionnel
+   Version corrigée avec Recherche Vocale et Image (Gemini)
    ============================================================ */
 
 /* État partagé */
@@ -138,10 +134,18 @@ function renderDesktopNavbar(navContainer) {
           <img src="/assets/finest.png" alt="Finest Global" class="navbar-logo-img">
         </a>
       </div>
+      
+      <!-- 🆕 BARRE DE RECHERCHE AVEC BOUTONS VOCAL ET IMAGE -->
       <div class="navbar-search">
         <input type="text" id="navbar-search-input" placeholder="${t('nav.search_placeholder')}" autocomplete="off" />
         <div class="navbar-suggestions" id="navbar-suggestions"></div>
+        <div class="search-actions">
+          <button type="button" class="search-action-btn" onclick="startVoiceSearch()" title="Recherche vocale">🎤</button>
+          <button type="button" class="search-action-btn" onclick="triggerImageSearch()" title="Recherche par image">📸</button>
+          <input type="file" id="image-search-input" accept="image/*" style="display:none" onchange="handleImageSearch(event)" />
+        </div>
       </div>
+      
       <div class="navbar-links">${baseLinksForScreen()}</div>
       ${langSelector}
       ${notificationBell}
@@ -163,7 +167,6 @@ function renderMobileNavbar(navContainer) {
   const isAuth = Auth.isAuthenticated() && !!user;
   const currentPath = window.location.pathname;
   
-  // URL du profil selon le rôle
   const profileUrl = getProfileUrl();
   const initials = getUserInitials(user);
   
@@ -189,7 +192,6 @@ function renderMobileNavbar(navContainer) {
         </svg>
       </button>
       
-      <!-- Bouton profil dans la navbar du haut (juste après la loupe) -->
       <a href="${profileUrl}" class="mobile-profile-btn" onclick="goToProfile(event)" aria-label="${t('nav.profile')}">
         ${isAuth 
           ? `<span class="mobile-profile-avatar">${initials}</span>`
@@ -201,9 +203,14 @@ function renderMobileNavbar(navContainer) {
       </a>
     </div>
     
-    <!-- ===== BARRE DE RECHERCHE (cachée par défaut) ===== -->
+    <!-- ===== BARRE DE RECHERCHE MOBILE (avec boutons) ===== -->
     <div class="mobile-search-bar" id="mobile-search-bar">
       <input type="text" id="mobile-search-input" placeholder="${t('nav.search_placeholder')}" autocomplete="off" />
+      <div class="search-actions-mobile">
+        <button type="button" class="search-action-btn" onclick="startVoiceSearch()" title="Recherche vocale">🎤</button>
+        <button type="button" class="search-action-btn" onclick="triggerImageSearch()" title="Recherche par image">📸</button>
+        <input type="file" id="mobile-image-search-input" accept="image/*" style="display:none" onchange="handleImageSearch(event)" />
+      </div>
       <button class="mobile-search-close" onclick="toggleMobileSearch()">✕</button>
     </div>
     
@@ -301,7 +308,6 @@ function renderMobileNavbar(navContainer) {
         <span class="mobile-tab-badge hidden" id="mobile-notif-badge">0</span>
       </a>
       
-      <!-- Bouton profil : calcule la bonne destination au moment du clic -->
       <a href="${profileUrl}" class="mobile-tab ${currentPath.endsWith('/profile.html') || currentPath.endsWith('/register.html') || currentPath.endsWith('/dashboard-seller.html') || currentPath.endsWith('/dashboard-admin.html') ? 'active' : ''}" onclick="goToProfile(event)" aria-label="${t('nav.profile')}">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
@@ -321,10 +327,6 @@ function renderMobileNavbar(navContainer) {
 
 /* ============================================================
    URL DU PROFIL SELON LE RÔLE
-   - non connecté  → page d'inscription
-   - admin         → dashboard admin
-   - vendeur       → dashboard vendeur
-   - client        → profil
    ============================================================ */
 function getProfileUrl() {
   let isAuth = false;
@@ -341,10 +343,9 @@ function getProfileUrl() {
   
   if (user.role === 'admin') return '/dashboard-admin.html';
   if (user.role === 'seller') return '/dashboard-seller.html';
-  return '/profile.html'; // client
+  return '/profile.html';
 }
 
-/* Navigation vers le profil (calculée au clic, donc toujours à jour) */
 function goToProfile(event) {
   if (event) {
     event.preventDefault();
@@ -355,18 +356,16 @@ function goToProfile(event) {
 }
 
 /* ============================================================
-   INIT MENU MOBILE (listeners corrects à chaque render)
+   INIT MENU MOBILE
    ============================================================ */
 function initMobileMenuEvents() {
   const drawer = document.getElementById('mobile-drawer');
   const overlay = document.getElementById('mobile-drawer-overlay');
   
-  // S'assurer que le drawer est fermé au chargement
   if (drawer) drawer.classList.remove('open');
   if (overlay) overlay.classList.remove('open');
   document.body.style.overflow = '';
   
-  // Fermer le menu dès qu'on clique sur un lien du drawer
   if (drawer) {
     drawer.querySelectorAll('a').forEach((link) => {
       link.addEventListener('click', () => {
@@ -377,8 +376,7 @@ function initMobileMenuEvents() {
 }
 
 /* ============================================================
-   SCROLL HIDE / SHOW — cache les navbars en descendant,
-   les ramène dès qu'on remonte (toutes les pages)
+   SCROLL HIDE / SHOW
    ============================================================ */
 function getScrollY() {
   return Math.max(
@@ -404,7 +402,6 @@ function hideMobileNavbars() {
   if (topbar) topbar.classList.add('nav-hidden');
   if (bottombar) bottombar.classList.add('nav-hidden');
   
-  // On referme aussi la barre de recherche mobile
   const searchBar = document.getElementById('mobile-search-bar');
   if (searchBar) searchBar.classList.remove('open');
   
@@ -412,12 +409,9 @@ function hideMobileNavbars() {
 }
 
 function initNavbarScrollBehavior() {
-  // Repartir d'un état propre à chaque (re)rendu de la navbar
   _lastScrollY = getScrollY();
   _navbarsHidden = false;
   
-  // Un seul écouteur, en phase de capture : fonctionne même si c'est
-  // le body (et non la window) qui défile dans certains navigateurs/WebView
   if (!_scrollBound) {
     document.addEventListener('scroll', onAnyScroll, { passive: true, capture: true });
     _scrollBound = true;
@@ -426,7 +420,6 @@ function initNavbarScrollBehavior() {
 
 function onAnyScroll(e) {
   const target = e.target;
-  // On ignore les défilements internes (listes, modales, dropdowns...)
   if (
     target &&
     target !== document &&
@@ -445,21 +438,18 @@ function onAnyScroll(e) {
 }
 
 function handleNavbarScroll() {
-  // Sur desktop, on ne cache pas les navbars
   if (window.innerWidth > 900) return;
   
   const topbar = document.querySelector('.mobile-topbar');
   const bottombar = document.querySelector('.mobile-bottombar');
   if (!topbar || !bottombar) return;
   
-  // Menu ouvert : on ne touche à rien
   const drawer = document.getElementById('mobile-drawer');
   if (drawer && drawer.classList.contains('open')) return;
   
   const currentScrollY = getScrollY();
   const scrollDiff = currentScrollY - _lastScrollY;
   
-  // Tout en haut de la page : toujours visibles
   if (currentScrollY < 60) {
     if (_navbarsHidden || topbar.classList.contains('nav-hidden') || bottombar.classList.contains('nav-hidden')) {
       showMobileNavbars();
@@ -468,11 +458,9 @@ function handleNavbarScroll() {
     return;
   }
   
-  // Scroll vers le bas → cacher
   if (scrollDiff > 6 && !_navbarsHidden) {
     hideMobileNavbars();
   }
-  // Scroll vers le haut → montrer immédiatement
   else if (scrollDiff < -4 && _navbarsHidden) {
     showMobileNavbars();
   }
@@ -481,7 +469,7 @@ function handleNavbarScroll() {
 }
 
 /* ============================================================
-   BOUTON ➕ — Logique intelligente
+   BOUTON ➕
    ============================================================ */
 function handleAddButton() {
   const isAuth = Auth.isAuthenticated();
@@ -510,7 +498,7 @@ function handleAddButton() {
 }
 
 /* ============================================================
-   MENU MOBILE (drawer)
+   MENU MOBILE
    ============================================================ */
 function toggleMobileMenu(event) {
   if (event) event.stopPropagation();
@@ -523,7 +511,6 @@ function toggleMobileMenu(event) {
   if (isOpen) {
     closeMobileMenu();
   } else {
-    // On s'assure que les barres sont visibles quand le menu s'ouvre
     showMobileNavbars();
     drawer.classList.add('open');
     overlay.classList.add('open');
@@ -570,6 +557,70 @@ function initMobileSearch() {
       }
     }
   });
+}
+
+/* ============================================================
+   🆕 RECHERCHE VOCALE
+   ============================================================ */
+function startVoiceSearch() {
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  
+  if (!SpeechRecognition) {
+    showToast('❌ La recherche vocale n\'est pas supportée par votre navigateur.', 'error');
+    return;
+  }
+  
+  const recognition = new SpeechRecognition();
+  recognition.lang = 'fr-FR';
+  recognition.continuous = false;
+  recognition.interimResults = false;
+  
+  showToast('🎤 Parlez maintenant...', 'info');
+  
+  recognition.onresult = (event) => {
+    const transcript = event.results[0][0].transcript;
+    showToast(`✅ "${transcript}"`, 'success');
+    window.location.href = `/marketplace.html?q=${encodeURIComponent(transcript)}&semantic=1`;
+  };
+  
+  recognition.onerror = (event) => {
+    console.error('Erreur vocale:', event.error);
+    showToast('❌ Impossible de vous entendre. Vérifiez votre micro.', 'error');
+  };
+  
+  recognition.start();
+}
+
+/* ============================================================
+   🆕 RECHERCHE PAR IMAGE
+   ============================================================ */
+function triggerImageSearch() {
+  const input = document.getElementById('image-search-input') || document.getElementById('mobile-image-search-input');
+  if (input) input.click();
+}
+
+async function handleImageSearch(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  
+  showToast('🔍 Analyse de l\'image...', 'info');
+  
+  try {
+    const data = await SearchAPI.semantic(null, file);
+    
+    if (data.results && data.results.length > 0) {
+      showToast(`✅ ${data.results.length} résultat(s) trouvé(s)`, 'success');
+      sessionStorage.setItem('image_search_results', JSON.stringify(data.results));
+      window.location.href = '/marketplace.html?image_search=1';
+    } else {
+      showToast('❌ Aucun produit similaire trouvé.', 'warning');
+    }
+  } catch (error) {
+    console.error(error);
+    showToast('❌ Erreur : ' + (error.message || 'Recherche impossible'), 'error');
+  }
+  
+  event.target.value = '';
 }
 
 /* ============================================================
@@ -695,7 +746,6 @@ function startNotificationWebSocket() {
    ============================================================ */
 function syncNavbarHeight() {
   const isMobile = window.innerWidth <= 900;
-  // Sur mobile, #navbar est un conteneur neutre : on mesure la barre du haut
   const target = isMobile
     ? document.querySelector('.mobile-topbar')
     : document.getElementById('navbar');
@@ -812,13 +862,12 @@ window.addEventListener('resize', () => {
 window.addEventListener('load', syncNavbarHeight);
 
 /* ============================================================
-   ÉCOUTEURS GLOBAUX (une seule fois, quel que soit le nombre de rendus)
+   ÉCOUTEURS GLOBAUX
    ============================================================ */
 function bindGlobalNavbarListeners() {
   if (_globalListenersBound) return;
   _globalListenersBound = true;
   
-  // Fermer les menus déroulants desktop au clic extérieur
   document.addEventListener('click', (e) => {
     const dropdown = document.getElementById('nav-dropdown');
     const userMenu = document.getElementById('nav-user-menu');
@@ -828,12 +877,10 @@ function bindGlobalNavbarListeners() {
     const notifMenu = document.getElementById('nav-notifications-menu');
     if (notifDropdown && notifMenu && !notifMenu.contains(e.target)) notifDropdown.classList.remove('open');
     
-    // Suggestions de recherche desktop
     const suggestions = document.getElementById('navbar-suggestions');
     if (suggestions) suggestions.classList.remove('open');
   });
   
-  // Touche Échap : ferme le menu mobile et la recherche mobile
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
       closeMobileMenu();
@@ -842,8 +889,6 @@ function bindGlobalNavbarListeners() {
     }
   });
   
-  // Retour arrière / avant du navigateur (cache bfcache) :
-  // on réaffiche proprement la navbar
   window.addEventListener('pageshow', (e) => {
     if (e.persisted) {
       document.body.style.overflow = '';
@@ -855,7 +900,7 @@ function bindGlobalNavbarListeners() {
 }
 
 /* ============================================================
-   INIT AU CHARGEMENT — CRUCIAL pour que ça marche sur toutes les pages
+   INIT AU CHARGEMENT
    ============================================================ */
 document.addEventListener('DOMContentLoaded', () => {
   const isHomePage = window.location.pathname === '/' || window.location.pathname.endsWith('/index.html');
@@ -863,7 +908,6 @@ document.addEventListener('DOMContentLoaded', () => {
   
   bindGlobalNavbarListeners();
   
-  // Sécurité : si la page n'a pas encore rendu la navbar, on la rend ici
   const navContainer = document.getElementById('navbar');
   if (
     navContainer &&
@@ -874,7 +918,6 @@ document.addEventListener('DOMContentLoaded', () => {
     try { renderNavbar(); } catch (err) { console.error('Erreur renderNavbar:', err); }
   }
   
-  // Classe nav-scrolled (couleur de la navbar sur l'accueil)
   const applyNavScrolled = () => {
     if (getScrollY() > 40) document.body.classList.add('nav-scrolled');
     else document.body.classList.remove('nav-scrolled');

@@ -213,7 +213,7 @@ const ProductsAPI = {
 };
 
 // ============================================================
-// 🆕 API — SERVICES
+// API — SERVICES
 // ============================================================
 
 const ServicesAPI = {
@@ -282,7 +282,7 @@ const OrdersAPI = {
 };
 
 // ============================================================
-// 🆕 API — NOTIFICATIONS
+// API — NOTIFICATIONS
 // ============================================================
 
 const NotificationsAPI = {
@@ -317,11 +317,13 @@ const SearchAPI = {
     return apiFetch(`/api/search/?${params.toString()}`);
   },
 
-  // 🆕 Recherche par Image
-  byImage: (file) => {
+  // 🆕 Recherche sémantique via Gemini (Texte ou Image)
+  semantic: (queryText = null, file = null) => {
     const formData = new FormData();
-    formData.append('file', file);
-    return apiFetch('/api/search/by-image', {
+    if (queryText) formData.append('query_text', queryText);
+    if (file) formData.append('file', file);
+    
+    return apiFetch('/api/search/semantic', {
       method: 'POST',
       body: formData,
     });
@@ -382,13 +384,11 @@ const TrackAPI = {
 // ============================================================
 
 const CategoriesAPI = {
-  // 🆕 Filtre par type ("product" ou "service")
   list: (type = null) => {
     const url = type ? `/api/categories/?type=${type}` : '/api/categories/';
     return apiFetch(url);
   },
   
-  // 🆕 Filtre aussi par type
   suggest: (q, type = null) => {
     let url = `/api/categories/suggest?q=${encodeURIComponent(q)}`;
     if (type) url += `&type=${type}`;
@@ -418,26 +418,17 @@ const AdminCategoriesAPI = {
 // UTILITAIRES
 // ============================================================
 
-/**
- * Construit l'URL complète d'une image uploadée.
- */
 function imageUrl(path) {
   if (!path) return null;
   if (path.startsWith('http')) return path;
   return `${API_BASE_URL}${path}`;
 }
 
-/**
- * Formate un prix en FCFA.
- */
 function formatPrice(price) {
   if (price === null || price === undefined) return '—';
   return new Intl.NumberFormat('fr-FR').format(price) + ' FCFA';
 }
 
-/**
- * Formate une date en français.
- */
 function formatDate(dateString) {
   const date = new Date(dateString);
   return date.toLocaleDateString('fr-FR', {
@@ -449,9 +440,6 @@ function formatDate(dateString) {
   });
 }
 
-/**
- * Affiche un toast de notification.
- */
 function showToast(message, type = 'info', duration = 4000) {
   let container = document.querySelector('.toast-container');
   if (!container) {
@@ -473,9 +461,6 @@ function showToast(message, type = 'info', duration = 4000) {
   }, duration);
 }
 
-/**
- * Formate une distance (m ou km).
- */
 function formatDistance(km) {
   if (km === null || km === undefined) return '';
   if (km < 1) {
@@ -484,9 +469,6 @@ function formatDistance(km) {
   return `${km.toFixed(1)} km`;
 }
 
-/**
- * Récupère l'availability traduite d'un produit.
- */
 function getAvailabilityLabel(availability) {
   const labels = {
     'in_stock': typeof t === 'function' ? t('product.in_stock') : 'En stock',
@@ -496,9 +478,6 @@ function getAvailabilityLabel(availability) {
   return labels[availability] || availability;
 }
 
-/**
- * Récupère la classe CSS de l'availability.
- */
 function getAvailabilityClass(availability) {
   const classes = {
     'in_stock': 'badge-success',
